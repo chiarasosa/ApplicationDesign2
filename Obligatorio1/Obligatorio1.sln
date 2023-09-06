@@ -5,21 +5,19 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.WebApi", "Obligatorio1.WebApi\Obligatorio1.WebApi.csproj", "{350CA57E-37FD-4CAC-8F63-43167B1D2522}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.Domain", "Obligatorio1.Domain\Obligatorio1.Domain.csproj", "{83CA38D2-866D-4040-BD00-78CEB61EC12B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.Domain", "Obligatorio1.Domain\Obligatorio1.Domain.csproj", "{83CA38D2-866D-4040-BD00-78CEB61EC12B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1. BusinessLogic.Test", "Obligatorio1. BusinessLogic\Obligatorio1. BusinessLogic.Test.csproj", "{6ABAF00F-0229-4915-B6E9-86829A605198}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1. BusinessLogic.Test", "Obligatorio1. BusinessLogic\Obligatorio1. BusinessLogic.Test.csproj", "{6ABAF00F-0229-4915-B6E9-86829A605198}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.DataAccess", "Obligatorio1.DataAccess\Obligatorio1.DataAccess.csproj", "{280E7969-0568-4977-B4C2-7CE7634CD3A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.DataAccess", "Obligatorio1.DataAccess\Obligatorio1.DataAccess.csproj", "{280E7969-0568-4977-B4C2-7CE7634CD3A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.IBusinessLogic", "Obligatorio1.IBusinessLogic\Obligatorio1.IBusinessLogic.csproj", "{F8ED647B-75EE-46A5-B9C9-ED062211ACD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.BusinessLogic", "Obligatorio1.BusinessLogic\Obligatorio1.BusinessLogic.csproj", "{D39C7B4F-EAC9-4D6F-B905-BAEF6E537B05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.IDataAccess", "Obligatorio1.IDataAccess\Obligatorio1.IDataAccess.csproj", "{576BDAA8-658E-4FB5-9B14-B7DB6695430E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.DataAccess.Test", "Obligatorio1.DataAccess.Test\Obligatorio1.DataAccess.Test.csproj", "{2251644F-DFA4-40E4-BBDA-216F6B6B4ADC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.BusinessLogic", "Obligatorio1.BusinessLogic\Obligatorio1.BusinessLogic.csproj", "{D39C7B4F-EAC9-4D6F-B905-BAEF6E537B05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.WebApi.Test", "Obligatorio1.WebApi.Test\Obligatorio1.WebApi.Test.csproj", "{124EE2CE-D756-453B-9E0E-65E111CA1078}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.DataAccess.Test", "Obligatorio1.DataAccess.Test\Obligatorio1.DataAccess.Test.csproj", "{2251644F-DFA4-40E4-BBDA-216F6B6B4ADC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.WebApi.Test", "Obligatorio1.WebApi.Test\Obligatorio1.WebApi.Test.csproj", "{124EE2CE-D756-453B-9E0E-65E111CA1078}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.Domain.Test", "Obligatorio1.Domain.Test\Obligatorio1.Domain.Test.csproj", "{8C26E590-86F6-4F87-9D9B-AB6AED9AA97E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,14 +41,6 @@ Global
 		{280E7969-0568-4977-B4C2-7CE7634CD3A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{280E7969-0568-4977-B4C2-7CE7634CD3A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{280E7969-0568-4977-B4C2-7CE7634CD3A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8ED647B-75EE-46A5-B9C9-ED062211ACD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8ED647B-75EE-46A5-B9C9-ED062211ACD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8ED647B-75EE-46A5-B9C9-ED062211ACD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8ED647B-75EE-46A5-B9C9-ED062211ACD2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{576BDAA8-658E-4FB5-9B14-B7DB6695430E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{576BDAA8-658E-4FB5-9B14-B7DB6695430E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{576BDAA8-658E-4FB5-9B14-B7DB6695430E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{576BDAA8-658E-4FB5-9B14-B7DB6695430E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D39C7B4F-EAC9-4D6F-B905-BAEF6E537B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D39C7B4F-EAC9-4D6F-B905-BAEF6E537B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D39C7B4F-EAC9-4D6F-B905-BAEF6E537B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +53,10 @@ Global
 		{124EE2CE-D756-453B-9E0E-65E111CA1078}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{124EE2CE-D756-453B-9E0E-65E111CA1078}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{124EE2CE-D756-453B-9E0E-65E111CA1078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C26E590-86F6-4F87-9D9B-AB6AED9AA97E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C26E590-86F6-4F87-9D9B-AB6AED9AA97E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C26E590-86F6-4F87-9D9B-AB6AED9AA97E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C26E590-86F6-4F87-9D9B-AB6AED9AA97E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
