@@ -16,5 +16,25 @@ namespace Obligatorio1.Domain
         //public Promo PromoIDApplied { get; set; }
 
         public DateTime DateOfPurchase { get; set; }
+
+        public Purchase()
+        {
+            this.PurchaseID = 0;
+            //User = null;
+            this.PurchasedProducts = new List<Product>();
+            //PromoIDApplied = 0;
+            this.DateOfPurchase = DateTime.Now;
+        }
+
+        /*
+        public Purchase(int PurchaseID, User user, List<Product> PuchsedProducts, Promo PromoIDApplied, DateTime DateOfPurchase)
+        {
+            this.PurchaseID = PurchaseID;
+            this.User = user;
+            this.PurchasedProducts = PurchasedProducts;
+            this.PromoIDApplied = PromoIDApplied;
+            this.DateOfPurchase = DateOfPurchase;
+        }
+        */
     }
 }

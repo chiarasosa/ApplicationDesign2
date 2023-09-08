@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Obligatorio1.Domain;
+using Obligatorio1.IBusinessLogic;
 
 namespace Obligatorio1.BusinessLogic
 {
-    public class PurchaseLogic
+    public class PurchaseLogic : IPurchaseLogic
     {
         public PurchaseLogic()
         {
