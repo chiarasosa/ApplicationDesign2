@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.WebApi", "Obli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.Domain", "Obligatorio1.Domain\Obligatorio1.Domain.csproj", "{83CA38D2-866D-4040-BD00-78CEB61EC12B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.BusinessLogic.Test", "Obligatorio1. BusinessLogic\Obligatorio1.BusinessLogic.Test.csproj", "{6ABAF00F-0229-4915-B6E9-86829A605198}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.DataAccess", "Obligatorio1.DataAccess\Obligatorio1.DataAccess.csproj", "{280E7969-0568-4977-B4C2-7CE7634CD3A0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.IBusinessLogic", "Obligatorio1.IBusinessLogic\Obligatorio1.IBusinessLogic.csproj", "{F8ED647B-75EE-46A5-B9C9-ED062211ACD2}"
@@ -20,6 +18,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.DataAccess.Test", "Obligatorio1.DataAccess.Test\Obligatorio1.DataAccess.Test.csproj", "{2251644F-DFA4-40E4-BBDA-216F6B6B4ADC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.WebApi.Test", "Obligatorio1.WebApi.Test\Obligatorio1.WebApi.Test.csproj", "{124EE2CE-D756-453B-9E0E-65E111CA1078}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.BusinessLogic.Test", "Obligatorio1.BusinessLogic.Test\Obligatorio1.BusinessLogic.Test.csproj", "{DB9B358E-559D-4F7F-8B95-8A3EC00B43FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,6 @@ Global
 		{83CA38D2-866D-4040-BD00-78CEB61EC12B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83CA38D2-866D-4040-BD00-78CEB61EC12B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83CA38D2-866D-4040-BD00-78CEB61EC12B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6ABAF00F-0229-4915-B6E9-86829A605198}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6ABAF00F-0229-4915-B6E9-86829A605198}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6ABAF00F-0229-4915-B6E9-86829A605198}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6ABAF00F-0229-4915-B6E9-86829A605198}.Release|Any CPU.Build.0 = Release|Any CPU
 		{280E7969-0568-4977-B4C2-7CE7634CD3A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{280E7969-0568-4977-B4C2-7CE7634CD3A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{280E7969-0568-4977-B4C2-7CE7634CD3A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +59,10 @@ Global
 		{124EE2CE-D756-453B-9E0E-65E111CA1078}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{124EE2CE-D756-453B-9E0E-65E111CA1078}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{124EE2CE-D756-453B-9E0E-65E111CA1078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB9B358E-559D-4F7F-8B95-8A3EC00B43FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB9B358E-559D-4F7F-8B95-8A3EC00B43FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB9B358E-559D-4F7F-8B95-8A3EC00B43FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB9B358E-559D-4F7F-8B95-8A3EC00B43FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
