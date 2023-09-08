@@ -18,7 +18,7 @@ namespace Obligatorio1.BusinessLogic.Test
             };
 
             //Act
-            purchaseLogic.ValidateMoreThan1Item(cart);
+            bool result = purchaseLogic.ValidateMoreThan1Item(cart);
         }
     }
 }
