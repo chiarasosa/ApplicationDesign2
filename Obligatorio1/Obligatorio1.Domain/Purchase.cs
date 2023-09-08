@@ -13,7 +13,7 @@ namespace Obligatorio1.Domain
 
         public List<Product> PurchasedProducts { get; set; }
         
-        //public Promo PromoIDApplied { get; set; }
+        public string PromoApplied { get; set; }
 
         public DateTime DateOfPurchase { get; set; }
 
@@ -22,12 +22,12 @@ namespace Obligatorio1.Domain
             this.PurchaseID = 0;
             //User = null;
             this.PurchasedProducts = new List<Product>();
-            //PromoIDApplied = 0;
+            PromoApplied = String.Empty;
             this.DateOfPurchase = DateTime.Now;
         }
 
         /*
-        public Purchase(int PurchaseID, User user, List<Product> PuchsedProducts, Promo PromoIDApplied, DateTime DateOfPurchase)
+        public Purchase(int PurchaseID, User user, List<Product> PuchsedProducts, IPromoLogic PromoApplied, DateTime DateOfPurchase)
         {
             this.PurchaseID = PurchaseID;
             this.User = user;

@@ -15,9 +15,12 @@ namespace Obligatorio1.BusinessLogic
 
         }
 
-        public bool ValidateMoreThan1Item(List<Product> cart)
+        public void ValidateMoreThan1Item(List<Product> cart)
         {
-            return cart.Count() >= 1;
+            if (cart.Count() < 1)
+            {
+                throw new Obligatorio1.Exceptions.ExceptionPurchase("El carrito debe tener mas de un elemento para poder realizar la compra.");
+            }
         }
     }
 }

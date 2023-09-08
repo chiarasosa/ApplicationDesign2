@@ -20,7 +20,33 @@ namespace Obligatorio1.BusinessLogic.Test
             };
 
             //Act
-            bool result = purchaseLogic.ValidateMoreThan1Item(cart);
+            purchaseLogic.ValidateMoreThan1Item(cart);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Obligatorio1.Exceptions.ExceptionPurchase))]
+        public void ValidateLessThan1Item()
+        {
+            //Arrange
+            PurchaseLogic purchaseLogic = new PurchaseLogic();
+            List<Product> cart = new List<Product>();
+
+            //Act
+            purchaseLogic.ValidateMoreThan1Item(cart);
+        }
+
+        [TestMethod]
+        public void Validate1Item()
+        {
+            //Arrange
+            PurchaseLogic purchaseLogic = new PurchaseLogic();
+            List<Product> cart = new List<Product>
+            {
+                new Product("Product1", 10, "Description", 123, 123, 123),
+            };
+
+            //Act
+            purchaseLogic.ValidateMoreThan1Item(cart);
         }
     }
 }
