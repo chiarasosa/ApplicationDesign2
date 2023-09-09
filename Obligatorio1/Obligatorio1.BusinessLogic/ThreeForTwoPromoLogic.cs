@@ -8,7 +8,7 @@ using Obligatorio1.IBusinessLogic;
 
 namespace Obligatorio1.BusinessLogic
 {
-    public class ThreeForTwoPromoLogic : IPromoLogic
+    public class ThreeForTwoPromoLogic : IPromoService
     {
         public double CalculateDiscount(List<Product> cart)
         {

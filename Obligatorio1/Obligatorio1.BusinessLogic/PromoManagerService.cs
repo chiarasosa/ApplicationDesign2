@@ -8,7 +8,7 @@ using Obligatorio1.Domain;
 
 namespace Obligatorio1.BusinessLogic
 {
-    public class PromoManager : IPromoManager
+    public class PromoManagerService : IPromoManagerService
     {
         //cambiar decimal por IPromoLogic
         public decimal GetBestPromo(List<Product> cart)

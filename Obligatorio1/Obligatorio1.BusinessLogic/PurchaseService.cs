@@ -8,9 +8,9 @@ using Obligatorio1.IBusinessLogic;
 
 namespace Obligatorio1.BusinessLogic
 {
-    public class PurchaseLogic : IPurchaseLogic
+    public class PurchaseService : IPurchaseService
     {
-        public PurchaseLogic()
+        public PurchaseService()
         {
 
         }

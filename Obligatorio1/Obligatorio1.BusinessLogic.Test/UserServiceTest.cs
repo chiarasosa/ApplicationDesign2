@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
+using Obligatorio1.IDataAccess;
+using Obligatorio1.BusinessLogic;
+using Obligatorio1.IBusinessLogic;
 
 namespace Obligatorio1.BusinessLogic.Test
 {
@@ -12,18 +16,19 @@ namespace Obligatorio1.BusinessLogic.Test
     internal class UserServiceTest
     {
         [TestMethod]
-        public void ValidateMoreThan1Item()
+        public void AddUserTest(User user)
         {
             //Arrange
-            PurchaseLogic purchaseLogic = new PurchaseLogic();
-            List<Product> cart = new List<Product>
-            {
-                new Product("Product1", 10, "Description", 123, 123, 123),
-                new Product("Product2", 10, "Description", 123, 123, 123)
-            };
+            Mock<IUserManagment>? mock = new Mock<IUserManagment>(MockBehavior.Strict);
+            UserService service = new UserService(mock.Object);
+            User userAux = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
 
-            //Act
-            purchaseLogic.ValidateMoreThan1Item(cart);
+            //
+            mock!.Setup(x => x.AddUser(userAux!));
+            service!.AddUser(userAux!);
+
+            //Assert 
+            mock.VerifyAll();
         }
     }
 }

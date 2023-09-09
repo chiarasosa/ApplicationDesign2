@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Obligatorio1.IDataAccess
 {
-    internal class IUserManagment
+    public class IUserManagment
     {
     }
 }

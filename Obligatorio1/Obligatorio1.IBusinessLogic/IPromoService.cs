@@ -7,7 +7,7 @@ using Obligatorio1.Domain;
 
 namespace Obligatorio1.IBusinessLogic
 {
-    public interface IPromoLogic
+    public interface IPromoService
     {
         public double CalculateDiscount(List<Product> cart);
     }
