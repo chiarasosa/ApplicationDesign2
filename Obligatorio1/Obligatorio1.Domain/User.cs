@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Obligatorio1.Domain
 {
-    internal class User
+    public class User
     {
         public int UserID { get; set; }
         public string UserName { get; set; }
@@ -15,8 +15,7 @@ namespace Obligatorio1.Domain
         public string Email { get; set; }
         public string Address { get; set; }
         public string Role { get; set; }
-        public List<Purchase> ?Purchases { get; set; }
-
+        public List<Purchase>? Purchases { get; set; }
 
         public User()
         {
