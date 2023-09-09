@@ -7,7 +7,7 @@ using Obligatorio1.Domain;
 
 namespace Obligatorio1.IBusinessLogic
 {
-    public interface IPromoManager
+    public interface IPromoManagerService
     {
         public decimal GetBestPromo(List<Product> cart);
         public decimal ApplyBestPromo(List<Product> cart);

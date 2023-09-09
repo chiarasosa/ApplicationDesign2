@@ -6,13 +6,13 @@ using System.Collections.Generic;
 namespace Obligatorio1.BusinessLogic.Test
 {
     [TestClass]
-    public class PurchaseLogicTest
+    public class PurchaseServiceTest
     {
         [TestMethod]
         public void ValidateMoreThan1Item()
         {
             //Arrange
-            PurchaseLogic purchaseLogic = new PurchaseLogic();
+            PurchaseService purchaseLogic = new PurchaseService();
             List<Product> cart = new List<Product>
             {
                 new Product("Product1", 10, "Description", 123, 123, 123),
@@ -28,7 +28,7 @@ namespace Obligatorio1.BusinessLogic.Test
         public void ValidateLessThan1Item()
         {
             //Arrange
-            PurchaseLogic purchaseLogic = new PurchaseLogic();
+            PurchaseService purchaseLogic = new PurchaseService();
             List<Product> cart = new List<Product>();
 
             //Act
@@ -39,7 +39,7 @@ namespace Obligatorio1.BusinessLogic.Test
         public void Validate1Item()
         {
             //Arrange
-            PurchaseLogic purchaseLogic = new PurchaseLogic();
+            PurchaseService purchaseLogic = new PurchaseService();
             List<Product> cart = new List<Product>
             {
                 new Product("Product1", 10, "Description", 123, 123, 123),
