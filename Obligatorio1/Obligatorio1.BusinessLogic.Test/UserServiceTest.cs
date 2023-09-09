@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Obligatorio1.BusinessLogic.Test
 {
     [TestClass]
-    internal class UserTest
+    internal class UserServiceTest
     {
         [TestMethod]
         public void ValidateMoreThan1Item()
