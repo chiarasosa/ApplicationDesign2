@@ -16,7 +16,7 @@ namespace Obligatorio1.BusinessLogic.Test
     public class UserServiceTest
     {
         [TestMethod]
-        public void AddUserTest(User user)
+        public void AddUserTest()
         {
             //Arrange
             Mock<IUserManagment>? mock = new Mock<IUserManagment>(MockBehavior.Strict);

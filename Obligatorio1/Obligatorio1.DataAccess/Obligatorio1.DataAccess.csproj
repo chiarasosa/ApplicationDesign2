@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Obligatorio1.IDataAccess\Obligatorio1.IDataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

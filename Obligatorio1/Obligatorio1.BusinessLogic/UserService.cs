@@ -21,7 +21,6 @@ namespace Obligatorio1.BusinessLogic
         { 
             if (IsUserValid(user))
                 userManagmet.AddUser(user);
-        
         }
 
         private bool IsUserValid(User user)
