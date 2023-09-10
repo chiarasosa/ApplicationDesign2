@@ -20,7 +20,7 @@ namespace Obligatorio1.Domain
 
         public int Category { get; set;}
 
-        public int Colors { get; set; }
+        public List<string> Colors { get; set; }
     
         public Product()
         {
@@ -30,11 +30,17 @@ namespace Obligatorio1.Domain
             this.Description = string.Empty;
             this.Brand = 0;
             this.Category = 0;
-            this.Colors = 0;
+            this.Colors = new List<string>();
         }
 
-        public Product(string name, int price, string description, int brand, int category, int colors)
+        public Product(string name, int price, string description, int brand, int category, List<string> colors)
         {
+            this.Name=name;
+            this.Price = price;
+            this.Description = description;
+            this.Brand = brand;
+            this.Category = category;
+            this.Colors = colors;
 
         }
     
