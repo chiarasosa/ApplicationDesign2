@@ -13,7 +13,7 @@ using Obligatorio1.IBusinessLogic;
 namespace Obligatorio1.BusinessLogic.Test
 {
     [TestClass]
-    internal class UserServiceTest
+    public class UserServiceTest
     {
         [TestMethod]
         public void AddUserTest(User user)
@@ -23,7 +23,7 @@ namespace Obligatorio1.BusinessLogic.Test
             UserService service = new UserService(mock.Object);
             User userAux = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
 
-            //
+            //Act
             mock!.Setup(x => x.AddUser(userAux!));
             service!.AddUser(userAux!);
 
