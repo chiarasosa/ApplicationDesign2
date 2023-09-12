@@ -10,6 +10,8 @@ namespace Obligatorio1.IDataAccess
     public interface IUserManagment
     {
         //IEnumerable<User> GetUsers();
-        void AddUser(User user);
+        void RegisterUser(User user);
+
+        User? UpdateUserProfile(User user);
     }
 }

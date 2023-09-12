@@ -11,16 +11,16 @@ namespace Obligatorio1.BusinessLogic
 {
     public class UserService: IUserService
     {
-        private readonly IUserManagment userManagmet;
+        private readonly IUserManagment userManagement;
         public UserService(IUserManagment userManagment) 
         { 
-            this.userManagmet = userManagment;
+            this.userManagement = userManagment;
         }
 
-        public void AddUser(User user) 
+        public void RegisterUser(User user) 
         { 
             if (IsUserValid(user))
-                userManagmet.AddUser(user);
+                userManagement.RegisterUser(user);
         }
 
         private bool IsUserValid(User user)
@@ -31,6 +31,13 @@ namespace Obligatorio1.BusinessLogic
             }
 
             return true;
+        }
+
+        public User? UpdateUserProfile(User user)
+        {
+            if (IsUserValid(user))
+                return userManagement.UpdateUserProfile(user);
+            return null;
         }
     }
 }

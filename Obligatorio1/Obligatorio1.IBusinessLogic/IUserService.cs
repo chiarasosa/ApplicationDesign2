@@ -9,7 +9,10 @@ namespace Obligatorio1.IBusinessLogic
 {
     public interface IUserService
     {
-        void AddUser(User user);
+        //User Managment
+        void RegisterUser(User user);
+
+        User? UpdateUserProfile(User user);
        
     }
 }

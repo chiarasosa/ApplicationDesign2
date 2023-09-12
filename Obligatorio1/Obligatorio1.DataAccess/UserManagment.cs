@@ -11,11 +11,17 @@ namespace Obligatorio1.DataAccess
 {
     public class UserManagment : IUserManagment
     {
-        private List<User> _users;
+        private List<User>? _users;
 
-        public void AddUser(User user)
+        public void RegisterUser(User user)
         {
-            _users.Add(user);
+            _users?.Add(user);
+        }
+        public User? UpdateUserProfile(User user)
+        {
+            if (_users?.Where(u => u.UserID == user.UserID).FirstOrDefault() == null)
+                throw new Exception("El usuario no existe.");
+            return user;
         }
     }
 }
