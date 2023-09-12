@@ -1,60 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Obligatorio1.Domain;
-using Obligatorio1.IDataAccess;
+﻿using Obligatorio1.Domain;
+using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
+using Obligatorio1.IDataAccess;
 
-namespace Obligatorio1.BusinessLogic
+public class UserService : IUserService
 {
-    public class UserService: IUserService
+    private readonly IUserManagment userManagement;
+    private User? loggedInUser; // Almacena el usuario autenticado
+
+    public User? GetLoggedInUser()
     {
-        private readonly IUserManagment userManagement;
-        public UserService(IUserManagment userManagment) 
-        { 
-            this.userManagement = userManagment;
-        }
+        return loggedInUser;
+    }
 
-        public void RegisterUser(User user) 
-        { 
-            if (IsUserValid(user))
-                userManagement.RegisterUser(user);
-        }
+    public void SetLoggedInUser(User? user)
+    {
+        loggedInUser = user;
+    }
 
-        private bool IsUserValid(User user)
+    public UserService (IUserManagment userManagment)
+    {
+        this.userManagement = userManagment;
+        this.loggedInUser = null; // Inicialmente, no hay usuario autenticado
+    }
+
+    public void RegisterUser(User user)
+    {
+        if (IsUserValid(user))
+            userManagement.RegisterUser(user);
+    }
+
+    private bool IsUserValid(User user)
+    {
+        if (user == null || user.UserName == string.Empty || user.Password == string.Empty)
         {
-            if (user == null || user.UserName == string.Empty || user.Password == string.Empty)
-            {
-                throw new ArgumentException("Usuario inválido");
-            }
-
-            return true;
+            throw new UserException("Usuario inválido");
         }
 
-        public User UpdateUserProfile(User user)
+        return true;
+    }
+
+    public User UpdateUserProfile(User user)
+    {
+        if (IsUserValid(user))
+            return userManagement.UpdateUserProfile(user);
+        throw new UserException("Actualización fallida. Datos de usuario incorrectos."); ;
+    }
+
+    public User Login(string email, string password)
+    {
+        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
         {
-            if (IsUserValid(user))
-                return userManagement.UpdateUserProfile(user);
-            throw new Exception("Actualización fallida. Datos de usuario incorrectos."); ;
+            throw new UserException("Correo electrónico y contraseña son obligatorios.");
         }
 
-        public User Login(string email, string password)
+        User? authenticatedUser = userManagement.Login(email, password);
+
+        if (authenticatedUser == null)
         {
-            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
-            {
-                throw new ArgumentException("Correo electrónico y contraseña son obligatorios.");
-            }
+            throw new UserException("Autenticación fallida. Credenciales incorrectas.");
+        }
 
-            User? authenticatedUser = userManagement.Login(email, password);
+        // Almacenar el usuario autenticado
+        loggedInUser = authenticatedUser;
 
-            if (authenticatedUser == null)
-            {
-                throw new Exception("Autenticación fallida. Credenciales incorrectas.");
-            }
+        return authenticatedUser;
+    }
 
-            return authenticatedUser;
+    public void Logout(User user)
+    {
+        // Verificar si el usuario está autenticado (según tu lógica de sesión)
+        if (loggedInUser != null && user.UserID == loggedInUser.UserID)
+        {
+            // Realizar las tareas de cierre de sesión aquí
+            // Por ejemplo, puedes eliminar la referencia al usuario autenticado
+            loggedInUser = null;
         }
     }
 }

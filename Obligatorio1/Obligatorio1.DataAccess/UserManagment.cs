@@ -1,26 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Obligatorio1.IDataAccess;
 using Obligatorio1.Domain;
-
+using Obligatorio1.Exceptions;
 
 namespace Obligatorio1.DataAccess
 {
     public class UserManagment : IUserManagment
     {
         private List<User>? _users;
+        private User? _authenticatedUser; // Almacena el usuario autenticado
+
+        public UserManagment()
+        {
+            _users = new List<User>();
+            _authenticatedUser = null;
+        }
 
         public void RegisterUser(User user)
         {
             _users?.Add(user);
         }
+
         public User UpdateUserProfile(User user)
         {
-            if (_users?.Where(u => u.UserID == user.UserID).FirstOrDefault() == null)
-                throw new Exception("El usuario no existe.");
+            if (_users?.FirstOrDefault(u => u.UserID == user.UserID) == null)
+                throw new UserException("El usuario no existe.");
             return user;
         }
 
@@ -28,7 +33,7 @@ namespace Obligatorio1.DataAccess
         {
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
-                throw new ArgumentException("Correo electrónico y contraseña son obligatorios.");
+                throw new UserException("Correo electrónico y contraseña son obligatorios.");
             }
 
             // Realiza la autenticación buscando el usuario por correo electrónico y contraseña
@@ -36,10 +41,23 @@ namespace Obligatorio1.DataAccess
 
             if (authenticatedUser == null)
             {
-                throw new Exception("Autenticación fallida. Credenciales incorrectas.");
+                throw new UserException("Autenticación fallida. Credenciales incorrectas.");
             }
 
+            // Almacena el usuario autenticado
+            _authenticatedUser = authenticatedUser;
+
             return authenticatedUser;
+        }
+
+        public void Logout(User user)
+        {
+            // Verifica si el usuario proporcionado coincide con el usuario autenticado
+            if (_authenticatedUser != null && user.UserID == _authenticatedUser.UserID)
+            {
+                // Realiza las tareas de cierre de sesión aquí
+                _authenticatedUser = null; // Elimina la referencia al usuario autenticado
+            }
         }
     }
 }

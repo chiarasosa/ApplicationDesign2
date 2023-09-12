@@ -81,10 +81,24 @@ namespace Obligatorio1.BusinessLogic.Test
 
             // Act
             _userService?.Login(email, password);
-
-            // Assert (la excepción se espera como resultado, no es necesario verificar `result`)
         }
 
+        [TestMethod]
+        public void LogoutTest()
+        {
+            // Arrange
+            User user = new User(1, "Lautaro", "Lautaro292829", "lautaro@gmail.com", "Rivera 400", "Administrador", null);
+
+            // Establece el usuario autenticado (loggedInUser)
+            _userService?.SetLoggedInUser(user);
+
+            // Act
+            _userService?.Logout(user);
+
+            // Assert
+            // Verifica que después de llamar a Logout, loggedInUser se establece en null.
+            Assert.IsNull(_userService?.GetLoggedInUser());
+        }
 
     }
 }
