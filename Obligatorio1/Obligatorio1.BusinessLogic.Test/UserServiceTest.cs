@@ -47,5 +47,42 @@ namespace Obligatorio1.BusinessLogic.Test
             _userManagmentMock?.Verify(x => x.UpdateUserProfile(user), Times.Once);
             Assert.AreEqual(user, result);
         }
+
+        [TestMethod]
+        public void LoginValidCredentialsTest()
+        {
+            // Arrange
+            string email = "testuser@example.com";
+            string password = "Password123";
+            User authenticatedUser = new User(1, "Lautaro", "Lautaro292829", "lautaro@gmail.com", "Rivera 400", "Administrador", null);
+
+            // Configurar el comportamiento del mock para el inicio de sesión válido
+            _userManagmentMock?.Setup(x => x.Login(email, password)).Returns(authenticatedUser);
+
+            // Act
+            User result = _userService?.Login(email, password);
+
+            // Assert
+            _userManagmentMock?.Verify(x => x.Login(email, password), Times.Once);
+            Assert.AreEqual(authenticatedUser, result);
+        }
+
+        [TestMethod]
+        public void LoginTestInvalidCredentialsTest()
+        {
+            // Arrange
+            string email = "testuser@example.com";
+            string password = "IncorrectPassword";
+
+            // Configurar el comportamiento del mock para el inicio de sesión inválido (retorna null)
+            _userManagmentMock?.Setup(x => x.Login(email, password)).Returns((User)null);
+
+            // Act
+            User result = _userService?.Login(email, password);
+
+            // Assert
+            _userManagmentMock?.Verify(x => x.Login(email, password), Times.Once);
+            Assert.IsNull(result); // Debería ser nulo ya que las credenciales son inválidas
+        }
     }
 }
