@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Obligatorio1.Domain
 {
-    internal class Purchase
+    public class Purchase
     {
         public int PurchaseID { get; set; }
         //public User User { get; set; }
