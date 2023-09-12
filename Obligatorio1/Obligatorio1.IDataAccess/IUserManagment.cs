@@ -12,6 +12,8 @@ namespace Obligatorio1.IDataAccess
         //IEnumerable<User> GetUsers();
         void RegisterUser(User user);
 
-        User? UpdateUserProfile(User user);
+        User UpdateUserProfile(User user);
+
+        User Login(string email, string password);
     }
 }

@@ -12,7 +12,8 @@ namespace Obligatorio1.IBusinessLogic
         //User Managment
         void RegisterUser(User user);
 
-        User? UpdateUserProfile(User user);
-       
+        User UpdateUserProfile(User user);
+        User Login(string email, string password);
+
     }
 }

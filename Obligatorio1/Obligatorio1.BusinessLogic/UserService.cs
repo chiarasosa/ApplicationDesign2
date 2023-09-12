@@ -27,17 +27,34 @@ namespace Obligatorio1.BusinessLogic
         {
             if (user == null || user.UserName == string.Empty || user.Password == string.Empty)
             {
-                throw new Exception("Usuario inválido");
+                throw new ArgumentException("Usuario inválido");
             }
 
             return true;
         }
 
-        public User? UpdateUserProfile(User user)
+        public User UpdateUserProfile(User user)
         {
             if (IsUserValid(user))
                 return userManagement.UpdateUserProfile(user);
-            return null;
+            throw new Exception("Actualización fallida. Datos de usuario incorrectos."); ;
+        }
+
+        public User Login(string email, string password)
+        {
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+            {
+                throw new ArgumentException("Correo electrónico y contraseña son obligatorios.");
+            }
+
+            User? authenticatedUser = userManagement.Login(email, password);
+
+            if (authenticatedUser == null)
+            {
+                throw new Exception("Autenticación fallida. Credenciales incorrectas.");
+            }
+
+            return authenticatedUser;
         }
     }
 }

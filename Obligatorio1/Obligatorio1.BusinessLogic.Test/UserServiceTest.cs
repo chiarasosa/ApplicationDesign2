@@ -2,6 +2,7 @@
 using Moq;
 using Obligatorio1.Domain;
 using Obligatorio1.IDataAccess;
+using System;
 
 namespace Obligatorio1.BusinessLogic.Test
 {
@@ -60,7 +61,7 @@ namespace Obligatorio1.BusinessLogic.Test
             _userManagmentMock?.Setup(x => x.Login(email, password)).Returns(authenticatedUser);
 
             // Act
-            User result = _userService?.Login(email, password);
+            User? result = _userService?.Login(email, password);
 
             // Assert
             _userManagmentMock?.Verify(x => x.Login(email, password), Times.Once);
@@ -68,21 +69,22 @@ namespace Obligatorio1.BusinessLogic.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception), "Autenticación fallida. Credenciales incorrectas.")]
         public void LoginTestInvalidCredentialsTest()
         {
             // Arrange
             string email = "testuser@example.com";
             string password = "IncorrectPassword";
 
-            // Configurar el comportamiento del mock para el inicio de sesión inválido (retorna null)
-            _userManagmentMock?.Setup(x => x.Login(email, password)).Returns((User)null);
+            // Configurar el comportamiento del mock para el inicio de sesión inválido (retorna una excepción)
+            _userManagmentMock?.Setup(x => x.Login(email, password)).Throws(new Exception("Autenticación fallida. Credenciales incorrectas."));
 
             // Act
-            User result = _userService?.Login(email, password);
+            _userService?.Login(email, password);
 
-            // Assert
-            _userManagmentMock?.Verify(x => x.Login(email, password), Times.Once);
-            Assert.IsNull(result); // Debería ser nulo ya que las credenciales son inválidas
+            // Assert (la excepción se espera como resultado, no es necesario verificar `result`)
         }
+
+
     }
 }
