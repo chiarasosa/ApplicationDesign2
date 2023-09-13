@@ -10,5 +10,9 @@ namespace Obligatorio1.IBusinessLogic
         User Login(string email, string password);
         void Logout(User user);
         User GetUserByID(int userID);
+
+        //User Recovery
+        IEnumerable<User> GetUsers();
+
     }
 }

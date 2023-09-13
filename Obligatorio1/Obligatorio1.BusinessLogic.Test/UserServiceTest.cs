@@ -3,6 +3,7 @@ using Moq;
 using Obligatorio1.Domain;
 using Obligatorio1.IDataAccess;
 using System;
+using System.Collections.Generic;
 
 namespace Obligatorio1.BusinessLogic.Test
 {
@@ -117,6 +118,31 @@ namespace Obligatorio1.BusinessLogic.Test
             Assert.AreEqual(expectedUser, result);
             //Verifies that the GetUserById method was called in the data access layer with the corresponding ID.
             _userManagmentMock?.Verify(x => x.GetUserByID(userId), Times.Once);
+        }
+
+        [TestMethod]
+        public void GetUsersTest()
+        {
+            //Arrange
+            List<User> expectedUsers = new List<User>
+            {
+                new User(1, "Carlos", "Password0290", "carlitos@gmail.com", "Av. Ramirez 50", "Basico", null),
+                new User(2, "Ana", "Ana1234", "ana@example.com", "Calle Principal 123", "Avanzado", null),
+                new User(3, "Juan", "JuanP@ss", "juan@hotmail.com", "Avenida Libertad 789", "Intermedio", null)
+            };
+
+            //Configure the mock behavior to return the expected list of users when GetUsers is called.
+            _userManagmentMock?.Setup(x => x.GetUsers()).Returns(expectedUsers);
+
+            //Act
+            IEnumerable<User> result = _userService?.GetUsers();
+
+            //Assert
+            Assert.IsNotNull(result);
+            CollectionAssert.AreEqual(expectedUsers, result.ToList());
+
+            //Verifies that the GetUsers method was called in the data access layer.
+            _userManagmentMock?.Verify(x => x.GetUsers(), Times.Once);
         }
     }
 }
