@@ -6,7 +6,7 @@ using Obligatorio1.IDataAccess;
 public class UserService : IUserService
 {
     private readonly IUserManagment userManagement;
-    private User? loggedInUser; // Almacena el usuario autenticado
+    private User? loggedInUser;
 
     public User? GetLoggedInUser()
     {
@@ -18,10 +18,10 @@ public class UserService : IUserService
         loggedInUser = user;
     }
 
-    public UserService (IUserManagment userManagment)
+    public UserService(IUserManagment userManagment)
     {
         this.userManagement = userManagment;
-        this.loggedInUser = null; // Inicialmente, no hay usuario autenticado
+        this.loggedInUser = null;
     }
 
     public void RegisterUser(User user)
@@ -61,7 +61,6 @@ public class UserService : IUserService
             throw new UserException("Autenticación fallida. Credenciales incorrectas.");
         }
 
-        // Almacenar el usuario autenticado
         loggedInUser = authenticatedUser;
 
         return authenticatedUser;
@@ -69,11 +68,8 @@ public class UserService : IUserService
 
     public void Logout(User user)
     {
-        // Verificar si el usuario está autenticado (según tu lógica de sesión)
         if (loggedInUser != null && user.UserID == loggedInUser.UserID)
         {
-            // Realizar las tareas de cierre de sesión aquí
-            // Por ejemplo, puedes eliminar la referencia al usuario autenticado
             loggedInUser = null;
         }
     }

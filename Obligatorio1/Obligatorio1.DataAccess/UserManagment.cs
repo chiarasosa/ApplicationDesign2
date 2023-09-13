@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Obligatorio1.IDataAccess;
-using Obligatorio1.Domain;
+﻿using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
+using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.DataAccess
 {
     public class UserManagment : IUserManagment
     {
         private List<User>? _users;
-        private User? _authenticatedUser; // Almacena el usuario autenticado
+        private User? _authenticatedUser;
 
         public UserManagment()
         {
@@ -36,7 +34,7 @@ namespace Obligatorio1.DataAccess
                 throw new UserException("Correo electrónico y contraseña son obligatorios.");
             }
 
-            // Realiza la autenticación buscando el usuario por correo electrónico y contraseña
+            //Perform authentication by searching for the user by email and password.
             User? authenticatedUser = _users?.FirstOrDefault(u => u.Email == email && u.Password == password);
 
             if (authenticatedUser == null)
@@ -44,7 +42,7 @@ namespace Obligatorio1.DataAccess
                 throw new UserException("Autenticación fallida. Credenciales incorrectas.");
             }
 
-            // Almacena el usuario autenticado
+            //Stores the authenticated user
             _authenticatedUser = authenticatedUser;
 
             return authenticatedUser;
@@ -52,11 +50,9 @@ namespace Obligatorio1.DataAccess
 
         public void Logout(User user)
         {
-            // Verifica si el usuario proporcionado coincide con el usuario autenticado
             if (_authenticatedUser != null && user.UserID == _authenticatedUser.UserID)
             {
-                // Realiza las tareas de cierre de sesión aquí
-                _authenticatedUser = null; // Elimina la referencia al usuario autenticado
+                _authenticatedUser = null;
             }
         }
 
