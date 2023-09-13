@@ -85,4 +85,17 @@ public class UserService : IUserService
 
         return user;
     }
+
+    public IEnumerable<User> GetUsers()
+    {
+        IEnumerable<User>? users = userManagement.GetUsers();
+
+        if (users == null)
+        {
+            throw new UserException("Error al obtener la lista de usuarios.");
+        }
+
+        return users;
+    }
+
 }
