@@ -14,6 +14,6 @@ namespace Obligatorio1.IBusinessLogic
         User UpdateUserProfile(User user);
         User Login(string email, string password);
         void Logout(User user);
-
+        User GetUserByID(int userID);
     }
 }

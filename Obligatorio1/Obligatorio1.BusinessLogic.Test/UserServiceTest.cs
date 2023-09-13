@@ -100,5 +100,24 @@ namespace Obligatorio1.BusinessLogic.Test
             Assert.IsNull(_userService?.GetLoggedInUser());
         }
 
+        [TestMethod]
+        public void GetUserByIdTest()
+        {
+            // Arrange
+            int userId = 1;
+            User expectedUser = new User(userId, "Carlos", "Password0290", "carlitos@gmail.com", "Av. Ramirez 50", "Basico", null);
+
+            // Configura el comportamiento del mock para que devuelva el usuario esperado cuando se llama a GetUserById con el ID correspondiente.
+            _userManagmentMock?.Setup(x => x.GetUserById(userId)).Returns(expectedUser);
+
+            // Act
+            User? result = _userService?.GetUserById(userId);
+
+            // Assert
+            // Verifica que el resultado obtenido sea igual al usuario esperado.
+            Assert.AreEqual(expectedUser, result);
+            // Verifica que se haya llamado al método GetUserById en la capa de acceso a datos con el ID correspondiente.
+            _userManagmentMock?.Verify(x => x.GetUserById(userId), Times.Once);
+        }
     }
 }
