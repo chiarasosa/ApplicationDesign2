@@ -22,29 +22,29 @@ namespace Obligatorio1.BusinessLogic.Test
         [TestMethod]
         public void RegisterUserTest()
         {
-            // Arrange
+            //Arrange
             User userAux = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
 
-            // Act
+            //Act
             _userManagmentMock?.Setup(x => x.RegisterUser(userAux));
             _userService?.RegisterUser(userAux);
 
-            // Assert 
+            //Assert 
             _userManagmentMock?.VerifyAll();
         }
 
         [TestMethod]
-       public void UpdateUserProfileTest()
+        public void UpdateUserProfileTest()
         {
-            // Arrange
+            //Arrange
             User user = new User(1, "Lautaro", "Lautaro292829", "lautaro@gmail.com", "Rivera 400", "Administrador", null);
 
-            // Act
+            //Act
             _userManagmentMock?.Setup(x => x.UpdateUserProfile(user)).Returns(user);
 
             User? result = _userService?.UpdateUserProfile(user);
 
-            // Assert
+            //Assert
             _userManagmentMock?.Verify(x => x.UpdateUserProfile(user), Times.Once);
             Assert.AreEqual(user, result);
         }
@@ -52,18 +52,18 @@ namespace Obligatorio1.BusinessLogic.Test
         [TestMethod]
         public void LoginValidCredentialsTest()
         {
-            // Arrange
+            //Arrange
             string email = "testuser@example.com";
             string password = "Password123";
             User authenticatedUser = new User(1, "Lautaro", "Lautaro292829", "lautaro@gmail.com", "Rivera 400", "Administrador", null);
 
-            // Configurar el comportamiento del mock para el inicio de sesión válido
+            //Configure mock behavior for valid login
             _userManagmentMock?.Setup(x => x.Login(email, password)).Returns(authenticatedUser);
 
-            // Act
+            //Act
             User? result = _userService?.Login(email, password);
 
-            // Assert
+            //Assert
             _userManagmentMock?.Verify(x => x.Login(email, password), Times.Once);
             Assert.AreEqual(authenticatedUser, result);
         }
@@ -72,52 +72,51 @@ namespace Obligatorio1.BusinessLogic.Test
         [ExpectedException(typeof(Exception), "Autenticación fallida. Credenciales incorrectas.")]
         public void LoginTestInvalidCredentialsTest()
         {
-            // Arrange
+            //Arrange
             string email = "testuser@example.com";
             string password = "IncorrectPassword";
 
-            // Configurar el comportamiento del mock para el inicio de sesión inválido (retorna una excepción)
+            //Configure mock behavior for invalid login (returns exception)
             _userManagmentMock?.Setup(x => x.Login(email, password)).Throws(new Exception("Autenticación fallida. Credenciales incorrectas."));
 
-            // Act
+            //Act
             _userService?.Login(email, password);
         }
 
         [TestMethod]
         public void LogoutTest()
         {
-            // Arrange
+            //Arrange
             User user = new User(1, "Lautaro", "Lautaro292829", "lautaro@gmail.com", "Rivera 400", "Administrador", null);
 
-            // Establece el usuario autenticado (loggedInUser)
+            //Set the authenticated user (loggedInUser)
             _userService?.SetLoggedInUser(user);
 
-            // Act
+            //Act
             _userService?.Logout(user);
 
-            // Assert
-            // Verifica que después de llamar a Logout, loggedInUser se establece en null.
+            //Assert
             Assert.IsNull(_userService?.GetLoggedInUser());
         }
 
         [TestMethod]
         public void GetUserByIdTest()
         {
-            // Arrange
+            //Arrange
             int userId = 1;
             User expectedUser = new User(userId, "Carlos", "Password0290", "carlitos@gmail.com", "Av. Ramirez 50", "Basico", null);
 
-            // Configura el comportamiento del mock para que devuelva el usuario esperado cuando se llama a GetUserById con el ID correspondiente.
-            _userManagmentMock?.Setup(x => x.GetUserById(userId)).Returns(expectedUser);
+            //Configure the mock's behavior to return the expected user when GetUserById is called with the corresponding ID.
+            _userManagmentMock?.Setup(x => x.GetUserByID(userId)).Returns(expectedUser);
 
-            // Act
-            User? result = _userService?.GetUserById(userId);
+            //Act
+            User? result = _userService?.GetUserByID(userId);
 
-            // Assert
-            // Verifica que el resultado obtenido sea igual al usuario esperado.
+            //Assert
+
             Assert.AreEqual(expectedUser, result);
-            // Verifica que se haya llamado al método GetUserById en la capa de acceso a datos con el ID correspondiente.
-            _userManagmentMock?.Verify(x => x.GetUserById(userId), Times.Once);
+            //Verifies that the GetUserById method was called in the data access layer with the corresponding ID.
+            _userManagmentMock?.Verify(x => x.GetUserByID(userId), Times.Once);
         }
     }
 }

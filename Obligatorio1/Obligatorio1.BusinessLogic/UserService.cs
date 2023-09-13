@@ -77,4 +77,16 @@ public class UserService : IUserService
             loggedInUser = null;
         }
     }
+
+    public User GetUserByID(int userID)
+    {
+        User? user = userManagement.GetUserByID(userID);
+
+        if (user == null)
+        {
+            throw new UserException($"Usuario con ID {userID} no encontrado.");
+        }
+
+        return user;
+    }
 }

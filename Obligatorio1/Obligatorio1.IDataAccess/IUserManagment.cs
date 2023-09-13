@@ -15,7 +15,7 @@ namespace Obligatorio1.IDataAccess
         User UpdateUserProfile(User user);
 
         User Login(string email, string password);
-
         void Logout(User user);
+        User GetUserByID(int userId);
     }
 }

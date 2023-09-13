@@ -59,5 +59,23 @@ namespace Obligatorio1.DataAccess
                 _authenticatedUser = null; // Elimina la referencia al usuario autenticado
             }
         }
+
+        public User GetUserByID(int userId)
+        {
+            if (userId <= 0)
+            {
+                throw new UserException("ID de usuario inválido.");
+            }
+
+            //Search for the user by ID in the user list
+            User? user = _users?.FirstOrDefault(u => u.UserID == userId);
+
+            if (user == null)
+            {
+                throw new UserException($"No se encontró ningún usuario con el ID {userId}.");
+            }
+
+            return user;
+        }
     }
 }
