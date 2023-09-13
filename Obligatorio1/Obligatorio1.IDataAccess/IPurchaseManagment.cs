@@ -9,6 +9,6 @@ namespace Obligatorio1.IDataAccess
 {
     public interface IPurchaseManagment
     {
-        public void ValidateMoreThan1Item(List<Product> cart);
+        bool ValidateMoreThan1Item(List<Product> cart);
     }
 }

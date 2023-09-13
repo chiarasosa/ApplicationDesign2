@@ -16,91 +16,30 @@ namespace Obligatorio1.BusinessLogic.Test
     [TestClass]
     public class PurchaseServiceTest
     {
+        private Mock<IPurchaseManagment>? _purchaseManagmentMock;
+        private PurchaseService? _purchaseService;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _purchaseManagmentMock = new Mock<IPurchaseManagment>(MockBehavior.Strict);
+            _purchaseService = new PurchaseService(_purchaseManagmentMock.Object);
+        }
 
         [TestMethod]
         public void CartHasMoreThan1Item()
         {
             //Arrange
-            Mock<IPurchaseManagment>? mock = new Mock<IPurchaseManagment>(MockBehavior.Strict);
-            PurchaseService? service = new PurchaseService(mock.Object);
-            Purchase purchase = new Purchase()
-            {
-                PurchasedProducts = new List<Product>()
-            };
-            Product product1 = new Product();
-            Product product2 = new Product();
-            purchase.PurchasedProducts.Add(product1);
-            purchase.PurchasedProducts.Add(product2);
+            List<Product> list = new List<Product>();         
+            list.Add(new Product("Jabon", 10, "Liquido", 12,3, 225 ));
+            list.Add(new Product("Jabon2", 12, "Liquido", 12, 3, 225));
 
             //Act
-            mock!.Setup(x => x.ValidateMoreThan1Item(It.IsAny<List<Product>>()!));
-            service!.ValidateMoreThan1Item(purchase.PurchasedProducts!);
+            _purchaseManagmentMock?.Setup(x => x.ValidateMoreThan1Item(list));
+            _purchaseService?.ValidateMoreThan1Item(list);
 
             //Assert
-            mock.VerifyAll();
+            _purchaseManagmentMock?.VerifyAll();
         }
-
-        [TestMethod]
-        public void CartHas1Item()
-        {
-            //Arrange
-
-            //Act
-
-            //Assert
-        }
-
-        [TestMethod]
-        public void CartHasLessThan1Item()
-        {
-            //Arrange
-
-            //Act
-
-            //Assert
-        }
-
-        /*
-        [TestMethod]
-        public void ValidateMoreThan1Item()
-        {
-            //Arrange
-            PurchaseService purchaseLogic = new PurchaseService();
-            List<Product> cart = new List<Product>
-            {
-                new Product("Product1", 10, "Description", 123, 123, 123),
-                new Product("Product2", 10, "Description", 123, 123, 123)
-            };
-
-            //Act
-            purchaseLogic.ValidateMoreThan1Item(cart);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(Obligatorio1.Exceptions.ExceptionPurchase))]
-        public void ValidateLessThan1Item()
-        {
-            //Arrange
-            PurchaseService purchaseLogic = new PurchaseService();
-            List<Product> cart = new List<Product>();
-
-            //Act
-            purchaseLogic.ValidateMoreThan1Item(cart);
-        }
-
-        [TestMethod]
-        public void Validate1Item()
-        {
-            //Arrange
-            PurchaseService purchaseLogic = new PurchaseService();
-            List<Product> cart = new List<Product>
-            {
-                new Product("Product1", 10, "Description", 123, 123, 123),
-            };
-
-            //Act
-            purchaseLogic.ValidateMoreThan1Item(cart);
-        }
-        */
     }
 }

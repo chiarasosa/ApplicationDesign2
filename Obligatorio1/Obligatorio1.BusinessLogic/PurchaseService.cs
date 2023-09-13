@@ -11,23 +11,23 @@ namespace Obligatorio1.BusinessLogic
 {
     public class PurchaseService : IPurchaseService
     {
-        private IPurchaseManagment purchaseManagment;
-        public PurchaseService()
-        {
+        private readonly IPurchaseManagment purchaseManagment;
+        //private User? loggedInUser;
 
-        }
-
+        
         public PurchaseService(IPurchaseManagment purchaseManagment)
         {
             this.purchaseManagment = purchaseManagment;
+            //this.loggedInUser = null;
         }
 
-        public void ValidateMoreThan1Item(List<Product> cart)
+        public bool ValidateMoreThan1Item(List<Product> cart)
         {
             if (cart.Count() < 1)
             {
                 throw new Obligatorio1.Exceptions.ExceptionPurchase("El carrito debe tener mas de un elemento para poder realizar la compra.");
             }
+            return true;
         }
     }
 }

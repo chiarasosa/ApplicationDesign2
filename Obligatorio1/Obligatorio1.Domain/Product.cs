@@ -35,7 +35,12 @@ namespace Obligatorio1.Domain
 
         public Product(string name, int price, string description, int brand, int category, int colors)
         {
-
+            this.Name = name;
+            this.Price = price;
+            this.Description= description;
+            this.Brand= brand;
+            this.Category = category;
+            this.Colors= colors;
         }
     
     }
