@@ -5,14 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Obligatorio1.Domain;
 using Obligatorio1.IBusinessLogic;
+using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.BusinessLogic
 {
     public class PurchaseService : IPurchaseService
     {
+        private IPurchaseManagment purchaseManagment;
         public PurchaseService()
         {
 
+        }
+
+        public PurchaseService(IPurchaseManagment purchaseManagment)
+        {
+            this.purchaseManagment = purchaseManagment;
         }
 
         public void ValidateMoreThan1Item(List<Product> cart)

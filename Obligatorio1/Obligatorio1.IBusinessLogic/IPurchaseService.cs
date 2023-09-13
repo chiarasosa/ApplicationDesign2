@@ -9,6 +9,6 @@ namespace Obligatorio1.IBusinessLogic
 {
     public interface IPurchaseService
     {
-        void ValidateMoreThan1Item(List<Product> cart);
+        public void ValidateMoreThan1Item(List<Product> cart);
     }
 }

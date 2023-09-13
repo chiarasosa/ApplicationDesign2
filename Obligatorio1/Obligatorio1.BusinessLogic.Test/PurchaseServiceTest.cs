@@ -22,18 +22,22 @@ namespace Obligatorio1.BusinessLogic.Test
         {
             //Arrange
             Mock<IPurchaseManagment>? mock = new Mock<IPurchaseManagment>(MockBehavior.Strict);
-            CharacterService? service2 = new CharacterService(mock.Object);
-            character = new Character()
+            PurchaseService? service = new PurchaseService(mock.Object);
+            Purchase purchase = new Purchase()
             {
-                Id = 1,
-                Description = "Test",
-                Name = "Darth Nico",
-                ImageUrl = ""
+                PurchasedProducts = new List<Product>()
             };
+            Product product1 = new Product();
+            Product product2 = new Product();
+            purchase.PurchasedProducts.Add(product1);
+            purchase.PurchasedProducts.Add(product2);
 
             //Act
+            mock!.Setup(x => x.ValidateMoreThan1Item(It.IsAny<List<Product>>()!));
+            service!.ValidateMoreThan1Item(purchase.PurchasedProducts!);
 
             //Assert
+            mock.VerifyAll();
         }
 
         [TestMethod]
