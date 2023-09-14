@@ -10,5 +10,7 @@ namespace Obligatorio1.IDataAccess
         void Logout(User user);
         User GetUserByID(int userId);
         IEnumerable<User> GetUsers();
+        User CreateUser(User user);
+
     }
 }

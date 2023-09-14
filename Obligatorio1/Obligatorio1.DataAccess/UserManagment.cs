@@ -86,5 +86,19 @@ namespace Obligatorio1.DataAccess
             }
         }
 
+        public User CreateUser(User user)
+        {
+            // Check if the user with the given email already exists
+            if (_users?.Any(u => u.Email == user.Email) == true)
+            {
+                throw new UserException("El correo electrónico ya está registrado en el sistema.");
+            }
+
+            // Add the new user to the list of users
+            _users?.Add(user);
+
+            // Return the created user
+            return user;
+        }
     }
 }

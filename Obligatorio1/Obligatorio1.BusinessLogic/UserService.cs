@@ -98,4 +98,27 @@ public class UserService : IUserService
         return users;
     }
 
+    public User CreateUser(User user)
+    {
+        if (loggedInUser == null || loggedInUser.Role != "Administrador")
+        {
+            throw new UserException("No tiene permiso para crear usuarios.");
+        }
+
+        if (IsUserValid(user))
+        {
+            User createdUser = userManagement.CreateUser(user);
+
+            if (createdUser == null)
+            {
+                throw new UserException("Error al crear el usuario.");
+            }
+
+            return createdUser;
+        }
+        else
+        {
+            throw new UserException("Usuario inválido.");
+        }
+    }
 }

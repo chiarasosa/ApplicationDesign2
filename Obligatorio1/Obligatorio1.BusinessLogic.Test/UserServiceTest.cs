@@ -153,11 +153,10 @@ namespace Obligatorio1.BusinessLogic.Test
             User adminUser = new User(1, "Admin", "Admin123", "admin@example.com", "Admin Address", "Administrador", null);
             User newUser = new User(2, "NewUser", "NewUser123", "newuser@example.com", "New User Address", "Comprador", null);
 
-            //Configure mock behavior for successful user creation
-            _userManagmentMock?.Setup(x => x.GetUserByID(adminUser.UserID)).Returns(adminUser);
+            //Configures the behavior of the mock object for CreateUser(newUser) which returns newUser.
             _userManagmentMock?.Setup(x => x.CreateUser(newUser)).Returns(newUser);
 
-            //Set the logged-in admin user
+            //Sets the authenticated administrator user.
             _userService?.SetLoggedInUser(adminUser);
 
             //Act
@@ -166,8 +165,7 @@ namespace Obligatorio1.BusinessLogic.Test
             //Assert
             Assert.AreEqual(newUser, result);
 
-            //Verifies that GetUserByID and CreateUser methods were called in the data access layer.
-            _userManagmentMock?.Verify(x => x.GetUserByID(adminUser.UserID), Times.Once);
+            //Verify that CreateUser was called at the data access layer.
             _userManagmentMock?.Verify(x => x.CreateUser(newUser), Times.Once);
         }
     }
