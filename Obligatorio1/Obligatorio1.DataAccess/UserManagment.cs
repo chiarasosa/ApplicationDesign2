@@ -100,5 +100,32 @@ namespace Obligatorio1.DataAccess
             // Return the created user
             return user;
         }
+
+        public User UpdateUserInformation(User user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "El usuario proporcionado es nulo.");
+            }
+
+            if (_authenticatedUser == null || _authenticatedUser.Role != "Administrador")
+            {
+                throw new UserException("No tiene permiso para actualizar la información del usuario.");
+            }
+
+            User? existingUser = _users?.FirstOrDefault(u => u.UserID == user.UserID);
+
+            if (existingUser == null)
+            {
+                throw new UserException("El usuario a actualizar no existe.");
+            }
+
+            existingUser.UserName = user.UserName;
+            existingUser.Email = user.Email;
+            existingUser.Password = user.Password;
+            existingUser.Address = user.Address;
+
+            return existingUser;
+        }
     }
 }

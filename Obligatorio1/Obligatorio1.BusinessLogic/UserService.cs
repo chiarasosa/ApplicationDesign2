@@ -121,4 +121,35 @@ public class UserService : IUserService
             throw new UserException("Usuario inválido.");
         }
     }
+
+    public User UpdateUserInformation(User user)
+    {
+        // Verifica si el usuario autenticado es un administrador.
+        if (loggedInUser == null || loggedInUser.Role != "Administrador")
+        {
+            throw new UserException("No tiene permiso para actualizar la información del usuario.");
+        }
+
+        // Verifica si el usuario proporcionado es válido.
+        if (IsUserValid(user))
+        {
+            // Intenta actualizar la información del usuario a través del servicio de administración de usuarios.
+            User updatedUser = userManagement.UpdateUserInformation(user);
+
+            // Verifica si la actualización fue exitosa.
+            if (updatedUser == null)
+            {
+                throw new UserException("Error al actualizar la información del usuario.");
+            }
+
+            // Devuelve el usuario actualizado.
+            return updatedUser;
+        }
+        else
+        {
+            throw new UserException("Usuario inválido.");
+        }
+    }
+
+
 }

@@ -11,6 +11,7 @@ namespace Obligatorio1.IDataAccess
         User GetUserByID(int userId);
         IEnumerable<User> GetUsers();
         User CreateUser(User user);
+        User UpdateUserInformation(User user);
 
     }
 }

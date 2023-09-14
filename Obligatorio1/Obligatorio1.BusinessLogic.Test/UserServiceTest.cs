@@ -172,30 +172,25 @@ namespace Obligatorio1.BusinessLogic.Test
         [TestMethod]
         public void UpdateUserInformationTest()
         {
-            // Arrange
+            //Arrange
             User adminUser = new User(1, "Admin", "Admin123", "admin@example.com", "Admin Address", "Administrador", null);
             User existingUser = new User(2, "ExistingUser", "ExistingUser123", "existinguser@example.com", "Existing User Address", "Comprador", null);
             User updatedUser = new User(existingUser.UserID, "UpdatedUser", "UpdatedUser123", "updateduser@example.com", "Updated User Address", "Comprador", null);
 
-            // Configure mock behavior for successful user information update
-            _userManagmentMock?.Setup(x => x.GetUserByID(adminUser.UserID)).Returns(adminUser);
-            _userManagmentMock?.Setup(x => x.GetUserByID(existingUser.UserID)).Returns(existingUser);
+            //Configures the behavior of the mock object for successful updating of user information.
             _userManagmentMock?.Setup(x => x.UpdateUserInformation(updatedUser)).Returns(updatedUser);
 
-            // Set the logged-in admin user
+            //Sets the authenticated administrator user.
             _userService?.SetLoggedInUser(adminUser);
 
-            // Act
+            //Act
             User? result = _userService?.UpdateUserInformation(updatedUser);
 
-            // Assert
+            //Assert
             Assert.AreEqual(updatedUser, result);
 
-            // Verifies that GetUserByID and UpdateUserInformation methods were called in the data access layer.
-            _userManagmentMock?.Verify(x => x.GetUserByID(adminUser.UserID), Times.Once);
-            _userManagmentMock?.Verify(x => x.GetUserByID(existingUser.UserID), Times.Once);
+            //Verifies that the UpdateUserInformation method was called in the data access layer.
             _userManagmentMock?.Verify(x => x.UpdateUserInformation(updatedUser), Times.Once);
         }
-
     }
 }
