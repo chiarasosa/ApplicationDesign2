@@ -192,5 +192,31 @@ namespace Obligatorio1.BusinessLogic.Test
             //Verifies that the UpdateUserInformation method was called in the data access layer.
             _userManagmentMock?.Verify(x => x.UpdateUserInformation(updatedUser), Times.Once);
         }
+
+        <[TestMethod]
+        public void DeleteUserTest()
+        {
+            // Arrange
+            User adminUser = new User(1, "Admin", "Admin123", "admin@example.com", "Admin Address", "Administrador", null);
+            User userToDelete = new User(2, "UserToDelete", "Password123", "delete@example.com", "Delete User Address", "Comprador", null);
+            int userIdToDelete = userToDelete.UserID;
+
+            // Configure mock behavior for GetUserByID to return the user to delete
+            _userManagmentMock?.Setup(x => x.GetUserByID(userIdToDelete)).Returns(userToDelete);
+
+            // Set the logged-in admin user
+            _userService?.SetLoggedInUser(adminUser);
+
+            // Act
+            _userService?.DeleteUser(userIdToDelete);
+
+            // Assert
+            // Verify that GetUserByID was called to fetch the user to delete
+            _userManagmentMock?.Verify(x => x.GetUserByID(userIdToDelete), Times.Once);
+
+            // Verify that DeleteUser was called at the data access layer with the correct user ID
+            _userManagmentMock?.Verify(x => x.DeleteUser(userIdToDelete), Times.Once);
+        }
+
     }
 }

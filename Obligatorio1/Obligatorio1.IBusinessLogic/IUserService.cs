@@ -11,14 +11,10 @@ namespace Obligatorio1.IBusinessLogic
 
         //User Administrator
         IEnumerable<User> GetUsers();
-        
-        //User Administrator
         User GetUserByID(int userID);
-
-        //User Administrator
         User CreateUser(User user);
-        
-        //User Administrator
         User UpdateUserInformation(User user);
+
+        void DeleteUser(int userID);
     }
 }
