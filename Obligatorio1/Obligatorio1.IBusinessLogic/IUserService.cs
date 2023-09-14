@@ -17,5 +17,8 @@ namespace Obligatorio1.IBusinessLogic
 
         //User Administrator
         User CreateUser(User user);
+        
+        //User Administrator
+        User UpdateUserInformation(User user);
     }
 }
