@@ -23,10 +23,28 @@ namespace Obligatorio1.BusinessLogic
 
         }
 
+      
         public double CalculateNewPriceWithDiscount(Cart cart)
         {
+            if (!CartHas3OrMoreItems(cart))
+            {
+                return cart.TotalPrice;
+            }
+
+            Dictionary<string, List<Product>> productsByBrand = GroupProductsByBrand(cart);
+
+            /*
+            string brandWithDiscount = FindBrandWithDiscount(productsByBrand);
+
+            if (brandWithDiscount != null)
+            {
+                ApplyDiscountToCart(cart, productsByBrand[brandWithDiscount]);
+            }
+            */
             return cart.TotalPrice;
         }
+
+        
 
         public bool CartHas3OrMoreItems(Cart cart)
         {
@@ -41,6 +59,11 @@ namespace Obligatorio1.BusinessLogic
                 }
             }
             return false;
+        }
+
+        public Dictionary<string, List<Product>> GroupProductsByBrand(Cart cart)
+        {
+            return new Dictionary<string, List<Product>>();
         }
     }
 }

@@ -122,6 +122,31 @@ namespace Obligatorio1.BusinessLogic.Test
             Assert.IsFalse(result);
         }
 
+        [TestMethod]
+        public void GroupProductsByBrand_GroupsProductsByBrandCorrectly()
+        {
+            // Arrange
+            Cart cart = new Cart();
+            cart.Products = new List<Product>
+            {
+                new Product { Brand = 1, Price = 10 },
+                new Product { Brand = 2, Price = 15 },
+                new Product { Brand = 1, Price = 7 },
+                new Product { Brand = 2, Price = 20 },
+                new Product { Brand = 1, Price = 5 }
+            };
+            ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
+            // Act
+            Dictionary<string, List<Product>> productsByBrand = threeForOnePromoLogic.GroupProductsByBrand(cart);
+
+            // Assert
+            Assert.AreEqual(3, productsByBrand.Count); // Deben haber 3 marcas diferentes
+            Assert.IsTrue(productsByBrand.ContainsKey("Brand1"));
+            Assert.IsTrue(productsByBrand.ContainsKey("Brand2"));
+            Assert.AreEqual(3, productsByBrand["Brand1"].Count); // Deben haber 3 productos de Brand1
+            Assert.AreEqual(2, productsByBrand["Brand2"].Count); // Deben haber 2 productos de Brand2
+        }
+
         /*
         [TestMethod]
         public void CartHas3OrMoreItems()
