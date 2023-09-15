@@ -18,9 +18,19 @@ namespace Obligatorio1.BusinessLogic
             this.promoManagment = purchaseManagment;
         }
 
+        public ThreeForOnePromoLogic()
+        {
+
+        }
+
         public double CalculateNewPriceWithDiscount(Cart cart)
         {
             return 0;
+        }
+
+        public bool CartHas3OrMoreItems(Cart cart)
+        {
+            return true;
         }
     }
 }

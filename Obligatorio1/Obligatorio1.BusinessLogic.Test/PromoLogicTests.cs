@@ -14,7 +14,7 @@ using Obligatorio1.IBusinessLogic;
 namespace Obligatorio1.BusinessLogic.Test
 {
     [TestClass]
-    public class PromoLogicTest
+    public class PromoLogicTests
     {
         private Mock<IPromoManagment>? _promoManagmentMock;
         private ThreeForOnePromoLogic? _3x1PromoLogic;
@@ -25,5 +25,42 @@ namespace Obligatorio1.BusinessLogic.Test
             _promoManagmentMock = new Mock<IPromoManagment>(MockBehavior.Strict);
             _3x1PromoLogic = new ThreeForOnePromoLogic(_promoManagmentMock.Object);
         }
+
+        [TestMethod]
+        public void CartHas3OrMoreItems()
+        {
+            //Arrange
+            Cart cart = new Cart();
+
+            cart.Products.Add(new Product("Jabon", 10, "Liquido", 12, 3, 225));
+            cart.Products.Add(new Product("Jabon2", 12, "Liquido", 12, 3, 225));
+            cart.Products.Add(new Product("Jabon3", 12, "Liquido", 12, 3, 225));
+
+            ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
+            //Act
+            bool result = threeForOnePromoLogic.CartHas3OrMoreItems(cart);
+            //Assert
+            Assert.IsTrue(result);
+        }
+
+        /*
+        [TestMethod]
+        public void CartHas3OrMoreItems()
+        {
+            //Arrange
+            Cart cart = new Cart();
+
+            cart.Products.Add(new Product("Jabon", 10, "Liquido", 12, 3, 225));
+            cart.Products.Add(new Product("Jabon2", 12, "Liquido", 12, 3, 225));
+            cart.Products.Add(new Product("Jabon3", 12, "Liquido", 12, 3, 225));
+
+            // Act
+            _promoManagmentMock?.Setup(x => x.CartHas3OrMoreItems(cart)).Returns(true);
+            _3x1PromoLogic?.CartHas3OrMoreItems(cart);
+
+            // Assert
+            _promoManagmentMock?.VerifyAll();
+        }
+        */
     }
 }

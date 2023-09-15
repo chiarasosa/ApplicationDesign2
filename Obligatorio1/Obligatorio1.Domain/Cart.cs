@@ -8,16 +8,16 @@ namespace Obligatorio1.Domain
 {
     public class Cart
     {
-        private List<Product> Products;
+        public List<Product> Products;
 
-        private double TotalPrice;
+        public double TotalPrice;
 
         //private User User;
 
         public Cart()
         {
-            Products = new List<Product>();
-            TotalPrice = 0;
+            this.Products = new List<Product>();
+            this.TotalPrice = 0;
         }
     }
 }
