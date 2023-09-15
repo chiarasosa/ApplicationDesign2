@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Obligatorio1.Domain;
 
-namespace Obligatorio1.IBusinessLogic
+namespace Obligatorio1.IDataAccess
 {
-    public interface IPromoService
+    public interface IPromoManagment
     {
-        public double CalculateDiscount(List<Product> cart);
+        double CalculateDiscount(List<Product> cart);
     }
 }

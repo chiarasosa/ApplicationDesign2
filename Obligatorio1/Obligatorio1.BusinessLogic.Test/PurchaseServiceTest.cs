@@ -30,8 +30,8 @@ namespace Obligatorio1.BusinessLogic.Test
         public void CartHasMoreThan1Item()
         {
             //Arrange
-            List<Product> list = new List<Product>();         
-            list.Add(new Product("Jabon", 10, "Liquido", 12,3, 225 ));
+            List<Product> list = new List<Product>();
+            list.Add(new Product("Jabon", 10, "Liquido", 12, 3, 225));
             list.Add(new Product("Jabon2", 12, "Liquido", 12, 3, 225));
 
             Purchase purchase = new Purchase();
