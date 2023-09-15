@@ -44,8 +44,32 @@ namespace Obligatorio1.BusinessLogic.Test
             double newPrice = threeForOnePromoLogic.CalculateNewPriceWithDiscount(cart);
 
             // Assert
-            Assert.AreEqual(45, newPrice); // La suma de los precios originales
+            Assert.AreEqual(45, newPrice); 
         }
+
+        [TestMethod]
+        public void CalculateNewPriceWithDiscount_DiscountApplied()
+        {
+            // Arrange
+            Cart cart = new Cart();
+            cart.Products = new List<Product>
+            {
+                new Product { Brand = 1, Price = 10 },
+                new Product { Brand = 1, Price = 5 },
+                new Product { Brand = 1, Price = 7 },
+                new Product { Brand = 2, Price = 15 },
+                new Product { Brand = 3, Price = 20 }
+            };
+            cart.TotalPrice = 45;
+            ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
+
+            // Act
+            double newPrice = threeForOnePromoLogic.CalculateNewPriceWithDiscount(cart);
+
+            // Assert
+            Assert.AreEqual(45, newPrice - 5 - 7); 
+        }
+
 
         [TestMethod]
         public void CartHas3Items()
