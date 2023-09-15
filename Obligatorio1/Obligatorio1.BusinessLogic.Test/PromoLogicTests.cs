@@ -27,7 +27,7 @@ namespace Obligatorio1.BusinessLogic.Test
         }
 
         [TestMethod]
-        public void CartHas3OrMoreItems()
+        public void CartHas3Items()
         {
             //Arrange
             Cart cart = new Cart();
@@ -35,6 +35,24 @@ namespace Obligatorio1.BusinessLogic.Test
             cart.Products.Add(new Product("Jabon", 10, "Liquido", 12, 3, 225));
             cart.Products.Add(new Product("Jabon2", 12, "Liquido", 12, 3, 225));
             cart.Products.Add(new Product("Jabon3", 12, "Liquido", 12, 3, 225));
+
+            ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
+            //Act
+            bool result = threeForOnePromoLogic.CartHas3OrMoreItems(cart);
+            //Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void CartHasMoreThan3Items()
+        {
+            //Arrange
+            Cart cart = new Cart();
+
+            cart.Products.Add(new Product("Jabon", 10, "Liquido", 12, 3, 225));
+            cart.Products.Add(new Product("Jabon2", 12, "Liquido", 12, 3, 225));
+            cart.Products.Add(new Product("Jabon3", 12, "Liquido", 12, 3, 225));
+            cart.Products.Add(new Product("Jabon4", 12, "Liquido", 12, 3, 225));
 
             ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
             //Act
