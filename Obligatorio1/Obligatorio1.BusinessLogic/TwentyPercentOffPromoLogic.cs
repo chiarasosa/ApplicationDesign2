@@ -10,7 +10,7 @@ namespace Obligatorio1.BusinessLogic
 {
     public class TwentyPercentOffPromoLogic : IPromoService
     {
-        public double CalculateDiscount(List<Product> cart)
+        public double CalculateNewPriceWithDiscount(Cart cart)
         {
             return 0;
         }

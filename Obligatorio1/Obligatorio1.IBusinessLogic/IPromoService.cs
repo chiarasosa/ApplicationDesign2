@@ -9,6 +9,6 @@ namespace Obligatorio1.IBusinessLogic
 {
     public interface IPromoService
     {
-        public double CalculateDiscount(List<Product> cart);
+        public double CalculateNewPriceWithDiscount(Cart cart);
     }
 }

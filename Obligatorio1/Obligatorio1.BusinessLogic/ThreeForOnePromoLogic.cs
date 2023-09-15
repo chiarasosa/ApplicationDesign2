@@ -18,7 +18,7 @@ namespace Obligatorio1.BusinessLogic
             this.promoManagment = purchaseManagment;
         }
 
-        public double CalculateDiscount(List<Product> cart)
+        public double CalculateNewPriceWithDiscount(Cart cart)
         {
             return 0;
         }

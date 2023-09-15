@@ -10,7 +10,7 @@ namespace Obligatorio1.DataAccess
 {
     public class PromoManagment : IPromoManagment
     {
-        public double CalculateDiscount(List<Product> cart)
+        public double CalculateNewPriceWithDiscount(Cart cart)
         {
             return 0;
         }

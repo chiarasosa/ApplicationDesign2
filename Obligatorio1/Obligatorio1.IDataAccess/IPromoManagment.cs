@@ -9,6 +9,6 @@ namespace Obligatorio1.IDataAccess
 {
     public interface IPromoManagment
     {
-        double CalculateDiscount(List<Product> cart);
+        double CalculateNewPriceWithDiscount(Cart cart);
     }
 }
