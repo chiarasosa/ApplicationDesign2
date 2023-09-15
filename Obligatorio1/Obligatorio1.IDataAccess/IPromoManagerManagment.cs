@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Obligatorio1.IBusinessLogic;
 
 namespace Obligatorio1.IDataAccess
 {
-    internal class IPromoManagerManagment
+    public interface IPromoManagerManagment
     {
+        List<IPromoService> GetAvailablePromotions();
     }
 }

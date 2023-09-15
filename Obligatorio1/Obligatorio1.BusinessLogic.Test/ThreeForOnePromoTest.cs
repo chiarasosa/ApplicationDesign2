@@ -14,17 +14,20 @@ using Obligatorio1.IBusinessLogic;
 namespace Obligatorio1.BusinessLogic.Test
 {
     [TestClass]
-    public class PromoLogicTests
+    public class ThreeForOnePromoTest
     {
-        private Mock<IPromoManagment>? _promoManagmentMock;
-        private ThreeForOnePromoLogic? _3x1PromoLogic;
-
-        [TestInitialize]
-        public void Initialize()
+        [TestMethod]
+        public void CalculateNewPriceWithDiscount_EmptyCart()
         {
-            _promoManagmentMock = new Mock<IPromoManagment>(MockBehavior.Strict);
-            _3x1PromoLogic = new ThreeForOnePromoLogic(_promoManagmentMock.Object);
+            // Arrange
+            Cart cart = new Cart();
+            ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
+            // Act
+            double newPrice = threeForOnePromoLogic.CalculateNewPriceWithDiscount(cart);
+            // Assert
+            Assert.AreEqual(0, newPrice);
         }
+
 
         [TestMethod]
         public void CalculateNewPriceWithDiscount_NoDiscountApplied()
@@ -60,14 +63,27 @@ namespace Obligatorio1.BusinessLogic.Test
                 new Product { Brand = 2, Price = 15 },
                 new Product { Brand = 3, Price = 20 }
             };
-            cart.TotalPrice = 45;
+            cart.TotalPrice = 57;
             ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
 
             // Act
             double newPrice = threeForOnePromoLogic.CalculateNewPriceWithDiscount(cart);
 
             // Assert
-            Assert.AreEqual(45, newPrice - 5 - 7); 
+            Assert.AreEqual(45, newPrice); 
+        }
+
+        [TestMethod]
+        public void CartHasNoItems()
+        {
+            // Arrange
+            Cart cart = new Cart();
+
+            ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
+            // Act
+            bool result = threeForOnePromoLogic.CartHas3OrMoreItems(cart);
+            // Assert
+            Assert.IsFalse(result);
         }
 
 
@@ -123,7 +139,7 @@ namespace Obligatorio1.BusinessLogic.Test
         }
 
         [TestMethod]
-        public void GroupProductsByBrand_GroupsProductsByBrandCorrectly()
+        public void GroupProductsByBrand_Correct()
         {
             // Arrange
             Cart cart = new Cart();
@@ -140,15 +156,15 @@ namespace Obligatorio1.BusinessLogic.Test
             Dictionary<int, List<Product>> productsByBrand = threeForOnePromoLogic.GroupProductsByBrand(cart);
 
             // Assert
-            Assert.AreEqual(2, productsByBrand.Count); // Deben haber 3 marcas diferentes
+            Assert.AreEqual(2, productsByBrand.Count); 
             Assert.IsTrue(productsByBrand.ContainsKey(1));
             Assert.IsTrue(productsByBrand.ContainsKey(2));
-            Assert.AreEqual(3, productsByBrand[1].Count); // Deben haber 3 productos de Brand1
-            Assert.AreEqual(2, productsByBrand[2].Count); // Deben haber 2 productos de Brand2
+            Assert.AreEqual(3, productsByBrand[1].Count); 
+            Assert.AreEqual(2, productsByBrand[2].Count); 
         }
 
         [TestMethod]
-        public void GroupProductsByBrand_TestFailure()
+        public void GroupProductsByBrand_Wrong()
         {
             // Arrange
             Cart cart = new Cart();
@@ -166,7 +182,96 @@ namespace Obligatorio1.BusinessLogic.Test
 
             // Assert
             Assert.IsTrue(productsByBrand.ContainsKey(1));
-            Assert.AreNotEqual(4, productsByBrand[1].Count); // Aquí afirmamos incorrectamente que hay 4 productos de la marca 1.
+            Assert.AreNotEqual(4, productsByBrand[1].Count); 
+        }
+
+        [TestMethod]
+        public void FindBrandWithDiscount_Correct()
+        {
+            // Arrange
+            Dictionary<int, List<Product>> productsByBrand = new Dictionary<int, List<Product>>
+            {
+                { 1, new List<Product> { new Product(), new Product(), new Product() } },
+                { 2, new List<Product> { new Product(), new Product() } },
+                { 3, new List<Product> { new Product(), new Product() } }
+            };
+            ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
+            // Act
+            int brandWithDiscount = threeForOnePromoLogic.FindBrandWithDiscount(productsByBrand);
+
+            // Assert
+            Assert.AreEqual(1, brandWithDiscount);
+        }
+
+        [TestMethod]
+        public void FindBrandWithDiscount_NoBrand()
+        {
+            // Arrange
+            Dictionary<int, List<Product>> productsByBrand = new Dictionary<int, List<Product>>
+            {
+                { 1, new List<Product> { new Product(), new Product() } },
+                { 2, new List<Product> { new Product(), new Product() } },
+                { 3, new List<Product> { new Product(), new Product() } }
+            };
+            ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
+            // Act
+            int brandWithDiscount = threeForOnePromoLogic.FindBrandWithDiscount(productsByBrand);
+
+            // Assert
+            Assert.AreEqual(0, brandWithDiscount); 
+        }
+
+        [TestMethod]
+        public void ApplyDiscountToCart_SubtractsDiscountFromTotalPrice()
+        {
+            // Arrange
+            Cart cart = new Cart();
+            cart.Products = new List<Product>
+            {
+                new Product { Brand = 1, Price = 10 },
+                new Product { Brand = 1, Price = 5 },
+                new Product { Brand = 1, Price = 7 },
+                new Product { Brand = 2, Price = 15 },
+                new Product { Brand = 3, Price = 20 }
+            };
+            cart.TotalPrice = 49; 
+
+            ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
+
+            // Act
+            threeForOnePromoLogic.ApplyDiscountToCart(cart, new List<Product>
+            {
+                new Product { Brand = 1, Price = 5 },
+                new Product { Brand = 1, Price = 7 }
+            });
+
+            // Assert
+            Assert.AreEqual(37, cart.TotalPrice); 
+        }
+
+        [TestMethod]
+        public void CalculateNewPriceWithDiscount_TwoBrandsWithPossibleDiscount()
+        {
+            // Arrange
+            Cart cart = new Cart();
+            cart.Products = new List<Product>
+            {
+                new Product { Brand = 1, Price = 10 },
+                new Product { Brand = 1, Price = 5 },
+                new Product { Brand = 1, Price = 7 },
+                new Product { Brand = 2, Price = 15 },
+                new Product { Brand = 2, Price = 6 }, 
+                new Product { Brand = 2, Price = 7 }
+            };
+            cart.TotalPrice = 50; 
+
+            ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
+
+            // Act
+            double newPrice = threeForOnePromoLogic.CalculateNewPriceWithDiscount(cart);
+
+            // Assert
+            Assert.AreEqual(37, newPrice); 
         }
 
         /*

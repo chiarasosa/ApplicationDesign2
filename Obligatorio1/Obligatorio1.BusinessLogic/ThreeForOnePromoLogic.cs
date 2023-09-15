@@ -11,19 +11,14 @@ namespace Obligatorio1.BusinessLogic
 {
     public class ThreeForOnePromoLogic : IPromoService
     {
-        private readonly IPromoManagment promoManagment;
-
-        public ThreeForOnePromoLogic(IPromoManagment purchaseManagment)
-        {
-            this.promoManagment = purchaseManagment;
-        }
+        
 
         public ThreeForOnePromoLogic()
         {
 
         }
 
-      
+
         public double CalculateNewPriceWithDiscount(Cart cart)
         {
             if (!CartHas3OrMoreItems(cart))
@@ -33,18 +28,42 @@ namespace Obligatorio1.BusinessLogic
 
             Dictionary<int, List<Product>> productsByBrand = GroupProductsByBrand(cart);
 
-            /*
-            string brandWithDiscount = FindBrandWithDiscount(productsByBrand);
+            int brandWithDiscount = FindBrandWithMaxDiscount(productsByBrand);
 
-            if (brandWithDiscount != null)
+            if (brandWithDiscount != 0)
             {
                 ApplyDiscountToCart(cart, productsByBrand[brandWithDiscount]);
             }
-            */
+
             return cart.TotalPrice;
         }
 
-        
+
+        private int FindBrandWithMaxDiscount(Dictionary<int, List<Product>> productsByBrand)
+        {
+            int maxDiscount = 0;
+            int brandWithMaxDiscount = 0;
+
+            foreach (var brandProducts in productsByBrand)
+            {
+                if (brandProducts.Value.Count >= 3)
+                {
+                    int totalDiscount = brandProducts.Value.Min(p => p.Price) + brandProducts.Value.Skip(1).Min(p => p.Price);
+
+                    if (totalDiscount > maxDiscount)
+                    {
+                        maxDiscount = totalDiscount;
+                        brandWithMaxDiscount = brandProducts.Key;
+                    }
+                }
+            }
+
+            return brandWithMaxDiscount;
+        }
+
+
+
+
 
         public bool CartHas3OrMoreItems(Cart cart)
         {
@@ -76,6 +95,28 @@ namespace Obligatorio1.BusinessLogic
 
             return productsByBrand;
         }
+
+        public int FindBrandWithDiscount(Dictionary<int, List<Product>> productsByBrand)
+        {
+            foreach (var brandProducts in productsByBrand)
+            {
+                if (brandProducts.Value.Count >= 3)
+                {
+                    return brandProducts.Key;
+                }
+            }
+
+            return 0;
+        }
+
+        public void ApplyDiscountToCart(Cart cart, List<Product> productsToDiscount)
+        {
+            double discount = productsToDiscount.Min(p => p.Price) + productsToDiscount.Skip(1).Min(p => p.Price);
+            cart.TotalPrice -= discount;
+        }
+
+
+
 
 
     }

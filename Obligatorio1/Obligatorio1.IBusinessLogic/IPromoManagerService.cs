@@ -9,7 +9,6 @@ namespace Obligatorio1.IBusinessLogic
 {
     public interface IPromoManagerService
     {
-        public decimal GetBestPromo(List<Product> cart);
-        public decimal ApplyBestPromo(List<Product> cart);
+        double ApplyBestPromotion(Cart cart);
     }
 }
