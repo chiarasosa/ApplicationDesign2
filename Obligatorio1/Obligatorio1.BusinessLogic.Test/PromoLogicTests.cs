@@ -43,6 +43,21 @@ namespace Obligatorio1.BusinessLogic.Test
             Assert.IsTrue(result);
         }
 
+        [TestMethod]
+        public void CartHasLessThan3Items()
+        {
+            //Arrange
+            Cart cart = new Cart();
+
+            cart.Products.Add(new Product("Jabon", 10, "Liquido", 12, 3, 225));
+            cart.Products.Add(new Product("Jabon2", 12, "Liquido", 12, 3, 225));
+
+            ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
+            //Act
+            bool result = threeForOnePromoLogic.CartHas3OrMoreItems(cart);
+            //Assert
+            Assert.IsFalse(result);
+        }
         /*
         [TestMethod]
         public void CartHas3OrMoreItems()

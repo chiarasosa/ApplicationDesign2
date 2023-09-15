@@ -30,7 +30,17 @@ namespace Obligatorio1.BusinessLogic
 
         public bool CartHas3OrMoreItems(Cart cart)
         {
-            return true;
+            if(cart.Products != null)
+            {
+                int counter = 0;
+                foreach (Product item in cart.Products)
+                {
+                    counter++;
+                    if (counter == 3)
+                        return true;
+                }
+            }
+            return false;
         }
     }
 }
