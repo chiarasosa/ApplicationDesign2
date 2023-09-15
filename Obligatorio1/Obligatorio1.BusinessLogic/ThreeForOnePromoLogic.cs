@@ -31,7 +31,7 @@ namespace Obligatorio1.BusinessLogic
                 return cart.TotalPrice;
             }
 
-            Dictionary<string, List<Product>> productsByBrand = GroupProductsByBrand(cart);
+            Dictionary<int, List<Product>> productsByBrand = GroupProductsByBrand(cart);
 
             /*
             string brandWithDiscount = FindBrandWithDiscount(productsByBrand);
@@ -61,9 +61,22 @@ namespace Obligatorio1.BusinessLogic
             return false;
         }
 
-        public Dictionary<string, List<Product>> GroupProductsByBrand(Cart cart)
+        public Dictionary<int, List<Product>> GroupProductsByBrand(Cart cart)
         {
-            return new Dictionary<string, List<Product>>();
+            Dictionary<int, List<Product>> productsByBrand = new Dictionary<int, List<Product>>();
+
+            foreach (Product product in cart.Products)
+            {
+                if (!productsByBrand.ContainsKey(product.Brand))
+                {
+                    productsByBrand[product.Brand] = new List<Product>();
+                }
+                productsByBrand[product.Brand].Add(product);
+            }
+
+            return productsByBrand;
         }
+
+
     }
 }

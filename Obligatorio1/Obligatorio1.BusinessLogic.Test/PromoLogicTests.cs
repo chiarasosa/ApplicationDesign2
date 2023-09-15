@@ -137,14 +137,14 @@ namespace Obligatorio1.BusinessLogic.Test
             };
             ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
             // Act
-            Dictionary<string, List<Product>> productsByBrand = threeForOnePromoLogic.GroupProductsByBrand(cart);
+            Dictionary<int, List<Product>> productsByBrand = threeForOnePromoLogic.GroupProductsByBrand(cart);
 
             // Assert
-            Assert.AreEqual(3, productsByBrand.Count); // Deben haber 3 marcas diferentes
-            Assert.IsTrue(productsByBrand.ContainsKey("Brand1"));
-            Assert.IsTrue(productsByBrand.ContainsKey("Brand2"));
-            Assert.AreEqual(3, productsByBrand["Brand1"].Count); // Deben haber 3 productos de Brand1
-            Assert.AreEqual(2, productsByBrand["Brand2"].Count); // Deben haber 2 productos de Brand2
+            Assert.AreEqual(2, productsByBrand.Count); // Deben haber 3 marcas diferentes
+            Assert.IsTrue(productsByBrand.ContainsKey(1));
+            Assert.IsTrue(productsByBrand.ContainsKey(2));
+            Assert.AreEqual(3, productsByBrand[1].Count); // Deben haber 3 productos de Brand1
+            Assert.AreEqual(2, productsByBrand[2].Count); // Deben haber 2 productos de Brand2
         }
 
         /*
