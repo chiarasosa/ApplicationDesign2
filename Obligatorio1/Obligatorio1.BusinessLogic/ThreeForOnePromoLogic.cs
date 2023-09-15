@@ -25,7 +25,7 @@ namespace Obligatorio1.BusinessLogic
 
         public double CalculateNewPriceWithDiscount(Cart cart)
         {
-            return 0;
+            return cart.TotalPrice;
         }
 
         public bool CartHas3OrMoreItems(Cart cart)

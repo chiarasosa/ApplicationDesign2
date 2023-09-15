@@ -27,6 +27,27 @@ namespace Obligatorio1.BusinessLogic.Test
         }
 
         [TestMethod]
+        public void CalculateNewPriceWithDiscount_NoDiscountApplied()
+        {
+            // Arrange
+            Cart cart = new Cart();
+            cart.Products = new List<Product>
+            {
+                new Product { Brand = 1, Price = 10 },
+                new Product { Brand = 2, Price = 15 },
+                new Product { Brand = 3, Price = 20 }
+
+            };
+            cart.TotalPrice = 45;
+            ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
+            // Act
+            double newPrice = threeForOnePromoLogic.CalculateNewPriceWithDiscount(cart);
+
+            // Assert
+            Assert.AreEqual(45, newPrice); // La suma de los precios originales
+        }
+
+        [TestMethod]
         public void CartHas3Items()
         {
             //Arrange
@@ -76,6 +97,7 @@ namespace Obligatorio1.BusinessLogic.Test
             //Assert
             Assert.IsFalse(result);
         }
+
         /*
         [TestMethod]
         public void CartHas3OrMoreItems()
