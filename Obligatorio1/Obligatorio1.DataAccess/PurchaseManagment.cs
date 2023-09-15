@@ -10,18 +10,14 @@ namespace Obligatorio1.DataAccess
 {
     public class PurchaseManagment : IPurchaseManagment
     {
-       
-        public PurchaseManagment(IPurchaseManagment userManagment)
+        private List<Product> cart;
+        private Purchase purchase;
+        
+
+        public int ValidateMoreThan1Item(Purchase purchase)
         {
-           
-        }
-        public bool ValidateMoreThan1Item(List<Product> cart)
-        {
-            if (cart.Count() < 1)
-            {
-                throw new Obligatorio1.Exceptions.ExceptionPurchase("El carrito debe tener mas de un elemento para poder realizar la compra.");
-            }
-            return true;
+            
+            return purchase.PurchasedProducts.Count();
         }
     }
 }
