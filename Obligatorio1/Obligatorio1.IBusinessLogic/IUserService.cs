@@ -11,19 +11,20 @@ namespace Obligatorio1.IBusinessLogic
         User Login(string email, string password);
         void Logout(User user);
 
-        // Funcionalidades para usuarios con rol administrador
+        // Funcionalidades para usuarios compradores logueados
+        IEnumerable<Purchase> GetPurchaseHistory(User user);
+
+        // Funcionalidades para usuarios con rol administrador  en el módulo de administración
         IEnumerable<User> GetUsers();
         User GetUserByID(int userID);
         User CreateUser(User user);
         User UpdateUserInformation(User user);
         void DeleteUser(int userID);
-
-        // Funcionalidades para usuarios compradores logueados
-       /* IEnumerable<Purchase> GetPurchaseHistory(User user);
-
-        // Funcionalidades para usuarios con rol administrador en el módulo de administración
         IEnumerable<Purchase> GetAllPurchases();
-        void CreateProduct(Product product);
+
+
+        //IEnumerable<Purchase> GetAllPurchases();
+        /*void CreateProduct(Product product);
         Product UpdateProduct(Product product);
         void DeleteProduct(int productID);*/
     }

@@ -227,8 +227,8 @@ namespace Obligatorio1.BusinessLogic.Test
             // Arrange
             User user = new User(1, "UsuarioComprador", "Password123", "comprador@example.com", "Dirección de Comprador", "Comprador", null);
             List<Product> products = new List<Product>();
-            List<Purchase> expectedPurchases = new List<Purchase> 
-   
+            List<Purchase> expectedPurchases = new List<Purchase>
+
             {
                 new Purchase(),
                 new Purchase(),
@@ -249,7 +249,29 @@ namespace Obligatorio1.BusinessLogic.Test
             _userManagmentMock?.Verify(x => x.GetPurchaseHistory(user), Times.Once);
         }
 
+        [TestMethod]
+        public void GetAllPurchasesTest()
+        {
+            // Arrange
+            List<Purchase> expectedPurchases = new List<Purchase>
+            {
+                new Purchase(),
+                new Purchase(),
+                new Purchase(),
+            };
 
+            // Configura el comportamiento del mock para que devuelva las compras esperadas
+            _userManagmentMock?.Setup(x => x.GetAllPurchases()).Returns(expectedPurchases);
 
+            // Act
+            IEnumerable<Purchase>? result = _userService?.GetAllPurchases();
+
+            // Assert
+            Assert.IsNotNull(result);
+            CollectionAssert.AreEqual(expectedPurchases, result.ToList());
+
+            // Verifica que el método GetAllPurchases se llamó en la capa de acceso a datos
+            _userManagmentMock?.Verify(x => x.GetAllPurchases(), Times.Once);
+        }
     }
 }
