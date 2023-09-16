@@ -21,14 +21,17 @@ namespace Obligatorio1.BusinessLogic
         public Cart ApplyBestPromotion(Cart cart)
         {
             // Obtener la lista de promociones disponibles
-            List<IPromoService> availablePromotions = promoManagerManagment.GetAvailablePromotions();
-            foreach (IPromoService promotion in availablePromotions)
+            if(cart.Products != null)
             {
-                double price = promotion.CalculateNewPriceWithDiscount(cart);
-
-                if (price > cart.TotalPrice)
+                List<IPromoService> availablePromotions = promoManagerManagment.GetAvailablePromotions();
+                foreach (IPromoService promotion in availablePromotions)
                 {
-                    cart.TotalPrice = price;
+                    double price = promotion.CalculateNewPriceWithDiscount(cart);
+
+                    if (price > cart.TotalPrice)
+                    {
+                        cart.TotalPrice = price;
+                    }
                 }
             }
             return cart;

@@ -17,46 +17,16 @@ namespace Obligatorio1.BusinessLogic
 
         public double CalculateNewPriceWithDiscount(Cart cart)
         {
-            if (!CartHas3OrMoreItems(cart))
+            if (!CartHas2OrMoreItems(cart))
             {
                 return cart.TotalPrice;
             }
-
-            Dictionary<int, List<Product>> productsByBrand = GroupProductsByBrand(cart);
-
-            int brandWithDiscount = FindBrandWithMaxDiscount(productsByBrand);
-
-            if (brandWithDiscount != 0)
-            {
-                cart.TotalPrice = ApplyDiscountToCart(cart, productsByBrand[brandWithDiscount]);
-            }
+            cart.TotalPrice -= cart.Products.Max(p => p.Price) * 0.2;
 
             return cart.TotalPrice;
         }
 
-        public int FindBrandWithMaxDiscount(Dictionary<int, List<Product>> productsByBrand)
-        {
-            int maxDiscount = 0;
-            int brandWithMaxDiscount = 0;
-
-            foreach (KeyValuePair<int, List<Product>> brandProducts in productsByBrand)
-            {
-                if (brandProducts.Value.Count() >= 3)
-                {
-                    int totalDiscount = brandProducts.Value.OrderBy(p => p.Price).Take(2).Sum(p => p.Price);
-
-                    if (totalDiscount >= maxDiscount)
-                    {
-                        maxDiscount = totalDiscount;
-                        brandWithMaxDiscount = brandProducts.Key;
-                    }
-                }
-            }
-
-            return brandWithMaxDiscount;
-        }
-
-        public bool CartHas3OrMoreItems(Cart cart)
+        public bool CartHas2OrMoreItems(Cart cart)
         {
             if (cart.Products != null)
             {
@@ -64,34 +34,11 @@ namespace Obligatorio1.BusinessLogic
                 foreach (Product item in cart.Products)
                 {
                     counter++;
-                    if (counter == 3)
+                    if (counter == 2)
                         return true;
                 }
             }
             return false;
-        }
-
-        public Dictionary<int, List<Product>> GroupProductsByBrand(Cart cart)
-        {
-            Dictionary<int, List<Product>> productsByBrand = new Dictionary<int, List<Product>>();
-
-            foreach (Product product in cart.Products)
-            {
-                if (!productsByBrand.ContainsKey(product.Brand))
-                {
-                    productsByBrand[product.Brand] = new List<Product>();
-                }
-                productsByBrand[product.Brand].Add(product);
-            }
-
-            return productsByBrand;
-        }
-
-        public double ApplyDiscountToCart(Cart cart, List<Product> productsToDiscount)
-        {
-            int totalDiscount = productsToDiscount.OrderBy(p => p.Price).Take(2).Sum(p => p.Price);
-            cart.TotalPrice -= totalDiscount;
-            return cart.TotalPrice;
         }
 
     }

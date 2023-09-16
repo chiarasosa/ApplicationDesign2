@@ -72,45 +72,30 @@ namespace Obligatorio1.BusinessLogic.Test
         }
 
         [TestMethod]
-        public void ApplyBestPromotion_SinglePromotion()
+        public void ApplyBestPromotion_TwentyPercentOff()
         {
             // Arrange
-            var promo3x1 = new ThreeForOnePromoLogic();
-            _promoManagerManagmentMock?.Setup(p => p.GetAvailablePromotions()).Returns(new List<IPromoService> { promo3x1 });
+            ThreeForOnePromoLogic promo3x1 = new ThreeForOnePromoLogic();
+            ThreeForTwoPromoLogic promo3x2 = new ThreeForTwoPromoLogic();
+            TwentyPercentOffPromoLogic twentyPercentOff = new TwentyPercentOffPromoLogic();
+            TotalLookPromoLogic totalLook = new TotalLookPromoLogic();
+            _promoManagerManagmentMock?.Setup(p => p.GetAvailablePromotions()).Returns(new List<IPromoService> { promo3x1, promo3x2, twentyPercentOff, totalLook });
             var cart = new Cart();
             cart.TotalPrice = 700;
             cart.Products.Add(new Product("Producto1", 150, "Descripción", 1, 19, 1));
-            cart.Products.Add(new Product("Producto2", 100, "Descripción", 1, 33, 1));
-            cart.Products.Add(new Product("Producto3", 200, "Descripción", 1, 45, 1));
-            cart.Products.Add(new Product("Producto4", 250, "Descripción", 2, 76, 1));
+            cart.Products.Add(new Product("Producto2", 100, "Descripción", 4, 33, 20));
+            cart.Products.Add(new Product("Producto3", 200, "Descripción", 3, 45, 30));
+            cart.Products.Add(new Product("Producto4", 250, "Descripción", 2, 76, 40));
             // Act
             cart = _promoManagerService.ApplyBestPromotion(cart);
 
             // Assert
-            Assert.AreEqual(450, cart.TotalPrice); // Ajusta según tu expectativa
+            Assert.AreEqual(650, cart.TotalPrice); // Ajusta según tu expectativa
 
             // Verifica que todas las expectativas configuradas en _promoManagerManagmentMock se hayan cumplido
             _promoManagerManagmentMock?.VerifyAll();
         }
 
-        [TestMethod]
-        public void ApplyBestPromotion_MultiplePromotions_ReturnsBestDiscount()
-        {
-            // Arrange
-            var promo3x1 = new ThreeForOnePromoLogic();
-            var promo3x2 = new ThreeForTwoPromoLogic();
-            _promoManagerManagmentMock?.Setup(p => p.GetAvailablePromotions()).Returns(new List<IPromoService> { promo3x1, promo3x2 });
-
-            var cart = new Cart();
-
-            // Act
-            var discount = _promoManagerService.ApplyBestPromotion(cart);
-
-            // Assert
-            Assert.AreEqual(30, discount); // Ajusta según tu expectativa
-
-            // Verifica que todas las expectativas configuradas en _promoManagerManagmentMock se hayan cumplido
-            _promoManagerManagmentMock?.VerifyAll();
-        }
+      
     }
 }
