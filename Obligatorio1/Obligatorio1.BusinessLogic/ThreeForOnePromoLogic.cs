@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Obligatorio1.Domain;
 using Obligatorio1.IBusinessLogic;
-using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.BusinessLogic
 {

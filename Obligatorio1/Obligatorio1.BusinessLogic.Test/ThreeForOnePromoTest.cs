@@ -260,7 +260,8 @@ namespace Obligatorio1.BusinessLogic.Test
             threeForOnePromoLogic.ApplyDiscountToCart(cart, new List<Product>
             {
                 new Product { Brand = 1, Price = 5 },
-                new Product { Brand = 1, Price = 7 }
+                new Product { Brand = 1, Price = 7 },
+                new Product { Brand = 1, Price = 10 }
             });
 
             // Assert

@@ -29,24 +29,24 @@ namespace Obligatorio1.BusinessLogic
 
             if (categoryWithDiscount != 0)
             {
-                ApplyDiscountToCart(cart, productsByCategory[categoryWithDiscount]);
+                cart.TotalPrice = ApplyDiscountToCart(cart, productsByCategory[categoryWithDiscount]);
             }
 
             return cart.TotalPrice;
         }
 
-        private int FindCategoryWithMaxDiscount(Dictionary<int, List<Product>> productsByCategory)
+        public int FindCategoryWithMaxDiscount(Dictionary<int, List<Product>> productsByCategory)
         {
             int maxDiscount = 0;
             int categoryWithMaxDiscount = 0;
 
-            foreach (var categoryProducts in productsByCategory)
+            foreach (KeyValuePair<int, List<Product>> categoryProducts in productsByCategory)
             {
-                if (categoryProducts.Value.Count >= 3)
+                if (categoryProducts.Value.Count() >= 3)
                 {
                     int totalDiscount = categoryProducts.Value.Min(p => p.Price);
 
-                    if (totalDiscount > maxDiscount)
+                    if (totalDiscount >= maxDiscount)
                     {
                         maxDiscount = totalDiscount;
                         categoryWithMaxDiscount = categoryProducts.Key;
@@ -88,10 +88,12 @@ namespace Obligatorio1.BusinessLogic
             return productsByCategory;
         }
 
-        public void ApplyDiscountToCart(Cart cart, List<Product> productsToDiscount)
+        public double ApplyDiscountToCart(Cart cart, List<Product> productsToDiscount)
         {
-            double discount = productsToDiscount.Min(p => p.Price);
-            cart.TotalPrice -= discount;
+            int totalDiscount = productsToDiscount.Min(p => p.Price);
+            cart.TotalPrice -= totalDiscount;
+            return cart.TotalPrice;
         }
+
     }
 }
