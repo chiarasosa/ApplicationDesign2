@@ -5,7 +5,7 @@ using Obligatorio1.IDataAccess;
 
 public class UserService : IUserService
 {
-    private readonly IUserManagment userManagement;
+    private readonly IUserManagment _userManagment;
     private User? loggedInUser;
 
     public User? GetLoggedInUser()
@@ -20,14 +20,14 @@ public class UserService : IUserService
 
     public UserService(IUserManagment userManagment)
     {
-        this.userManagement = userManagment;
+        this._userManagment = userManagment;
         this.loggedInUser = null;
     }
 
     public void RegisterUser(User user)
     {
         if (IsUserValid(user))
-            userManagement.RegisterUser(user);
+            _userManagment.RegisterUser(user);
     }
 
     private bool IsUserValid(User user)
@@ -43,7 +43,7 @@ public class UserService : IUserService
     public User UpdateUserProfile(User user)
     {
         if (IsUserValid(user))
-            return userManagement.UpdateUserProfile(user);
+            return _userManagment.UpdateUserProfile(user);
         throw new UserException("Actualización fallida. Datos de usuario incorrectos."); ;
     }
 
@@ -54,7 +54,7 @@ public class UserService : IUserService
             throw new UserException("Correo electrónico y contraseña son obligatorios.");
         }
 
-        User? authenticatedUser = userManagement.Login(email, password);
+        User? authenticatedUser = _userManagment.Login(email, password);
 
         if (authenticatedUser == null)
         {
@@ -76,7 +76,7 @@ public class UserService : IUserService
 
     public User GetUserByID(int userID)
     {
-        User? user = userManagement.GetUserByID(userID);
+        User? user = _userManagment.GetUserByID(userID);
 
         if (user == null)
         {
@@ -88,7 +88,7 @@ public class UserService : IUserService
 
     public IEnumerable<User> GetUsers()
     {
-        IEnumerable<User>? users = userManagement.GetUsers();
+        IEnumerable<User>? users = _userManagment.GetUsers();
 
         if (users == null)
         {
@@ -107,7 +107,7 @@ public class UserService : IUserService
 
         if (IsUserValid(user))
         {
-            User createdUser = userManagement.CreateUser(user);
+            User createdUser = _userManagment.CreateUser(user);
 
             if (createdUser == null)
             {
@@ -134,7 +134,7 @@ public class UserService : IUserService
         if (IsUserValid(user))
         {
             // Intenta actualizar la información del usuario a través del servicio de administración de usuarios.
-            User updatedUser = userManagement.UpdateUserInformation(user);
+            User updatedUser = _userManagment.UpdateUserInformation(user);
 
             // Verifica si la actualización fue exitosa.
             if (updatedUser == null)
@@ -150,6 +150,29 @@ public class UserService : IUserService
             throw new UserException("Usuario inválido.");
         }
     }
+
+    public void DeleteUser(int userID)
+    {
+        if (loggedInUser == null || loggedInUser.Role != "Administrador")
+        {
+            throw new UserException("No tiene permiso para eliminar usuarios.");
+        }
+
+        User userToDelete = _userManagment.GetUserByID(userID);
+
+        if (userToDelete == null)
+        {
+            throw new UserException($"Usuario con ID {userID} no encontrado.");
+        }
+
+        _userManagment.DeleteUser(userID);
+    }
+
+    public IEnumerable<Purchase> GetPurchaseHistory(User user)
+    {
+        return _userManagment.GetPurchaseHistory(user);
+    }
+
 
 
 }

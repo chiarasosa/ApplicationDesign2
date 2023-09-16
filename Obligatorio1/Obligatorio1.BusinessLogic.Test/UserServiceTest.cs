@@ -193,7 +193,7 @@ namespace Obligatorio1.BusinessLogic.Test
             _userManagmentMock?.Verify(x => x.UpdateUserInformation(updatedUser), Times.Once);
         }
 
-        <[TestMethod]
+        [TestMethod]
         public void DeleteUserTest()
         {
             // Arrange
@@ -203,6 +203,9 @@ namespace Obligatorio1.BusinessLogic.Test
 
             // Configure mock behavior for GetUserByID to return the user to delete
             _userManagmentMock?.Setup(x => x.GetUserByID(userIdToDelete)).Returns(userToDelete);
+
+            // Configure mock behavior for DeleteUser
+            _userManagmentMock?.Setup(x => x.DeleteUser(userIdToDelete));
 
             // Set the logged-in admin user
             _userService?.SetLoggedInUser(adminUser);
@@ -217,6 +220,36 @@ namespace Obligatorio1.BusinessLogic.Test
             // Verify that DeleteUser was called at the data access layer with the correct user ID
             _userManagmentMock?.Verify(x => x.DeleteUser(userIdToDelete), Times.Once);
         }
+
+        [TestMethod]
+        public void GetPurchaseHistoryTest()
+        {
+            // Arrange
+            User user = new User(1, "UsuarioComprador", "Password123", "comprador@example.com", "Dirección de Comprador", "Comprador", null);
+            List<Product> products = new List<Product>();
+            List<Purchase> expectedPurchases = new List<Purchase> 
+   
+            {
+                new Purchase(),
+                new Purchase(),
+                new Purchase(),
+            };
+
+            // Configura el comportamiento del mock para que devuelva las compras esperadas
+            _userManagmentMock?.Setup(x => x.GetPurchaseHistory(user)).Returns(expectedPurchases);
+
+            // Act
+            IEnumerable<Purchase> result = _userService?.GetPurchaseHistory(user);
+
+            // Assert
+            Assert.IsNotNull(result);
+            CollectionAssert.AreEqual(expectedPurchases, result.ToList());
+
+            // Verifica que el método GetPurchaseHistory se llamó en la capa de acceso a datos con el usuario correcto
+            _userManagmentMock?.Verify(x => x.GetPurchaseHistory(user), Times.Once);
+        }
+
+
 
     }
 }

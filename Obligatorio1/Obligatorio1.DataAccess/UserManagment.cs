@@ -8,11 +8,13 @@ namespace Obligatorio1.DataAccess
     {
         private List<User>? _users;
         private User? _authenticatedUser;
+        private List<Purchase>? _purchases;
 
         public UserManagment()
         {
             _users = new List<User>();
             _authenticatedUser = null;
+            _purchases = new List<Purchase>();
         }
 
         public void RegisterUser(User user)
@@ -127,5 +129,39 @@ namespace Obligatorio1.DataAccess
 
             return existingUser;
         }
+
+        public void DeleteUser(int userID)
+        {
+            if (_authenticatedUser == null || _authenticatedUser.Role != "Administrador")
+            {
+                throw new UserException("No tiene permiso para eliminar usuarios.");
+            }
+
+            User? userToDelete = _users?.FirstOrDefault(u => u.UserID == userID);
+
+            if (userToDelete == null)
+            {
+                throw new UserException($"Usuario con ID {userID} no encontrado.");
+            }
+
+            _users?.Remove(userToDelete);
+        }
+
+        public IEnumerable<Purchase> GetPurchaseHistory(User user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "El usuario proporcionado es nulo.");
+            }
+
+            if (_authenticatedUser == null || _authenticatedUser.UserID != user.UserID)
+            {
+                throw new UserException("No tiene permiso para acceder al historial de compras de este usuario.");
+            }
+
+            // Simplemente devuelve las compras asociadas al usuario
+            return _purchases.Where(purchase => purchase.User.UserID == user.UserID);
+        }
+
     }
 }

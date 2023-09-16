@@ -9,7 +9,8 @@ namespace Obligatorio1.Domain
     public class Purchase
     {
         public int PurchaseID { get; set; }
-        //public User User { get; set; }
+       
+        public User? User { get; set; }
 
         public List<Product> PurchasedProducts { get; set; }
         
@@ -19,8 +20,8 @@ namespace Obligatorio1.Domain
 
         public Purchase()
         {
-            this.PurchaseID = 0;
-            //User = null;
+            this.PurchaseID = 1;
+            User = null;
             this.PurchasedProducts = new List<Product>();
             PromoApplied = String.Empty;
             this.DateOfPurchase = DateTime.Now;

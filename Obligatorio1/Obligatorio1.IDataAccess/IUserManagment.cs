@@ -12,6 +12,8 @@ namespace Obligatorio1.IDataAccess
         IEnumerable<User> GetUsers();
         User CreateUser(User user);
         User UpdateUserInformation(User user);
+        void DeleteUser(int userID);
+        public IEnumerable<Purchase> GetPurchaseHistory(User user);
 
     }
 }
