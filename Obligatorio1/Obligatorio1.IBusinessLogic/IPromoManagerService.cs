@@ -9,6 +9,6 @@ namespace Obligatorio1.IBusinessLogic
 {
     public interface IPromoManagerService
     {
-        double ApplyBestPromotion(Cart cart);
+        Cart ApplyBestPromotion(Cart cart);
     }
 }

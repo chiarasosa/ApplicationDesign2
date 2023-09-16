@@ -145,7 +145,7 @@ namespace Obligatorio1.BusinessLogic.Test
             Cart cart = new Cart();
             cart.Products = new List<Product>
             {
-                new Product { Brand = 1, Price = 10 },
+                new Product{ Brand = 1, Price = 10 },
                 new Product { Brand = 2, Price = 15 },
                 new Product { Brand = 1, Price = 7 },
                 new Product { Brand = 2, Price = 20 },
@@ -191,16 +191,34 @@ namespace Obligatorio1.BusinessLogic.Test
             // Arrange
             Dictionary<int, List<Product>> productsByBrand = new Dictionary<int, List<Product>>
             {
-                { 1, new List<Product> { new Product(), new Product(), new Product() } },
-                { 2, new List<Product> { new Product(), new Product() } },
-                { 3, new List<Product> { new Product(), new Product() } }
+                { 1, new List<Product> { new Product { Price = 1 }, new Product { Price = 16 }, new Product { Price = 155 } } },
+                { 2, new List<Product> { new Product { Price = 11 }, new Product { Price = 14 } } },
+                { 3, new List<Product> { new Product { Price = 12 }, new Product { Price = 11 } } }
             };
             ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
             // Act
-            int brandWithDiscount = threeForOnePromoLogic.FindBrandWithDiscount(productsByBrand);
+            int brandWithDiscount = threeForOnePromoLogic.FindBrandWithMaxDiscount(productsByBrand);
 
             // Assert
             Assert.AreEqual(1, brandWithDiscount);
+        }
+
+        [TestMethod]
+        public void FindBrandWithMaxDiscount_Correct()
+        {
+            // Arrange
+            Dictionary<int, List<Product>> productsByBrand = new Dictionary<int, List<Product>>
+            {
+                { 1, new List<Product> { new Product { Price = 10 }, new Product { Price = 5 }, new Product { Price = 7 } } },
+                { 2, new List<Product> { new Product { Price = 15 }, new Product { Price = 6 }, new Product { Price = 7 } } },
+                { 3, new List<Product> { new Product { Price = 12 }, new Product { Price = 11 } } }
+            };
+            ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
+            // Act
+            int brandWithDiscount = threeForOnePromoLogic.FindBrandWithMaxDiscount(productsByBrand);
+
+            // Assert
+            Assert.AreEqual(2, brandWithDiscount);
         }
 
         [TestMethod]
@@ -209,13 +227,13 @@ namespace Obligatorio1.BusinessLogic.Test
             // Arrange
             Dictionary<int, List<Product>> productsByBrand = new Dictionary<int, List<Product>>
             {
-                { 1, new List<Product> { new Product(), new Product() } },
-                { 2, new List<Product> { new Product(), new Product() } },
-                { 3, new List<Product> { new Product(), new Product() } }
+                { 1, new List<Product> { new Product { Price = 16 }, new Product { Price = 132 } } },
+                { 2, new List<Product> { new Product { Price = 15 }, new Product { Price = 12 } } },
+                { 3, new List<Product> { new Product { Price = 15 }, new Product { Price = 15 } } }
             };
             ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
             // Act
-            int brandWithDiscount = threeForOnePromoLogic.FindBrandWithDiscount(productsByBrand);
+            int brandWithDiscount = threeForOnePromoLogic.FindBrandWithMaxDiscount(productsByBrand);
 
             // Assert
             Assert.AreEqual(0, brandWithDiscount); 
@@ -256,14 +274,14 @@ namespace Obligatorio1.BusinessLogic.Test
             Cart cart = new Cart();
             cart.Products = new List<Product>
             {
+                new Product { Brand = 1, Price = 25 },
+                new Product { Brand = 1, Price = 15 },
                 new Product { Brand = 1, Price = 10 },
-                new Product { Brand = 1, Price = 5 },
-                new Product { Brand = 1, Price = 7 },
-                new Product { Brand = 2, Price = 15 },
-                new Product { Brand = 2, Price = 6 }, 
-                new Product { Brand = 2, Price = 7 }
+                new Product { Brand = 2, Price = 50 },
+                new Product { Brand = 2, Price = 30 },
+                new Product { Brand = 2, Price = 20 }
             };
-            cart.TotalPrice = 50; 
+            cart.TotalPrice = 150; 
 
             ThreeForOnePromoLogic threeForOnePromoLogic = new ThreeForOnePromoLogic();
 
@@ -271,27 +289,7 @@ namespace Obligatorio1.BusinessLogic.Test
             double newPrice = threeForOnePromoLogic.CalculateNewPriceWithDiscount(cart);
 
             // Assert
-            Assert.AreEqual(37, newPrice); 
+            Assert.AreEqual(100, newPrice); 
         }
-
-        /*
-        [TestMethod]
-        public void CartHas3OrMoreItems()
-        {
-            //Arrange
-            Cart cart = new Cart();
-
-            cart.Products.Add(new Product("Jabon", 10, "Liquido", 12, 3, 225));
-            cart.Products.Add(new Product("Jabon2", 12, "Liquido", 12, 3, 225));
-            cart.Products.Add(new Product("Jabon3", 12, "Liquido", 12, 3, 225));
-
-            // Act
-            _promoManagmentMock?.Setup(x => x.CartHas3OrMoreItems(cart)).Returns(true);
-            _3x1PromoLogic?.CartHas3OrMoreItems(cart);
-
-            // Assert
-            _promoManagmentMock?.VerifyAll();
-        }
-        */
     }
 }
