@@ -15,8 +15,8 @@ namespace Obligatorio1.BusinessLogic.Test
             PurchaseLogic purchaseLogic = new PurchaseLogic();
             List<Product> cart = new List<Product>
             {
-                new Product("Product1", 10, "Description", 123, 123, 123),
-                new Product("Product2", 10, "Description", 123, 123, 123)
+                new Product(1,"Product1", 10, "Description", 123, 123, null),
+                new Product(2,"Product2", 10, "Description", 123, 123, null)
             };
 
             //Act

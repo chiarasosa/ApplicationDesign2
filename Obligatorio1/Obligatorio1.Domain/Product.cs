@@ -33,8 +33,9 @@ namespace Obligatorio1.Domain
             this.Colors = new List<string>();
         }
 
-        public Product(string name, int price, string description, int brand, int category, List<string> colors)
+        public Product(int productID,string name, int price, string description, int brand, int category, List<string> colors)
         {
+            this.ProductID= productID;
             this.Name=name;
             this.Price = price;
             this.Description = description;
