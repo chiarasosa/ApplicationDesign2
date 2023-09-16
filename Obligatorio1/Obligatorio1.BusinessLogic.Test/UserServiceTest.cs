@@ -239,7 +239,7 @@ namespace Obligatorio1.BusinessLogic.Test
             _userManagmentMock?.Setup(x => x.GetPurchaseHistory(user)).Returns(expectedPurchases);
 
             // Act
-            IEnumerable<Purchase> result = _userService?.GetPurchaseHistory(user);
+            IEnumerable<Purchase>? result = _userService?.GetPurchaseHistory(user);
 
             // Assert
             Assert.IsNotNull(result);
