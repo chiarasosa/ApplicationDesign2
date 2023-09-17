@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.Domain;
+using Obligatorio1.BusinessLogic;
+using Obligatorio1.IDataAccess;
+using Obligatorio1.DataAccess;
 
 [ApiController]
 [Route("api/users")]

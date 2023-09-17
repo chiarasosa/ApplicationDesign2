@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,13 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Startup.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Obligatorio1.BusinessLogic\Obligatorio1.BusinessLogic.csproj" />
+    <ProjectReference Include="..\Obligatorio1.DataAccess\Obligatorio1.DataAccess.csproj" />
     <ProjectReference Include="..\Obligatorio1.Domain\Obligatorio1.Domain.csproj" />
     <ProjectReference Include="..\Obligatorio1.IBusinessLogic\Obligatorio1.IBusinessLogic.csproj" />
+    <ProjectReference Include="..\Obligatorio1.IDataAccess\Obligatorio1.IDataAccess.csproj" />
   </ItemGroup>
 
 </Project>
