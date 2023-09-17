@@ -9,12 +9,14 @@ namespace Obligatorio1.DataAccess
         private List<User>? _users;
         private User? _authenticatedUser;
         private List<Purchase>? _purchases;
+        private List<Product>? _products;
 
         public UserManagment()
         {
-            _users = new List<User>();
-            _authenticatedUser = null;
-            _purchases = new List<Purchase>();
+            this._users = new List<User>();
+            this._authenticatedUser = null;
+            this._purchases = new List<Purchase>();
+            this._products= new List<Product>();
         }
 
         public void RegisterUser(User user)
@@ -172,6 +174,25 @@ namespace Obligatorio1.DataAccess
 
             return _purchases;
         }
+
+
+        public void CreateProduct(Product product)
+        {
+            if (_authenticatedUser == null || _authenticatedUser.Role != "Administrador")
+            {
+                throw new UserException("No tiene permiso para crear productos.");
+            }
+
+            // Verifica si el producto ya existe
+            if (_products?.Any(p => p.ProductID == product.ProductID) == true)
+            {
+                throw new UserException($"El producto con ID {product.ProductID} ya existe.");
+            }
+
+            // Agrega el nuevo producto a la lista de productos
+            _products?.Add(product);
+        }
+
 
     }
 }

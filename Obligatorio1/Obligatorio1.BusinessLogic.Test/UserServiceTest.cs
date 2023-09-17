@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Obligatorio1.Domain;
+using Obligatorio1.Exceptions;
 using Obligatorio1.IDataAccess;
 using System;
 using System.Collections.Generic;
@@ -276,5 +277,35 @@ namespace Obligatorio1.BusinessLogic.Test
             // Verifica que el método GetAllPurchases se llamó en la capa de acceso a datos
             _userManagmentMock?.Verify(x => x.GetAllPurchases(), Times.Once);
         }
+
+        [TestMethod]
+        public void CreateProductTest()
+        {
+            // Arrange
+            User regularUser = new User(2, "User", "User123", "user@example.com", "User Address", "Administrador", null);
+            _userService?.SetLoggedInUser(regularUser);
+
+            Product newProduct = new Product
+            {
+                ProductID = 1,
+                Name = "New Product",
+                Description = "A new product for testing",
+                Price = 10,
+                Brand = 1,
+                Category = 2,
+                Colors = 3,
+            };
+
+            // Act
+            Action createProductAction = () => _userService?.CreateProduct(newProduct);
+
+            // Assert
+            Assert.ThrowsException<Exception>(createProductAction);
+
+            // Verifica que el método CreateProduct se llamó en la capa de acceso a datos
+            _userManagmentMock?.Verify(x => x.CreateProduct(newProduct), Times.Once);
+        }
+
+
     }
 }

@@ -182,6 +182,26 @@ public class UserService : IUserService
         return _userManagment.GetAllPurchases();
     }
 
+    public void CreateProduct(Product product)
+    {
+        if (loggedInUser == null || loggedInUser.Role != "Administrador")
+        {
+            throw new UserException("No tiene permiso para crear productos.");
+        }
 
-
+        try
+        {
+            _userManagment.CreateProduct(product);
+        }
+        catch (UserException ex)
+        {
+            // Maneja la excepción de usuario personalizada, si es necesario.
+            throw new UserException($"Error al crear el producto: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            // Maneja otras excepciones que puedan ocurrir.
+            throw new Exception($"Error inesperado al crear el producto: {ex.Message}", ex);
+        }
+    }
 }
