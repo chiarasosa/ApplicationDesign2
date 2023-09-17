@@ -202,6 +202,30 @@ public class UserService : IUserService
         {
             // Maneja otras excepciones que puedan ocurrir.
             throw new Exception($"Error inesperado al crear el producto: {ex.Message}", ex);
-        }
+        } 
     }
-}
+
+        public Product UpdateProduct(Product product)
+        {
+            if (loggedInUser == null || loggedInUser.Role != "Administrador")
+            {
+                throw new UserException("No tiene permiso para actualizar productos.");
+            }
+
+            try
+            {
+                return _userManagment.UpdateProduct(product);
+            }
+            catch (UserException ex)
+            {
+                // Maneja la excepción de usuario personalizada, si es necesario.
+                throw new UserException($"Error al actualizar el producto: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Maneja otras excepciones que puedan ocurrir.
+                throw new Exception($"Error inesperado al actualizar el producto: {ex.Message}", ex);
+            }
+        }
+
+    }

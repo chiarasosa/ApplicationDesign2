@@ -16,5 +16,6 @@ namespace Obligatorio1.IDataAccess
         public IEnumerable<Purchase> GetPurchaseHistory(User user);
         public IEnumerable<Purchase> GetAllPurchases();
         void CreateProduct(Product product);
+        Product UpdateProduct(Product product);
     }
 }

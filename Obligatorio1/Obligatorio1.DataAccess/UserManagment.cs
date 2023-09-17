@@ -193,6 +193,30 @@ namespace Obligatorio1.DataAccess
             _products?.Add(product);
         }
 
+        public Product UpdateProduct(Product product)
+        {
+            if (_authenticatedUser == null || _authenticatedUser.Role != "Administrador")
+            {
+                throw new UserException("No tiene permiso para actualizar productos.");
+            }
 
+            // Busca el producto por su ID
+            Product existingProduct = _products?.FirstOrDefault(p => p.ProductID == product.ProductID);
+
+            if (existingProduct == null)
+            {
+                throw new UserException($"El producto con ID {product.ProductID} no existe.");
+            }
+
+            // Actualiza los campos del producto existente
+            existingProduct.Name = product.Name;
+            existingProduct.Description = product.Description;
+            existingProduct.Price = product.Price;
+            existingProduct.Brand = product.Brand;
+            existingProduct.Category = product.Category;
+            existingProduct.Colors = product.Colors;
+
+            return existingProduct;
+        }
     }
 }

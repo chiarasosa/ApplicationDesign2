@@ -306,6 +306,51 @@ namespace Obligatorio1.BusinessLogic.Test
             _userManagmentMock?.Verify(x => x.CreateProduct(newProduct), Times.Once);
         }
 
+        [TestMethod]
+        public void UpdateProductTest()
+        {
+            // Arrange
+            User adminUser = new User(1, "Admin", "Admin123", "admin@example.com", "Admin Address", "Administrador", null);
+            _userService?.SetLoggedInUser(adminUser);
+
+            Product existingProduct = new Product
+            {
+                ProductID = 1,
+                Name = "Existing Product",
+                Description = "An existing product for testing",
+                Price = 20,
+                Brand = 2,
+                Category = 3,
+                Colors = 4,
+            };
+
+            // Configura el comportamiento del mock para que devuelva el producto actualizado
+            _userManagmentMock?.Setup(x => x.UpdateProduct(It.IsAny<Product>())).Returns((Product product) => product);
+
+            // Act
+            Product updatedProduct = new Product
+            {
+                ProductID = 1,
+                Name = "Updated Product",
+                Description = "An updated product for testing",
+                Price = 30,
+                Brand = 3,
+                Category = 4,
+                Colors = 5,
+            };
+
+            Product? result = _userService?.UpdateProduct(updatedProduct);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(updatedProduct, result);
+
+            // Verifica que el método UpdateProduct se llamó en la capa de acceso a datos
+            _userManagmentMock?.Verify(x => x.UpdateProduct(updatedProduct), Times.Once);
+        }
+
+
+
 
     }
 }
