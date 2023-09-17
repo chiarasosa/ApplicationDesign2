@@ -172,6 +172,15 @@ public class UserService : IUserService
     {
         return _userManagment.GetPurchaseHistory(user);
     }
+    public IEnumerable<Purchase> GetAllPurchases()
+    {
+        if (loggedInUser == null || loggedInUser.Role != "Administrador")
+        {
+            throw new UserException("No tiene permiso para acceder a todas las compras.");
+        }
+
+        return _userManagment.GetAllPurchases();
+    }
 
 
 

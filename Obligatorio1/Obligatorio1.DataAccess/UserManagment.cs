@@ -163,5 +163,15 @@ namespace Obligatorio1.DataAccess
             return _purchases.Where(purchase => purchase.User.UserID == user.UserID);
         }
 
+        public IEnumerable<Purchase> GetAllPurchases()
+        {
+            if (_authenticatedUser == null || _authenticatedUser.Role != "Administrador")
+            {
+                throw new UserException("No tiene permiso para acceder a todas las compras.");
+            }
+
+            return _purchases;
+        }
+
     }
 }

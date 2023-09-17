@@ -253,6 +253,9 @@ namespace Obligatorio1.BusinessLogic.Test
         public void GetAllPurchasesTest()
         {
             // Arrange
+            User adminUser = new User(1, "Admin", "Admin123", "admin@example.com", "Admin Address", "Administrador", null);
+            _userService?.SetLoggedInUser(adminUser);
+
             List<Purchase> expectedPurchases = new List<Purchase>
             {
                 new Purchase(),
