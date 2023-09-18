@@ -54,11 +54,11 @@ namespace Obligatorio1.BusinessLogic.Test
             int prodID = 0;
             Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, aux);
 
-            mock?.Setup(x => x.RegisterProduct(prod)).Returns(prod);
+            mock?.Setup(x => x.RegisterProduct(prod));
 
-            Product? result = service?.RegisterProduct(prod);
+             service?.RegisterProduct(prod);
 
-            mock.VerifyAll();
+            mock?.VerifyAll();
         }
 
     }

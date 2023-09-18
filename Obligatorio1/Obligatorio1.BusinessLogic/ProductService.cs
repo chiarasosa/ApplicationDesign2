@@ -29,5 +29,18 @@ namespace Obligatorio1.BusinessLogic
             }
             return prod;
         }
+
+        public void RegisterProduct(Product product)
+        {
+            if (product==null || product.Price <= 0 || product.Brand <=0 || product.Name==string.Empty)
+            {
+                throw new Exception("");
+
+            }
+            else
+            {
+                productsManagement.RegisterProduct(product);
+            }
+        }
     }
 }
