@@ -1,32 +1,42 @@
 using Microsoft.AspNetCore.Mvc;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.Domain;
-using Obligatorio1.BusinessLogic;
-using Obligatorio1.IDataAccess;
-using Obligatorio1.DataAccess;
+using Serilog;
 
-[ApiController]
-[Route("api/users")]
-public class UserController : ControllerBase
+namespace Obligatorio1.WebApi
 {
-    private readonly IUserService _userService;
-
-    public UserController(IUserService userService)
+    [ApiController]
+    [Route("api/users")]
+    public class UserController : ControllerBase
     {
-        _userService = userService;
-    }
+        private readonly IUserService _userService;
 
-    [HttpPost("register")]
-    public IActionResult RegisterUser([FromBody] User user)
-    {
-        try
+        public UserController(IUserService userService)
         {
-            _userService.RegisterUser(user);
-            return Ok("Usuario registrado exitosamente.");
+            _userService = userService;
         }
-        catch (Exception ex)
+
+        [HttpPost("register")]
+        public IActionResult RegisterUser([FromBody] User user)
         {
-            return BadRequest($"Error al registrar el usuario: {ex.Message}");
+            try
+            {
+                // Agregar registro antes de llamar a RegisterUser
+                Log.Information("Intentando registrar usuario: {@User}", user);
+
+                _userService.RegisterUser(user);
+
+                // Agregar registro después de RegisterUser
+                Log.Information("Usuario registrado exitosamente.");
+                return Ok("Usuario registrado exitosamente.");
+            }
+            catch (Exception ex)
+            {
+                // Agregar registro de excepción
+                Log.Error(ex, "Error al registrar el usuario: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error al registrar el usuario: {ex.Message}");
+            }
         }
     }
 }

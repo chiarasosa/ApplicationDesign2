@@ -23,7 +23,8 @@ namespace Obligatorio1.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Configuraciones de servicios aquí...
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<Obligatorio1.IBusinessLogic.IUserService, Obligatorio1.BusinessLogic.UserService>();
+            services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.UserManagment>();
 
 
         }
