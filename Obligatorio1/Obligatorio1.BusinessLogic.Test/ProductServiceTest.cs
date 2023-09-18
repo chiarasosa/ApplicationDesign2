@@ -13,6 +13,10 @@ using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.BusinessLogic.Test
 {
+    
+    
+    
+    
     [TestClass]
     public class ProductServiceTest
     {
@@ -34,6 +38,25 @@ namespace Obligatorio1.BusinessLogic.Test
             Product? result=service?.GetProductByID(prodID);
 
             Assert.AreEqual(prod, result);
+
+            mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public void RegisterProductTest()
+        {
+            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
+            ProductService service = new ProductService(mock.Object);
+
+            List<string> aux = new List<string>();
+            aux.Add("azul");
+            aux.Add("rojo");
+            int prodID = 0;
+            Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, aux);
+
+            mock?.Setup(x => x.RegisterProduct(prod)).Returns(prod);
+
+            Product? result = service?.RegisterProduct(prod);
 
             mock.VerifyAll();
         }
