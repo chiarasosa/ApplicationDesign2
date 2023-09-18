@@ -61,5 +61,32 @@ namespace Obligatorio1.BusinessLogic.Test
             mock?.VerifyAll();
         }
 
+
+        [TestMethod]
+        public void GetProductsTest()
+        {
+            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
+            ProductService service = new ProductService(mock.Object);
+
+            List<string> aux = new List<string>();
+            aux.Add("azul");
+            aux.Add("rojo");
+
+            List<Product> products = new List<Product>
+            {
+                new Product(1, "canarias amarilla", 200, "yerba mate", 2, 2, aux),
+                new Product(2, "lapicera bic", 30, "util escolar", 3, 3, aux),
+                new Product(3, "desodorante rexona", 250, " ", 4, 4, aux)
+            };
+
+            mock?.Setup(x => x.GetProducts()).Returns(expectedProducts);
+
+            IEnumerable<Products>? result = service?.GetProducts();
+
+            Assert.IsNotNull(result);
+            CollectionAssert.AreEqual(expectedProducts, result.ToList());
+
+            mock?.Verify(x => x.GetProducts(), Times.Once);
+        }
     }
 }
