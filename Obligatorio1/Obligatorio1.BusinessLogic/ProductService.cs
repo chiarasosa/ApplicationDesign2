@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.IDataAccess;
 using Obligatorio1.Domain;
+using System.Runtime.InteropServices;
 
 
 namespace Obligatorio1.BusinessLogic
@@ -41,6 +42,19 @@ namespace Obligatorio1.BusinessLogic
             {
                 productsManagement.RegisterProduct(product);
             }
+        }
+
+        public IEnumerable<Product> GetProducts()
+        {
+            IEnumerable<Product>? prod = productsManagement.GetProducts();
+
+            if (prod == null)
+            {
+                throw new Exception("Error al obtener la lista de productos.");
+            }
+
+            return prod;
+
         }
     }
 }

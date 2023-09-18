@@ -79,12 +79,12 @@ namespace Obligatorio1.BusinessLogic.Test
                 new Product(3, "desodorante rexona", 250, " ", 4, 4, aux)
             };
 
-            mock?.Setup(x => x.GetProducts()).Returns(expectedProducts);
+            mock?.Setup(x => x.GetProducts()).Returns(products);
 
-            IEnumerable<Products>? result = service?.GetProducts();
+            IEnumerable<Product>? result = service?.GetProducts();
 
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(expectedProducts, result.ToList());
+            CollectionAssert.AreEqual(products, result.ToList());
 
             mock?.Verify(x => x.GetProducts(), Times.Once);
         }
