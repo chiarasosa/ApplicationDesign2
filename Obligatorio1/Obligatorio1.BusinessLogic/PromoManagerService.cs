@@ -20,23 +20,25 @@ namespace Obligatorio1.BusinessLogic
 
         public Cart ApplyBestPromotion(Cart cart)
         {
-            // Obtener la lista de promociones disponibles
-            if(cart.Products != null)
+            if (cart.Products != null)
             {
                 List<IPromoService> availablePromotions = promoManagerManagment.GetAvailablePromotions();
-                if (availablePromotions != null)
+                if (availablePromotions.Count() > 0)
                 {
-                    List<double> discounts = new List<double>();
+                    double bestDiscount = cart.TotalPrice; // Inicializar con el precio actual del carrito
+
                     foreach (IPromoService promotion in availablePromotions)
                     {
                         double price = promotion.CalculateNewPriceWithDiscount(cart);
-                        discounts.Add(price);
+                        bestDiscount = Math.Min(bestDiscount, price);
                     }
-                    cart.TotalPrice = discounts.Min();
+
+                    cart.TotalPrice = bestDiscount;
                 }
             }
             return cart;
         }
+
 
     }
 }

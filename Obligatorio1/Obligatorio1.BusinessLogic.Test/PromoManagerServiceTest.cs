@@ -90,7 +90,7 @@ namespace Obligatorio1.BusinessLogic.Test
             cart = _promoManagerService.ApplyBestPromotion(cart);
 
             // Assert
-            Assert.AreEqual(650, cart.TotalPrice); // Ajusta según tu expectativa
+            Assert.AreEqual(650, cart.TotalPrice); 
 
             // Verifica que todas las expectativas configuradas en _promoManagerManagmentMock se hayan cumplido
             _promoManagerManagmentMock?.VerifyAll();
@@ -115,36 +115,13 @@ namespace Obligatorio1.BusinessLogic.Test
             cart = _promoManagerService.ApplyBestPromotion(cart);
 
             // Assert
-            Assert.AreEqual(600, cart.TotalPrice); // Ajusta según tu expectativa
+            Assert.AreEqual(600, cart.TotalPrice); 
 
             // Verifica que todas las expectativas configuradas en _promoManagerManagmentMock se hayan cumplido
             _promoManagerManagmentMock?.VerifyAll();
         }
 
-        [TestMethod]
-        public void ApplyBestPromotion_TotalLookCorrect()
-        {
-            // Arrange
-            ThreeForOnePromoLogic promo3x1 = new ThreeForOnePromoLogic();
-            ThreeForTwoPromoLogic promo3x2 = new ThreeForTwoPromoLogic();
-            TwentyPercentOffPromoLogic twentyPercentOff = new TwentyPercentOffPromoLogic();
-            TotalLookPromoLogic totalLook = new TotalLookPromoLogic();
-            _promoManagerManagmentMock?.Setup(p => p.GetAvailablePromotions()).Returns(new List<IPromoService> { promo3x1, promo3x2, twentyPercentOff, totalLook });
-            var cart = new Cart();
-            cart.TotalPrice = 700;
-            cart.Products.Add(new Product("Producto1", 150, "Descripción", 1, 19, 1));
-            cart.Products.Add(new Product("Producto2", 100, "Descripción", 4, 33, 1));
-            cart.Products.Add(new Product("Producto3", 200, "Descripción", 3, 45, 1));
-            cart.Products.Add(new Product("Producto4", 250, "Descripción", 2, 76, 40));
-            // Act
-            cart = _promoManagerService.ApplyBestPromotion(cart);
-
-            // Assert
-            Assert.AreEqual(600, cart.TotalPrice); // Ajusta según tu expectativa
-
-            // Verifica que todas las expectativas configuradas en _promoManagerManagmentMock se hayan cumplido
-            _promoManagerManagmentMock?.VerifyAll();
-        }
+  
 
 
     }

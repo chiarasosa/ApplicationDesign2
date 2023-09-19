@@ -12,7 +12,6 @@ namespace Obligatorio1.BusinessLogic
     {
         public ThreeForOnePromoLogic()
         {
-
         }
 
         public double CalculateNewPriceWithDiscount(Cart cart)
@@ -21,16 +20,12 @@ namespace Obligatorio1.BusinessLogic
             {
                 return cart.TotalPrice;
             }
-
             Dictionary<int, List<Product>> productsByBrand = GroupProductsByBrand(cart);
-
             int brandWithDiscount = FindBrandWithMaxDiscount(productsByBrand);
-
             if (brandWithDiscount != 0)
             {
                 cart.TotalPrice = ApplyDiscountToCart(cart, productsByBrand[brandWithDiscount]);
             }
-
             return cart.TotalPrice;
         }
 
@@ -44,7 +39,6 @@ namespace Obligatorio1.BusinessLogic
                 if (brandProducts.Value.Count() >= 3)
                 {
                     int totalDiscount = brandProducts.Value.OrderBy(p => p.Price).Take(2).Sum(p => p.Price);
-
                     if (totalDiscount >= maxDiscount)
                     {
                         maxDiscount = totalDiscount;
@@ -52,7 +46,6 @@ namespace Obligatorio1.BusinessLogic
                     }
                 }
             }
-
             return brandWithMaxDiscount;
         }
 
@@ -74,7 +67,6 @@ namespace Obligatorio1.BusinessLogic
         public Dictionary<int, List<Product>> GroupProductsByBrand(Cart cart)
         {
             Dictionary<int, List<Product>> productsByBrand = new Dictionary<int, List<Product>>();
-
             foreach (Product product in cart.Products)
             {
                 if (!productsByBrand.ContainsKey(product.Brand))
@@ -83,7 +75,6 @@ namespace Obligatorio1.BusinessLogic
                 }
                 productsByBrand[product.Brand].Add(product);
             }
-
             return productsByBrand;
         }
 
