@@ -24,14 +24,15 @@ namespace Obligatorio1.BusinessLogic
             if(cart.Products != null)
             {
                 List<IPromoService> availablePromotions = promoManagerManagment.GetAvailablePromotions();
-                foreach (IPromoService promotion in availablePromotions)
+                if (availablePromotions != null)
                 {
-                    double price = promotion.CalculateNewPriceWithDiscount(cart);
-
-                    if (price > cart.TotalPrice)
+                    List<double> discounts = new List<double>();
+                    foreach (IPromoService promotion in availablePromotions)
                     {
-                        cart.TotalPrice = price;
+                        double price = promotion.CalculateNewPriceWithDiscount(cart);
+                        discounts.Add(price);
                     }
+                    cart.TotalPrice = discounts.Min();
                 }
             }
             return cart;
