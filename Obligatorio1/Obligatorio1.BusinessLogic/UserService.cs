@@ -10,7 +10,7 @@ namespace Obligatorio1.BusinessLogic
         private readonly IUserManagment _userManagment;
         private User? loggedInUser;
 
-      /*  public User? GetLoggedInUser()
+        public User? GetLoggedInUser()
         {
             return loggedInUser;
         }
@@ -19,7 +19,7 @@ namespace Obligatorio1.BusinessLogic
         {
             loggedInUser = user;
         }
-      */
+     
         public UserService(IUserManagment userManagment)
         {
             this._userManagment = userManagment;

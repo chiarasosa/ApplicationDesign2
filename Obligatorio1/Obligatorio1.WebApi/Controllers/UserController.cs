@@ -6,7 +6,7 @@ using Serilog;
 namespace Obligatorio1.WebApi
 {
     [ApiController]
-    [Route("api/users")]
+    [Route("api/user")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -38,5 +38,13 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error al registrar el usuario: {ex.Message}");
             }
         }
+
+        [HttpGet("getUser")]
+        public IActionResult GetUser( )
+        {
+                return Ok("Funciono getUser.");
+   
+        }
+
     }
 }

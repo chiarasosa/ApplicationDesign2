@@ -13,6 +13,11 @@ namespace Obligatorio1.WebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            //Se configura que clase implementa a que interfaz
+            builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IUserService, Obligatorio1.BusinessLogic.UserService>();
+            builder.Services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.UserManagment>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
