@@ -285,10 +285,6 @@ namespace Obligatorio1.BusinessLogic.Test
             User regularUser = new User(2, "User", "User123", "user@example.com", "User Address", "Administrador", null);
             _userService?.SetLoggedInUser(regularUser);
 
-            var aux= new List<string>();
-            aux.Add("Amarillo");
-            aux.Add("Negro");
-
             Product newProduct = new Product
             {
                 ProductID = 1,
@@ -297,7 +293,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 Price = 10,
                 Brand = 1,
                 Category = 2,
-                Colors = aux,
+                Color = "Amarillo",
             };
 
             // Act
@@ -317,10 +313,6 @@ namespace Obligatorio1.BusinessLogic.Test
             User adminUser = new User(1, "Admin", "Admin123", "admin@example.com", "Admin Address", "Administrador", null);
             _userService?.SetLoggedInUser(adminUser);
 
-            var aux = new List<string>();
-            aux.Add("Amarillo");
-            aux.Add("Negro");
-
             Product existingProduct = new Product
             {
                 ProductID = 1,
@@ -329,7 +321,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 Price = 20,
                 Brand = 2,
                 Category = 3,
-                Colors = aux,
+                Color = "Amarillo",
             };
 
             // Configura el comportamiento del mock para que devuelva el producto actualizado
@@ -344,7 +336,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 Price = 30,
                 Brand = 3,
                 Category = 4,
-                Colors = aux,
+                Color = "Amarillo",
             };
 
             Product? result = _userService?.UpdateProduct(updatedProduct);

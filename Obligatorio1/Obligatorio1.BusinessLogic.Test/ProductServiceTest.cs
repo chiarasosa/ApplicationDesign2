@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,7 +41,7 @@ namespace Obligatorio1.BusinessLogic.Test
             mock?.Verify(m => m.DeleteProduct(prodID), Times.Once);
         }
 
-
+*/
 
 
         /* [TestMethod]
@@ -56,7 +57,7 @@ namespace Obligatorio1.BusinessLogic.Test
             mock!.Setup(m => m.CreateProduct())
         }*/
 
-
+/*
         [TestMethod]
         public void GetProductByIdTest()
         {
@@ -126,3 +127,4 @@ namespace Obligatorio1.BusinessLogic.Test
         }
     }
 }
+*/

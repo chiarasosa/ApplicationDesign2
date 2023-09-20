@@ -77,14 +77,13 @@ namespace Obligatorio1.BusinessLogic
 
             foreach (Product product in cart.Products)
             {
-                foreach (string color in product.Colors)
-                {
-                    if (!productsByColor.ContainsKey(color))
+                
+                    if (!productsByColor.ContainsKey(product.Color))
                     {
-                        productsByColor[color] = new List<Product>();
+                        productsByColor[product.Color] = new List<Product>();
                     }
-                    productsByColor[color].Add(product);
-                }
+                    productsByColor[product.Color].Add(product);
+                
             }
 
             return productsByColor;

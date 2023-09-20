@@ -35,9 +35,9 @@ namespace Obligatorio1.BusinessLogic.Test
             Cart cart = new Cart();
             cart.Products = new List<Product>
             {
-                new Product { Colors = new List<string> { "red", "green"}, Price = 10 },
-                new Product { Colors = new List<string> { "blue", "black"}, Price = 15 },
-                new Product { Colors = new List<string> { "yellow", "white"}, Price = 20 }
+                new Product { Color="red", Price = 10 },
+                new Product { Color="blue", Price = 15 },
+                new Product { Color="yellow", Price = 20 }
 
             };
             cart.TotalPrice = 45;
@@ -56,11 +56,11 @@ namespace Obligatorio1.BusinessLogic.Test
             Cart cart = new Cart();
             cart.Products = new List<Product>
             {
-                new Product { Colors = new List<string> { "red", "green"}, Price = 10 },
-                new Product { Colors = new List<string> { "red", "green"}, Price = 5 },
-                new Product { Colors = new List<string> { "red", "green"}, Price = 7 },
-                new Product { Colors = new List<string> { "black", "blue"}, Price = 15 },
-                new Product { Colors = new List<string> { "yellow", "white"}, Price = 20 }
+                new Product { Color="red", Price = 10 },
+                new Product { Color="red", Price = 5 },
+                new Product { Color="red", Price = 7 },
+                new Product { Color="blue", Price = 15 },
+                new Product { Color="yellow", Price = 20 }
             };
             cart.TotalPrice = 57;
             TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
@@ -92,9 +92,9 @@ namespace Obligatorio1.BusinessLogic.Test
             //Arrange
             Cart cart = new Cart();
 
-            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, new List<string> { "red", "green" }));
-            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, new List<string> { "red", "green" }));
-            cart.Products.Add(new Product(3,"Jabon3", 12, "Liquido", 12, 3, new List<string> { "red", "green" }));
+            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(3,"Jabon3", 12, "Liquido", 12, 3, "red"));
 
             TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
             //Act
@@ -109,10 +109,10 @@ namespace Obligatorio1.BusinessLogic.Test
             //Arrange
             Cart cart = new Cart();
 
-            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, new List<string> { "red", "green" }));
-            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, new List<string> { "red", "green" }));
-            cart.Products.Add(new Product(3,"Jabon3", 12, "Liquido", 12, 3, new List<string> { "red", "green" }));
-            cart.Products.Add(new Product(4,"Jabon4", 12, "Liquido", 12, 3, new List<string> { "red", "green" }));
+            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(3,"Jabon3", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(4,"Jabon4", 12, "Liquido", 12, 3, "red"));
 
             TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
             //Act
@@ -127,8 +127,8 @@ namespace Obligatorio1.BusinessLogic.Test
             //Arrange
             Cart cart = new Cart();
 
-            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, new List<string> { "red", "green" }));
-            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, new List<string> { "red", "green" }));
+            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, "red"));
 
             TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
             //Act
@@ -144,11 +144,11 @@ namespace Obligatorio1.BusinessLogic.Test
             Cart cart = new Cart();
             cart.Products = new List<Product>
             {
-                new Product{ Colors = new List<string> { "red", "green"}, Price = 10 },
-                new Product { Colors = new List<string> { "black", "blue"}, Price = 15 },
-                new Product { Colors = new List<string> { "red", "green"}, Price = 7 },
-                new Product { Colors = new List<string> { "black", "blue"}, Price = 20 },
-                new Product { Colors = new List<string> { "red", "green"}, Price = 5 }
+                new Product{ Color="red", Price = 10 },
+                new Product { Color="blue", Price = 15 },
+                new Product { Color="red", Price = 7 },
+                new Product { Color="blue", Price = 20 },
+                new Product { Color="red", Price = 5 }
             };
             TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
             // Act
@@ -157,9 +157,9 @@ namespace Obligatorio1.BusinessLogic.Test
             // Assert
             Assert.AreEqual(2, productsByColor.Count);
             Assert.IsTrue(productsByColor.ContainsKey("red"));
-            Assert.IsTrue(productsByColor.ContainsKey("black"));
+            Assert.IsTrue(productsByColor.ContainsKey("blue"));
             Assert.AreEqual(3, productsByColor["red"].Count);
-            Assert.AreEqual(2, productsByColor["black"].Count);
+            Assert.AreEqual(2, productsByColor["blue"].Count);
         }
 
         [TestMethod]
@@ -169,11 +169,11 @@ namespace Obligatorio1.BusinessLogic.Test
             Cart cart = new Cart();
             cart.Products = new List<Product>
             {
-                new Product { Colors = new List<string> { "red", "green"}, Price = 10 },
-                new Product { Colors = new List<string> { "black", "blue"}, Price = 15 },
-                new Product { Colors = new List<string> { "red", "green"}, Price = 7 },
-                new Product { Colors = new List<string> { "black", "blue"}, Price = 20 },
-                new Product { Colors = new List<string> { "red", "green"}, Price = 5 }
+                new Product { Color="red", Price = 10 },
+                new Product { Color="blue", Price = 15 },
+                new Product { Color="red", Price = 7 },
+                new Product { Color="blue", Price = 20 },
+                new Product { Color="red", Price = 5 }
             };
             TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
             // Act
@@ -245,11 +245,11 @@ namespace Obligatorio1.BusinessLogic.Test
             Cart cart = new Cart();
             cart.Products = new List<Product>
             {
-                new Product { Colors = new List<string> { "blue", "black"}, Price = 10 },
-                new Product { Colors = new List<string> { "blue", "black"}, Price = 5 },
-                new Product { Colors = new List<string> { "blue", "black"}, Price = 7 },
-                new Product { Colors = new List<string> { "red", "green"}, Price = 15 },
-                new Product { Colors = new List<string> { "white", "black"}, Price = 20 }
+                new Product { Color="blue", Price = 10 },
+                new Product { Color="blue", Price = 5 },
+                new Product { Color="blue", Price = 7 },
+                new Product { Color="red", Price = 15 },
+                new Product { Color="white", Price = 20 }
             };
             cart.TotalPrice = 49;
 
@@ -258,9 +258,9 @@ namespace Obligatorio1.BusinessLogic.Test
             // Act
             totalLookPromoLogic.ApplyDiscountToCart(cart, new List<Product>
             {
-                new Product { Colors = new List<string> { "blue", "black"}, Price = 5 },
-                new Product { Colors = new List<string> { "blue", "black"}, Price = 7 },
-                new Product { Colors = new List<string> { "blue", "black"}, Price = 10 }
+                new Product { Color="blue", Price = 5 },
+                new Product { Color="blue", Price = 7 },
+                new Product { Color="blue", Price = 10 }
             });
 
             // Assert
@@ -274,12 +274,12 @@ namespace Obligatorio1.BusinessLogic.Test
             Cart cart = new Cart();
             cart.Products = new List<Product>
             {
-                new Product { Colors = new List<string> { "red", "green"}, Price = 25 },
-                new Product { Colors = new List<string> { "red", "green"}, Price = 15 },
-                new Product { Colors = new List<string> { "red", "green"}, Price = 10 },
-                new Product { Colors = new List<string> { "blue", "black"}, Price = 50 },
-                new Product { Colors = new List<string> { "blue", "black"}, Price = 30 },
-                new Product { Colors = new List<string> { "blue", "black"}, Price = 20 }
+                new Product { Color="red", Price = 25 },
+                new Product { Color="red", Price = 15 },
+                new Product { Color="red", Price = 10 },
+                new Product { Color="blue", Price = 50 },
+                new Product { Color="blue", Price = 30 },
+                new Product { Color="blue", Price = 20 }
             };
             cart.TotalPrice = 150;
 
