@@ -22,11 +22,11 @@ namespace Obligatorio1.BusinessLogic
                 return cart.TotalPrice;
             }
 
-            Dictionary<int, List<Product>> productsByColor = GroupProductsByColor(cart);
+            Dictionary<string, List<Product>> productsByColor = GroupProductsByColor(cart);
 
-            int colorWithDiscount = FindColorWithMaxDiscount(productsByColor);
+            string colorWithDiscount = FindColorWithMaxDiscount(productsByColor);
 
-            if (colorWithDiscount != 0)
+            if (colorWithDiscount != null)
             {
                 cart.TotalPrice = ApplyDiscountToCart(cart, productsByColor[colorWithDiscount]);
             }
@@ -34,12 +34,12 @@ namespace Obligatorio1.BusinessLogic
             return cart.TotalPrice;
         }
 
-        public int FindColorWithMaxDiscount(Dictionary<int, List<Product>> productsByColor)
+        public string FindColorWithMaxDiscount(Dictionary<string, List<Product>> productsByColor)
         {
             double maxDiscount = 0;
-            int colorWithMaxDiscount = 0;
+            string colorWithMaxDiscount = null;
 
-            foreach (KeyValuePair<int, List<Product>> colorProducts in productsByColor)
+            foreach (KeyValuePair<string, List<Product>> colorProducts in productsByColor)
             {
                 if (colorProducts.Value.Count() >= 3)
                 {
@@ -71,21 +71,25 @@ namespace Obligatorio1.BusinessLogic
             return false;
         }
 
-        public Dictionary<int, List<Product>> GroupProductsByColor(Cart cart)
+        public Dictionary<string, List<Product>> GroupProductsByColor(Cart cart)
         {
-            Dictionary<int, List<Product>> productsByColor = new Dictionary<int, List<Product>>();
+            Dictionary<string, List<Product>> productsByColor = new Dictionary<string, List<Product>>();
 
             foreach (Product product in cart.Products)
             {
-                if (!productsByColor.ContainsKey(product.Colors))
+                foreach (string color in product.Colors)
                 {
-                    productsByColor[product.Colors] = new List<Product>();
+                    if (!productsByColor.ContainsKey(color))
+                    {
+                        productsByColor[color] = new List<Product>();
+                    }
+                    productsByColor[color].Add(product);
                 }
-                productsByColor[product.Colors].Add(product);
             }
 
             return productsByColor;
         }
+
 
         public double ApplyDiscountToCart(Cart cart, List<Product> productsToDiscount)
         {

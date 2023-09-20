@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Moq;
 using Obligatorio1.IDataAccess;
-using Obligatorio1.BusinessLogic;
 using Obligatorio1.IBusinessLogic;
 
 namespace Obligatorio1.BusinessLogic.Test
@@ -59,7 +58,7 @@ namespace Obligatorio1.BusinessLogic.Test
             _promoManagerManagmentMock?.Setup(p => p.GetAvailablePromotions()).Returns(new List<IPromoService>());
             Cart cart = new Cart();
             cart.TotalPrice = 10;
-            cart.Products.Add(new Product("Producto1", 10, "Descripción", 1, 1, 1));
+            cart.Products.Add(new Product(1,"Producto1", 10, "Descripción", 1, 1, new List<string> { "red", "green" }));
 
             // Act
             cart = _promoManagerService.ApplyBestPromotion(cart);
@@ -82,10 +81,10 @@ namespace Obligatorio1.BusinessLogic.Test
             _promoManagerManagmentMock?.Setup(p => p.GetAvailablePromotions()).Returns(new List<IPromoService> { promo3x1, promo3x2, twentyPercentOff, totalLook });
             var cart = new Cart();
             cart.TotalPrice = 700;
-            cart.Products.Add(new Product("Producto1", 150, "Descripción", 1, 19, 1));
-            cart.Products.Add(new Product("Producto2", 100, "Descripción", 4, 33, 20));
-            cart.Products.Add(new Product("Producto3", 200, "Descripción", 3, 45, 30));
-            cart.Products.Add(new Product("Producto4", 250, "Descripción", 2, 76, 40));
+            cart.Products.Add(new Product(1,"Producto1", 150, "Descripción", 1, 19, new List<string> { "red", "green" }));
+            cart.Products.Add(new Product(2,"Producto2", 100, "Descripción", 4, 33, new List<string> { "blue", "orange" }));
+            cart.Products.Add(new Product(3,"Producto3", 200, "Descripción", 3, 45, new List<string> { "black", "white" }));
+            cart.Products.Add(new Product(4,"Producto4", 250, "Descripción", 2, 76, new List<string> { "yellow", "pink" }));
             // Act
             cart = _promoManagerService.ApplyBestPromotion(cart);
 
@@ -107,10 +106,10 @@ namespace Obligatorio1.BusinessLogic.Test
             _promoManagerManagmentMock?.Setup(p => p.GetAvailablePromotions()).Returns(new List<IPromoService> { promo3x1, promo3x2, twentyPercentOff, totalLook });
             var cart = new Cart();
             cart.TotalPrice = 700;
-            cart.Products.Add(new Product("Producto1", 150, "Descripción", 1, 19, 1));
-            cart.Products.Add(new Product("Producto2", 100, "Descripción", 4, 33, 1));
-            cart.Products.Add(new Product("Producto3", 200, "Descripción", 3, 45, 1));
-            cart.Products.Add(new Product("Producto4", 250, "Descripción", 2, 76, 40));
+            cart.Products.Add(new Product(1,"Producto1", 150, "Descripción", 1, 19, new List<string> { "red", "green" }));
+            cart.Products.Add(new Product(2,"Producto2", 100, "Descripción", 4, 33, new List<string> { "red", "green" }));
+            cart.Products.Add(new Product(3,"Producto3", 200, "Descripción", 3, 45, new List<string> { "red", "green" }));
+            cart.Products.Add(new Product(4,"Producto4", 250, "Descripción", 2, 76, new List<string> { "black", "blue" }));
             // Act
             cart = _promoManagerService.ApplyBestPromotion(cart);
 

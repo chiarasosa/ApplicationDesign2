@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Moq;
 using Obligatorio1.IDataAccess;
-using Obligatorio1.BusinessLogic;
 using Obligatorio1.IBusinessLogic;
 
 namespace Obligatorio1.BusinessLogic.Test
@@ -31,8 +30,8 @@ namespace Obligatorio1.BusinessLogic.Test
         {
             //Arrange
             List<Product> list = new List<Product>();
-            list.Add(new Product("Jabon", 10, "Liquido", 12, 3, 225));
-            list.Add(new Product("Jabon2", 12, "Liquido", 12, 3, 225));
+            list.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, new List<string> { "red", "blue"}));
+            list.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, new List<string> { "green", "black" }));
 
             Purchase purchase = new Purchase();
             purchase.PurchasedProducts = list;
@@ -68,7 +67,7 @@ namespace Obligatorio1.BusinessLogic.Test
         {
             //Arrange
             List<Product> list = new List<Product>();
-            list.Add(new Product("Jabon", 10, "Liquido", 12, 3, 225));
+            list.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, new List<string> { "red", "blue" }));
 
             Purchase purchase = new Purchase();
             purchase.PurchasedProducts = list;

@@ -89,7 +89,7 @@ namespace Obligatorio1.BusinessLogic.Test
             //Arrange
             Cart cart = new Cart();
 
-            cart.Products.Add(new Product("Jabon", 10, "Liquido", 12, 3, 225));
+            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, new List<string> { "red", "green"}));
 
             TwentyPercentOffPromoLogic twentyPercentOffPromoLogic = new TwentyPercentOffPromoLogic();
             //Act
@@ -104,8 +104,8 @@ namespace Obligatorio1.BusinessLogic.Test
             //Arrange
             Cart cart = new Cart();
 
-            cart.Products.Add(new Product("Jabon", 10, "Liquido", 12, 3, 225));
-            cart.Products.Add(new Product("Jabon2", 12, "Liquido", 12, 3, 225));
+            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, new List<string> { "red", "green" }));
+            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, new List<string> { "red", "green" }));
 
             TwentyPercentOffPromoLogic twentyPercentOffPromoLogic = new TwentyPercentOffPromoLogic();
             //Act
@@ -120,10 +120,10 @@ namespace Obligatorio1.BusinessLogic.Test
             //Arrange
             Cart cart = new Cart();
 
-            cart.Products.Add(new Product("Jabon", 10, "Liquido", 12, 3, 225));
-            cart.Products.Add(new Product("Jabon2", 12, "Liquido", 12, 3, 225));
-            cart.Products.Add(new Product("Jabon3", 12, "Liquido", 12, 3, 225));
-            cart.Products.Add(new Product("Jabon4", 12, "Liquido", 12, 3, 225));
+            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, new List<string> { "red", "green" }));
+            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, new List<string> { "red", "green" }));
+            cart.Products.Add(new Product(3,"Jabon3", 12, "Liquido", 12, 3, new List<string> { "red", "green" }));
+            cart.Products.Add(new Product(4,"Jabon4", 12, "Liquido", 12, 3, new List<string> { "red", "green" }));
 
             TwentyPercentOffPromoLogic twentyPercentOffPromoLogic = new TwentyPercentOffPromoLogic();
             //Act
