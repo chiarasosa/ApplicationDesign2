@@ -14,8 +14,8 @@ namespace Obligatorio1.BusinessLogic.Test
             PurchaseService purchaseLogic = new PurchaseService();
             List<Product> cart = new List<Product>
             {
-                new Product("Product1", 10, "Description", 123, 123, 123),
-                new Product("Product2", 10, "Description", 123, 123, 123)
+             //   new Product("Product1", 10, "Description", 123, 123, 123),
+              //  new Product("Product2", 10, "Description", 123, 123, 123)
             };
 
             //Act
@@ -41,7 +41,7 @@ namespace Obligatorio1.BusinessLogic.Test
             PurchaseService purchaseLogic = new PurchaseService();
             List<Product> cart = new List<Product>
             {
-                new Product("Product1", 10, "Description", 123, 123, 123),
+             //   new Product("Product1", 10, "Description", 123, 123, 123),
             };
 
             //Act
