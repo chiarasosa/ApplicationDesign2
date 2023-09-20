@@ -13,13 +13,49 @@ using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.BusinessLogic.Test
 {
-    
-    
-    
-    
+
+
+
+
     [TestClass]
     public class ProductServiceTest
     {
+        [TestMethod]
+        public void DeleteProductTest() 
+        {
+            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
+            ProductService service = new ProductService(mock.Object);
+            List<string> aux = new List<string>();
+            aux.Add("azul");
+            aux.Add("rojo");
+            int prodID = 0;
+            Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, aux);
+
+            mock?.Setup(m => m.GetProductByID(prodID)).Returns(prod);
+            mock?.Setup(m => m.DeleteProduct(prodID));
+
+            service?.DeleteProduct(prodID);
+
+            mock?.Verify(m => m.GetProductByID(prodID),Times.Once);
+            mock?.Verify(m => m.DeleteProduct(prodID), Times.Once);
+        }
+
+
+
+
+        /* [TestMethod]
+        public void CreateProductTest()
+        {
+            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
+            ProductService service = new ProductService(mock.Object);
+            List<string> aux = new List<string>();
+            aux.Add("azul");
+            aux.Add("rojo");
+            int prodID = 0;
+
+            mock!.Setup(m => m.CreateProduct())
+        }*/
+
 
         [TestMethod]
         public void GetProductByIdTest()
