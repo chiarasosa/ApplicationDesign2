@@ -15,6 +15,8 @@ namespace Obligatorio1.IDataAccess
         Product UpdateProduct(Product product);
         Product GetProductByID(int productID);
         IEnumerable<Product> GetProducts();
+        void DeleteProduct(int productID);
+
 
     }
 }

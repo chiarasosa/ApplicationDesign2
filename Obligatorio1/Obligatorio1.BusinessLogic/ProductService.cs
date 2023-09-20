@@ -56,5 +56,19 @@ namespace Obligatorio1.BusinessLogic
             return prod;
 
         }
+
+        public void DeleteProduct(int productID)
+        {
+            Product product= productsManagement.GetProductByID(productID);
+            if (product==null)
+            {
+                throw new Exception("Producto no encontrado");
+
+            }
+            else
+            {
+                productsManagement.DeleteProduct(productID);
+            }
+        }
     }
 }
