@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+
+    <ProjectReference Include="..\Obligatorio1.DataAccess.Test\Obligatorio1.DataAccess.Test.csproj" />
+    <ProjectReference Include="..\Obligatorio1.DataAccess\Obligatorio1.DataAccess.csproj" />
     <ProjectReference Include="..\Obligatorio1.Domain\Obligatorio1.Domain.csproj" />
   </ItemGroup>
 
