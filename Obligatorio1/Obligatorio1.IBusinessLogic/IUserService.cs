@@ -7,7 +7,7 @@ namespace Obligatorio1.IBusinessLogic
     {
         // Funcionalidades para usuarios registrados
         void RegisterUser(User user);
-       User UpdateUserProfile(User user);
+        User UpdateUserProfile(User user);
         User Login(string email, string password);
         void Logout(User user);
 
