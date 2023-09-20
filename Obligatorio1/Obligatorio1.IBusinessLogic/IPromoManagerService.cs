@@ -7,9 +7,14 @@ using Obligatorio1.Domain;
 
 namespace Obligatorio1.IBusinessLogic
 {
+    public interface IPurchaseService
+    {
+        bool ValidateMoreThan1Item(Purchase purchase);
+
+	}
+	
     public interface IPromoManagerService
     {
-        public decimal GetBestPromo(List<Product> cart);
-        public decimal ApplyBestPromo(List<Product> cart);
+        double ApplyBestPromotion(Cart cart);
     }
 }

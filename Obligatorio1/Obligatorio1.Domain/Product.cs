@@ -42,7 +42,6 @@ namespace Obligatorio1.Domain
             this.Brand = brand;
             this.Category = category;
             this.Colors = colors;
-
         }
     
     }

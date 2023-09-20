@@ -5,22 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using Obligatorio1.Domain;
 using Obligatorio1.IBusinessLogic;
+using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.BusinessLogic
 {
     public class PurchaseService : IPurchaseService
     {
-        public PurchaseService()
+        private readonly IPurchaseManagment purchaseManagment;
+        
+        public PurchaseService(IPurchaseManagment purchaseManagment)
         {
-
+            this.purchaseManagment = purchaseManagment;
         }
 
-        public void ValidateMoreThan1Item(List<Product> cart)
+        public bool ValidateMoreThan1Item(Purchase purchase)
         {
-            if (cart.Count() < 1)
+            if (purchaseManagment.ValidateMoreThan1Item(purchase) < 1)
             {
                 throw new Obligatorio1.Exceptions.ExceptionPurchase("El carrito debe tener mas de un elemento para poder realizar la compra.");
             }
+            return true;
         }
     }
 }
