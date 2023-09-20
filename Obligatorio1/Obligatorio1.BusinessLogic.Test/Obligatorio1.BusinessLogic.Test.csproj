@@ -9,12 +9,21 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
+    <PackageReference Include="Moq" Version="4.20.69" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
     <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
     <PackageReference Include="coverlet.collector" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Obligatorio1.BusinessLogic\Obligatorio1.BusinessLogic.csproj" />
+    <ProjectReference Include="..\Obligatorio1.Domain\Obligatorio1.Domain.csproj" />
+    <ProjectReference Include="..\Obligatorio1.Exceptions\Obligatorio1.Exceptions.csproj" />
+    <ProjectReference Include="..\Obligatorio1.IBusinessLogic\Obligatorio1.IBusinessLogic.csproj" />
+    <ProjectReference Include="..\Obligatorio1.IDataAccess\Obligatorio1.IDataAccess.csproj" />
   </ItemGroup>
 
 </Project>
