@@ -26,7 +26,7 @@ namespace Obligatorio1.Domain
         {
             this.ProductID = 0;
             this.Name = string.Empty;
-            this.Price = 0;
+            this.Price = 1;
             this.Description = string.Empty;
             this.Brand = 0;
             this.Category = 0;
