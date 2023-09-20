@@ -10,9 +10,10 @@ namespace Obligatorio1.BusinessLogic
 {
     public class TotalLookPromoLogic : IPromoService
     {
+        public string Name;
         public TotalLookPromoLogic()
         {
-
+            this.Name = "Total Look Promo";
         }
 
         public double CalculateNewPriceWithDiscount(Cart cart)

@@ -10,8 +10,10 @@ namespace Obligatorio1.BusinessLogic
 {
     public class ThreeForOnePromoLogic : IPromoService
     {
+        public string Name;
         public ThreeForOnePromoLogic()
         {
+            this.Name = "3x1 Promo";
         }
 
         public double CalculateNewPriceWithDiscount(Cart cart)

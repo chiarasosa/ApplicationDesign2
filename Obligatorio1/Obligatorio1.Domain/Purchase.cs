@@ -27,15 +27,15 @@ namespace Obligatorio1.Domain
             this.DateOfPurchase = DateTime.Now;
         }
 
-        /*
-        public Purchase(int PurchaseID, User user, List<Product> PuchsedProducts, IPromoLogic PromoApplied, DateTime DateOfPurchase)
+        
+        public Purchase(int PurchaseID, User user, List<Product> PurchasedProducts, string NamePromoApplied, DateTime DateOfPurchase)
         {
             this.PurchaseID = PurchaseID;
             this.User = user;
             this.PurchasedProducts = PurchasedProducts;
-            this.PromoIDApplied = PromoIDApplied;
+            this.PromoApplied = NamePromoApplied;
             this.DateOfPurchase = DateOfPurchase;
         }
-        */
+        
     }
 }
