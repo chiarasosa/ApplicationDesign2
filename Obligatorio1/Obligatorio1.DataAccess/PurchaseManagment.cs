@@ -10,10 +10,7 @@ namespace Obligatorio1.DataAccess
 {
     public class PurchaseManagment : IPurchaseManagment
     {
-        private List<Product> cart;
-        private Purchase purchase;
         
-
         public int ValidateMoreThan1Item(Purchase purchase)
         {
             

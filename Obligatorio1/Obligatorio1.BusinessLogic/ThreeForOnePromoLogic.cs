@@ -5,19 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Obligatorio1.Domain;
 using Obligatorio1.IBusinessLogic;
-using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.BusinessLogic
 {
     public class ThreeForOnePromoLogic : IPromoService
     {
-        
-
         public ThreeForOnePromoLogic()
         {
-
         }
-
 
         public double CalculateNewPriceWithDiscount(Cart cart)
         {
@@ -25,45 +20,34 @@ namespace Obligatorio1.BusinessLogic
             {
                 return cart.TotalPrice;
             }
-
             Dictionary<int, List<Product>> productsByBrand = GroupProductsByBrand(cart);
-
             int brandWithDiscount = FindBrandWithMaxDiscount(productsByBrand);
-
             if (brandWithDiscount != 0)
             {
-                ApplyDiscountToCart(cart, productsByBrand[brandWithDiscount]);
+                cart.TotalPrice = ApplyDiscountToCart(cart, productsByBrand[brandWithDiscount]);
             }
-
             return cart.TotalPrice;
         }
 
-
-        private int FindBrandWithMaxDiscount(Dictionary<int, List<Product>> productsByBrand)
+        public int FindBrandWithMaxDiscount(Dictionary<int, List<Product>> productsByBrand)
         {
             int maxDiscount = 0;
             int brandWithMaxDiscount = 0;
 
-            foreach (var brandProducts in productsByBrand)
+            foreach (KeyValuePair<int, List<Product>> brandProducts in productsByBrand)
             {
-                if (brandProducts.Value.Count >= 3)
+                if (brandProducts.Value.Count() >= 3)
                 {
-                    int totalDiscount = brandProducts.Value.Min(p => p.Price) + brandProducts.Value.Skip(1).Min(p => p.Price);
-
-                    if (totalDiscount > maxDiscount)
+                    int totalDiscount = brandProducts.Value.OrderBy(p => p.Price).Take(2).Sum(p => p.Price);
+                    if (totalDiscount >= maxDiscount)
                     {
                         maxDiscount = totalDiscount;
                         brandWithMaxDiscount = brandProducts.Key;
                     }
                 }
             }
-
             return brandWithMaxDiscount;
         }
-
-
-
-
 
         public bool CartHas3OrMoreItems(Cart cart)
         {
@@ -83,7 +67,6 @@ namespace Obligatorio1.BusinessLogic
         public Dictionary<int, List<Product>> GroupProductsByBrand(Cart cart)
         {
             Dictionary<int, List<Product>> productsByBrand = new Dictionary<int, List<Product>>();
-
             foreach (Product product in cart.Products)
             {
                 if (!productsByBrand.ContainsKey(product.Brand))
@@ -92,32 +75,15 @@ namespace Obligatorio1.BusinessLogic
                 }
                 productsByBrand[product.Brand].Add(product);
             }
-
             return productsByBrand;
         }
 
-        public int FindBrandWithDiscount(Dictionary<int, List<Product>> productsByBrand)
+        public double ApplyDiscountToCart(Cart cart, List<Product> productsToDiscount)
         {
-            foreach (var brandProducts in productsByBrand)
-            {
-                if (brandProducts.Value.Count >= 3)
-                {
-                    return brandProducts.Key;
-                }
-            }
-
-            return 0;
+            int totalDiscount = productsToDiscount.OrderBy(p => p.Price).Take(2).Sum(p => p.Price);
+            cart.TotalPrice -= totalDiscount;
+            return cart.TotalPrice;
         }
-
-        public void ApplyDiscountToCart(Cart cart, List<Product> productsToDiscount)
-        {
-            double discount = productsToDiscount.Min(p => p.Price) + productsToDiscount.Skip(1).Min(p => p.Price);
-            cart.TotalPrice -= discount;
-        }
-
-
-
-
 
     }
 }
