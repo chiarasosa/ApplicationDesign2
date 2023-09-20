@@ -8,16 +8,11 @@ using Obligatorio1.IBusinessLogic;
 
 namespace Obligatorio1.BusinessLogic
 {
-    public class PurchaseLogic : IPurchaseLogic
+    public class ThreeForTwoPromoLogic : IPromoService
     {
-        public PurchaseLogic()
+        public double CalculateDiscount(List<Product> cart)
         {
-
-        }
-
-        public bool ValidateMoreThan1Item(List<Product> cart)
-        {
-            return cart.Count() >= 1;
+            return 0;
         }
     }
 }

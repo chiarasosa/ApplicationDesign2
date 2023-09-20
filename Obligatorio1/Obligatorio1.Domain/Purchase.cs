@@ -6,28 +6,29 @@ using System.Threading.Tasks;
 
 namespace Obligatorio1.Domain
 {
-    internal class Purchase
+    public class Purchase
     {
         public int PurchaseID { get; set; }
-        //public User User { get; set; }
+       
+        public User? User { get; set; }
 
         public List<Product> PurchasedProducts { get; set; }
         
-        //public Promo PromoIDApplied { get; set; }
+        public string PromoApplied { get; set; }
 
         public DateTime DateOfPurchase { get; set; }
 
         public Purchase()
         {
-            this.PurchaseID = 0;
-            //User = null;
+            this.PurchaseID = 1;
+            User = null;
             this.PurchasedProducts = new List<Product>();
-            //PromoIDApplied = 0;
+            PromoApplied = String.Empty;
             this.DateOfPurchase = DateTime.Now;
         }
 
         /*
-        public Purchase(int PurchaseID, User user, List<Product> PuchsedProducts, Promo PromoIDApplied, DateTime DateOfPurchase)
+        public Purchase(int PurchaseID, User user, List<Product> PuchsedProducts, IPromoLogic PromoApplied, DateTime DateOfPurchase)
         {
             this.PurchaseID = PurchaseID;
             this.User = user;

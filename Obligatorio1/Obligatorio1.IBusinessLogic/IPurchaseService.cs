@@ -7,8 +7,8 @@ using Obligatorio1.Domain;
 
 namespace Obligatorio1.IBusinessLogic
 {
-    public interface IPurchaseLogic
+    public interface IPurchaseService
     {
-        bool ValidateMoreThan1Item(List<Product> cart);
+        void ValidateMoreThan1Item(List<Product> cart);
     }
 }
