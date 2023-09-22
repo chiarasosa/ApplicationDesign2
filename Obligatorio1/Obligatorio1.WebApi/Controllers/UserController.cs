@@ -21,25 +21,23 @@ namespace Obligatorio1.WebApi
         {
             try
             {
-                // Agregar registro antes de llamar a RegisterUser
                 Log.Information("Intentando registrar usuario: {@User}", user);
 
                 _userService.RegisterUser(user);
 
-                // Agregar registro después de RegisterUser
                 Log.Information("Usuario registrado exitosamente.");
+    
                 return Ok("Usuario registrado exitosamente.");
             }
             catch (Exception ex)
             {
-                // Agregar registro de excepción
                 Log.Error(ex, "Error al registrar el usuario: {ErrorMessage}", ex.Message);
 
                 return BadRequest($"Error al registrar el usuario: {ex.Message}");
             }
         }
 
-        [HttpGet("getUser")]
+        [HttpGet]
         public IActionResult GetUser( )
         {
                 return Ok("Funciono getUser.");

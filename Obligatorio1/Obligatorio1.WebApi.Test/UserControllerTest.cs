@@ -51,5 +51,30 @@ public class UserControllerTest
         Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
         _serviceMock.Verify(s => s.RegisterUser(invalidUser), Times.Once);
     }
-    
+
+    [TestMethod]
+    public void GetUser_ReturnsListOfUsers()
+    {
+        // Arrange
+        var users = new List<User>
+    {
+        new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Rol1", null),
+        new User(2, "Usuario2", "Password2", "usuario2@example.com", "Dirección2", "Rol2", null)
+    };
+
+        // Configura el servicio simulado para devolver la lista de usuarios
+        _serviceMock.Setup(s => s.GetUsers()).Returns(users);
+
+        // Act
+        var result = _controller.GetUser();
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        var okResult = (OkObjectResult)result;
+        var resultUsers = okResult.Value as List<User>;
+        Assert.IsNotNull(resultUsers);
+        Assert.AreEqual(users.Count, resultUsers.Count);
+    }
+
+
 }
