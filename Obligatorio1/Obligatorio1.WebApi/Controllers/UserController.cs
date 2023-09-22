@@ -6,7 +6,7 @@ using Serilog;
 namespace Obligatorio1.WebApi
 {
     [ApiController]
-    [Route("api/user")]
+    [Route("api/users")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -16,7 +16,7 @@ namespace Obligatorio1.WebApi
             _userService = userService;
         }
 
-        [HttpPost("register")]
+        [HttpPost]
         public IActionResult RegisterUser([FromBody] User user)
         {
             try
