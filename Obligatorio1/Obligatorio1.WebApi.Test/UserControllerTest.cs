@@ -76,5 +76,18 @@ public class UserControllerTest
         Assert.AreEqual(users.Count, resultUsers.Count);
     }
 
+    [TestMethod]
+    public void GetUser_ErrorInService_ReturnsBadRequest()
+    {
+        // Configura el servicio simulado para lanzar una excepción al obtener usuarios
+        _serviceMock.Setup(s => s.GetUsers()).Throws(new Exception("Error al obtener usuarios"));
 
+        // Act
+        var result = _controller.GetUser();
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+        var badRequestResult = (BadRequestObjectResult)result;
+        Assert.AreEqual("Error al obtener usuarios: Error al obtener usuarios", badRequestResult.Value);
+    }
 }
