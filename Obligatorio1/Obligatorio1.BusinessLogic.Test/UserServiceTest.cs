@@ -137,7 +137,7 @@ namespace Obligatorio1.BusinessLogic.Test
             _userManagmentMock?.Setup(x => x.GetUsers()).Returns(expectedUsers);
 
             //Act
-            IEnumerable<User>? result = _userService?.GetUsers();
+            IEnumerable<User>? result = _userService?.GetAllUsers();
 
             //Assert
             Assert.IsNotNull(result);

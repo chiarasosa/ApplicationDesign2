@@ -38,10 +38,21 @@ namespace Obligatorio1.WebApi
         }
 
         [HttpGet]
-        public IActionResult GetUser( )
+        public IActionResult GetAllUsers()
         {
-                return Ok("Funciono getUser.");
-   
+            try
+            {
+                // Obtener todos los usuarios desde el servicio
+                var users = _userService.GetAllUsers();
+
+                // Devolver los usuarios en una respuesta HTTP 200 OK
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                // Manejar errores y devolver una respuesta de error si es necesario
+                return BadRequest($"Error al obtener usuarios: {ex.Message}");
+            }
         }
 
     }

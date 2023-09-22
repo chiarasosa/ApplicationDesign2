@@ -88,7 +88,7 @@ namespace Obligatorio1.BusinessLogic
                     return user;
                 }
 
-                public IEnumerable<User> GetUsers()
+                public IEnumerable<User> GetAllUsers()
                 {
                     IEnumerable<User>? users = _userManagment.GetUsers();
 

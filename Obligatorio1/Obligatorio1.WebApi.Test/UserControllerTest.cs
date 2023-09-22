@@ -63,10 +63,10 @@ public class UserControllerTest
     };
 
         // Configura el servicio simulado para devolver la lista de usuarios
-        _serviceMock.Setup(s => s.GetUsers()).Returns(users);
+        _serviceMock.Setup(s => s.GetAllUsers()).Returns(users);
 
         // Act
-        var result = _controller.GetUser();
+        var result = _controller.GetAllUsers();
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(OkObjectResult));
@@ -80,10 +80,10 @@ public class UserControllerTest
     public void GetUser_ErrorInService_ReturnsBadRequest()
     {
         // Configura el servicio simulado para lanzar una excepción al obtener usuarios
-        _serviceMock.Setup(s => s.GetUsers()).Throws(new Exception("Error al obtener usuarios"));
+        _serviceMock.Setup(s => s.GetAllUsers()).Throws(new Exception("Error al obtener usuarios"));
 
         // Act
-        var result = _controller.GetUser();
+        var result = _controller.GetAllUsers();
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
