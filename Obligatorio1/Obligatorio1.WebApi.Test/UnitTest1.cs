@@ -1,5 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace Obligatorio1.WebApi.Test
 {
     [TestClass]
