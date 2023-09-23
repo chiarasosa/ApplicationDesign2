@@ -186,11 +186,11 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
             var unauthorizedResult = (UnauthorizedObjectResult)result;
-            Assert.AreEqual("Credenciales incorrectas", unauthorizedResult.Value);
+            Assert.AreEqual("Autenticación fallida. Credenciales incorrectas", unauthorizedResult.Value);
         }
 
         [TestMethod]
-        public void Login_MissingEmailOrPassword_ReturnsBadRequest()
+        public void Login_MissingEmailOrPassword_ReturnsUnauthorized()
         {
             // Arrange
             string email = ""; // Email en blanco
@@ -200,10 +200,11 @@ namespace Obligatorio1.WebApi.Test
             var result = _controller.Login(email, password);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
-            var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual("Correo electrónico y contraseña son obligatorios.", badRequestResult.Value);
+            Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult)); 
+            var unauthorizedResult = (UnauthorizedObjectResult)result;
+            Assert.AreEqual("Autenticación fallida. Credenciales incorrectas", unauthorizedResult.Value);
         }
+
 
         [TestMethod]
         public void Login_ErrorInService_ReturnsBadRequest()

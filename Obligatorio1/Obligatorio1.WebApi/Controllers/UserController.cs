@@ -84,6 +84,30 @@ namespace Obligatorio1.WebApi
             }
         }
 
+        [HttpPost("login")]
+        public IActionResult Login(string email, string password)
+        {
+            try
+            {
+                Log.Information("Intentando iniciar sesión para el usuario con email: {Email}", email);
 
+                var user = _userService.Login(email, password);
+
+                if (user == null)
+                {
+                    Log.Warning("Inicio de sesión fallido para el usuario con email: {Email}", email);
+                    return Unauthorized("Autenticación fallida. Credenciales incorrectas");
+                }
+
+                Log.Information("Inicio de sesión exitoso para el usuario con email: {Email}", email);
+
+                return Ok("Inicio de sesión exitoso");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error al iniciar sesión para el usuario con email: {Email}", email);
+                return BadRequest($"Error al iniciar sesión: {ex.Message}");
+            }
+        }
     }
 }
