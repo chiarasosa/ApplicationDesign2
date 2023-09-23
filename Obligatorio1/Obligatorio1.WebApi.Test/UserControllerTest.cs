@@ -205,7 +205,6 @@ namespace Obligatorio1.WebApi.Test
             Assert.AreEqual("Autenticación fallida. Credenciales incorrectas", unauthorizedResult.Value);
         }
 
-
         [TestMethod]
         public void Login_ErrorInService_ReturnsBadRequest()
         {
@@ -254,7 +253,7 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual($"Error al hacer logout: Error al hacer logout", badRequestResult.Value);
+            Assert.AreEqual($"Error al cerrar sesión: Error al hacer logout", badRequestResult.Value);
         }
 
     }

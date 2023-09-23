@@ -109,5 +109,25 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error al iniciar sesión: {ex.Message}");
             }
         }
+
+        [HttpDelete("logout")]
+        public IActionResult Logout([FromBody] User user)
+        {
+            try
+            {
+                Log.Information("Intentando cerrar sesión para el usuario con ID: {UserID}", user.UserID);
+
+                _userService.Logout(user);
+
+                Log.Information("Sesión cerrada exitosamente para el usuario con ID: {UserID}", user.UserID);
+
+                return NoContent(); // Devuelve una respuesta HTTP 204 No Content
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error al cerrar sesión para el usuario con ID: {UserID}", user.UserID);
+                return BadRequest($"Error al cerrar sesión: {ex.Message}");
+            }
+        }
     }
 }
