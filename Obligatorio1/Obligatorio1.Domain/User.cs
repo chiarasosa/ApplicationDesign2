@@ -17,6 +17,7 @@ namespace Obligatorio1.Domain
         public string Role { get; set; }
         public List<Purchase>? Purchases { get; set; }
 
+        public Cart Cart { get; set; }
         public User()
         {
             this.UserID = 0;
@@ -26,6 +27,7 @@ namespace Obligatorio1.Domain
             this.Address = string.Empty;
             this.Role = string.Empty;
             this.Purchases = null;
+            this.Cart = new Cart();
         }
 
         public User(int userID, string userName, string password, string email, string address, string role, List<Purchase>? purchases)
@@ -37,6 +39,7 @@ namespace Obligatorio1.Domain
             this.Address = address;
             this.Role = role;
             this.Purchases = purchases;
+            this.Cart = new Cart();
         }
     }
 }

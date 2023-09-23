@@ -4,8 +4,6 @@ namespace Obligatorio1.IDataAccess
 {
     public interface IUserManagment
     {
-
-        public User? _authenticatedUser { get; set; }
         void RegisterUser(User user);
         User UpdateUserProfile(User user);
         User Login(string email, string password);
@@ -20,5 +18,8 @@ namespace Obligatorio1.IDataAccess
         void CreateProduct(Product product);
         Product UpdateProduct(Product product);
         void AddProductToCart(Product product);
+        User GetAuthenticatedUser();
+
+        void DeleteProductFromCart(Product product);
     }
 }

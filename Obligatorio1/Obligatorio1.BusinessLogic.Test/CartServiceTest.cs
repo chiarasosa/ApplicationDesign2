@@ -13,12 +13,13 @@ namespace Obligatorio1.BusinessLogic.Test
     public class CartServiceTest
     {
         private Mock<IUserManagment>? _userManagmentMock;
-        private CartService? _cartService;
+        private CartService _cartService;
 
         [TestInitialize]
         public void Initialize()
         {
             _userManagmentMock = new Mock<IUserManagment>(MockBehavior.Strict);
+            _userManagmentMock.Setup(x => x.GetAuthenticatedUser()).Returns(new User());
             _cartService = new CartService(_userManagmentMock.Object);
         }
 
@@ -29,23 +30,41 @@ namespace Obligatorio1.BusinessLogic.Test
             Product product = new Product();
 
             //Act
-            _userManagmentMock?.Setup(x => x.AddProductToCart(product));
-            _cartService.AddProductToCart(product);
+            CartService cartService = new CartService();
+            cartService.AddProductToCart(product);
 
             //Assert
-            _userManagmentMock?.VerifyAll();
+            Assert.AreEqual(1, cartService.defaultCart.Products.Count);
         }
 
         [TestMethod]
         public void AddProductToCart_UserRegistered()
         {
+            //Arrange
+            Product product = new Product();
 
+            //Act
+            _userManagmentMock?.Setup(x => x.AddProductToCart(product));
+            _cartService.AddProductToCart(product);
+
+            //Assert
+            _userManagmentMock?.VerifyAll();
+            _userManagmentMock?.Verify(x => x.AddProductToCart(product), Times.Once);
         }
 
         [TestMethod]
         public void DeleteProductFromCart_NoUserRegistered()
         {
+            //Arrange
+            Product product = new Product();
 
+            //Act
+            _userManagmentMock?.Setup(x => x.DeleteProductFromCart(product));
+            _cartService.AddProductToCart(product);
+
+            //Assert
+            _userManagmentMock?.VerifyAll();
+            _userManagmentMock?.Verify(x => x.AddProductToCart(product), Times.Once);
         }
 
         [TestMethod]

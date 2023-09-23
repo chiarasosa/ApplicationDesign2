@@ -7,7 +7,7 @@ namespace Obligatorio1.DataAccess
     public class UserManagment : IUserManagment
     {
         private List<User>? _users;
-        public User? _authenticatedUser { get; set; }
+        private User? _authenticatedUser;
         private List<Purchase>? _purchases;
         private List<Product>? _products;
 
@@ -218,10 +218,18 @@ namespace Obligatorio1.DataAccess
 
             return existingProduct;
         }
-
+        public User GetAuthenticatedUser()
+        {
+            return _authenticatedUser;
+        }
         public void AddProductToCart(Product product)
         {
+            _authenticatedUser?.Cart.Products.Add(product);
+        }
 
+        public void DeleteProductFromCart(Product product)
+        {
+            _authenticatedUser?.Cart.Products.Remove(product);
         }
     }
 }
