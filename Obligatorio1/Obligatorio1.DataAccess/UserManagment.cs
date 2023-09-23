@@ -7,7 +7,7 @@ namespace Obligatorio1.DataAccess
     public class UserManagment : IUserManagment
     {
         private List<User>? _users;
-        private User? _authenticatedUser;
+        public User? _authenticatedUser { get; set; }
         private List<Purchase>? _purchases;
         private List<Product>? _products;
 

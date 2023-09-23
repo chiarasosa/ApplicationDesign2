@@ -4,6 +4,8 @@ namespace Obligatorio1.IDataAccess
 {
     public interface IUserManagment
     {
+
+        public User? _authenticatedUser { get; set; }
         void RegisterUser(User user);
         User UpdateUserProfile(User user);
         User Login(string email, string password);
