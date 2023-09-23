@@ -1,3 +1,5 @@
+using Microsoft.OpenApi.Models;
+
 namespace Obligatorio1.WebApi
 {
     public class Program
@@ -11,7 +13,13 @@ namespace Obligatorio1.WebApi
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            //builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Nombre de tu API", Version = "v1" });
+            });
+
+
 
             //Se configura que clase implementa a que interfaz
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IUserService, Obligatorio1.BusinessLogic.UserService>();
@@ -23,8 +31,15 @@ namespace Obligatorio1.WebApi
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                //app.UseSwagger();
+                //app.UseSwaggerUI();
+
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Nombre de tu API V1");
+                });
+
             }
 
             app.UseHttpsRedirection();

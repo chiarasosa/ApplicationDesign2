@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.Domain;
 using Serilog;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Obligatorio1.WebApi
 {
@@ -38,6 +39,11 @@ namespace Obligatorio1.WebApi
         }
 
         [HttpGet]
+        [SwaggerOperation(
+         Summary = "Obtiene la lista de usuarios",
+         Description = "Obtiene todos los usuarios registrados en el sistema.")]
+        [ProducesResponseType(typeof(IEnumerable<User>), 200)] // Especifica el tipo de respuesta para el código 200 (OK)
+        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
         public IActionResult GetAllUsers()
         {
             try
