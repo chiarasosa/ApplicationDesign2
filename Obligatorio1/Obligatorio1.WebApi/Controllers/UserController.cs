@@ -61,5 +61,29 @@ namespace Obligatorio1.WebApi
             }
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetUserByID([FromRoute] int id)
+        {
+            try
+            {
+                // Obtener un usuario por su ID desde el servicio
+                var user = _userService.GetUserByID(id);
+
+                if (user == null)
+                {
+                    return NotFound($"Usuario con ID {id} no encontrado");
+                }
+
+                // Devolver el usuario en una respuesta HTTP 200 OK
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                // Manejar errores y devolver una respuesta de error si es necesario
+                return BadRequest($"Error al obtener el usuario: {ex.Message}");
+            }
+        }
+
+
     }
 }
