@@ -125,8 +125,11 @@ namespace Obligatorio1.BusinessLogic.Test
             Product prod=new Product(2, "lapicera bic", 30, "util escolar", 3, 3, "azul");
             Product updated = new Product(prod.ProductID,"actualizado",31,"actualizado",4,4,"negro");
 
-            mock?.Setups(x => x.UpdateProuct(prod).Returns(updated));
+            mock?.Setup(x => x.UpdateProduct(It.IsAny<Product>())).Returns((Product product) => product);
             Product? result = service?.UpdateProduct(updated);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(updated, result);
             mock?.Verify(x => x.UpdateProduct(updated),Times.Once);
 
         }

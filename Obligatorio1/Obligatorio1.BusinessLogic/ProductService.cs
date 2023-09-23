@@ -7,6 +7,7 @@ using Obligatorio1.IBusinessLogic;
 using Obligatorio1.IDataAccess;
 using Obligatorio1.Domain;
 using System.Runtime.InteropServices;
+using Obligatorio1.Exceptions;
 
 
 namespace Obligatorio1.BusinessLogic
@@ -26,7 +27,7 @@ namespace Obligatorio1.BusinessLogic
 
             if (prod==null)
             {
-                throw new Exception("Producto no encontrado");
+                throw new ProductManagmentException("Producto no encontrado");
             }
             return prod;
         }
@@ -35,7 +36,7 @@ namespace Obligatorio1.BusinessLogic
         {
             if (product==null || product.Price <= 0 || product.Brand <=0 || product.Name==string.Empty)
             {
-                throw new Exception("");
+                throw new ProductManagmentException("");
 
             }
             else
@@ -50,7 +51,7 @@ namespace Obligatorio1.BusinessLogic
 
             if (prod == null)
             {
-                throw new Exception("Error al obtener la lista de productos.");
+                throw new ProductManagmentException("Error al obtener la lista de productos.");
             }
 
             return prod;
@@ -62,12 +63,28 @@ namespace Obligatorio1.BusinessLogic
             Product product= productsManagement.GetProductByID(productID);
             if (product==null)
             {
-                throw new Exception("Producto no encontrado");
+                throw new ProductManagmentException("Producto no encontrado");
 
             }
             else
             {
                 productsManagement.DeleteProduct(productID);
+            }
+        }
+
+        public Product UpdateProduct(Product prod)
+        {
+            try
+            {
+                return productsManagement.UpdateProduct(prod);
+            }
+            catch(ProductManagmentException e)
+            {
+                throw new ProductManagmentException($"Error al actualizar el producto: {e.Message}");
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error inesperado al actualizar el producto: {e.Message}", e);
             }
         }
     }

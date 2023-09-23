@@ -297,7 +297,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 Price = 10,
                 Brand = 1,
                 Category = 2,
-                Colors = aux,
+                Colors = "azul",
             };
 
             // Act
@@ -329,7 +329,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 Price = 20,
                 Brand = 2,
                 Category = 3,
-                Colors = aux,
+                Colors = "azul",
             };
 
             // Configura el comportamiento del mock para que devuelva el producto actualizado
@@ -344,7 +344,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 Price = 30,
                 Brand = 3,
                 Category = 4,
-                Colors = aux,
+                Colors = "azul",
             };
 
             Product? result = _userService?.UpdateProduct(updatedProduct);
