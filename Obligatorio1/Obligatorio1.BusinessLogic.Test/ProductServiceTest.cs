@@ -25,11 +25,9 @@ namespace Obligatorio1.BusinessLogic.Test
         {
             Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
             ProductService service = new ProductService(mock.Object);
-            List<string> aux = new List<string>();
-            aux.Add("azul");
-            aux.Add("rojo");
+            
             int prodID = 0;
-            Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, aux);
+            Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, "azul");
 
             mock?.Setup(m => m.GetProductByID(prodID)).Returns(prod);
             mock?.Setup(m => m.DeleteProduct(prodID));
@@ -62,11 +60,9 @@ namespace Obligatorio1.BusinessLogic.Test
         {
             Mock<IProductManagment>? mock=new Mock<IProductManagment>(MockBehavior.Strict);
             ProductService service= new ProductService(mock.Object);
-            List<string> aux = new List<string>();
-            aux.Add("azul");
-            aux.Add("rojo");
+            
             int prodID = 0;
-            Product prod = new Product(prodID,"jabon", 120, "sin descripcion", 1, 2,aux);
+            Product prod = new Product(prodID,"jabon", 120, "sin descripcion", 1, 2, "azul");
 
 
             mock!.Setup(m => m.GetProductByID(prodID)).Returns(prod);
@@ -84,11 +80,9 @@ namespace Obligatorio1.BusinessLogic.Test
             Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
             ProductService service = new ProductService(mock.Object);
 
-            List<string> aux = new List<string>();
-            aux.Add("azul");
-            aux.Add("rojo");
+            
             int prodID = 0;
-            Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, aux);
+            Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, "azul");
 
             mock?.Setup(x => x.RegisterProduct(prod));
 
@@ -104,15 +98,13 @@ namespace Obligatorio1.BusinessLogic.Test
             Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
             ProductService service = new ProductService(mock.Object);
 
-            List<string> aux = new List<string>();
-            aux.Add("azul");
-            aux.Add("rojo");
+            
 
             List<Product> products = new List<Product>
             {
-                new Product(1, "canarias amarilla", 200, "yerba mate", 2, 2, aux),
-                new Product(2, "lapicera bic", 30, "util escolar", 3, 3, aux),
-                new Product(3, "desodorante rexona", 250, " ", 4, 4, aux)
+                new Product(1, "canarias amarilla", 200, "yerba mate", 2, 2, "azul"),
+                new Product(2, "lapicera bic", 30, "util escolar", 3, 3, "azul"),
+                new Product(3, "desodorante rexona", 250, " ", 4, 4, "azul")
             };
 
             mock?.Setup(x => x.GetProducts()).Returns(products);
@@ -123,6 +115,20 @@ namespace Obligatorio1.BusinessLogic.Test
             CollectionAssert.AreEqual(products, result.ToList());
 
             mock?.Verify(x => x.GetProducts(), Times.Once);
+        }
+
+        [TestMethod]
+        public void UpdateProductTest()
+        {
+            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
+            ProductService service = new ProductService(mock.Object);
+            Product prod=new Product(2, "lapicera bic", 30, "util escolar", 3, 3, "azul");
+            Product updated = new Product(prod.ProductID,"actualizado",31,"actualizado",4,4,"negro");
+
+            mock?.Setups(x => x.UpdateProuct(prod).Returns(updated));
+            Product? result = service?.UpdateProduct(updated);
+            mock?.Verify(x => x.UpdateProduct(updated),Times.Once);
+
         }
     }
 }
