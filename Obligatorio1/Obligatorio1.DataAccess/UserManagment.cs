@@ -218,5 +218,10 @@ namespace Obligatorio1.DataAccess
 
             return existingProduct;
         }
+
+        public void AddProductToCart(Product product)
+        {
+
+        }
     }
 }

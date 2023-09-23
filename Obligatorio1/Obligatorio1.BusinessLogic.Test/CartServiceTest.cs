@@ -26,8 +26,14 @@ namespace Obligatorio1.BusinessLogic.Test
         public void AddProductToCart_NoUserRegistered()
         {
             //Arrange
+            Product product = new Product();
 
+            //Act
+            _userManagmentMock?.Setup(x => x.AddProductToCart(product));
+            _cartService.AddProductToCart(product);
 
+            //Assert
+            _userManagmentMock?.VerifyAll();
         }
 
         [TestMethod]
