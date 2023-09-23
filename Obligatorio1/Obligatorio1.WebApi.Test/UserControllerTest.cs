@@ -53,7 +53,7 @@ public class UserControllerTest
     }
 
     [TestMethod]
-    public void GetUser_ReturnsListOfUsers()
+    public void GetAllUser_ReturnsListOfUsers()
     {
         // Arrange
         var users = new List<User>
@@ -77,7 +77,7 @@ public class UserControllerTest
     }
 
     [TestMethod]
-    public void GetUser_ErrorInService_ReturnsBadRequest()
+    public void GetAllUser_ErrorInService_ReturnsBadRequest()
     {
         // Configura el servicio simulado para lanzar una excepción al obtener usuarios
         _serviceMock.Setup(s => s.GetAllUsers()).Throws(new Exception("Error al obtener usuarios"));
@@ -90,4 +90,65 @@ public class UserControllerTest
         var badRequestResult = (BadRequestObjectResult)result;
         Assert.AreEqual("Error al obtener usuarios: Error al obtener usuarios", badRequestResult.Value);
     }
+
+    [TestMethod]
+    public void GetUserById_ExistingUser_ReturnsOkResult()
+    {
+        // Arrange
+        int userId = 1;
+        var user = new User(userId, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+
+        // Configura el servicio simulado para devolver el usuario por su ID
+        _serviceMock.Setup(s => s.GetUserById(userId)).Returns(user);
+
+        // Act
+        var result = _controller.GetUserById(userId);
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        var okResult = (OkObjectResult)result;
+        Assert.AreEqual(user, okResult.Value);
+    }
+
+    [TestMethod]
+    public void GetUserById_NonExistentUser_ReturnsNotFound()
+    {
+        // Arrange
+        int userId = 1;
+
+        // Configura el servicio simulado para devolver null, indicando que el usuario no existe
+        _serviceMock.Setup(s => s.GetUserById(userId)).Returns((User?)null);
+
+        // Act
+        var result = _controller.GetUserById(userId);
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+        var notFoundResult = (NotFoundObjectResult)result;
+        Assert.AreEqual($"Usuario con ID {userId} no encontrado", notFoundResult.Value);
+    }
+
+    [TestMethod]
+    public void GetUserById_ErrorInService_ReturnsBadRequest()
+    {
+        // Arrange
+        int userId = 1;
+
+        // Configura el servicio simulado para lanzar una excepción al obtener el usuario por su ID
+        _serviceMock.Setup(s => s.GetUserById(userId)).Throws(new Exception("Error al obtener el usuario"));
+
+        // Act
+        var result = _controller.GetUserById(userId);
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+        var badRequestResult = (BadRequestObjectResult)result;
+        Assert.AreEqual($"Error al obtener el usuario: Error al obtener el usuario", badRequestResult.Value);
+    }
+
+
+
+
+
+
 }
