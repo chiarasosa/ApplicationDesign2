@@ -166,9 +166,9 @@ namespace Obligatorio1.BusinessLogic
             {
                 throw new UserException($"Usuario con ID {userID} no encontrado.");
             }
-
             _userManagment.DeleteUser(userID);
         }
+
 
         public IEnumerable<Purchase> GetPurchaseHistory(User user)
         {

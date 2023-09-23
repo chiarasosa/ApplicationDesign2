@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿/*using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting; // Importa este espacio de nombres
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,3 +57,4 @@ namespace Obligatorio1.WebApi
 
     }
 }
+*/
