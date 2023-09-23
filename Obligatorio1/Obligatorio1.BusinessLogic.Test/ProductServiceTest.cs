@@ -41,18 +41,22 @@ namespace Obligatorio1.BusinessLogic.Test
 
 
 
-        /* [TestMethod]
+         [TestMethod]
         public void CreateProductTest()
         {
             Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
             ProductService service = new ProductService(mock.Object);
-            List<string> aux = new List<string>();
-            aux.Add("azul");
-            aux.Add("rojo");
+            
             int prodID = 0;
+            Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, "azul");
 
-            mock!.Setup(m => m.CreateProduct())
-        }*/
+
+            Action createProductAction = () => service?.CreateProduct(prod);
+
+            Assert.ThrowsException<Exception>(createProductAction);
+
+            mock?.Verify(m => m.CreateProduct(prod), Times.Once);
+        }
 
 
         [TestMethod]
