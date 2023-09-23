@@ -225,5 +225,37 @@ namespace Obligatorio1.WebApi.Test
             Assert.AreEqual("Error al iniciar sesión: Error al iniciar sesión", badRequestResult.Value);
         }
 
+        [TestMethod]
+        public void Logout_ValidUser_ReturnsNoContent()
+        {
+            // Arrange
+            var user = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+
+            // Act
+            var result = _controller.Logout(user);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            _serviceMock.Verify(s => s.Logout(user), Times.Once);
+        }
+
+        [TestMethod]
+        public void Logout_ErrorInService_ReturnsBadRequest()
+        {
+            // Arrange
+            var user = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+
+            // Configura el servicio simulado para lanzar una excepción al hacer logout
+            _serviceMock.Setup(s => s.Logout(user)).Throws(new Exception("Error al hacer logout"));
+
+            // Act
+            var result = _controller.Logout(user);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual($"Error al hacer logout: Error al hacer logout", badRequestResult.Value);
+        }
+
     }
 }
