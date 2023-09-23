@@ -59,18 +59,29 @@ namespace Obligatorio1.BusinessLogic.Test
             Product product = new Product();
 
             //Act
-            _userManagmentMock?.Setup(x => x.DeleteProductFromCart(product));
-            _cartService.AddProductToCart(product);
+            CartService cartService = new CartService();
+            cartService.AddProductToCart(product);
+            cartService.DeleteProductFromCart(product);
 
             //Assert
-            _userManagmentMock?.VerifyAll();
-            _userManagmentMock?.Verify(x => x.AddProductToCart(product), Times.Once);
+            Assert.AreEqual(0, cartService.defaultCart.Products.Count);
         }
 
         [TestMethod]
         public void DeleteProductFromCart_UserRegistered()
         {
+            //Arrange
+            Product product = new Product();
 
+            //Act
+            _userManagmentMock?.Setup(x => x.AddProductToCart(product));
+            _userManagmentMock?.Setup(x => x.DeleteProductFromCart(product));
+            _cartService.AddProductToCart(product);
+            _cartService.DeleteProductFromCart(product);
+
+            //Assert
+            _userManagmentMock?.VerifyAll();
+            _userManagmentMock?.Verify(x => x.DeleteProductFromCart(product), Times.Once);
         }
     }
 }

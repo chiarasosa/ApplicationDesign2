@@ -24,7 +24,9 @@ namespace Obligatorio1.IBusinessLogic
         void CreateProduct(Product product);
         
         Product UpdateProduct(Product product);
-       
-        //void DeleteProduct(int productID);*/
+
+        void AddProductToCart(Product product);
+
+        void DeleteProductFromCart(Product product);
     }
 }

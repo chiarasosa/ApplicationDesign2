@@ -224,12 +224,18 @@ namespace Obligatorio1.DataAccess
         }
         public void AddProductToCart(Product product)
         {
-            _authenticatedUser?.Cart.Products.Add(product);
+            if(_authenticatedUser != null)
+            {
+                _authenticatedUser?.Cart.Products.Add(product);
+            }
         }
 
         public void DeleteProductFromCart(Product product)
         {
-            _authenticatedUser?.Cart.Products.Remove(product);
+            if(_authenticatedUser != null && _authenticatedUser.Cart != null)
+            {
+                _authenticatedUser?.Cart.Products.Remove(product);
+            }            
         }
     }
 }

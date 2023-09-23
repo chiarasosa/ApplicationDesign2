@@ -350,7 +350,34 @@ namespace Obligatorio1.BusinessLogic.Test
         }
 
 
+        [TestMethod]
+        public void AddProductToCart_Correct()
+        {
+            //Arrange
+            Product product = new Product();
 
+            //Act
+            _userManagmentMock?.Setup(x => x.AddProductToCart(product));
+            _userService?.AddProductToCart(product);
 
+            //Assert
+            _userManagmentMock?.VerifyAll();
+         }
+
+        [TestMethod]
+        public void DeleteProductFromCart_Correct()
+        {
+            //Arrange
+            Product product = new Product();
+
+            //Act
+            _userManagmentMock?.Setup(x => x.AddProductToCart(product));
+            _userManagmentMock?.Setup(x => x.DeleteProductFromCart(product));
+            _userService?.AddProductToCart(product);
+            _userService?.DeleteProductFromCart(product);
+
+            //Assert
+            _userManagmentMock?.VerifyAll();
+        }
     }
 }
