@@ -16,7 +16,7 @@ namespace Obligatorio1.WebApi
             //builder.Services.AddSwaggerGen();
             builder.Services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Nombre de tu API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Obligatorio 1", Version = "v1" });
             });
 
 
@@ -37,7 +37,7 @@ namespace Obligatorio1.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Nombre de tu API V1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Obligatorio 1");
                 });
 
             }

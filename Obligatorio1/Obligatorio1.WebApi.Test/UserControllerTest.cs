@@ -148,5 +148,81 @@ namespace Obligatorio1.WebApi.Test
             var badRequestResult = (BadRequestObjectResult)result;
             Assert.AreEqual($"Error al obtener el usuario: Error al obtener el usuario", badRequestResult.Value);
         }
+
+        [TestMethod]
+        public void Login_ValidCredentials_ReturnsOkResult()
+        {
+            // Arrange
+            string email = "agustin@gmail.com";
+            string password = "Prueba123";
+
+            var authenticatedUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+
+            // Configura el servicio simulado para devolver el usuario al iniciar sesión
+            _serviceMock.Setup(s => s.Login(email, password)).Returns(authenticatedUser);
+
+            // Act
+            var result = _controller.Login(email, password);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var okResult = (OkObjectResult)result;
+            Assert.AreEqual("Inicio de sesión exitoso", okResult.Value);
+        }
+
+        [TestMethod]
+        public void Login_InvalidCredentials_ReturnsUnauthorized()
+        {
+            // Arrange
+            string email = "agustin@gmail.com";
+            string password = "ContraseñaIncorrecta";
+
+            // Configura el servicio simulado para devolver null, indicando credenciales incorrectas
+            _serviceMock.Setup(s => s.Login(email, password)).Returns((User)null);
+
+            // Act
+            var result = _controller.Login(email, password);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
+            var unauthorizedResult = (UnauthorizedObjectResult)result;
+            Assert.AreEqual("Credenciales incorrectas", unauthorizedResult.Value);
+        }
+
+        [TestMethod]
+        public void Login_MissingEmailOrPassword_ReturnsBadRequest()
+        {
+            // Arrange
+            string email = ""; // Email en blanco
+            string password = "Prueba123";
+
+            // Act
+            var result = _controller.Login(email, password);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("Correo electrónico y contraseña son obligatorios.", badRequestResult.Value);
+        }
+
+        [TestMethod]
+        public void Login_ErrorInService_ReturnsBadRequest()
+        {
+            // Arrange
+            string email = "agustin@gmail.com";
+            string password = "Prueba123";
+
+            // Configura el servicio simulado para lanzar una excepción al iniciar sesión
+            _serviceMock.Setup(s => s.Login(email, password)).Throws(new UserException("Error al iniciar sesión"));
+
+            // Act
+            var result = _controller.Login(email, password);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("Error al iniciar sesión: Error al iniciar sesión", badRequestResult.Value);
+        }
+
     }
 }
