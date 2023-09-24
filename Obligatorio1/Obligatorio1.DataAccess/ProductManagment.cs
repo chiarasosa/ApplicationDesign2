@@ -11,6 +11,11 @@ namespace Obligatorio1.DataAccess
     public class ProductManagment
     {
         private List<Product>? _products;
+
+        public ProductManagment()
+        {
+            this._products = new List<Product>();
+        }
         public Product UpdateProduct(Product product)
         {
             
@@ -33,5 +38,18 @@ namespace Obligatorio1.DataAccess
 
             return existingProduct;
         }
+
+        public void CreateProduct(Product product)
+        {
+            if (_products?.Any(p => p.ProductID == product.ProductID) == true)
+            {
+                throw new ProductManagmentException($"El producto con ID {product.ProductID} ya existe.");
+            }
+
+            // Agrega el nuevo producto a la lista de productos
+            _products?.Add(product);
+        }
+
+
     }
 }

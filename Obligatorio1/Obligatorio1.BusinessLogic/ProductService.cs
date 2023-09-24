@@ -87,5 +87,21 @@ namespace Obligatorio1.BusinessLogic
                 throw new Exception($"Error inesperado al actualizar el producto: {e.Message}", e);
             }
         }
+
+        public void CreateProduct(Product product)
+        {
+            try
+            {
+                productsManagement.CreateProduct(product);
+            }
+            catch (ProductManagmentException e)
+            {
+                throw new ProductManagmentException($"Error al crear el producto: {e.Message}");
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error inesperado al crear el producto: {e.Message}", e);
+            }
+        }
     }
 }

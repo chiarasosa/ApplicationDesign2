@@ -16,6 +16,7 @@ namespace Obligatorio1.IDataAccess
         Product GetProductByID(int productID);
         IEnumerable<Product> GetProducts();
         void DeleteProduct(int productID);
+        void CreateProduct(Product product);
 
 
     }

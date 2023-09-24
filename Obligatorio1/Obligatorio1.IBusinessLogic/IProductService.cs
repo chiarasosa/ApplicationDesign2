@@ -15,5 +15,7 @@ namespace Obligatorio1.IBusinessLogic
         IEnumerable<Product> GetProducts();
 
         void DeleteProduct(int productID);
+
+        void CreateProduct(Product product);
     }
 }
