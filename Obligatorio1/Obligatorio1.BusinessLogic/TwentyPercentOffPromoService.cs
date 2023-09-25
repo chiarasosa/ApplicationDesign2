@@ -8,10 +8,10 @@ using Obligatorio1.IBusinessLogic;
 
 namespace Obligatorio1.BusinessLogic
 {
-    public class TwentyPercentOffPromoLogic : IPromoService
+    public class TwentyPercentOffPromoService : IPromoService
     {
         public string Name;
-        public TwentyPercentOffPromoLogic()
+        public TwentyPercentOffPromoService()
         {
             this.Name = "20% Off Promo";
         }

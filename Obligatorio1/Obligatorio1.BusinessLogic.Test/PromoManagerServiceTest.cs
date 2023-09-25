@@ -74,10 +74,10 @@ namespace Obligatorio1.BusinessLogic.Test
         public void ApplyBestPromotion_TwentyPercentOffPossible_Correct()
         {
             // Arrange
-            ThreeForOnePromoLogic promo3x1 = new ThreeForOnePromoLogic();
-            ThreeForTwoPromoLogic promo3x2 = new ThreeForTwoPromoLogic();
-            TwentyPercentOffPromoLogic twentyPercentOff = new TwentyPercentOffPromoLogic();
-            TotalLookPromoLogic totalLook = new TotalLookPromoLogic();
+            ThreeForOnePromoService promo3x1 = new ThreeForOnePromoService();
+            ThreeForTwoPromoService promo3x2 = new ThreeForTwoPromoService();
+            TwentyPercentOffPromoService twentyPercentOff = new TwentyPercentOffPromoService();
+            TotalLookPromoService totalLook = new TotalLookPromoService();
             _promoManagerManagmentMock?.Setup(p => p.GetAvailablePromotions()).Returns(new List<IPromoService> { promo3x1, promo3x2, twentyPercentOff, totalLook });
             var cart = new Cart();
             cart.TotalPrice = 700;
@@ -99,10 +99,10 @@ namespace Obligatorio1.BusinessLogic.Test
         public void ApplyBestPromotion_TotalAndTwentyPossible_Correct()
         {
             // Arrange
-            ThreeForOnePromoLogic promo3x1 = new ThreeForOnePromoLogic();
-            ThreeForTwoPromoLogic promo3x2 = new ThreeForTwoPromoLogic();
-            TwentyPercentOffPromoLogic twentyPercentOff = new TwentyPercentOffPromoLogic();
-            TotalLookPromoLogic totalLook = new TotalLookPromoLogic();
+            ThreeForOnePromoService promo3x1 = new ThreeForOnePromoService();
+            ThreeForTwoPromoService promo3x2 = new ThreeForTwoPromoService();
+            TwentyPercentOffPromoService twentyPercentOff = new TwentyPercentOffPromoService();
+            TotalLookPromoService totalLook = new TotalLookPromoService();
             _promoManagerManagmentMock?.Setup(p => p.GetAvailablePromotions()).Returns(new List<IPromoService> { promo3x1, promo3x2, twentyPercentOff, totalLook });
             var cart = new Cart();
             cart.TotalPrice = 700;

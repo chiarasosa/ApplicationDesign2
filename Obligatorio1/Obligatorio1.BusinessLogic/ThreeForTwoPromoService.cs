@@ -9,10 +9,10 @@ using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.BusinessLogic
 {
-    public class ThreeForTwoPromoLogic : IPromoService
+    public class ThreeForTwoPromoService : IPromoService
     {
         public string Name;
-        public ThreeForTwoPromoLogic()
+        public ThreeForTwoPromoService()
         {
             this.Name = "3x2 Promo";
         }

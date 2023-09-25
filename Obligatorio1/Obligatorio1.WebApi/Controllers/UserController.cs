@@ -49,7 +49,7 @@ namespace Obligatorio1.WebApi
             try
             {
                 // Obtener todos los usuarios desde el servicio
-                var users = _userService.GetAllUsers();
+                var users = _userService.GetUsers();
 
                 // Devolver los usuarios en una respuesta HTTP 200 OK
                 return Ok(users);

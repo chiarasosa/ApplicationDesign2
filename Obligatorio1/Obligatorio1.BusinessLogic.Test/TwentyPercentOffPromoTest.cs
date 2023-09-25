@@ -20,7 +20,7 @@ namespace Obligatorio1.BusinessLogic.Test
         {
             // Arrange
             Cart cart = new Cart();
-            TwentyPercentOffPromoLogic twentyPercentOffPromoLogic = new TwentyPercentOffPromoLogic();
+            TwentyPercentOffPromoService twentyPercentOffPromoLogic = new TwentyPercentOffPromoService();
             // Act
             double newPrice = twentyPercentOffPromoLogic.CalculateNewPriceWithDiscount(cart);
             // Assert
@@ -38,7 +38,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 new Product { Brand = 1, Price = 10 },
             };
             cart.TotalPrice = 10;
-            TwentyPercentOffPromoLogic twentyPercentOffPromoLogic = new TwentyPercentOffPromoLogic();
+            TwentyPercentOffPromoService twentyPercentOffPromoLogic = new TwentyPercentOffPromoService();
             // Act
             double newPrice = twentyPercentOffPromoLogic.CalculateNewPriceWithDiscount(cart);
 
@@ -60,7 +60,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 new Product { Brand = 3, Price = 20 }
             };
             cart.TotalPrice = 57;
-            TwentyPercentOffPromoLogic twentyPercentOffPromoLogic = new TwentyPercentOffPromoLogic();
+            TwentyPercentOffPromoService twentyPercentOffPromoLogic = new TwentyPercentOffPromoService();
 
             // Act
             double newPrice = twentyPercentOffPromoLogic.CalculateNewPriceWithDiscount(cart);
@@ -75,7 +75,7 @@ namespace Obligatorio1.BusinessLogic.Test
             // Arrange
             Cart cart = new Cart();
 
-            TwentyPercentOffPromoLogic twentyPercentOffPromoLogic = new TwentyPercentOffPromoLogic();
+            TwentyPercentOffPromoService twentyPercentOffPromoLogic = new TwentyPercentOffPromoService();
             // Act
             bool result = twentyPercentOffPromoLogic.CartHas2OrMoreItems(cart);
             // Assert
@@ -91,7 +91,7 @@ namespace Obligatorio1.BusinessLogic.Test
 
             cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, "red"));
 
-            TwentyPercentOffPromoLogic twentyPercentOffPromoLogic = new TwentyPercentOffPromoLogic();
+            TwentyPercentOffPromoService twentyPercentOffPromoLogic = new TwentyPercentOffPromoService();
             //Act
             bool result = twentyPercentOffPromoLogic.CartHas2OrMoreItems(cart);
             //Assert
@@ -107,7 +107,7 @@ namespace Obligatorio1.BusinessLogic.Test
             cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, "red"));
             cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, "red"));
 
-            TwentyPercentOffPromoLogic twentyPercentOffPromoLogic = new TwentyPercentOffPromoLogic();
+            TwentyPercentOffPromoService twentyPercentOffPromoLogic = new TwentyPercentOffPromoService();
             //Act
             bool result = twentyPercentOffPromoLogic.CartHas2OrMoreItems(cart);
             //Assert
@@ -125,7 +125,7 @@ namespace Obligatorio1.BusinessLogic.Test
             cart.Products.Add(new Product(3,"Jabon3", 12, "Liquido", 12, 3, "red"));
             cart.Products.Add(new Product(4,"Jabon4", 12, "Liquido", 12, 3, "red"));
 
-            TwentyPercentOffPromoLogic twentyPercentOffPromoLogic = new TwentyPercentOffPromoLogic();
+            TwentyPercentOffPromoService twentyPercentOffPromoLogic = new TwentyPercentOffPromoService();
             //Act
             bool result = twentyPercentOffPromoLogic.CartHas2OrMoreItems(cart);
             //Assert

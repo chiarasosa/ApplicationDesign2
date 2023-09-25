@@ -5,7 +5,6 @@ using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.WebApi;
 
-
 namespace Obligatorio1.WebApi.Test
 {
     [TestClass]
@@ -66,7 +65,7 @@ namespace Obligatorio1.WebApi.Test
     };
 
             // Configura el servicio simulado para devolver la lista de usuarios
-            _serviceMock.Setup(s => s.GetAllUsers()).Returns(users);
+            _serviceMock.Setup(s => s.GetUsers()).Returns(users);
 
             // Act
             var result = _controller.GetAllUsers();
@@ -83,7 +82,7 @@ namespace Obligatorio1.WebApi.Test
         public void GetAllUser_ErrorInService_ReturnsBadRequest()
         {
             // Configura el servicio simulado para lanzar una excepción al obtener usuarios
-            _serviceMock.Setup(s => s.GetAllUsers()).Throws(new Exception("Error al obtener usuarios"));
+            _serviceMock.Setup(s => s.GetUsers()).Throws(new Exception("Error al obtener usuarios"));
 
             // Act
             var result = _controller.GetAllUsers();

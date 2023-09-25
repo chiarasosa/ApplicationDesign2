@@ -15,7 +15,7 @@ namespace Obligatorio1.IBusinessLogic
         IEnumerable<Purchase> GetPurchaseHistory(User user);
 
         // Funcionalidades para usuarios con rol administrador  en el módulo de administración
-        IEnumerable<User> GetAllUsers();
+        IEnumerable<User> GetUsers();
         User GetUserByID(int userID);
         User CreateUser(User user);
         User UpdateUserInformation(User user);

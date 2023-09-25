@@ -20,7 +20,7 @@ namespace Obligatorio1.BusinessLogic.Test
         {
             // Arrange
             Cart cart = new Cart();
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             // Act
             double newPrice = totalLookPromoLogic.CalculateNewPriceWithDiscount(cart);
             // Assert
@@ -41,7 +41,7 @@ namespace Obligatorio1.BusinessLogic.Test
 
             };
             cart.TotalPrice = 45;
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             // Act
             double newPrice = totalLookPromoLogic.CalculateNewPriceWithDiscount(cart);
 
@@ -63,7 +63,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 new Product { Color="yellow", Price = 20 }
             };
             cart.TotalPrice = 57;
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
 
             // Act
             double newPrice = totalLookPromoLogic.CalculateNewPriceWithDiscount(cart);
@@ -78,7 +78,7 @@ namespace Obligatorio1.BusinessLogic.Test
             // Arrange
             Cart cart = new Cart();
 
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             // Act
             bool result = totalLookPromoLogic.CartHas3OrMoreItems(cart);
             // Assert
@@ -96,7 +96,7 @@ namespace Obligatorio1.BusinessLogic.Test
             cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, "red"));
             cart.Products.Add(new Product(3,"Jabon3", 12, "Liquido", 12, 3, "red"));
 
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             //Act
             bool result = totalLookPromoLogic.CartHas3OrMoreItems(cart);
             //Assert
@@ -114,7 +114,7 @@ namespace Obligatorio1.BusinessLogic.Test
             cart.Products.Add(new Product(3,"Jabon3", 12, "Liquido", 12, 3, "red"));
             cart.Products.Add(new Product(4,"Jabon4", 12, "Liquido", 12, 3, "red"));
 
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             //Act
             bool result = totalLookPromoLogic.CartHas3OrMoreItems(cart);
             //Assert
@@ -130,7 +130,7 @@ namespace Obligatorio1.BusinessLogic.Test
             cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, "red"));
             cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, "red"));
 
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             //Act
             bool result = totalLookPromoLogic.CartHas3OrMoreItems(cart);
             //Assert
@@ -150,7 +150,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 new Product { Color="blue", Price = 20 },
                 new Product { Color="red", Price = 5 }
             };
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             // Act
             Dictionary<string, List<Product>> productsByColor = totalLookPromoLogic.GroupProductsByColor(cart);
 
@@ -175,7 +175,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 new Product { Color="blue", Price = 20 },
                 new Product { Color="red", Price = 5 }
             };
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             // Act
             var productsByColor = totalLookPromoLogic.GroupProductsByColor(cart);
 
@@ -194,7 +194,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 { "green", new List<Product> { new Product { Price = 11 }, new Product { Price = 14 } } },
                 { "blue", new List<Product> { new Product { Price = 12 }, new Product { Price = 11 } } }
             };
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             // Act
             string colorWithDiscount = totalLookPromoLogic.FindColorWithMaxDiscount(productsByColor);
 
@@ -212,7 +212,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 { "green", new List<Product> { new Product { Price = 15 }, new Product { Price = 6 }, new Product { Price = 7 } } },
                 { "blue", new List<Product> { new Product { Price = 12 }, new Product { Price = 11 } } }
             };
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             // Act
             string colorWithDiscount = totalLookPromoLogic.FindColorWithMaxDiscount(productsByColor);
 
@@ -230,7 +230,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 { "green", new List<Product> { new Product { Price = 15 }, new Product { Price = 12 } } },
                 { "blue", new List<Product> { new Product { Price = 15 }, new Product { Price = 15 } } }
             };
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             // Act
             string colorWithDiscount = totalLookPromoLogic.FindColorWithMaxDiscount(productsByColor);
 
@@ -253,7 +253,7 @@ namespace Obligatorio1.BusinessLogic.Test
             };
             cart.TotalPrice = 49;
 
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
 
             // Act
             totalLookPromoLogic.ApplyDiscountToCart(cart, new List<Product>
@@ -283,7 +283,7 @@ namespace Obligatorio1.BusinessLogic.Test
             };
             cart.TotalPrice = 150;
 
-            TotalLookPromoLogic totalLookPromoLogic = new TotalLookPromoLogic();
+            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
 
             // Act
             double newPrice = totalLookPromoLogic.CalculateNewPriceWithDiscount(cart);
