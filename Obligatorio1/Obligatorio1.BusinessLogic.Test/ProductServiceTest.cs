@@ -137,5 +137,41 @@ namespace Obligatorio1.BusinessLogic.Test
             mock?.Verify(x => x.UpdateProduct(updated),Times.Once);
 
         }
+
+        [TestMethod]
+        public void SearchByParameter()
+        {
+            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
+            ProductService service = new ProductService(mock.Object);
+
+            List<Product> listProducts = new List<Product>();
+
+
+            Product prod=new Product(2, "lapicera bic", 30, "util escolar", 3, 3, "azul");
+            Product prod2 = new Product(2, "lapiz bic", 20, "util escolar", 2, 2, "rojo");
+            listProducts.Add(prod);
+            listProducts.Add(prod2);
+
+            mock.Setup(m => m.SearchByParameter(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns<string, string, string>((textoBusqueda, marca, categoria) =>
+
+             {
+                 return listProducts
+                 .Where(p =>
+                        (string.IsNullOrWhiteSpace(textoBusqueda) || p.Nombre.Contains(textoBusqueda)) &&
+                        (string.IsNullOrWhiteSpace(marca) || p.Marca.Equals(marca, StringComparison.OrdinalIgnoreCase)) &&
+                        (string.IsNullOrWhiteSpace(categoria) || p.Categoria.Equals(categoria, StringComparison.OrdinalIgnoreCase))).Select(p => new Producto
+                        {
+                            Nombre = p.Nombre,
+                            Precio = p.Precio,
+                            Categoria = p.Categoria,
+                            Marca = p.Marca
+                        }).ToList();
+
+
+             });
+
+            var Result = mock.Object.SearchByParameter("lapiz bic", "30");
+            Assert.AreEqual(1,Result);
+        }
     }
 }
