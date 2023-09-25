@@ -182,5 +182,44 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al cerrar sesión: {ex.Message}");
             }
         }
+
+        [HttpPost("create")]
+        public IActionResult CreateUser([FromBody] User user)
+        {
+            try
+            {
+                Log.Information("Intentando crear un nuevo usuario: {@User}", user);
+
+                // Verifica si el usuario actual tiene permisos de administrador
+                var loggedInUser = _userService.GetLoggedInUser();
+                if (loggedInUser == null || loggedInUser.Role != "Administrador")
+                {
+                    throw new UserException("No tiene permiso para crear usuarios.");
+                }
+
+                // Llama al método CreateUser del servicio para crear el usuario
+                var createdUser = _userService.CreateUser(user);
+
+                Log.Information("Usuario creado exitosamente: {@CreatedUser}", createdUser);
+
+                // Devuelve el usuario creado en una respuesta HTTP 201 Created
+                return CreatedAtAction(nameof(GetUserByID), new { id = createdUser.UserID }, createdUser);
+            }
+            catch (UserException ex)
+            {
+                Log.Error(ex, "Error al crear el usuario: {ErrorMessage}", ex.Message);
+
+                // Devuelve un resultado BadRequest con el mensaje de la excepción
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error inesperado al crear el usuario: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error inesperado al crear el usuario: {ex.Message}");
+            }
+        }
+
+
     }
 }

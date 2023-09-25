@@ -15,7 +15,7 @@ namespace Obligatorio1.BusinessLogic
             return loggedInUser;
         }
 
-        public void SetLoggedInUser(User? user)
+        public void SetLoggedInUser(User user)
         {
             loggedInUser = user;
         }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Obligatorio1.BusinessLogic;
 using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
@@ -200,7 +201,7 @@ namespace Obligatorio1.WebApi.Test
             var result = _controller.Login(email, password);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult)); 
+            Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
             var unauthorizedResult = (UnauthorizedObjectResult)result;
             Assert.AreEqual("Autenticación fallida. Credenciales incorrectas", unauthorizedResult.Value);
         }
@@ -256,31 +257,25 @@ namespace Obligatorio1.WebApi.Test
             Assert.AreEqual($"Error al cerrar sesión: Error al hacer logout", badRequestResult.Value);
         }
 
-        /*
         [TestMethod]
         public void CreateUser_AdminUser_ReturnsCreatedUser()
         {
             // Arrange
             var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
             var newUser = new User(2, "Pablo", "12123", "pablo@gmail.com", "Av. 18 de Julio 34", "Comprador", null);
-            _serviceMock.Setup(s => s.CreateUser(newUser)).Returns(newUser);
+
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
+            _serviceMock.Setup(s => s.CreateUser(newUser)).Returns(newUser); // Mock CreateUser to return the new user
 
             // Act
             var result = _controller.CreateUser(newUser);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
-            var createdUser = (User)((OkObjectResult)result).Value;
+            Assert.IsInstanceOfType(result, typeof(CreatedAtActionResult));
+            // Add assertions for the createdUser properties as needed
 
-            Assert.AreEqual(newUser.UserID, createdUser.UserID);
-            Assert.AreEqual(newUser.UserName, createdUser.UserName);
-            Assert.AreEqual(newUser.Password, createdUser.Password);
-            Assert.AreEqual(newUser.Email, createdUser.Email);
-            Assert.AreEqual(newUser.Address, createdUser.Address);
-            Assert.AreEqual(newUser.Role, createdUser.Role);
-      
         }
-    
+
         [TestMethod]
         public void CreateUser_NonAdminUser_ReturnsBadRequest()
         {
@@ -303,6 +298,10 @@ namespace Obligatorio1.WebApi.Test
             var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
             var invalidUser = new User(2, "", "", "", "", "", null);
 
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
+            _serviceMock.Setup(s => s.CreateUser(invalidUser))
+                .Throws(new UserException("Usuario inválido.")); // Mock CreateUser to throw a UserException with the error message
+
             // Act
             var result = _controller.CreateUser(invalidUser);
 
@@ -310,6 +309,8 @@ namespace Obligatorio1.WebApi.Test
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             var badRequestResult = (BadRequestObjectResult)result;
             Assert.AreEqual("Usuario inválido.", badRequestResult.Value);
-        }*/
+
+        }
+
     }
 }
