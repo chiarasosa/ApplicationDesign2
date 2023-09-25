@@ -256,5 +256,59 @@ namespace Obligatorio1.WebApi.Test
             Assert.AreEqual($"Error al cerrar sesión: Error al hacer logout", badRequestResult.Value);
         }
 
+        [TestMethod]
+        public void CreateUser_AdminUser_ReturnsCreatedUser()
+        {
+            // Arrange
+            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+            var newUser = new User(2, "Pablo", "12123", "pablo@gmail.com", "Av. 18 de Julio 34", "Comprador", null);
+            _serviceMock.Setup(s => s.CreateUser(newUser)).Returns(newUser);
+
+            // Act
+            var result = _controller.CreateUser(newUser);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var createdUser = (User)((OkObjectResult)result).Value;
+
+            Assert.AreEqual(newUser.UserID, createdUser.UserID);
+            Assert.AreEqual(newUser.UserName, createdUser.UserName);
+            Assert.AreEqual(newUser.Password, createdUser.Password);
+            Assert.AreEqual(newUser.Email, createdUser.Email);
+            Assert.AreEqual(newUser.Address, createdUser.Address);
+            Assert.AreEqual(newUser.Role, createdUser.Role);
+      
+        }
+
+        [TestMethod]
+        public void CreateUser_NonAdminUser_ReturnsBadRequest()
+        {
+            // Arrange
+            var nonAdminUser = new User(1, "NoAdmin", "Prueba123", "noadmin@gmail.com", "Calle 123", "Comprador", null);
+
+            // Act
+            var result = _controller.CreateUser(nonAdminUser);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("No tiene permiso para crear usuarios.", badRequestResult.Value);
+        }
+
+        [TestMethod]
+        public void CreateUser_InvalidUser_ReturnsBadRequest()
+        {
+            // Arrange
+            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+            var invalidUser = new User(2, "", "", "", "", "", null);
+
+            // Act
+            var result = _controller.CreateUser(invalidUser);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("Usuario inválido.", badRequestResult.Value);
+        }
     }
 }
