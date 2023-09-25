@@ -3,6 +3,9 @@ using Obligatorio1.IBusinessLogic;
 using Obligatorio1.Domain;
 using Serilog;
 using Swashbuckle.AspNetCore.Annotations;
+using System;
+using System.Collections.Generic;
+using Obligatorio1.Exceptions;
 
 namespace Obligatorio1.WebApi
 {
@@ -18,6 +21,11 @@ namespace Obligatorio1.WebApi
         }
 
         [HttpPost]
+        [SwaggerOperation(
+            Summary = "Registra un nuevo usuario",
+            Description = "Registra un nuevo usuario en el sistema.")]
+        [ProducesResponseType(typeof(string), 200)] // Especifica el tipo de respuesta para el código 200 (OK)
+        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
         public IActionResult RegisterUser([FromBody] User user)
         {
             try
@@ -54,14 +62,27 @@ namespace Obligatorio1.WebApi
                 // Devolver los usuarios en una respuesta HTTP 200 OK
                 return Ok(users);
             }
-            catch (Exception ex)
+            catch (UserException ex)
             {
-                // Manejar errores y devolver una respuesta de error si es necesario
+                Log.Error(ex, "Error al obtener usuarios: {ErrorMessage}", ex.Message);
+
                 return BadRequest($"Error al obtener usuarios: {ex.Message}");
             }
-        }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error inesperado al obtener usuarios: {ErrorMessage}", ex.Message);
 
+                return BadRequest($"Error inesperado al obtener usuarios: {ex.Message}");
+            }
+        }
+   
         [HttpGet("{id}")]
+        [SwaggerOperation(
+            Summary = "Obtiene un usuario por su ID",
+            Description = "Obtiene un usuario registrado en el sistema por su ID.")]
+        [ProducesResponseType(typeof(User), 200)] // Especifica el tipo de respuesta para el código 200 (OK)
+        [ProducesResponseType(typeof(string), 404)] // Especifica el tipo de respuesta para el código 404 (NotFound)
+        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
         public IActionResult GetUserByID([FromRoute] int id)
         {
             try
@@ -77,14 +98,27 @@ namespace Obligatorio1.WebApi
                 // Devolver el usuario en una respuesta HTTP 200 OK
                 return Ok(user);
             }
+            catch (UserException ex)
+            {
+                Log.Error(ex, "Error al obtener el usuario: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error al obtener el usuario: {ex.Message}");
+            }
             catch (Exception ex)
             {
-                // Manejar errores y devolver una respuesta de error si es necesario
-                return BadRequest($"Error al obtener el usuario: {ex.Message}");
+                Log.Error(ex, "Error inesperado al obtener el usuario: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error inesperado al obtener el usuario: {ex.Message}");
             }
         }
 
         [HttpPost("login")]
+        [SwaggerOperation(
+           Summary = "Inicia sesión de usuario",
+           Description = "Inicia sesión de un usuario registrado en el sistema.")]
+        [ProducesResponseType(typeof(string), 200)] // Especifica el tipo de respuesta para el código 200 (OK)
+        [ProducesResponseType(typeof(string), 401)] // Especifica el tipo de respuesta para el código 401 (Unauthorized)
+        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
         public IActionResult Login(string email, string password)
         {
             try
@@ -103,14 +137,26 @@ namespace Obligatorio1.WebApi
 
                 return Ok("Inicio de sesión exitoso");
             }
+            catch (UserException ex)
+            {
+                Log.Error(ex, "Error al iniciar sesión: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error al iniciar sesión: {ex.Message}");
+            }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error al iniciar sesión para el usuario con email: {Email}", email);
-                return BadRequest($"Error al iniciar sesión: {ex.Message}");
+                Log.Error(ex, "Error inesperado al iniciar sesión: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error inesperado al iniciar sesión: {ex.Message}");
             }
         }
 
-        [HttpDelete("logout")]
+        [HttpPost("logout")]
+        [SwaggerOperation(
+          Summary = "Cierra sesión de usuario",
+          Description = "Cierra sesión de un usuario registrado en el sistema.")]
+        [ProducesResponseType(204)] // NoContent
+        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
         public IActionResult Logout([FromBody] User user)
         {
             try
@@ -123,10 +169,17 @@ namespace Obligatorio1.WebApi
 
                 return NoContent(); // Devuelve una respuesta HTTP 204 No Content
             }
+            catch (UserException ex)
+            {
+                Log.Error(ex, "Error al cerrar sesión: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error al cerrar sesión: {ex.Message}");
+            }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error al cerrar sesión para el usuario con ID: {UserID}", user.UserID);
-                return BadRequest($"Error al cerrar sesión: {ex.Message}");
+                Log.Error(ex, "Error inesperado al cerrar sesión: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error inesperado al cerrar sesión: {ex.Message}");
             }
         }
     }
