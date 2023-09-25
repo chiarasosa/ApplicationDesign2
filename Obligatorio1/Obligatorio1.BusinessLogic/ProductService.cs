@@ -12,7 +12,7 @@ using Obligatorio1.Exceptions;
 
 namespace Obligatorio1.BusinessLogic
 {
-    public class ProductService: IProductService
+    public class ProductService : IProductService
     {
         private readonly IProductManagment productsManagement;
 
@@ -23,9 +23,9 @@ namespace Obligatorio1.BusinessLogic
 
         public Product GetProductByID(int prodID)
         {
-            Product? prod= productsManagement.GetProductByID(prodID);
+            Product? prod = productsManagement.GetProductByID(prodID);
 
-            if (prod==null)
+            if (prod == null)
             {
                 throw new ProductManagmentException("Producto no encontrado");
             }
@@ -34,7 +34,7 @@ namespace Obligatorio1.BusinessLogic
 
         public void RegisterProduct(Product product)
         {
-            if (product==null || product.Price <= 0 || product.Brand <=0 || product.Name==string.Empty)
+            if (product == null || product.Price <= 0 || product.Brand <= 0 || product.Name == string.Empty)
             {
                 throw new ProductManagmentException("");
 
@@ -60,8 +60,8 @@ namespace Obligatorio1.BusinessLogic
 
         public void DeleteProduct(int productID)
         {
-            Product product= productsManagement.GetProductByID(productID);
-            if (product==null)
+            Product product = productsManagement.GetProductByID(productID);
+            if (product == null)
             {
                 throw new ProductManagmentException("Producto no encontrado");
 
@@ -78,7 +78,7 @@ namespace Obligatorio1.BusinessLogic
             {
                 return productsManagement.UpdateProduct(prod);
             }
-            catch(ProductManagmentException e)
+            catch (ProductManagmentException e)
             {
                 throw new ProductManagmentException($"Error al actualizar el producto: {e.Message}");
             }
@@ -103,5 +103,24 @@ namespace Obligatorio1.BusinessLogic
                 throw new Exception($"Error inesperado al crear el producto: {e.Message}", e);
             }
         }
-    }
+
+        public List<Product> SearchByParameter(string text, string brand, string category)
+        {
+            try
+            {
+                return productsManagement.SearchByParameter(text, brand, category);
+            }
+            catch (ProductManagmentException e)
+            {
+                throw new ProductManagmentException($"Error al buscar con los parametros indicados: {e.Message}");
+            }
+            catch(Exception e)
+            {
+                throw new Exception($"Error inesperado", e);
+            }
+        }
 }
+
+
+    }
+

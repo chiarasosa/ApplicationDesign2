@@ -157,20 +157,21 @@ namespace Obligatorio1.BusinessLogic.Test
              {
                  return listProducts
                  .Where(p =>
-                        (string.IsNullOrWhiteSpace(textoBusqueda) || p.Nombre.Contains(textoBusqueda)) &&
-                        (string.IsNullOrWhiteSpace(marca) || p.Marca.Equals(marca, StringComparison.OrdinalIgnoreCase)) &&
-                        (string.IsNullOrWhiteSpace(categoria) || p.Categoria.Equals(categoria, StringComparison.OrdinalIgnoreCase))).Select(p => new Producto
+                        (string.IsNullOrWhiteSpace(textoBusqueda) || p.Name.Contains(textoBusqueda)) &&
+                        (string.IsNullOrWhiteSpace(marca) || p.Brand.Equals(marca)) &&
+                        (string.IsNullOrWhiteSpace(categoria) || p.Category.Equals(categoria))).Select(p => new Product
                         {
-                            Nombre = p.Nombre,
-                            Precio = p.Precio,
-                            Categoria = p.Categoria,
-                            Marca = p.Marca
+                            Name = p.Name,
+                            Price = p.Price,
+                            Category = p.Category,
+                            Brand = p.Brand
+                            
                         }).ToList();
 
 
              });
 
-            var Result = mock.Object.SearchByParameter("lapiz bic", "30");
+            var Result = mock.Object.SearchByParameter("lapiz bic", "30","3");
             Assert.AreEqual(1,Result);
         }
     }
