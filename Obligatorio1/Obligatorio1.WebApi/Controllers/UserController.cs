@@ -384,8 +384,49 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al actualizar el perfil del usuario: {ex.Message}");
             }
         }
-    }
+
+        [HttpPut("UpdateUserInformation")]
+        [SwaggerOperation(
+    Summary = "Actualiza la información de un usuario.",
+    Description = "Permite a un usuario administrador actualizar la información de otro usuario por su ID.")]
+        [ProducesResponseType(typeof(User), 200)] // OK
+        [ProducesResponseType(typeof(string), 400)] // BadRequest
+        [ProducesResponseType(typeof(string), 401)] // Unauthorized
+        public IActionResult UpdateUserInformation([FromBody] User user)
+        {
+            try
+            {
+                // Verifica si el usuario autenticado es un administrador.
+                var loggedInUser = _userService.GetLoggedInUser();
+                if (loggedInUser == null || loggedInUser.Role != "Administrador")
+                {
+                    return Unauthorized("No tiene permiso para actualizar la información del usuario.");
+                }
+
+                // Intenta actualizar la información del usuario a través del servicio de usuarios.
+                var updatedUser = _userService.UpdateUserInformation(user);
+
+                if (updatedUser == null)
+                {
+                    return BadRequest("Error al actualizar la información del usuario.");
+                }
+
+                return Ok(updatedUser); // Devuelve una respuesta HTTP 200 OK con el usuario actualizado
+            }
+            catch (UserException ex)
+            {
+                return BadRequest($"Error al actualizar la información del usuario: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error inesperado al actualizar la información del usuario: {ex.Message}");
+            }
         }
-    
+
+
+
+    }
+}
+
 
 

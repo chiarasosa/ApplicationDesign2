@@ -648,7 +648,7 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual("No tiene permiso para actualizar la información del usuario.", badRequestResult.Value);
+            Assert.AreEqual("Error al actualizar la información del usuario: No tiene permiso para actualizar la información del usuario.", badRequestResult.Value);
         }
 
         [TestMethod]
@@ -671,7 +671,8 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual("El usuario a actualizar no existe.", badRequestResult.Value);
+            Assert.AreEqual("Error al actualizar la información del usuario: El usuario a actualizar no existe.", badRequestResult.Value);
+
         }
 
 
