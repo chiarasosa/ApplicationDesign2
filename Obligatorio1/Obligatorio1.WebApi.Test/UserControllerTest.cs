@@ -601,7 +601,8 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual("Actualización fallida. Datos de usuario incorrectos.", badRequestResult.Value);
+            Assert.IsTrue(badRequestResult.Value.ToString().Contains("El usuario no existe"));
+
         }
 
 

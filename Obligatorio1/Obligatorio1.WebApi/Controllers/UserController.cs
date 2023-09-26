@@ -352,6 +352,40 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al obtener el historial de compras: {ex.Message}");
             }
         }
+        [HttpPut("UpdateUserProfile")]
+        [SwaggerOperation(
+            Summary = "Actualiza el perfil de un usuario en el sistema.",
+            Description = "Permite a un usuario registrado actualizar su perfil con nuevos datos.")]
+        [ProducesResponseType(typeof(User), 200)] // OK
+        [ProducesResponseType(typeof(string), 400)] // BadRequest
+        public IActionResult UpdateUserProfile([FromBody] User user)
+        {
+            try
+            {
+                Log.Information("Intentando actualizar el perfil del usuario con ID: {UserID}", user.UserID);
+
+                // Llama al método UpdateUserProfile del servicio para actualizar el perfil del usuario
+                var updatedUser = _userService.UpdateUserProfile(user);
+
+                Log.Information("Perfil del usuario actualizado exitosamente para el usuario con ID: {UserID}", user.UserID);
+
+                return Ok(updatedUser); // Devuelve una respuesta HTTP 200 OK con el usuario actualizado
+            }
+            catch (UserException ex)
+            {
+                Log.Error(ex, "Error al actualizar el perfil del usuario: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error al actualizar el perfil del usuario: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error inesperado al actualizar el perfil del usuario: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error inesperado al actualizar el perfil del usuario: {ex.Message}");
+            }
+        }
     }
-}
+        }
+    
+
 
