@@ -523,7 +523,7 @@ namespace Obligatorio1.WebApi.Test
         public void GetPurchaseHistory_UserNotFound_ReturnsNotFound()
         {
             // Arrange
-            var validUser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Rol1", null);
+            var validUser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Comprador", null);
 
             // Configura el servicio simulado para devolver el usuario válido
             _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(validUser);
@@ -546,7 +546,7 @@ namespace Obligatorio1.WebApi.Test
         public void GetPurchaseHistory_UserNotFound_ReturnsBadRequest()
         {
             // Arrange
-            var validUser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Rol1", null);
+            var validUser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Administrador", null);
 
             // Configura el servicio simulado para devolver el usuario válido
             _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(validUser);
@@ -565,6 +565,45 @@ namespace Obligatorio1.WebApi.Test
             var notFoundResult = (NotFoundObjectResult)result;
             Assert.AreEqual($"Usuario con ID {nonExistentUserID} no encontrado.", notFoundResult.Value);
         }
+
+        [TestMethod]
+        public void UpdateUserProfile_ValidUser_ReturnsUpdatedUser()
+        {
+            // Arrange
+            var userToUpdate = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Administrador", null);
+
+            // Configura el servicio simulado para devolver el usuario actualizado
+            _serviceMock.Setup(s => s.UpdateUserProfile(It.IsAny<User>()))
+                        .Returns(userToUpdate);
+
+            // Act
+            var result = _controller.UpdateUserProfile(userToUpdate);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var okResult = (OkObjectResult)result;
+            Assert.AreEqual(userToUpdate, okResult.Value);
+        }
+
+        [TestMethod]
+        public void UpdateUserProfile_InvalidUser_ReturnsBadRequest()
+        {
+            // Arrange
+            var userToUpdate = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Administrador", null);
+
+            // Configura el servicio simulado para lanzar una excepción UserException
+            _serviceMock.Setup(s => s.UpdateUserProfile(It.IsAny<User>()))
+                        .Throws(new UserException("El usuario no existe."));
+
+            // Act
+            var result = _controller.UpdateUserProfile(userToUpdate);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("Actualización fallida. Datos de usuario incorrectos.", badRequestResult.Value);
+        }
+
 
     }
 }
