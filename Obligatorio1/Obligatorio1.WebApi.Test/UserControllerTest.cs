@@ -455,7 +455,82 @@ namespace Obligatorio1.WebApi.Test
             Assert.AreEqual("Error al obtener compras: Error al obtener compras.", badRequestResult.Value);
         }
 
+        [TestMethod]
+        public void GetPurchaseHistory_ValidUser_ReturnsListOfPurchases()
+        {
+            // Arrange
+            var validUser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Rol1", null);
 
+            // Configura el servicio simulado para devolver el usuario válido
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(validUser);
 
+            var userToRetrieveHistory = new User(2, "Usuario2", "Password2", "usuario2@example.com", "Dirección2", "Rol2", null);
+
+            // Crea una lista de compras asociadas al usuario que se espera devolver
+            var expectedPurchases = new List<Purchase>
+        {
+            new Purchase(1, userToRetrieveHistory, new List<Product>(), "Promo1", DateTime.Now),
+            new Purchase(2, userToRetrieveHistory, new List<Product>(), "Promo2", DateTime.Now)
+        };
+
+            // Configura el servicio simulado para devolver la lista de compras
+            _serviceMock.Setup(s => s.GetPurchaseHistory(userToRetrieveHistory)).Returns(expectedPurchases);
+
+            // Act
+            var result = _controller.GetPurchaseHistory(userToRetrieveHistory.UserID);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var okResult = (OkObjectResult)result;
+            var resultPurchases = okResult.Value as List<Purchase>;
+            Assert.IsNotNull(resultPurchases);
+            Assert.AreEqual(expectedPurchases.Count, resultPurchases.Count);
+        }
+
+        [TestMethod]
+        public void GetPurchaseHistory_UserNotFound_ReturnsNotFound()
+        {
+            // Arrange
+            var validUser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Rol1", null);
+
+            // Configura el servicio simulado para devolver el usuario válido
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(validUser);
+
+            var nonExistentUserID = 99; // Este usuario no existe
+
+            // Configura el servicio simulado para devolver null, indicando que el usuario no existe
+            _serviceMock.Setup(s => s.GetPurchaseHistory(It.IsAny<User>())).Throws(new UserException($"Usuario con ID {nonExistentUserID} no encontrado."));
+
+            // Act
+            var result = _controller.GetPurchaseHistory(nonExistentUserID);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+            var notFoundResult = (NotFoundObjectResult)result;
+            Assert.AreEqual($"Usuario con ID {nonExistentUserID} no encontrado.", notFoundResult.Value);
+        }
+
+        [TestMethod]
+        public void GetPurchaseHistory_ErrorInService_ReturnsBadRequest()
+        {
+            // Arrange
+            var validUser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Rol1", null);
+
+            // Configura el servicio simulado para devolver el usuario válido
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(validUser);
+
+            var userWithPurchaseHistory = new User(2, "Usuario2", "Password2", "usuario2@example.com", "Dirección2", "Rol2", null);
+
+            // Configura el servicio simulado para lanzar una excepción al obtener el historial de compras
+            _serviceMock.Setup(s => s.GetPurchaseHistory(userWithPurchaseHistory)).Throws(new UserException("Error al obtener el historial de compras."));
+
+            // Act
+            var result = _controller.GetPurchaseHistory(userWithPurchaseHistory.UserID);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("Error al obtener el historial de compras: Error al obtener el historial de compras.", badRequestResult.Value);
+        }
     }
 }
