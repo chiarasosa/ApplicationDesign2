@@ -309,7 +309,57 @@ namespace Obligatorio1.WebApi.Test
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             var badRequestResult = (BadRequestObjectResult)result;
             Assert.AreEqual("Usuario inválido.", badRequestResult.Value);
+        }
 
+        [TestMethod]
+        public void DeleteUser_AdminUserWithPermission_DeletesUser()
+        {
+            // Arrange
+            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+            var userToDelete = new User(2, "Delete", "delete123", "delete@gmail.com", "Artigas 20", "Comprador", null);
+            
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
+            _serviceMock.Setup(s => s.DeleteUser(userToDelete.UserID)); // Mock DeleteUser
+
+            // Act
+            var result = _controller.DeleteUser(userToDelete.UserID);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            _serviceMock.Verify(s => s.DeleteUser(userToDelete.UserID), Times.Once);
+        }
+        [TestMethod]
+        public void DeleteUser_AdminUserWithoutPermission_ThrowsException()
+        {
+            // Arrange
+            var nonAdminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Comprador", null);
+            var userToDelete = new User(2, "Delete", "delete123", "delete@gmail.com", "Artigas 20", "Comprador", null);
+
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(nonAdminUser); // Mock GetLoggedInUser to return a non-admin user
+
+            // Act and Assert
+            Assert.ThrowsException<UserException>(() => _controller.DeleteUser(userToDelete.UserID));
+        }
+
+
+        [TestMethod]
+        public void DeleteUser_UserNotFound_ReturnsNotFound()
+        {
+            // Arrange
+            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+            var userToDeleteID = new User(2, "Delete", "delete123", "delete@gmail.com", "Artigas 20", "Comprador", null);
+
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
+            _serviceMock.Setup(s => s.DeleteUser(userToDeleteID.UserID)); // Mock DeleteUser
+
+            // Act
+            var result = _controller.DeleteUser(userToDeleteID.UserID);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+            var notFoundResult = (NotFoundObjectResult)result;
+            Assert.AreEqual($"Usuario con ID {userToDeleteID} no encontrado", notFoundResult.Value);
+            _serviceMock.Verify(s => s.DeleteUser(userToDeleteID.UserID), Times.Never); // Ensure DeleteUser is not called
         }
 
     }
