@@ -264,6 +264,47 @@ namespace Obligatorio1.WebApi
             }
         }
 
+        [HttpGet("AllPurchases")]
+        [SwaggerOperation(
+    Summary = "Obtiene todas las compras",
+    Description = "Obtiene todas las compras realizadas en el sistema.")]
+        [ProducesResponseType(typeof(IEnumerable<Purchase>), 200)] // OK
+        [ProducesResponseType(typeof(string), 400)] // BadRequest
+        [ProducesResponseType(typeof(string), 403)] // Forbidden (para usuarios no administradores)
+        public IActionResult GetAllPurchases()
+        {
+            try
+            {
+                Log.Information("Intentando obtener todas las compras.");
+
+                // Verifica si el usuario actual tiene permisos de administrador
+                var loggedInUser = _userService.GetLoggedInUser();
+                if (loggedInUser == null || loggedInUser.Role != "Administrador")
+                {
+                    return BadRequest("No tiene permiso para acceder a todas las compras.");
+                }
+
+                // Llama al método GetAllPurchases del servicio para obtener todas las compras
+                var purchases = _userService.GetAllPurchases();
+
+                Log.Information("Compras obtenidas exitosamente.");
+
+                return Ok(purchases); // Devuelve una respuesta HTTP 200 OK con la lista de compras
+            }
+            catch (UserException ex)
+            {
+                Log.Error(ex, "Error al obtener compras: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error al obtener compras: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error inesperado al obtener compras: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error inesperado al obtener compras: {ex.Message}");
+            }
+        }
+
 
 
     }
