@@ -605,6 +605,76 @@ namespace Obligatorio1.WebApi.Test
 
         }
 
+        [TestMethod]
+        public void UpdateUserInformation_AdminUser_ReturnsUpdatedUser()
+        {
+            // Arrange
+            var adminUser = new User(1, "Admin", "Admin123", "admin@example.com", "Admin Address", "Administrador", null);
+            var existingUser = new User(2, "ExistingUser", "ExistingUser123", "existinguser@example.com", "Existing User Address", "Comprador", null);
+            var updatedUser = new User(existingUser.UserID, "UpdatedUser", "UpdatedUser123", "updateduser@example.com", "Updated User Address", "Comprador", null);
+
+            // Configura el servicio simulado para devolver el usuario administrador
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser);
+
+            // Configura el servicio simulado para devolver el usuario actualizado
+            _serviceMock.Setup(s => s.UpdateUserInformation(It.IsAny<User>())).Returns(updatedUser);
+
+            // Act
+            var result = _controller.UpdateUserInformation(updatedUser);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var okResult = (OkObjectResult)result;
+            Assert.AreEqual(updatedUser, okResult.Value);
+        }
+
+        [TestMethod]
+        public void UpdateUserInformation_AdminUser_InvalidUser_ReturnsBadRequest()
+        {
+            // Arrange
+            var adminUser = new User(1, "Admin", "Admin123", "admin@example.com", "Admin Address", "Administrador", null);
+            var invalidUser = new User(2, "InvalidUser", "InvalidUser123", "invaliduser@example.com", "Invalid User Address", "Comprador", null);
+
+            // Configura el servicio simulado para devolver el usuario administrador
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser);
+
+            // Configura el servicio simulado para lanzar una excepción UserException
+            _serviceMock.Setup(s => s.UpdateUserInformation(It.IsAny<User>()))
+                        .Throws(new UserException("No tiene permiso para actualizar la información del usuario."));
+
+            // Act
+            var result = _controller.UpdateUserInformation(invalidUser);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("No tiene permiso para actualizar la información del usuario.", badRequestResult.Value);
+        }
+
+        [TestMethod]
+        public void UpdateUserInformation_AdminUser_UserNotFound_ReturnsBadRequest()
+        {
+            // Arrange
+            var adminUser = new User(1, "Admin", "Admin123", "admin@example.com", "Admin Address", "Administrador", null);
+            var nonExistentUser = new User(99, "NonExistentUser", "NonExistentUser123", "nonexistentuser@example.com", "Nonexistent User Address", "Comprador", null);
+
+            // Configura el servicio simulado para devolver el usuario administrador
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser);
+
+            // Configura el servicio simulado para lanzar una excepción UserException
+            _serviceMock.Setup(s => s.UpdateUserInformation(It.IsAny<User>()))
+                        .Throws(new UserException("El usuario a actualizar no existe."));
+
+            // Act
+            var result = _controller.UpdateUserInformation(nonExistentUser);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("El usuario a actualizar no existe.", badRequestResult.Value);
+        }
+
+
 
     }
 }
