@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace Obligatorio1.WebApi
 {
@@ -17,8 +18,10 @@ namespace Obligatorio1.WebApi
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Obligatorio 1", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath); // Esto incluirá el archivo XML de documentación en Swagger
             });
-
 
 
             //Se configura que clase implementa a que interfaz

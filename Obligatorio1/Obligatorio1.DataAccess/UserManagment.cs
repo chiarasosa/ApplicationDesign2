@@ -78,7 +78,7 @@ namespace Obligatorio1.DataAccess
             return user;
         }
 
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<User> GetAllUsers()
         {
             if (_users != null)
             {

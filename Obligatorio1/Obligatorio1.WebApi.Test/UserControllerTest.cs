@@ -58,6 +58,7 @@ namespace Obligatorio1.WebApi.Test
         public void GetAllUser_ReturnsListOfUsers()
         {
             // Arrange
+            var userAdmin = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Administrador", null);
             var users = new List<User>
     {
         new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Rol1", null),
@@ -65,7 +66,12 @@ namespace Obligatorio1.WebApi.Test
     };
 
             // Configura el servicio simulado para devolver la lista de usuarios
+
+            // Configura el servicio simulado para devolver el usuario por su ID
+            _serviceMock.Setup(s => s.GetUserByID(userAdmin.UserID)).Returns(userAdmin);
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(userAdmin);
             _serviceMock.Setup(s => s.GetAllUsers()).Returns(users);
+
 
             // Act
             var result = _controller.GetAllUsers();
@@ -79,18 +85,23 @@ namespace Obligatorio1.WebApi.Test
         }
 
         [TestMethod]
-        public void GetAllUser_ErrorInService_ReturnsBadRequest()
+        public void GetAllUser_ErrorInService_ReturnsunAuthorizedRequest()
         {
             // Configura el servicio simulado para lanzar una excepción al obtener usuarios
+            var NonAdminuser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Comprador", null);
             _serviceMock.Setup(s => s.GetAllUsers()).Throws(new Exception("Error al obtener usuarios"));
+           
+            _serviceMock.Setup(s => s.GetUserByID(NonAdminuser.UserID)).Returns(NonAdminuser);
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(NonAdminuser); // Mock GetLoggedInUser to return an admin user
+
 
             // Act
             var result = _controller.GetAllUsers();
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
-            var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual("Error inesperado al obtener usuarios: Error al obtener usuarios", badRequestResult.Value);
+            Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
+            var unAuthorizedResult = (UnauthorizedObjectResult)result;
+            Assert.AreEqual("No tiene permiso para obtener la lista de usuarios.", unAuthorizedResult.Value);
         }
 
         [TestMethod]

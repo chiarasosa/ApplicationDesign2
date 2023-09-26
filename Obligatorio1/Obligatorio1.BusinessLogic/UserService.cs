@@ -90,7 +90,7 @@ namespace Obligatorio1.BusinessLogic
 
         public IEnumerable<User> GetAllUsers()
         {
-            IEnumerable<User>? users = _userManagment.GetUsers();
+            IEnumerable<User>? users = _userManagment.GetAllUsers();
 
             if (users == null)
             {

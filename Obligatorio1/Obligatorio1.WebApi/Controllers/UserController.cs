@@ -7,23 +7,30 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Obligatorio1.WebApi
 {
+    /// <summary>
+    /// Controlador para la gestión de usuarios.
+    /// </summary>
     [ApiController]
     [Route("api/users")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
 
+        /// <summary>
+        /// Constructor del controlador de usuarios.
+        /// </summary>
+        /// <param name="userService">El servicio de usuarios.</param>
         public UserController(IUserService userService)
         {
             _userService = userService;
         }
 
+        /// <summary>
+        /// Registra un nuevo usuario en el sistema.
+        /// </summary>
+        /// <param name="user">Los datos del usuario a registrar.</param>
+        /// <returns>Respuesta HTTP indicando el resultado del registro.</returns>
         [HttpPost]
-        [SwaggerOperation(
-            Summary = "Registra un nuevo usuario",
-            Description = "Registra un nuevo usuario en el sistema.")]
-        [ProducesResponseType(typeof(string), 200)] // Especifica el tipo de respuesta para el código 200 (OK)
-        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
         public IActionResult RegisterUser([FromBody] User user)
         {
             try
@@ -44,16 +51,26 @@ namespace Obligatorio1.WebApi
             }
         }
 
+        /// <summary>
+        /// Obtiene la lista de todos los usuarios registrados en el sistema.
+        /// </summary>
+        ///<remarks>
+        /// Permite a un usuario con permisos de administrador obtener la lista de todos los usuarios registrados en el sistema.
+        /// </remarks>
+        /// <returns>Respuesta HTTP con la lista de usuarios.</returns>
         [HttpGet]
-        [SwaggerOperation(
-         Summary = "Obtiene la lista de usuarios",
-         Description = "Obtiene todos los usuarios registrados en el sistema.")]
-        [ProducesResponseType(typeof(IEnumerable<User>), 200)] // Especifica el tipo de respuesta para el código 200 (OK)
-        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
         public IActionResult GetAllUsers()
         {
             try
             {
+                // Obtener el usuario autenticado
+                var loggedInUser = _userService.GetLoggedInUser();
+
+                if (loggedInUser == null || loggedInUser.Role != "Administrador")
+                {
+                    return Unauthorized("No tiene permiso para obtener la lista de usuarios.");
+                }
+
                 // Obtener todos los usuarios desde el servicio
                 var users = _userService.GetAllUsers();
 
@@ -74,13 +91,13 @@ namespace Obligatorio1.WebApi
             }
         }
 
+
+        /// <summary>
+        /// Obtiene un usuario por su ID.
+        /// </summary>
+        /// <param name="id">El ID del usuario a obtener.</param>
+        /// <returns>Respuesta HTTP con el usuario encontrado.</returns>
         [HttpGet("{id}")]
-        [SwaggerOperation(
-            Summary = "Obtiene un usuario por su ID",
-            Description = "Obtiene un usuario registrado en el sistema por su ID.")]
-        [ProducesResponseType(typeof(User), 200)] // Especifica el tipo de respuesta para el código 200 (OK)
-        [ProducesResponseType(typeof(string), 404)] // Especifica el tipo de respuesta para el código 404 (NotFound)
-        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
         public IActionResult GetUserByID([FromRoute] int id)
         {
             try
@@ -110,13 +127,13 @@ namespace Obligatorio1.WebApi
             }
         }
 
+        /// <summary>
+        /// Inicia sesión de un usuario registrado en el sistema.
+        /// </summary>
+        /// <param name="email">El correo electrónico del usuario.</param>
+        /// <param name="password">La contraseña del usuario.</param>
+        /// <returns>Respuesta HTTP indicando el resultado del inicio de sesión.</returns>
         [HttpPost("login")]
-        [SwaggerOperation(
-           Summary = "Inicia sesión de usuario",
-           Description = "Inicia sesión de un usuario registrado en el sistema.")]
-        [ProducesResponseType(typeof(string), 200)] // Especifica el tipo de respuesta para el código 200 (OK)
-        [ProducesResponseType(typeof(string), 401)] // Especifica el tipo de respuesta para el código 401 (Unauthorized)
-        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
         public IActionResult Login(string email, string password)
         {
             try
@@ -149,12 +166,12 @@ namespace Obligatorio1.WebApi
             }
         }
 
+        /// <summary>
+        /// Cierra sesión de un usuario registrado en el sistema.
+        /// </summary>
+        /// <param name="user">El usuario que cierra sesión.</param>
+        /// <returns>Respuesta HTTP indicando el resultado del cierre de sesión.</returns>
         [HttpPost("logout")]
-        [SwaggerOperation(
-          Summary = "Cierra sesión de usuario",
-          Description = "Cierra sesión de un usuario registrado en el sistema.")]
-        [ProducesResponseType(204)] // NoContent
-        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
         public IActionResult Logout([FromBody] User user)
         {
             try
@@ -181,12 +198,17 @@ namespace Obligatorio1.WebApi
             }
         }
 
+
+        /// <summary>
+        /// Crea un nuevo usuario en el sistema.
+        /// </summary>
+        /// <remarks>
+        /// Permite a un usuario con permisos de administrador crear un nuevo usuario en el sistema.
+        /// </remarks>
+        /// <param name="user">Los datos del usuario a crear.</param>
+        /// <response code="201">El usuario se creó con éxito.</response>
+        /// <response code="400">Error en la solicitud o al crear el usuario.</response>
         [HttpPost("create")]
-        [SwaggerOperation(
-          Summary = "Crea un nuevo usuario",
-          Description = "Crea un nuevo usuario en el sistema.")]
-        [ProducesResponseType(typeof(User), 201)] // Especifica el tipo de respuesta para el código 201 (Created)
-        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
         public IActionResult CreateUser([FromBody] User user)
         {
             try
@@ -223,13 +245,18 @@ namespace Obligatorio1.WebApi
             }
         }
 
+
+        /// <summary>
+        /// Elimina un usuario registrado en el sistema por su ID.
+        /// </summary>
+        /// <remarks>
+        /// Permite a un usuario con permisos de administrador eliminar un usuario por su ID.
+        /// </remarks>
+        /// <param name="id">El ID del usuario a eliminar.</param>
+        /// <response code="204">El usuario se eliminó con éxito.</response>
+        /// <response code="404">El usuario con el ID especificado no se encontró.</response>
+        /// <response code="400">Error en la solicitud o al eliminar el usuario.</response>
         [HttpDelete("{id}")]
-        [SwaggerOperation(
-            Summary = "Elimina un usuario por su ID",
-            Description = "Elimina un usuario registrado en el sistema por su ID.")]
-        [ProducesResponseType(204)] // NoContent
-        [ProducesResponseType(typeof(string), 404)] // Especifica el tipo de respuesta para el código 404 (NotFound)
-        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
         public IActionResult DeleteUser([FromRoute] int id)
         {
             try
@@ -264,13 +291,16 @@ namespace Obligatorio1.WebApi
             }
         }
 
+        /// <summary>
+        /// Obtiene todas las compras realizadas en el sistema.
+        /// </summary>
+        /// <remarks>
+        /// Permite a un usuario con permisos de administrador obtener todas las compras realizadas en el sistema.
+        /// </remarks>
+        /// <response code="200">Las compras se obtuvieron exitosamente.</response>
+        /// <response code="400">Error en la solicitud o al obtener las compras.</response>
+        /// <response code="403">No tiene permiso para acceder a todas las compras (solo para usuarios no administradores).</response>
         [HttpGet("AllPurchases")]
-        [SwaggerOperation(
-    Summary = "Obtiene todas las compras",
-    Description = "Obtiene todas las compras realizadas en el sistema.")]
-        [ProducesResponseType(typeof(IEnumerable<Purchase>), 200)] // OK
-        [ProducesResponseType(typeof(string), 400)] // BadRequest
-        [ProducesResponseType(typeof(string), 403)] // Forbidden (para usuarios no administradores)
         public IActionResult GetAllPurchases()
         {
             try
@@ -305,13 +335,17 @@ namespace Obligatorio1.WebApi
             }
         }
 
+        /// <summary>
+        /// Obtiene el historial de compras de un usuario registrado en el sistema por su ID.
+        /// </summary>
+        /// <remarks>
+        /// Permite a un usuario obtener el historial de compras de un usuario registrado en el sistema por su ID.
+        /// </remarks>
+        /// <param name="id">El ID del usuario del cual se desea obtener el historial de compras.</param>
+        /// <response code="200">El historial de compras se obtuvo exitosamente.</response>
+        /// <response code="400">Error en la solicitud o al obtener el historial de compras.</response>
+        /// <response code="404">Usuario con el ID especificado no encontrado.</response>
         [HttpGet("GetPurchaseHistory/{id}")]
-        [SwaggerOperation(
-            Summary = "Obtiene el historial de compras de un usuario.",
-            Description = "Obtiene el historial de compras de un usuario registrado en el sistema por su ID.")]
-        [ProducesResponseType(typeof(IEnumerable<Purchase>), 200)] // OK
-        [ProducesResponseType(typeof(string), 400)] // BadRequest
-        [ProducesResponseType(typeof(string), 404)] // NotFound
         public IActionResult GetPurchaseHistory([FromRoute] int id)
         {
             try
@@ -352,12 +386,17 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al obtener el historial de compras: {ex.Message}");
             }
         }
+
+        /// <summary>
+        /// Actualiza el perfil de un usuario registrado en el sistema.
+        /// </summary>
+        /// <remarks>
+        /// Permite a un usuario registrado actualizar su perfil con nuevos datos.
+        /// </remarks>
+        /// <param name="user">Los datos del usuario a actualizar.</param>
+        /// <response code="200">La información del usuario se actualizó con éxito.</response>
+        /// <response code="400">Error en la solicitud o al actualizar la información del usuario.</response>
         [HttpPut("UpdateUserProfile")]
-        [SwaggerOperation(
-            Summary = "Actualiza el perfil de un usuario en el sistema.",
-            Description = "Permite a un usuario registrado actualizar su perfil con nuevos datos.")]
-        [ProducesResponseType(typeof(User), 200)] // OK
-        [ProducesResponseType(typeof(string), 400)] // BadRequest
         public IActionResult UpdateUserProfile([FromBody] User user)
         {
             try
@@ -384,14 +423,18 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al actualizar el perfil del usuario: {ex.Message}");
             }
         }
-
+        /// <summary>
+        /// Actualiza la información de un usuario.
+        /// </summary>
+        /// <remarks>
+        /// Permite a un usuario administrador actualizar la información de otro usuario por su ID.
+        /// </remarks>
+        /// <param name="user">Los datos del usuario a actualizar.</param>
+        /// <response code="200">La información del usuario se actualizó con éxito.</response>
+        /// <response code="400">Error en la solicitud o al actualizar la información.</response>
+        /// <response code="401">No tiene permiso para actualizar la información del usuario.</response>
         [HttpPut("UpdateUserInformation")]
-        [SwaggerOperation(
-    Summary = "Actualiza la información de un usuario.",
-    Description = "Permite a un usuario administrador actualizar la información de otro usuario por su ID.")]
-        [ProducesResponseType(typeof(User), 200)] // OK
-        [ProducesResponseType(typeof(string), 400)] // BadRequest
-        [ProducesResponseType(typeof(string), 401)] // Unauthorized
+
         public IActionResult UpdateUserInformation([FromBody] User user)
         {
             try
