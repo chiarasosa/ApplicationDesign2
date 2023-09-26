@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Obligatorio1.BusinessLogic;
 using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
-using Obligatorio1.WebApi;
 
 
 namespace Obligatorio1.WebApi.Test
@@ -317,7 +315,7 @@ namespace Obligatorio1.WebApi.Test
             // Arrange
             var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
             var userToDelete = new User(2, "Delete", "delete123", "delete@gmail.com", "Artigas 20", "Comprador", null);
-            
+
             _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
             _serviceMock.Setup(s => s.DeleteUser(userToDelete.UserID)); // Mock DeleteUser
 
@@ -369,6 +367,95 @@ namespace Obligatorio1.WebApi.Test
             var notFoundResult = (NotFoundObjectResult)result;
             Assert.AreEqual($"Usuario con ID {id} no encontrado.", notFoundResult.Value);
         }
+
+        [TestMethod]
+        public void GetAllPurchases_AdminUser_ReturnsListOfPurchases()
+        {
+            // Arrange
+            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+
+            // Crear una lista de objetos Product para utilizar en el objeto Purchase
+            var products = new List<Product>
+    {
+        new Product
+        {
+            ProductID = 1,
+            Name = "Producto1",
+            Price = 100,
+            Description = "Descripción del producto",
+            Brand = 1,
+            Category = 1,
+            Colors = new List<string> { "Rojo", "Azul" }
+        },
+        // Agrega más objetos Product si es necesario para tus pruebas
+    };
+
+            // Crear una lista de objetos Purchase utilizando el objeto User y los productos
+            var purchases = new List<Purchase>
+    {
+        new Purchase
+        {
+            PurchaseID = 1,
+            User = adminUser,
+            PurchasedProducts = products,
+            PromoApplied = "Promo1",
+            DateOfPurchase = DateTime.Now
+        },
+        // Agrega más objetos Purchase si es necesario para tus pruebas
+    };
+
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
+            _serviceMock.Setup(s => s.GetAllPurchases()).Returns(purchases); // Mock GetAllPurchases to return purchases
+
+            // Act
+            var result = _controller.GetAllPurchases();
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var okResult = (OkObjectResult)result;
+            var resultPurchases = okResult.Value as List<Purchase>;
+            Assert.IsNotNull(resultPurchases);
+            Assert.AreEqual(purchases.Count, resultPurchases.Count);
+        }
+
+
+        [TestMethod]
+        public void GetAllPurchases_NonAdminUser_ReturnsBadRequest()
+        {
+            // Arrange
+            var nonAdminUser = new User(1, "NoAdmin", "Prueba123", "noadmin@gmail.com", "Calle 123", "Comprador", null);
+
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(nonAdminUser); // Mock GetLoggedInUser to return a non-admin user
+
+            // Act
+            var result = _controller.GetAllPurchases();
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("No tiene permiso para acceder a todas las compras.", badRequestResult.Value);
+        }
+
+
+        [TestMethod]
+        public void GetAllPurchases_ErrorInService_ReturnsBadRequest()
+        {
+            // Arrange
+            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
+            _serviceMock.Setup(s => s.GetAllPurchases()).Throws(new UserException("Error al obtener compras.")); // Mock GetAllPurchases to throw a UserException
+
+            // Act
+            var result = _controller.GetAllPurchases();
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("Error al obtener compras: Error al obtener compras.", badRequestResult.Value);
+        }
+
+
 
     }
 }
