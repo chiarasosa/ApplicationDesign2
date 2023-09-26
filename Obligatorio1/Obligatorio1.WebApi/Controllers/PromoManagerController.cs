@@ -17,7 +17,7 @@ namespace Obligatorio1.WebApi.Controllers
         }
 
         [HttpPut("applybestpromo")]
-        public ActionResult<Cart> ApplyBestPromotion([FromBody] Cart cart)
+        public OkObjectResult ApplyBestPromotion([FromBody] Cart cart)
         {
             var updatedCart = _promoManagerService.ApplyBestPromotion(cart);
             return Ok(updatedCart);

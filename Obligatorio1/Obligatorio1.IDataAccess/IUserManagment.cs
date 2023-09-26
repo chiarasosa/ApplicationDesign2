@@ -18,8 +18,6 @@ namespace Obligatorio1.IDataAccess
         void CreateProduct(Product product);
         Product UpdateProduct(Product product);
         void AddProductToCart(Product product);
-        User GetAuthenticatedUser();
-
         void DeleteProductFromCart(Product product);
     }
 }

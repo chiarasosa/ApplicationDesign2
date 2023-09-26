@@ -218,10 +218,12 @@ namespace Obligatorio1.DataAccess
 
             return existingProduct;
         }
+        /*
         public User GetAuthenticatedUser()
         {
             return _authenticatedUser;
         }
+        */
         public void AddProductToCart(Product product)
         {
             if(_authenticatedUser != null)

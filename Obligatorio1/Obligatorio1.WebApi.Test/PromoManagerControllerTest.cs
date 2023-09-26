@@ -41,9 +41,9 @@ namespace Obligatorio1.WebApi.Test
 
             // Act
             var result = _controller.ApplyBestPromotion(inputCart);
-
+            var parsedResult = (OkObjectResult)result;
             // Assert
-            Assert.AreEqual(expectedCart, result);
+            Assert.AreEqual(expectedCart, parsedResult.Value);
         }
     }
 }

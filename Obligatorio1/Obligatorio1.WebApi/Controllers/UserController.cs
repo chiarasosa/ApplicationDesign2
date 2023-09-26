@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Obligatorio1.IBusinessLogic;
 using Obligatorio1.Domain;
+using Obligatorio1.IBusinessLogic;
 using Serilog;
 using Swashbuckle.AspNetCore.Annotations;
 
