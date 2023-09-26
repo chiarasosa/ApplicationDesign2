@@ -376,31 +376,31 @@ namespace Obligatorio1.WebApi.Test
 
             // Crear una lista de objetos Product para utilizar en el objeto Purchase
             var products = new List<Product>
-    {
-        new Product
-        {
-            ProductID = 1,
-            Name = "Producto1",
-            Price = 100,
-            Description = "Descripción del producto",
-            Brand = 1,
-            Category = 1,
-            Colors = new List<string> { "Rojo", "Azul" }
-        },
-        // Agrega más objetos Product si es necesario para tus pruebas
-    };
+            {
+                new Product
+                {
+                    ProductID = 1,
+                    Name = "Producto1",
+                    Price = 100,
+                    Description = "Descripción del producto",
+                    Brand = 1,
+                    Category = 1,
+                    Colors = new List<string> { "Rojo", "Azul" }
+                },
+                // Agrega más objetos Product si es necesario para tus pruebas
+            };
 
             // Crear una lista de objetos Purchase utilizando el objeto User y los productos
             var purchases = new List<Purchase>
-    {
-        new Purchase
-        {
-            PurchaseID = 1,
-            User = adminUser,
-            PurchasedProducts = products,
-            PromoApplied = "Promo1",
-            DateOfPurchase = DateTime.Now
-        },
+                {
+                    new Purchase
+                    {
+                        PurchaseID = 1,
+                        User = adminUser,
+                        PurchasedProducts = products,
+                        PromoApplied = "Promo1",
+                        DateOfPurchase = DateTime.Now
+                    },
         // Agrega más objetos Purchase si es necesario para tus pruebas
     };
 
@@ -459,25 +459,56 @@ namespace Obligatorio1.WebApi.Test
         public void GetPurchaseHistory_ValidUser_ReturnsListOfPurchases()
         {
             // Arrange
-            var validUser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Rol1", null);
+            var validUser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Administrador", null);
 
             // Configura el servicio simulado para devolver el usuario válido
             _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(validUser);
 
             var userToRetrieveHistory = new User(2, "Usuario2", "Password2", "usuario2@example.com", "Dirección2", "Rol2", null);
 
+            // Crear una lista de objetos Product para utilizar en el objeto Purchase
+            var products = new List<Product>
+    {
+        new Product
+        {
+            ProductID = 1,
+            Name = "Producto1",
+            Price = 100,
+            Description = "Descripción del producto",
+            Brand = 1,
+            Category = 1,
+            Colors = new List<string> { "Rojo", "Azul" }
+        },
+    };
+
             // Crea una lista de compras asociadas al usuario que se espera devolver
             var expectedPurchases = new List<Purchase>
+    {
+        new Purchase
         {
-            new Purchase(1, userToRetrieveHistory, new List<Product>(), "Promo1", DateTime.Now),
-            new Purchase(2, userToRetrieveHistory, new List<Product>(), "Promo2", DateTime.Now)
-        };
+            PurchaseID = 1,
+            User = userToRetrieveHistory,
+            PurchasedProducts = products,
+            PromoApplied = "Promo1",
+            DateOfPurchase = DateTime.Now
+        },
+        new Purchase
+        {
+            PurchaseID = 2,
+            User = userToRetrieveHistory,
+            PurchasedProducts = products,
+            PromoApplied = "Promo2",
+            DateOfPurchase = DateTime.Now
+        }
+    };
 
             // Configura el servicio simulado para devolver la lista de compras
             _serviceMock.Setup(s => s.GetPurchaseHistory(userToRetrieveHistory)).Returns(expectedPurchases);
+            // Configura el servicio simulado para devolver userToRetrieveHistory
+            _serviceMock.Setup(s => s.GetUserByID(It.IsAny<int>())).Returns(userToRetrieveHistory);
 
             // Act
-            var result = _controller.GetPurchaseHistory(userToRetrieveHistory.UserID);
+            var result = _controller.GetPurchaseHistory(userToRetrieveHistory.UserID); // Pasa el UserID como valor de ruta
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
@@ -486,6 +517,7 @@ namespace Obligatorio1.WebApi.Test
             Assert.IsNotNull(resultPurchases);
             Assert.AreEqual(expectedPurchases.Count, resultPurchases.Count);
         }
+
 
         [TestMethod]
         public void GetPurchaseHistory_UserNotFound_ReturnsNotFound()
@@ -511,7 +543,7 @@ namespace Obligatorio1.WebApi.Test
         }
 
         [TestMethod]
-        public void GetPurchaseHistory_ErrorInService_ReturnsBadRequest()
+        public void GetPurchaseHistory_UserNotFound_ReturnsBadRequest()
         {
             // Arrange
             var validUser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Rol1", null);
@@ -519,18 +551,20 @@ namespace Obligatorio1.WebApi.Test
             // Configura el servicio simulado para devolver el usuario válido
             _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(validUser);
 
-            var userWithPurchaseHistory = new User(2, "Usuario2", "Password2", "usuario2@example.com", "Dirección2", "Rol2", null);
+            var nonExistentUserID = 99; // Este usuario no existe
 
-            // Configura el servicio simulado para lanzar una excepción al obtener el historial de compras
-            _serviceMock.Setup(s => s.GetPurchaseHistory(userWithPurchaseHistory)).Throws(new UserException("Error al obtener el historial de compras."));
+            // Configura el servicio simulado para lanzar una excepción UserException
+            _serviceMock.Setup(s => s.GetPurchaseHistory(It.IsAny<User>()))
+                        .Throws(new UserException($"Usuario con ID {nonExistentUserID} no encontrado."));
 
             // Act
-            var result = _controller.GetPurchaseHistory(userWithPurchaseHistory.UserID);
+            var result = _controller.GetPurchaseHistory(nonExistentUserID);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
-            var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual("Error al obtener el historial de compras: Error al obtener el historial de compras.", badRequestResult.Value);
+            Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+            var notFoundResult = (NotFoundObjectResult)result;
+            Assert.AreEqual($"Usuario con ID {nonExistentUserID} no encontrado.", notFoundResult.Value);
         }
+
     }
 }

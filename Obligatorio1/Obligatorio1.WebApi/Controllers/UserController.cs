@@ -305,9 +305,53 @@ namespace Obligatorio1.WebApi
             }
         }
 
+        [HttpGet("GetPurchaseHistory/{id}")]
+        [SwaggerOperation(
+            Summary = "Obtiene el historial de compras de un usuario.",
+            Description = "Obtiene el historial de compras de un usuario registrado en el sistema por su ID.")]
+        [ProducesResponseType(typeof(IEnumerable<Purchase>), 200)] // OK
+        [ProducesResponseType(typeof(string), 400)] // BadRequest
+        [ProducesResponseType(typeof(string), 404)] // NotFound
+        public IActionResult GetPurchaseHistory([FromRoute] int id)
+        {
+            try
+            {
+                Log.Information("Intentando obtener el historial de compras del usuario con ID: {UserID}", id);
 
+                // Verifica si el usuario actual tiene permisos para acceder al historial de compras
+                var loggedInUser = _userService.GetLoggedInUser();
+                if (loggedInUser == null)
+                {
+                    return BadRequest("Debe iniciar sesión para acceder al historial de compras.");
+                }
 
+                // Llama al método GetPurchaseHistory del servicio para obtener el historial de compras del usuario
+                var user = _userService.GetUserByID(id);
+
+                if (user == null)
+                {
+                    return NotFound($"Usuario con ID {id} no encontrado.");
+                }
+
+                var purchaseHistory = _userService.GetPurchaseHistory(user);
+
+                Log.Information("Historial de compras obtenido exitosamente para el usuario con ID: {UserID}", id);
+
+                return Ok(purchaseHistory); // Devuelve una respuesta HTTP 200 OK con el historial de compras
+            }
+            catch (UserException ex)
+            {
+                Log.Error(ex, "Error al obtener el historial de compras: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error al obtener el historial de compras: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error inesperado al obtener el historial de compras: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error inesperado al obtener el historial de compras: {ex.Message}");
+            }
+        }
     }
-
 }
 
