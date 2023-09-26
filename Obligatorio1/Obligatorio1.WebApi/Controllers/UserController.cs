@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Obligatorio1.IBusinessLogic;
 using Obligatorio1.Domain;
+using Obligatorio1.Exceptions;
+using Obligatorio1.IBusinessLogic;
 using Serilog;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
-using System.Collections.Generic;
-using Obligatorio1.Exceptions;
 
 namespace Obligatorio1.WebApi
 {
@@ -35,7 +33,7 @@ namespace Obligatorio1.WebApi
                 _userService.RegisterUser(user);
 
                 Log.Information("Usuario registrado exitosamente.");
-    
+
                 return Ok("Usuario registrado exitosamente.");
             }
             catch (Exception ex)
@@ -75,7 +73,7 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al obtener usuarios: {ex.Message}");
             }
         }
-   
+
         [HttpGet("{id}")]
         [SwaggerOperation(
             Summary = "Obtiene un usuario por su ID",
@@ -184,6 +182,11 @@ namespace Obligatorio1.WebApi
         }
 
         [HttpPost("create")]
+        [SwaggerOperation(
+          Summary = "Crea un nuevo usuario",
+          Description = "Crea un nuevo usuario en el sistema.")]
+        [ProducesResponseType(typeof(User), 201)] // Especifica el tipo de respuesta para el código 201 (Created)
+        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
         public IActionResult CreateUser([FromBody] User user)
         {
             try
@@ -220,6 +223,50 @@ namespace Obligatorio1.WebApi
             }
         }
 
+        [HttpDelete("{id}")]
+        [SwaggerOperation(
+            Summary = "Elimina un usuario por su ID",
+            Description = "Elimina un usuario registrado en el sistema por su ID.")]
+        [ProducesResponseType(204)] // NoContent
+        [ProducesResponseType(typeof(string), 404)] // Especifica el tipo de respuesta para el código 404 (NotFound)
+        [ProducesResponseType(typeof(string), 400)] // Especifica el tipo de respuesta para el código 400 (BadRequest)
+        public IActionResult DeleteUser([FromRoute] int id)
+        {
+            try
+            {
+                Log.Information("Intentando eliminar el usuario con ID: {UserID}", id);
+
+                // Verifica si el usuario actual tiene permisos de administrador
+                var loggedInUser = _userService.GetLoggedInUser();
+                if (loggedInUser == null || loggedInUser.Role != "Administrador")
+                {
+                    return BadRequest("No tiene permiso para eliminar usuarios.");
+                }
+
+                // Llama al método DeleteUser del servicio para eliminar el usuario
+                _userService.DeleteUser(id);
+
+                Log.Information("Usuario eliminado exitosamente con ID: {UserID}", id);
+
+                return NoContent(); // Devuelve una respuesta HTTP 204 No Content
+            }
+            catch (UserException ex)
+            {
+                Log.Error(ex, "Error al eliminar el usuario: {ErrorMessage}", ex.Message);
+
+                return NotFound(ex.Message); // Devuelve un resultado NotFound con el mensaje de la excepción
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error inesperado al eliminar el usuario: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error inesperado al eliminar el usuario: {ex.Message}");
+            }
+        }
+
+
 
     }
+
 }
+
