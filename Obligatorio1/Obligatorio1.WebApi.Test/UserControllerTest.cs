@@ -70,7 +70,7 @@ namespace Obligatorio1.WebApi.Test
             // Configura el servicio simulado para devolver el usuario por su ID
             _serviceMock.Setup(s => s.GetUserByID(userAdmin.UserID)).Returns(userAdmin);
             _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(userAdmin);
-            _serviceMock.Setup(s => s.GetAllUsers()).Returns(users);
+            _serviceMock.Setup(s => s.GetUsers()).Returns(users);
 
             // Act
             var result = _controller.GetAllUsers();
@@ -89,7 +89,7 @@ namespace Obligatorio1.WebApi.Test
             // Configura el servicio simulado para lanzar una excepci�n al obtener usuarios
 
             var NonAdminuser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Direcci�n1", "Comprador", null);
-            _serviceMock.Setup(s => s.GetAllUsers()).Throws(new Exception("Error al obtener usuarios"));
+            _serviceMock.Setup(s => s.GetUsers()).Throws(new Exception("Error al obtener usuarios"));
            
             _serviceMock.Setup(s => s.GetUserByID(NonAdminuser.UserID)).Returns(NonAdminuser);
             _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(NonAdminuser); // Mock GetLoggedInUser to return an admin user
@@ -395,8 +395,8 @@ namespace Obligatorio1.WebApi.Test
                     Description = "Descripci�n del producto",
                     Brand = 1,
                     Category = 1,
-                    Colors = new List<string> { "Rojo", "Azul" }
-                },
+                    Color = "red",
+                }
                 // Agrega m�s objetos Product si es necesario para tus pruebas
             };
 
@@ -487,7 +487,7 @@ namespace Obligatorio1.WebApi.Test
             Description = "Descripci�n del producto",
             Brand = 1,
             Category = 1,
-            Colors = new List<string> { "Rojo", "Azul" }
+            Color = "red"
         },
     };
 

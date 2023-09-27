@@ -34,7 +34,7 @@ namespace Obligatorio1.DataAccess
             existingProduct.Price = product.Price;
             existingProduct.Brand = product.Brand;
             existingProduct.Category = product.Category;
-            existingProduct.Colors = product.Colors;
+            existingProduct.Color = product.Color;
 
             return existingProduct;
         }
