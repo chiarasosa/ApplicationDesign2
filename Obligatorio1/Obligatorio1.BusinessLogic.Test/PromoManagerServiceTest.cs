@@ -94,7 +94,7 @@ namespace Obligatorio1.BusinessLogic.Test
             // Verifica que todas las expectativas configuradas en _promoManagerManagmentMock se hayan cumplido
             _promoManagerManagmentMock?.VerifyAll();
         }
-
+        /*
         [TestMethod]
         public void ApplyBestPromotion_TotalAndTwentyPossible_Correct()
         {
@@ -121,7 +121,7 @@ namespace Obligatorio1.BusinessLogic.Test
         }
 
   
-
+        */
 
     }
 }

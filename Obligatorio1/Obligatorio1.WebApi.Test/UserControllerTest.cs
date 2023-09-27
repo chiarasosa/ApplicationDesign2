@@ -3,7 +3,6 @@ using Moq;
 using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
-using Obligatorio1.WebApi;
 
 namespace Obligatorio1.WebApi.Test
 {
@@ -44,7 +43,7 @@ namespace Obligatorio1.WebApi.Test
             var invalidUser = new User(1, "", "", "", "", "", null);
 
             // Configura el servicio simulado para lanzar UserException
-            _serviceMock.Setup(s => s.RegisterUser(invalidUser)).Throws(new UserException("Usuario inválido"));
+            _serviceMock.Setup(s => s.RegisterUser(invalidUser)).Throws(new UserException("Usuario invï¿½lido"));
 
             // Act
             var result = _controller.RegisterUser(invalidUser);
@@ -58,14 +57,20 @@ namespace Obligatorio1.WebApi.Test
         public void GetAllUser_ReturnsListOfUsers()
         {
             // Arrange
+            var userAdmin = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Direcciï¿½n1", "Administrador", null);
             var users = new List<User>
     {
-        new User(1, "Usuario1", "Password1", "usuario1@example.com", "Dirección1", "Rol1", null),
-        new User(2, "Usuario2", "Password2", "usuario2@example.com", "Dirección2", "Rol2", null)
+        new User(1, "Usuario1", "Password1", "usuario1@example.com", "Direcciï¿½n1", "Rol1", null),
+        new User(2, "Usuario2", "Password2", "usuario2@example.com", "Direcciï¿½n2", "Rol2", null)
     };
 
             // Configura el servicio simulado para devolver la lista de usuarios
-            _serviceMock.Setup(s => s.GetUsers()).Returns(users);
+
+
+            // Configura el servicio simulado para devolver el usuario por su ID
+            _serviceMock.Setup(s => s.GetUserByID(userAdmin.UserID)).Returns(userAdmin);
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(userAdmin);
+            _serviceMock.Setup(s => s.GetAllUsers()).Returns(users);
 
             // Act
             var result = _controller.GetAllUsers();
@@ -79,18 +84,23 @@ namespace Obligatorio1.WebApi.Test
         }
 
         [TestMethod]
-        public void GetAllUser_ErrorInService_ReturnsBadRequest()
+        public void GetAllUser_ErrorInService_ReturnsunAuthorizedRequest()
         {
-            // Configura el servicio simulado para lanzar una excepción al obtener usuarios
-            _serviceMock.Setup(s => s.GetUsers()).Throws(new Exception("Error al obtener usuarios"));
+            // Configura el servicio simulado para lanzar una excepciï¿½n al obtener usuarios
+
+            var NonAdminuser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Direcciï¿½n1", "Comprador", null);
+            _serviceMock.Setup(s => s.GetAllUsers()).Throws(new Exception("Error al obtener usuarios"));
+           
+            _serviceMock.Setup(s => s.GetUserByID(NonAdminuser.UserID)).Returns(NonAdminuser);
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(NonAdminuser); // Mock GetLoggedInUser to return an admin user
 
             // Act
             var result = _controller.GetAllUsers();
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
-            var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual("Error al obtener usuarios: Error al obtener usuarios", badRequestResult.Value);
+            Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
+            var unAuthorizedResult = (UnauthorizedObjectResult)result;
+            Assert.AreEqual("No tiene permiso para obtener la lista de usuarios.", unAuthorizedResult.Value);
         }
 
         [TestMethod]
@@ -136,8 +146,8 @@ namespace Obligatorio1.WebApi.Test
             // Arrange
             int userId = 1;
 
-            // Configura el servicio simulado para lanzar una excepción al obtener el usuario por su ID
-            _serviceMock.Setup(s => s.GetUserByID(userId)).Throws(new Exception("Error al obtener el usuario"));
+            // Configura el servicio simulado para lanzar una excepciï¿½n al obtener el usuario por su ID
+            _serviceMock.Setup(s => s.GetUserByID(userId)).Throws(new UserException("Error al obtener el usuario"));
 
             // Act
             var result = _controller.GetUserByID(userId);
@@ -157,7 +167,7 @@ namespace Obligatorio1.WebApi.Test
 
             var authenticatedUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
 
-            // Configura el servicio simulado para devolver el usuario al iniciar sesión
+            // Configura el servicio simulado para devolver el usuario al iniciar sesiï¿½n
             _serviceMock.Setup(s => s.Login(email, password)).Returns(authenticatedUser);
 
             // Act
@@ -166,7 +176,7 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             var okResult = (OkObjectResult)result;
-            Assert.AreEqual("Inicio de sesión exitoso", okResult.Value);
+            Assert.AreEqual("Inicio de sesiï¿½n exitoso", okResult.Value);
         }
 
         [TestMethod]
@@ -174,7 +184,7 @@ namespace Obligatorio1.WebApi.Test
         {
             // Arrange
             string email = "agustin@gmail.com";
-            string password = "ContraseñaIncorrecta";
+            string password = "Contraseï¿½aIncorrecta";
 
             // Configura el servicio simulado para devolver null, indicando credenciales incorrectas
             _serviceMock.Setup(s => s.Login(email, password)).Returns((User)null);
@@ -185,7 +195,7 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
             var unauthorizedResult = (UnauthorizedObjectResult)result;
-            Assert.AreEqual("Autenticación fallida. Credenciales incorrectas", unauthorizedResult.Value);
+            Assert.AreEqual("Autenticaciï¿½n fallida. Credenciales incorrectas", unauthorizedResult.Value);
         }
 
         [TestMethod]
@@ -199,11 +209,10 @@ namespace Obligatorio1.WebApi.Test
             var result = _controller.Login(email, password);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult)); 
+            Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
             var unauthorizedResult = (UnauthorizedObjectResult)result;
-            Assert.AreEqual("Autenticación fallida. Credenciales incorrectas", unauthorizedResult.Value);
+            Assert.AreEqual("Autenticaciï¿½n fallida. Credenciales incorrectas", unauthorizedResult.Value);
         }
-
 
         [TestMethod]
         public void Login_ErrorInService_ReturnsBadRequest()
@@ -212,8 +221,8 @@ namespace Obligatorio1.WebApi.Test
             string email = "agustin@gmail.com";
             string password = "Prueba123";
 
-            // Configura el servicio simulado para lanzar una excepción al iniciar sesión
-            _serviceMock.Setup(s => s.Login(email, password)).Throws(new UserException("Error al iniciar sesión"));
+            // Configura el servicio simulado para lanzar una excepciï¿½n al iniciar sesiï¿½n
+            _serviceMock.Setup(s => s.Login(email, password)).Throws(new UserException("Error al iniciar sesiï¿½n"));
 
             // Act
             var result = _controller.Login(email, password);
@@ -221,8 +230,462 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual("Error al iniciar sesión: Error al iniciar sesión", badRequestResult.Value);
+            Assert.AreEqual("Error al iniciar sesiï¿½n: Error al iniciar sesiï¿½n", badRequestResult.Value);
         }
+
+        [TestMethod]
+        public void Logout_ValidUser_ReturnsNoContent()
+        {
+            // Arrange
+            var user = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+
+            // Act
+            var result = _controller.Logout(user);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            _serviceMock.Verify(s => s.Logout(user), Times.Once);
+        }
+
+        [TestMethod]
+        public void Logout_ErrorInService_ReturnsBadRequest()
+        {
+            // Arrange
+            var user = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+
+            // Configura el servicio simulado para lanzar una excepciï¿½n al hacer logout
+            _serviceMock.Setup(s => s.Logout(user)).Throws(new UserException("Error al hacer logout"));
+
+            // Act
+            var result = _controller.Logout(user);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual($"Error al cerrar sesiï¿½n: Error al hacer logout", badRequestResult.Value);
+        }
+
+        [TestMethod]
+        public void CreateUser_AdminUser_ReturnsCreatedUser()
+        {
+            // Arrange
+            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+            var newUser = new User(2, "Pablo", "12123", "pablo@gmail.com", "Av. 18 de Julio 34", "Comprador", null);
+
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
+            _serviceMock.Setup(s => s.CreateUser(newUser)).Returns(newUser); // Mock CreateUser to return the new user
+
+            // Act
+            var result = _controller.CreateUser(newUser);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(CreatedAtActionResult));
+            // Add assertions for the createdUser properties as needed
+
+        }
+
+        [TestMethod]
+        public void CreateUser_NonAdminUser_ReturnsBadRequest()
+        {
+            // Arrange
+            var nonAdminUser = new User(1, "NoAdmin", "Prueba123", "noadmin@gmail.com", "Calle 123", "Comprador", null);
+
+            // Act
+            var result = _controller.CreateUser(nonAdminUser);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("No tiene permiso para crear usuarios.", badRequestResult.Value);
+        }
+
+        [TestMethod]
+        public void CreateUser_InvalidUser_ReturnsBadRequest()
+        {
+            // Arrange
+            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+            var invalidUser = new User(2, "", "", "", "", "", null);
+
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
+            _serviceMock.Setup(s => s.CreateUser(invalidUser))
+                .Throws(new UserException("Usuario invï¿½lido.")); // Mock CreateUser to throw a UserException with the error message
+
+            // Act
+            var result = _controller.CreateUser(invalidUser);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("Usuario invï¿½lido.", badRequestResult.Value);
+        }
+
+        [TestMethod]
+        public void DeleteUser_AdminUserWithPermission_DeletesUser()
+        {
+            // Arrange
+            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+            var userToDelete = new User(2, "Delete", "delete123", "delete@gmail.com", "Artigas 20", "Comprador", null);
+
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
+            _serviceMock.Setup(s => s.DeleteUser(userToDelete.UserID)); // Mock DeleteUser
+
+            // Act
+            var result = _controller.DeleteUser(userToDelete.UserID);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            _serviceMock.Verify(s => s.DeleteUser(userToDelete.UserID), Times.Once);
+        }
+
+        [TestMethod]
+        public void DeleteUser_NonAdminUser_ReturnsBadRequest()
+        {
+            // Arrange
+            var nonAdminUser = new User(1, "NoAdmin", "Prueba123", "noadmin@gmail.com", "Calle 123", "Comprador", null);
+            var userToDelete = new User(2, "Delete", "delete123", "delete@gmail.com", "Artigas 20", "Comprador", null);
+
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(nonAdminUser); // Mock GetLoggedInUser to return a non-admin user
+
+            // Act
+            var result = _controller.DeleteUser(userToDelete.UserID); // Puedes definir userIdToDelete segï¿½n tus necesidades
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("No tiene permiso para eliminar usuarios.", badRequestResult.Value);
+        }
+
+        [TestMethod]
+        public void DeleteUser_UserNotFound_ReturnsNotFound()
+        {
+            // Arrange
+            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+            var id = 2;
+
+            // Configura el comportamiento mock de _userService para devolver el usuario administrador
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser);
+
+            // Configura el comportamiento mock de _userService para arrojar una excepciï¿½n UserException
+            // cuando se llame a DeleteUser con el id especificado
+            _serviceMock.Setup(s => s.DeleteUser(id)).Throws(new UserException($"Usuario con ID {id} no encontrado."));
+
+            // Act
+            var result = _controller.DeleteUser(id);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+            var notFoundResult = (NotFoundObjectResult)result;
+            Assert.AreEqual($"Usuario con ID {id} no encontrado.", notFoundResult.Value);
+        }
+
+        [TestMethod]
+        public void GetAllPurchases_AdminUser_ReturnsListOfPurchases()
+        {
+            // Arrange
+            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+
+            // Crear una lista de objetos Product para utilizar en el objeto Purchase
+            var products = new List<Product>
+            {
+                new Product
+                {
+                    ProductID = 1,
+                    Name = "Producto1",
+                    Price = 100,
+                    Description = "Descripciï¿½n del producto",
+                    Brand = 1,
+                    Category = 1,
+                    Colors = new List<string> { "Rojo", "Azul" }
+                },
+                // Agrega mï¿½s objetos Product si es necesario para tus pruebas
+            };
+
+            // Crear una lista de objetos Purchase utilizando el objeto User y los productos
+            var purchases = new List<Purchase>
+                {
+                    new Purchase
+                    {
+                        PurchaseID = 1,
+                        User = adminUser,
+                        PurchasedProducts = products,
+                        PromoApplied = "Promo1",
+                        DateOfPurchase = DateTime.Now
+                    },
+        // Agrega mï¿½s objetos Purchase si es necesario para tus pruebas
+    };
+
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
+            _serviceMock.Setup(s => s.GetAllPurchases()).Returns(purchases); // Mock GetAllPurchases to return purchases
+
+            // Act
+            var result = _controller.GetAllPurchases();
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var okResult = (OkObjectResult)result;
+            var resultPurchases = okResult.Value as List<Purchase>;
+            Assert.IsNotNull(resultPurchases);
+            Assert.AreEqual(purchases.Count, resultPurchases.Count);
+        }
+
+
+        [TestMethod]
+        public void GetAllPurchases_NonAdminUser_ReturnsBadRequest()
+        {
+            // Arrange
+            var nonAdminUser = new User(1, "NoAdmin", "Prueba123", "noadmin@gmail.com", "Calle 123", "Comprador", null);
+
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(nonAdminUser); // Mock GetLoggedInUser to return a non-admin user
+
+            // Act
+            var result = _controller.GetAllPurchases();
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("No tiene permiso para acceder a todas las compras.", badRequestResult.Value);
+        }
+
+
+        [TestMethod]
+        public void GetAllPurchases_ErrorInService_ReturnsBadRequest()
+        {
+            // Arrange
+            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
+
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
+            _serviceMock.Setup(s => s.GetAllPurchases()).Throws(new UserException("Error al obtener compras.")); // Mock GetAllPurchases to throw a UserException
+
+            // Act
+            var result = _controller.GetAllPurchases();
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("Error al obtener compras: Error al obtener compras.", badRequestResult.Value);
+        }
+
+        [TestMethod]
+        public void GetPurchaseHistory_ValidUser_ReturnsListOfPurchases()
+        {
+            // Arrange
+            var validUser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Direcciï¿½n1", "Administrador", null);
+
+            // Configura el servicio simulado para devolver el usuario vï¿½lido
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(validUser);
+
+            var userToRetrieveHistory = new User(2, "Usuario2", "Password2", "usuario2@example.com", "Direcciï¿½n2", "Rol2", null);
+
+            // Crear una lista de objetos Product para utilizar en el objeto Purchase
+            var products = new List<Product>
+    {
+        new Product
+        {
+            ProductID = 1,
+            Name = "Producto1",
+            Price = 100,
+            Description = "Descripciï¿½n del producto",
+            Brand = 1,
+            Category = 1,
+            Colors = new List<string> { "Rojo", "Azul" }
+        },
+    };
+
+            // Crea una lista de compras asociadas al usuario que se espera devolver
+            var expectedPurchases = new List<Purchase>
+    {
+        new Purchase
+        {
+            PurchaseID = 1,
+            User = userToRetrieveHistory,
+            PurchasedProducts = products,
+            PromoApplied = "Promo1",
+            DateOfPurchase = DateTime.Now
+        },
+        new Purchase
+        {
+            PurchaseID = 2,
+            User = userToRetrieveHistory,
+            PurchasedProducts = products,
+            PromoApplied = "Promo2",
+            DateOfPurchase = DateTime.Now
+        }
+    };
+
+            // Configura el servicio simulado para devolver la lista de compras
+            _serviceMock.Setup(s => s.GetPurchaseHistory(userToRetrieveHistory)).Returns(expectedPurchases);
+            // Configura el servicio simulado para devolver userToRetrieveHistory
+            _serviceMock.Setup(s => s.GetUserByID(It.IsAny<int>())).Returns(userToRetrieveHistory);
+
+            // Act
+            var result = _controller.GetPurchaseHistory(userToRetrieveHistory.UserID); // Pasa el UserID como valor de ruta
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var okResult = (OkObjectResult)result;
+            var resultPurchases = okResult.Value as List<Purchase>;
+            Assert.IsNotNull(resultPurchases);
+            Assert.AreEqual(expectedPurchases.Count, resultPurchases.Count);
+        }
+
+
+        [TestMethod]
+        public void GetPurchaseHistory_UserNotFound_ReturnsNotFound()
+        {
+            // Arrange
+            var validUser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Direcciï¿½n1", "Comprador", null);
+
+            // Configura el servicio simulado para devolver el usuario vï¿½lido
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(validUser);
+
+            var nonExistentUserID = 99; // Este usuario no existe
+
+            // Configura el servicio simulado para devolver null, indicando que el usuario no existe
+            _serviceMock.Setup(s => s.GetPurchaseHistory(It.IsAny<User>())).Throws(new UserException($"Usuario con ID {nonExistentUserID} no encontrado."));
+
+            // Act
+            var result = _controller.GetPurchaseHistory(nonExistentUserID);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+            var notFoundResult = (NotFoundObjectResult)result;
+            Assert.AreEqual($"Usuario con ID {nonExistentUserID} no encontrado.", notFoundResult.Value);
+        }
+
+        [TestMethod]
+        public void GetPurchaseHistory_UserNotFound_ReturnsBadRequest()
+        {
+            // Arrange
+            var validUser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Direcciï¿½n1", "Administrador", null);
+
+            // Configura el servicio simulado para devolver el usuario vï¿½lido
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(validUser);
+
+            var nonExistentUserID = 99; // Este usuario no existe
+
+            // Configura el servicio simulado para lanzar una excepciï¿½n UserException
+            _serviceMock.Setup(s => s.GetPurchaseHistory(It.IsAny<User>()))
+                        .Throws(new UserException($"Usuario con ID {nonExistentUserID} no encontrado."));
+
+            // Act
+            var result = _controller.GetPurchaseHistory(nonExistentUserID);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+            var notFoundResult = (NotFoundObjectResult)result;
+            Assert.AreEqual($"Usuario con ID {nonExistentUserID} no encontrado.", notFoundResult.Value);
+        }
+
+        [TestMethod]
+        public void UpdateUserProfile_ValidUser_ReturnsUpdatedUser()
+        {
+            // Arrange
+            var userToUpdate = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Direcciï¿½n1", "Administrador", null);
+
+            // Configura el servicio simulado para devolver el usuario actualizado
+            _serviceMock.Setup(s => s.UpdateUserProfile(It.IsAny<User>()))
+                        .Returns(userToUpdate);
+
+            // Act
+            var result = _controller.UpdateUserProfile(userToUpdate);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var okResult = (OkObjectResult)result;
+            Assert.AreEqual(userToUpdate, okResult.Value);
+        }
+
+        [TestMethod]
+        public void UpdateUserProfile_InvalidUser_ReturnsBadRequest()
+        {
+            // Arrange
+            var userToUpdate = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Direcciï¿½n1", "Administrador", null);
+
+            // Configura el servicio simulado para lanzar una excepciï¿½n UserException
+            _serviceMock.Setup(s => s.UpdateUserProfile(It.IsAny<User>()))
+                        .Throws(new UserException("El usuario no existe."));
+
+            // Act
+            var result = _controller.UpdateUserProfile(userToUpdate);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.IsTrue(badRequestResult.Value.ToString().Contains("El usuario no existe"));
+
+        }
+
+        [TestMethod]
+        public void UpdateUserInformation_AdminUser_ReturnsUpdatedUser()
+        {
+            // Arrange
+            var adminUser = new User(1, "Admin", "Admin123", "admin@example.com", "Admin Address", "Administrador", null);
+            var existingUser = new User(2, "ExistingUser", "ExistingUser123", "existinguser@example.com", "Existing User Address", "Comprador", null);
+            var updatedUser = new User(existingUser.UserID, "UpdatedUser", "UpdatedUser123", "updateduser@example.com", "Updated User Address", "Comprador", null);
+
+            // Configura el servicio simulado para devolver el usuario administrador
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser);
+
+            // Configura el servicio simulado para devolver el usuario actualizado
+            _serviceMock.Setup(s => s.UpdateUserInformation(It.IsAny<User>())).Returns(updatedUser);
+
+            // Act
+            var result = _controller.UpdateUserInformation(updatedUser);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var okResult = (OkObjectResult)result;
+            Assert.AreEqual(updatedUser, okResult.Value);
+        }
+
+        [TestMethod]
+        public void UpdateUserInformation_AdminUser_InvalidUser_ReturnsBadRequest()
+        {
+            // Arrange
+            var adminUser = new User(1, "Admin", "Admin123", "admin@example.com", "Admin Address", "Administrador", null);
+            var invalidUser = new User(2, "InvalidUser", "InvalidUser123", "invaliduser@example.com", "Invalid User Address", "Comprador", null);
+
+            // Configura el servicio simulado para devolver el usuario administrador
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser);
+
+            // Configura el servicio simulado para lanzar una excepciï¿½n UserException
+            _serviceMock.Setup(s => s.UpdateUserInformation(It.IsAny<User>()))
+                        .Throws(new UserException("No tiene permiso para actualizar la informaciï¿½n del usuario."));
+
+            // Act
+            var result = _controller.UpdateUserInformation(invalidUser);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("Error al actualizar la informaciï¿½n del usuario: No tiene permiso para actualizar la informaciï¿½n del usuario.", badRequestResult.Value);
+        }
+
+        [TestMethod]
+        public void UpdateUserInformation_AdminUser_UserNotFound_ReturnsBadRequest()
+        {
+            // Arrange
+            var adminUser = new User(1, "Admin", "Admin123", "admin@example.com", "Admin Address", "Administrador", null);
+            var nonExistentUser = new User(99, "NonExistentUser", "NonExistentUser123", "nonexistentuser@example.com", "Nonexistent User Address", "Comprador", null);
+
+            // Configura el servicio simulado para devolver el usuario administrador
+            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser);
+
+            // Configura el servicio simulado para lanzar una excepciï¿½n UserException
+            _serviceMock.Setup(s => s.UpdateUserInformation(It.IsAny<User>()))
+                        .Throws(new UserException("El usuario a actualizar no existe."));
+
+            // Act
+            var result = _controller.UpdateUserInformation(nonExistentUser);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.AreEqual("Error al actualizar la informaciï¿½n del usuario: El usuario a actualizar no existe.", badRequestResult.Value);
+
+        }
+
+
 
     }
 }

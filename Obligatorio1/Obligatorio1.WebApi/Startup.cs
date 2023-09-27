@@ -1,4 +1,4 @@
-﻿/*using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting; // Importa este espacio de nombres
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +7,7 @@ using Obligatorio1.BusinessLogic;
 using Obligatorio1.Domain;
 using Obligatorio1.DataAccess;
 using Obligatorio1.IDataAccess;
+using Microsoft.OpenApi.Models;
 
 namespace Obligatorio1.WebApi
 {
@@ -25,6 +26,10 @@ namespace Obligatorio1.WebApi
             // Configuraciones de servicios aquí...
             services.AddScoped<Obligatorio1.IBusinessLogic.IUserService, Obligatorio1.BusinessLogic.UserService>();
             services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.UserManagment>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Obligatorio 1", Version = "v1" });
+            });
 
 
         }
@@ -57,4 +62,3 @@ namespace Obligatorio1.WebApi
 
     }
 }
-*/

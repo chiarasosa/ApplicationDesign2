@@ -10,6 +10,8 @@ namespace Obligatorio1.IBusinessLogic
         User UpdateUserProfile(User user);
         User Login(string email, string password);
         void Logout(User user);
+        User GetLoggedInUser();
+        void SetLoggedInUser(User user);
 
         // Funcionalidades para usuarios compradores logueados
         IEnumerable<Purchase> GetPurchaseHistory(User user);
@@ -19,7 +21,7 @@ namespace Obligatorio1.IBusinessLogic
         User GetUserByID(int userID);
         User CreateUser(User user);
         User UpdateUserInformation(User user);
-        void DeleteUser(int userID);
+        User DeleteUser(int userID);
         IEnumerable<Purchase> GetAllPurchases();
         void CreateProduct(Product product);
         

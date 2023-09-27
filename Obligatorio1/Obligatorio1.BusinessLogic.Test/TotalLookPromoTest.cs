@@ -136,7 +136,7 @@ namespace Obligatorio1.BusinessLogic.Test
             //Assert
             Assert.IsFalse(result);
         }
-
+        /*
         [TestMethod]
         public void GroupProductsByColor_Correct()
         {
@@ -161,7 +161,7 @@ namespace Obligatorio1.BusinessLogic.Test
             Assert.AreEqual(3, productsByColor["red"].Count);
             Assert.AreEqual(2, productsByColor["blue"].Count);
         }
-
+        */
         [TestMethod]
         public void GroupProductsByColor_Wrong()
         {

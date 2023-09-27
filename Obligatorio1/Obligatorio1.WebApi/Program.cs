@@ -1,5 +1,5 @@
 using Microsoft.OpenApi.Models;
-//using Obligatorio1.ServiceFactory;
+using System.Reflection;
 
 namespace Obligatorio1.WebApi
 {
@@ -18,7 +18,11 @@ namespace Obligatorio1.WebApi
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Obligatorio 1", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath); // Esto incluir� el archivo XML de documentaci�n en Swagger
             });
+            //Se configura que clase implementa a que interfaz
 
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IUserService, Obligatorio1.BusinessLogic.UserService>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.UserManagment>();

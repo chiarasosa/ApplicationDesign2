@@ -9,7 +9,7 @@ namespace Obligatorio1.IDataAccess
         User Login(string email, string password);
         void Logout(User user);
         User GetUserByID(int userId);
-        IEnumerable<User> GetUsers();
+        IEnumerable<User> GetAllUsers();
         User CreateUser(User user);
         User UpdateUserInformation(User user);
         void DeleteUser(int userID);

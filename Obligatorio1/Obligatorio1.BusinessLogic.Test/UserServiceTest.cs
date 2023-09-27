@@ -134,7 +134,7 @@ namespace Obligatorio1.BusinessLogic.Test
             };
 
             //Configure the mock behavior to return the expected list of users when GetUsers is called.
-            _userManagmentMock?.Setup(x => x.GetUsers()).Returns(expectedUsers);
+            _userManagmentMock?.Setup(x => x.GetAllUsers()).Returns(expectedUsers);
 
             //Act
             IEnumerable<User>? result = _userService?.GetUsers();
@@ -144,7 +144,7 @@ namespace Obligatorio1.BusinessLogic.Test
             CollectionAssert.AreEqual(expectedUsers, result.ToList());
 
             //Verifies that the GetUsers method was called in the data access layer.
-            _userManagmentMock?.Verify(x => x.GetUsers(), Times.Once);
+            _userManagmentMock?.Verify(x => x.GetAllUsers(), Times.Once);
         }
 
         [TestMethod]
@@ -360,7 +360,6 @@ namespace Obligatorio1.BusinessLogic.Test
             //Act
             _userManagmentMock?.Setup(x => x.AddProductToCart(product));
             _userService?.AddProductToCart(product);
-
             //Assert
             _userManagmentMock?.VerifyAll();
          }
@@ -380,5 +379,6 @@ namespace Obligatorio1.BusinessLogic.Test
             //Assert
             _userManagmentMock?.VerifyAll();
         }
+
     }
 }
