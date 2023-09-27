@@ -10,10 +10,14 @@ namespace Obligatorio1.IBusinessLogic
     public interface IProductService
     {
         void RegisterProduct(Product product);
-        //Product UpdateProduct(Product product);
+        Product UpdateProduct(Product product);
         Product GetProductByID(int productID);
         IEnumerable<Product> GetProducts();
 
         void DeleteProduct(int productID);
+
+        void CreateProduct(Product product);
+
+        List<Product> SearchByParameter(string text, string brand, string category);
     }
 }

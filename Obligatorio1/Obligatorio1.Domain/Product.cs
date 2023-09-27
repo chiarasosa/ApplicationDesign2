@@ -23,7 +23,6 @@ namespace Obligatorio1.Domain
         public int Category { get; set; }
 
         public string Color { get; set; }
-
         public Product()
         {
             this.ProductID = 0;
@@ -35,7 +34,8 @@ namespace Obligatorio1.Domain
             this.Color = string.Empty;
         }
 
-        public Product(int productID, string name, int price, string description, int brand, int category, string color)
+
+        public Product(int productID,string name, int price, string description, int brand, int category, string color)
         {
             this.ProductID = productID;
             this.Name = name;

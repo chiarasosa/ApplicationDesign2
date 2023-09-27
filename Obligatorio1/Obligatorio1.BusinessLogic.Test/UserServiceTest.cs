@@ -322,6 +322,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 Brand = 2,
                 Category = 3,
                 Color = "Amarillo",
+
             };
 
             // Configura el comportamiento del mock para que devuelva el producto actualizado
