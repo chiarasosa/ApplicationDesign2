@@ -2,7 +2,7 @@
 using Obligatorio1.Exceptions;
 using Obligatorio1.IDataAccess;
 
-namespace Obligatorio1.DataAccess
+namespace Obligatorio1.DataAccess.Repositories
 {
     public class UserManagment : IUserManagment
     {
@@ -13,10 +13,10 @@ namespace Obligatorio1.DataAccess
 
         public UserManagment()
         {
-            this._users = new List<User>();
-            this._authenticatedUser = null;
-            this._purchases = new List<Purchase>();
-            this._products= new List<Product>();
+            _users = new List<User>();
+            _authenticatedUser = null;
+            _purchases = new List<Purchase>();
+            _products = new List<Product>();
         }
 
         public void RegisterUser(User user)
@@ -226,7 +226,7 @@ namespace Obligatorio1.DataAccess
         */
         public void AddProductToCart(Product product)
         {
-            if(_authenticatedUser != null)
+            if (_authenticatedUser != null)
             {
                 _authenticatedUser?.Cart.Products.Add(product);
             }
@@ -234,10 +234,10 @@ namespace Obligatorio1.DataAccess
 
         public void DeleteProductFromCart(Product product)
         {
-            if(_authenticatedUser != null && _authenticatedUser.Cart != null)
+            if (_authenticatedUser != null && _authenticatedUser.Cart != null)
             {
                 _authenticatedUser?.Cart.Products.Remove(product);
-            }            
+            }
         }
     }
 }
