@@ -26,7 +26,7 @@ namespace Obligatorio1.WebApi
 
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IUserService, Obligatorio1.BusinessLogic.UserService>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.UserManagment>();
-            builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IPromoManagerService, Obligatorio1.BusinessLogic.PromoManagerService>();
+            //builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IPromoManagerService, Obligatorio1.BusinessLogic.PromoManagerService>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPromoManagerManagment, Obligatorio1.DataAccess.PromoManagerManagment>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.ICartService, Obligatorio1.BusinessLogic.CartService>();
 

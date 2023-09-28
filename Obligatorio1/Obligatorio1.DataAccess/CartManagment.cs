@@ -12,6 +12,12 @@ namespace Obligatorio1.DataAccess
     public class CartManagment : ICartManagment
     {
         private User authenticatedUser;
+
+        public CartManagment(User user)
+        {
+            authenticatedUser = user;
+        }
+        /*
         public CartManagment()
         {
         }
@@ -20,6 +26,7 @@ namespace Obligatorio1.DataAccess
         {
             authenticatedUser = user;
         }
+        */
 
         public void AddProductToCart(Product product)
         {

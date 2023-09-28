@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*
+using Microsoft.AspNetCore.Mvc;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.Domain;
 using Serilog;
@@ -25,3 +26,4 @@ namespace Obligatorio1.WebApi.Controllers
 
     }
 }
+*/

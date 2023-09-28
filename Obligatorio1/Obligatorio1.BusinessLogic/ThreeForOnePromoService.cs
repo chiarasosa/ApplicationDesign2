@@ -15,7 +15,10 @@ namespace Obligatorio1.BusinessLogic
         {
             this.Name = "3x1 Promo";
         }
-
+        public string GetName()
+        {
+            return this.Name;
+        }
         public double CalculateNewPriceWithDiscount(Cart cart)
         {
             if (!CartHas3OrMoreItems(cart))

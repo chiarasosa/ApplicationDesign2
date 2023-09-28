@@ -349,36 +349,5 @@ namespace Obligatorio1.BusinessLogic.Test
             // Verifica que el método UpdateProduct se llamó en la capa de acceso a datos
             _userManagmentMock?.Verify(x => x.UpdateProduct(updatedProduct), Times.Once);
         }
-
-
-        [TestMethod]
-        public void AddProductToCart_Correct()
-        {
-            //Arrange
-            Product product = new Product();
-
-            //Act
-            _userManagmentMock?.Setup(x => x.AddProductToCart(product));
-            _userService?.AddProductToCart(product);
-            //Assert
-            _userManagmentMock?.VerifyAll();
-         }
-
-        [TestMethod]
-        public void DeleteProductFromCart_Correct()
-        {
-            //Arrange
-            Product product = new Product();
-
-            //Act
-            _userManagmentMock?.Setup(x => x.AddProductToCart(product));
-            _userManagmentMock?.Setup(x => x.DeleteProductFromCart(product));
-            _userService?.AddProductToCart(product);
-            _userService?.DeleteProductFromCart(product);
-
-            //Assert
-            _userManagmentMock?.VerifyAll();
-        }
-
     }
 }
