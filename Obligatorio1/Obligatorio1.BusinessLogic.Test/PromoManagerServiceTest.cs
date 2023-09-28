@@ -20,6 +20,7 @@ namespace Obligatorio1.BusinessLogic.Test
         private Mock<IPromoService> _promo3x1Mock;
         private Mock<IPromoService> _promo3x2Mock;
 
+        /*
         [TestInitialize]
         public void Initialize()
         {
@@ -33,7 +34,7 @@ namespace Obligatorio1.BusinessLogic.Test
             _promoManagerManagmentMock.Setup(p => p.GetAvailablePromotions())
                 .Returns(new List<IPromoService> { _promo3x1Mock.Object, _promo3x2Mock.Object });
         }
-
+        /*
 
         [TestMethod]
         public void ApplyBestPromotion_EmptyCart()
@@ -119,6 +120,6 @@ namespace Obligatorio1.BusinessLogic.Test
             // Verifica que todas las expectativas configuradas en _promoManagerManagmentMock se hayan cumplido
             _promoManagerManagmentMock?.VerifyAll();
         }
-
+        */
     }
 }

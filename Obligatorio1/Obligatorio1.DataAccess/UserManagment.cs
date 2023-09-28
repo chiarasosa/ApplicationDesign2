@@ -217,27 +217,6 @@ namespace Obligatorio1.DataAccess
             existingProduct.Color = product.Color;
 
             return existingProduct;
-        }
-        /*
-        public User GetAuthenticatedUser()
-        {
-            return _authenticatedUser;
-        }
-        */
-        public void AddProductToCart(Product product)
-        {
-            if(_authenticatedUser != null)
-            {
-                _authenticatedUser?.Cart.Products.Add(product);
-            }
-        }
-
-        public void DeleteProductFromCart(Product product)
-        {
-            if(_authenticatedUser != null && _authenticatedUser.Cart != null)
-            {
-                _authenticatedUser?.Cart.Products.Remove(product);
-            }            
-        }
+        }       
     }
 }

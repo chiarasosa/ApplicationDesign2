@@ -12,8 +12,6 @@ namespace Obligatorio1.Domain
 
         public double TotalPrice;
 
-        //private User User;
-
         public Cart()
         {
             this.Products = new List<Product>();
