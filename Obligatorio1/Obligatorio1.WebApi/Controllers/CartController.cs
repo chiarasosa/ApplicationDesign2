@@ -84,7 +84,7 @@ namespace Obligatorio1.WebApi.Controllers
         {
             try
             {
-                var peroducts = _cartService.GetLoggedInCart().Products;
+                var peroducts = _cartService.GetLoggedInCart().Products.ToList();
                 return Ok(peroducts);
             }
             catch (Exception ex)
