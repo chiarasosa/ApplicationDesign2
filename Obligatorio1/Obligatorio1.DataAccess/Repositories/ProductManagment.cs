@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Obligatorio1.DataAccess
+namespace Obligatorio1.DataAccess.Repositories
 {
     public class ProductManagment
     {
@@ -14,11 +14,11 @@ namespace Obligatorio1.DataAccess
 
         public ProductManagment()
         {
-            this._products = new List<Product>();
+            _products = new List<Product>();
         }
         public Product UpdateProduct(Product product)
         {
-            
+
 
             // Busca el producto por su ID
             Product existingProduct = _products?.FirstOrDefault(p => p.ProductID == product.ProductID);

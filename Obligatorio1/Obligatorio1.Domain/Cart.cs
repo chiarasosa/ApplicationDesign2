@@ -11,6 +11,7 @@ namespace Obligatorio1.Domain
         public List<Product> Products;
 
         public double TotalPrice;
+        public int CartID { get; set; }
 
         public Cart()
         {

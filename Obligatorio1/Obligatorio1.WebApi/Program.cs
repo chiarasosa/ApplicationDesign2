@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using Obligatorio1.DataAccess.Repositories;
 using System.Reflection;
 
 namespace Obligatorio1.WebApi
@@ -25,10 +26,11 @@ namespace Obligatorio1.WebApi
             //Se configura que clase implementa a que interfaz
 
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IUserService, Obligatorio1.BusinessLogic.UserService>();
-            builder.Services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.UserManagment>();
+            builder.Services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, UserManagment>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IPromoManagerService, Obligatorio1.BusinessLogic.PromoManagerService>();
-            builder.Services.AddScoped<Obligatorio1.IDataAccess.IPromoManagerManagment, Obligatorio1.DataAccess.PromoManagerManagment>();
+            builder.Services.AddScoped<Obligatorio1.IDataAccess.IPromoManagerManagment, PromoManagerManagment>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.ICartService, Obligatorio1.BusinessLogic.CartService>();
+
 
             /*
             var serviceFactory = new Obligatorio1.ServiceFactory.ServiceFactory();

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Obligatorio1.IDataAccess;
 using Obligatorio1.IBusinessLogic;
 
-namespace Obligatorio1.DataAccess
+namespace Obligatorio1.DataAccess.Repositories
 {
-    public class PromoManagerManagment: IPromoManagerManagment
+    public class PromoManagerManagment : IPromoManagerManagment
     {
         public List<IPromoService> GetAvailablePromotions()
         {

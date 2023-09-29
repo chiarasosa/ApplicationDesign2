@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.BusinessLogic;
 using Obligatorio1.Domain;
-using Obligatorio1.DataAccess;
 using Obligatorio1.IDataAccess;
 using Microsoft.OpenApi.Models;
+using Obligatorio1.DataAccess.Repositories;
 
 namespace Obligatorio1.WebApi
 {
@@ -25,7 +25,7 @@ namespace Obligatorio1.WebApi
         {
             // Configuraciones de servicios aquí...
             services.AddScoped<Obligatorio1.IBusinessLogic.IUserService, Obligatorio1.BusinessLogic.UserService>();
-            services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.UserManagment>();
+            services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, UserManagment>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Obligatorio 1", Version = "v1" });
