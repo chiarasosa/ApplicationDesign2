@@ -12,14 +12,12 @@ namespace Obligatorio1.DataAccess
     public class CartManagment : ICartManagment
     {
         private User authenticatedUser;
-        public CartManagment()
-        {
-        }
 
-        public void SetAuthenticatedUser(User user)
+        public CartManagment(User user)
         {
             authenticatedUser = user;
         }
+
 
         public void AddProductToCart(Product product)
         {

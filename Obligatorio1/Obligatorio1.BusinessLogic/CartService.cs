@@ -20,7 +20,6 @@ namespace Obligatorio1.BusinessLogic
             this.promoManagerManagment = promoManagerManagment;
         }
 
-        public Cart GetCart
         public void AddProductToCart(Product product)
         {
             _cartManagment.AddProductToCart(product);
@@ -42,11 +41,16 @@ namespace Obligatorio1.BusinessLogic
                 if (availablePromotions.Count() > 0)
                 {
                     double bestDiscount = cart.TotalPrice;
-
                     foreach (IPromoService promotion in availablePromotions)
                     {
                         double price = promotion.CalculateNewPriceWithDiscount(cart);
+                        if(price < bestDiscount)
+                        {
+                            bestDiscount = price;
+                            cart.PromotionApplied = promotion.GetName();
+                        }
                         bestDiscount = Math.Min(bestDiscount, price);
+                        
                     }
 
                     cart.TotalPrice = bestDiscount;
@@ -54,6 +58,11 @@ namespace Obligatorio1.BusinessLogic
             }
             _cartManagment.UpdateCartWithDiscount(cart);
             return cart;
+        }
+
+        public Cart GetLoggedInCart()
+        {
+            return _cartManagment.GetCart();
         }
     }
 }

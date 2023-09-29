@@ -313,15 +313,7 @@ namespace Obligatorio1.BusinessLogic
             }
         }
 
-        public void AddProductToCart(Product product)
-        {
-            _userManagment.AddProductToCart(product);
-        }
-
-        public void DeleteProductFromCart(Product product)
-        {
-            _userManagment.DeleteProductFromCart(product);
-        }
+       
     }
 }
 
