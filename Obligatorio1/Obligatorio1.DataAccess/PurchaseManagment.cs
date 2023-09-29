@@ -11,10 +11,10 @@ namespace Obligatorio1.DataAccess
     public class PurchaseManagment : IPurchaseManagment
     {
         
-        public int ValidateMoreThan1Item(Purchase purchase)
+        public int ValidateMoreThan1Item(Cart cart)
         {
             
-            return purchase.PurchasedProducts.Count();
+            return cart.Products.Count;
         }
     }
 }

@@ -15,14 +15,23 @@ namespace Obligatorio1.WebApi.Controllers
             _purchaseService = purchaseService;
         }
 
-        [HttpGet]
-        public IActionResult ValidateMoreThan1Item(Purchase purchase)
+        /// <summary>
+        /// Make a purchase.
+        /// </summary>
+        /// <param name="cart">Cart that wants to be purchased.</param>
+        /// <returns>Returns HTTP response with the result of the operation.</returns>
+        [HttpPost]
+        public IActionResult CreatePurchase([FromBody] Cart cart)
         {
-            // Call the ValidateMoreThan1Item method from the service
-            bool validPurchase = _purchaseService.ValidateMoreThan1Item(purchase);
-
-            // Return the result as needed, for example, as an OkObjectResult
-            return Ok(validPurchase);
+            try
+            {
+                _purchaseService.ExecutePurchase(cart);
+                return Ok("The purchase has been made successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Purchase error: {ex.Message}");
+            }
         }
     }
 }

@@ -14,5 +14,7 @@ namespace Obligatorio1.IBusinessLogic
         void DeleteProductFromCart(Product product);
 
         Cart ApplyBestPromotion();
+
+        Cart GetLoggedInCart();
     }
 }

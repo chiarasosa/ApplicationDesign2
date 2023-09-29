@@ -41,14 +41,13 @@ namespace Obligatorio1.BusinessLogic
                 if (availablePromotions.Count() > 0)
                 {
                     double bestDiscount = cart.TotalPrice;
-                    //cart.PromotionApplied = bestDiscount.ToString();
                     foreach (IPromoService promotion in availablePromotions)
                     {
                         double price = promotion.CalculateNewPriceWithDiscount(cart);
                         if(price < bestDiscount)
                         {
                             bestDiscount = price;
-                            //cart.PromotionApplied = promotion.GetName();
+                            cart.PromotionApplied = promotion.GetName();
                         }
                         bestDiscount = Math.Min(bestDiscount, price);
                         
@@ -59,6 +58,11 @@ namespace Obligatorio1.BusinessLogic
             }
             _cartManagment.UpdateCartWithDiscount(cart);
             return cart;
+        }
+
+        public Cart GetLoggedInCart()
+        {
+            return _cartManagment.GetCart();
         }
     }
 }

@@ -17,16 +17,7 @@ namespace Obligatorio1.DataAccess
         {
             authenticatedUser = user;
         }
-        /*
-        public CartManagment()
-        {
-        }
 
-        public void SetAuthenticatedUser(User user)
-        {
-            authenticatedUser = user;
-        }
-        */
 
         public void AddProductToCart(Product product)
         {

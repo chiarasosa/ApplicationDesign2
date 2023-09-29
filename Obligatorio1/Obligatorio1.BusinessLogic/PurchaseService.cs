@@ -18,13 +18,19 @@ namespace Obligatorio1.BusinessLogic
             this.purchaseManagment = purchaseManagment;
         }
 
-        public bool ValidateMoreThan1Item(Purchase purchase)
+        public Purchase ExecutePurchase(Cart cart)
         {
-            if (purchaseManagment.ValidateMoreThan1Item(purchase) < 1)
+            if(cart.Products.Count < 1)
+            //if (purchaseManagment.ValidateMoreThan1Item(cart) < 1)
             {
                 throw new Obligatorio1.Exceptions.ExceptionPurchase("El carrito debe tener mas de un elemento para poder realizar la compra.");
             }
-            return true;
+            return new Purchase
+            {
+                PurchasedProducts = cart.Products,
+                PromoApplied = cart.PromotionApplied,
+                DateOfPurchase = DateTime.Today,
+            };
         }
     }
 }
