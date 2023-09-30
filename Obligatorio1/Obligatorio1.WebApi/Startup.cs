@@ -8,6 +8,8 @@ using Obligatorio1.Domain;
 using Obligatorio1.IDataAccess;
 using Microsoft.OpenApi.Models;
 using Obligatorio1.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Obligatorio1.DataAccess.Contexts;
 
 namespace Obligatorio1.WebApi
 {
@@ -29,6 +31,12 @@ namespace Obligatorio1.WebApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Obligatorio 1", Version = "v1" });
+            });
+
+            // Registra el DbContext
+            services.AddDbContext<Context>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("obligatrioDB"));
             });
 
 

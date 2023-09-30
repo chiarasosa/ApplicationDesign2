@@ -1,6 +1,12 @@
 using Microsoft.OpenApi.Models;
 using Obligatorio1.DataAccess.Repositories;
 using System.Reflection;
+using Obligatorio1.Domain;
+using Obligatorio1.DataAccess.Contexts;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Obligatorio1.DataAccess;
+using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.WebApi
 {
@@ -30,6 +36,8 @@ namespace Obligatorio1.WebApi
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IPromoManagerService, Obligatorio1.BusinessLogic.PromoManagerService>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPromoManagerManagment, PromoManagerManagment>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.ICartService, Obligatorio1.BusinessLogic.CartService>();
+            builder.Services.AddDbContext<Context>();
+            builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<User>, Obligatorio1.DataAccess.Repositories.GenericRepository<User>>();
 
 
             /*
@@ -37,6 +45,9 @@ namespace Obligatorio1.WebApi
             serviceFactory.RegistrateServices(builder.Services);
             */
             var app = builder.Build();
+
+
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

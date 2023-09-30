@@ -10,18 +10,22 @@ namespace Obligatorio1.DataAccess.Repositories
         private User? _authenticatedUser;
         private List<Purchase>? _purchases;
         private List<Product>? _products;
-
-        public UserManagment()
+        private readonly IGenericRepository<User> _repository;
+        public UserManagment(IGenericRepository<User> userRepositoy )
         {
             _users = new List<User>();
             _authenticatedUser = null;
             _purchases = new List<Purchase>();
             _products = new List<Product>();
+            _repository = userRepositoy;
+
         }
 
         public void RegisterUser(User user)
         {
             _users?.Add(user);
+            _repository.Insert(user);
+            _repository.Save();
         }
 
         public User UpdateUserProfile(User user)
