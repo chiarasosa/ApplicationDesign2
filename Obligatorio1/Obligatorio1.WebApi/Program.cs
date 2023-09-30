@@ -1,6 +1,12 @@
 using Microsoft.OpenApi.Models;
 using Obligatorio1.DataAccess.Repositories;
 using System.Reflection;
+using Obligatorio1.Domain;
+using Obligatorio1.DataAccess.Contexts;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Obligatorio1.DataAccess;
+using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.WebApi
 {
@@ -29,14 +35,20 @@ namespace Obligatorio1.WebApi
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.UserManagment>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPromoManagerManagment, Obligatorio1.DataAccess.PromoManagerManagment>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.ICartService, Obligatorio1.BusinessLogic.CartService>();
+
             builder.Services.AddScoped<Obligatorio1.IDataAccess.ICartManagment, Obligatorio1.DataAccess.CartManagment>();
             builder.Services.AddScoped<Obligatorio1.Domain.User>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IPurchaseService, Obligatorio1.BusinessLogic.PurchaseService>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPurchaseManagment, Obligatorio1.DataAccess.PurchaseManagment>();
+            builder.Services.AddDbContext<Context>();
+            builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<User>, Obligatorio1.DataAccess.Repositories.GenericRepository<User>>();
 
             //var serviceFactory = new Obligatorio1.ServiceFactory.ServiceFactory();
             //serviceFactory.RegistrateServices(builder.Services);
             var app = builder.Build();
+
+
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

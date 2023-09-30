@@ -20,7 +20,7 @@ namespace Obligatorio1.Domain
 
         public Purchase()
         {
-            this.PurchaseID = 1;
+         //   this.PurchaseID = 1;
             User = null;
             this.PurchasedProducts = new List<Product>();
             PromoApplied = String.Empty;

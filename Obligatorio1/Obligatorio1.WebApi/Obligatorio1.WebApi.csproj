@@ -25,8 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Obligatorio1.DataAccess\Obligatorio1.DataAccess.csproj" />
     <ProjectReference Include="..\Obligatorio1.Domain\Obligatorio1.Domain.csproj" />
     <ProjectReference Include="..\Obligatorio1.IBusinessLogic\Obligatorio1.IBusinessLogic.csproj" />
+    <ProjectReference Include="..\Obligatorio1.IDataAccess\Obligatorio1.IDataAccess.csproj" />
     <ProjectReference Include="..\Obligatorio1.ServiceFactory\Obligatorio1.ServiceFactory.csproj" />
   </ItemGroup>
 

@@ -34,16 +34,22 @@ namespace Obligatorio1.BusinessLogic
             this.loggedInUser = null;
         }
 
-
-
         public void RegisterUser(User user)
         {
-            if (IsUserValid(user))
+            // Verificar si ya existe un usuario con el mismo nombre de usuario
+            if (IsUserValid(user) && !IsUserNameAlreadyTaken(user.UserName))
+            {
                 _userManagment.RegisterUser(user);
+            }
+            else
+            {
+                // Lanzar una excepción o manejar el error de alguna otra manera
+                throw new UserException("El nombre de usuario ya está en uso.");
+            }
         }
 
 
-
+        //**********************************************VALIDACIONES
         private bool IsUserValid(User user)
         {
             if (user == null || user.UserName == string.Empty || user.Password == string.Empty)
@@ -55,6 +61,17 @@ namespace Obligatorio1.BusinessLogic
 
             return true;
         }
+
+        private bool IsUserNameAlreadyTaken(string userName)
+        {
+            // Obtener todos los usuarios del sistema
+            IEnumerable<User> users = _userManagment.GetAllUsers();
+
+            // Verificar si existe algún usuario con el mismo nombre de usuario
+            return users.Any(u => u.UserName == userName);
+        }
+
+        //***********************************************************
 
 
 
@@ -128,14 +145,10 @@ namespace Obligatorio1.BusinessLogic
         {
             IEnumerable<User>? users = _userManagment.GetAllUsers();
 
-
-
             if (users == null)
             {
                 throw new UserException("Error al obtener la lista de usuarios.");
             }
-
-
 
             return users;
         }

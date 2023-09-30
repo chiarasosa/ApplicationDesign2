@@ -12,7 +12,14 @@ namespace Obligatorio1.DataAccess.Contexts
         public Context(DbContextOptions options) : base(options) { }
 
         public virtual DbSet<User>? Users { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder) { }
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+
+            modelBuilder.Entity<User>()
+           .Property(u => u.UserID)
+           .ValueGeneratedOnAdd();
+
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
