@@ -21,9 +21,9 @@ namespace Obligatorio1.Domain
         public Purchase()
         {
             this.PurchaseID = 1;
-            User = null;
+            this.User = null;
             this.PurchasedProducts = new List<Product>();
-            PromoApplied = String.Empty;
+            this.PromoApplied = String.Empty;
             this.DateOfPurchase = DateTime.Now;
         }
 

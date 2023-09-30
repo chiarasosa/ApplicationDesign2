@@ -9,6 +9,43 @@ namespace Obligatorio1.WebApi.Controllers
     public class PurchaseController : ControllerBase
     {
         private readonly IPurchaseService _purchaseService;
+        private static List<Purchase> _purchases = new List<Purchase>() { 
+            new Purchase() { 
+                PurchaseID = 145, 
+                User = new Domain.User(){
+                    UserID = 1,
+                    UserName= "Chiara",
+                    Email = "chiarasosa00@gmail.com"
+                }, 
+                PurchasedProducts =
+            {
+                new Product()
+                {
+                    ProductID = 1,
+                },
+                new Product()
+                {
+                    ProductID = 2,
+                }
+            }, 
+                PromoApplied = "3x1", DateOfPurchase = DateTime.Today },
+        
+            new Purchase() {
+                PurchaseID = 2, User = new User(){
+                    UserID = 2,
+                    UserName= "Chiara2",
+                    Email = "chiarasosa002@gmail.com"
+                }, PurchasedProducts =
+            {
+                new Product()
+                {
+                    ProductID = 3,
+                },
+                new Product()
+                {
+                    ProductID = 4,
+                }
+            }, PromoApplied = "total look", DateOfPurchase = DateTime.Today } };
 
         public PurchaseController(IPurchaseService purchaseService)
         {
@@ -25,13 +62,77 @@ namespace Obligatorio1.WebApi.Controllers
         {
             try
             {
-                _purchaseService.ExecutePurchase(cart);
-                return Ok("The purchase has been made successfully.");
+                var purchase = _purchaseService.ExecutePurchase(cart);
+                return Ok("The purchase has been made successfully." + purchase);
             }
             catch (Exception ex)
             {
                 return BadRequest($"Purchase error: {ex.Message}");
             }
         }
+
+        /// <summary>
+        /// Get a specific a purchase.
+        /// </summary>
+        /// <param name="id">Id of purchase.</param>
+        /// <returns>Returns HTTP response with the result of the operation.</returns>
+        [HttpGet("specificPurchase/{id}")]
+        public IActionResult GetSpecificPurchase([FromRoute] int id)
+        {
+            //var purchase = _purchaseService.GetPurchases().Find(x => x.PurchaseID == id);
+            var purchase = _purchases.Find(x => x.PurchaseID == id);
+
+            if (purchase == null)
+            {
+                return NotFound(new { Message = "Cant find purchase" });
+            }
+            else
+            {
+                return Ok(purchase);
+            }
+        }
+
+        /// <summary>
+        /// Gets all purchases.
+        /// </summary>
+        /// <returns>Returns HTTP response with the result of the operation.</returns>
+        [HttpGet]
+        public IActionResult GetAllPurchases()
+        {
+            //var purchase = _purchaseService.GetPurchases()
+            var purchases = _purchases;
+
+            if (purchases == null)
+            {
+                return NotFound(new { Message = "There are no purchases" });
+            }
+            else
+            {
+                return Ok(purchases);
+            }
+        }
+
+        /// <summary>
+        /// Get all purchases from a specific user.
+        /// </summary>
+        /// <param name="id">Id of user.</param>
+        /// <returns>Returns HTTP response with the result of the operation.</returns>
+        [HttpGet("usersPurchases/{id}")]
+        public IActionResult GetUsersPurchases([FromRoute] int id)
+        {
+            //var purchase = _purchaseService.GetPurchases().Find(x => x.User.UserID == id);
+            var purchases = _purchases.Where(x => x.User.UserID == id).ToList();
+
+
+            if (purchases == null)
+            {
+                return NotFound(new { Message = "Cant find users purchases" });
+            }
+            else
+            {
+                return Ok(purchases);
+            }
+        }
+
     }
 }

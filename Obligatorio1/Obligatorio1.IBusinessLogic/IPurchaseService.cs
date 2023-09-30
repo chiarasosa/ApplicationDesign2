@@ -11,5 +11,7 @@ namespace Obligatorio1.IBusinessLogic
     {
         Purchase ExecutePurchase(Cart cart);
 
+        List<Purchase> GetPurchases();
+
     }
 }

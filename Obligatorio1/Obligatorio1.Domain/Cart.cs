@@ -8,9 +8,9 @@ namespace Obligatorio1.Domain
 {
     public class Cart
     {
-        public List<Product> Products;
+        public List<Product> Products { get; set; }
 
-        public double TotalPrice;
+        public double TotalPrice { get; set; }
         public int CartID { get; set; }
 
         public string? PromotionApplied;
