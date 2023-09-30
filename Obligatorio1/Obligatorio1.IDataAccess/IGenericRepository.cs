@@ -11,6 +11,8 @@ namespace Obligatorio1.IDataAccess
     {
         void Insert(T entity);
 
+        IEnumerable<U> GetAll<U>() where U : class;
+
         void Save();
     }
 

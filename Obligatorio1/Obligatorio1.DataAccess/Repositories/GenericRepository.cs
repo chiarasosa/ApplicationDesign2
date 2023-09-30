@@ -22,9 +22,15 @@ namespace Obligatorio1.DataAccess.Repositories
         {
             Context.Set<T>().Add(entity);
         }
+
         public void Save()
         {
             Context.SaveChanges();
+        }
+
+        public virtual IEnumerable<U> GetAll<U>() where U : class
+        {
+            return Context.Set<U>().ToList();
         }
     }
 }

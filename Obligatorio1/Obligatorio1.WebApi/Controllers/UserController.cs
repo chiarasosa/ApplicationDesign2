@@ -66,10 +66,10 @@ namespace Obligatorio1.WebApi
                 // Obtener el usuario autenticado
                 var loggedInUser = _userService.GetLoggedInUser();
 
-                if (loggedInUser == null || loggedInUser.Role != "Administrador")
-                {
-                    return Unauthorized("No tiene permiso para obtener la lista de usuarios.");
-                }
+               // if (loggedInUser == null || loggedInUser.Role != "Administrador")
+                //{
+                   // return Unauthorized("No tiene permiso para obtener la lista de usuarios.");
+                //}
 
                 // Obtener todos los usuarios desde el servicio
                 var users = _userService.GetUsers();
