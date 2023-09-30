@@ -10,18 +10,21 @@ namespace Obligatorio1.DataAccess.Repositories
         private User? _authenticatedUser;
         private List<Purchase>? _purchases;
         private List<Product>? _products;
-
-        public UserManagment()
+        private readonly IGenericRepository<User> _repository;
+        public UserManagment(IGenericRepository<User> userRepositoy )
         {
             _users = new List<User>();
             _authenticatedUser = null;
             _purchases = new List<Purchase>();
             _products = new List<Product>();
+            _repository = userRepositoy;
         }
 
         public void RegisterUser(User user)
         {
-            _users?.Add(user);
+            //_users?.Add(user);
+            _repository.Insert(user);
+            _repository.Save();
         }
 
         public User UpdateUserProfile(User user)
@@ -68,7 +71,7 @@ namespace Obligatorio1.DataAccess.Repositories
             }
 
             //Search for the user by ID in the user list
-            User? user = _users?.FirstOrDefault(u => u.UserID == userId);
+            User? user = _repository.GetAll<User>().FirstOrDefault(u => u.UserID == userId);
 
             if (user == null)
             {
@@ -80,9 +83,10 @@ namespace Obligatorio1.DataAccess.Repositories
 
         public IEnumerable<User> GetAllUsers()
         {
-            if (_users != null)
+            var result = _repository.GetAll<User>();
+            if (result != null)
             {
-                return _users;
+                return result;
             }
             else
             {

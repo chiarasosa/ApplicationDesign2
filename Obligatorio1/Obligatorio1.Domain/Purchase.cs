@@ -20,8 +20,8 @@ namespace Obligatorio1.Domain
 
         public Purchase()
         {
-            this.PurchaseID = 1;
-            this.User = null;
+         //   this.PurchaseID = 1;
+            User = null;
             this.PurchasedProducts = new List<Product>();
             this.PromoApplied = String.Empty;
             this.DateOfPurchase = DateTime.Now;

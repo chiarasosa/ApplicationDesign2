@@ -16,7 +16,15 @@ namespace Obligatorio1.DataAccess.Contexts
         public virtual DbSet<Purchase>? Purchases { get; set; }
 
         public virtual DbSet<Product>? Products { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder) { }
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+
+            modelBuilder.Entity<User>()
+           .Property(u => u.UserID)
+           .ValueGeneratedOnAdd();
+
+
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
