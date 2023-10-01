@@ -44,7 +44,7 @@ namespace Obligatorio1.BusinessLogic
             else
             {
                 // Lanzar una excepción o manejar el error de alguna otra manera
-                throw new UserException("El nombre de usuario o el correo electrónico ya están en uso o son inválidos.");
+                throw new UserException("El nombre de usuario o el correo electrinico ya están en uso o son inválidos.");
             }
         }
 

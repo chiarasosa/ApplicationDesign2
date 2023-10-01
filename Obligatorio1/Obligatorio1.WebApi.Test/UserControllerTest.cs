@@ -137,7 +137,7 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
             var notFoundResult = (NotFoundObjectResult)result;
-            Assert.AreEqual($"Usuario con ID {userId} no encontrado", notFoundResult.Value);
+            Assert.AreEqual($"Usuario con ID {userId} no encontrado.", notFoundResult.Value);
         }
 
         [TestMethod]
@@ -176,7 +176,7 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             var okResult = (OkObjectResult)result;
-            Assert.AreEqual("Inicio de sesi�n exitoso", okResult.Value);
+            Assert.AreEqual("Inicio de sesion exitoso.", okResult.Value);
         }
 
         [TestMethod]
@@ -184,7 +184,7 @@ namespace Obligatorio1.WebApi.Test
         {
             // Arrange
             string email = "agustin@gmail.com";
-            string password = "Contrase�aIncorrecta";
+            string password = "ContraseniaIncorrecta";
 
             // Configura el servicio simulado para devolver null, indicando credenciales incorrectas
             _serviceMock.Setup(s => s.Login(email, password)).Returns((User)null);
@@ -195,7 +195,7 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
             var unauthorizedResult = (UnauthorizedObjectResult)result;
-            Assert.AreEqual("Autenticaci�n fallida. Credenciales incorrectas", unauthorizedResult.Value);
+            Assert.AreEqual("Autenticacion fallida. Credenciales incorrectas.", unauthorizedResult.Value);
         }
 
         [TestMethod]
@@ -211,7 +211,7 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
             var unauthorizedResult = (UnauthorizedObjectResult)result;
-            Assert.AreEqual("Autenticaci�n fallida. Credenciales incorrectas", unauthorizedResult.Value);
+            Assert.AreEqual("Autenticacion fallida. Credenciales incorrectas.", unauthorizedResult.Value);
         }
 
         [TestMethod]
@@ -222,7 +222,7 @@ namespace Obligatorio1.WebApi.Test
             string password = "Prueba123";
 
             // Configura el servicio simulado para lanzar una excepci�n al iniciar sesi�n
-            _serviceMock.Setup(s => s.Login(email, password)).Throws(new UserException("Error al iniciar sesi�n"));
+            _serviceMock.Setup(s => s.Login(email, password)).Throws(new UserException("Error al iniciar sesion"));
 
             // Act
             var result = _controller.Login(email, password);
@@ -230,7 +230,7 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual("Error al iniciar sesi�n: Error al iniciar sesi�n", badRequestResult.Value);
+            Assert.AreEqual("Error al iniciar sesion: Error al iniciar sesion", badRequestResult.Value);
         }
 
         [TestMethod]
@@ -262,7 +262,7 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual($"Error al cerrar sesi�n: Error al hacer logout", badRequestResult.Value);
+            Assert.AreEqual($"Error al cerrar sesion: Error al hacer logout", badRequestResult.Value);
         }
 
         [TestMethod]
@@ -650,7 +650,7 @@ namespace Obligatorio1.WebApi.Test
 
             // Configura el servicio simulado para lanzar una excepci�n UserException
             _serviceMock.Setup(s => s.UpdateUserInformation(It.IsAny<User>()))
-                        .Throws(new UserException("No tiene permiso para actualizar la informaci�n del usuario."));
+                        .Throws(new UserException("No tiene permiso para actualizar la informacion del usuario."));
 
             // Act
             var result = _controller.UpdateUserInformation(invalidUser);
@@ -658,7 +658,7 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual("Error al actualizar la informaci�n del usuario: No tiene permiso para actualizar la informaci�n del usuario.", badRequestResult.Value);
+            Assert.AreEqual("Error al actualizar la informacion del usuario: No tiene permiso para actualizar la informacion del usuario.", badRequestResult.Value);
         }
 
         [TestMethod]
@@ -681,7 +681,7 @@ namespace Obligatorio1.WebApi.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual("Error al actualizar la informaci�n del usuario: El usuario a actualizar no existe.", badRequestResult.Value);
+            Assert.AreEqual("Error al actualizar la informacion del usuario: El usuario a actualizar no existe.", badRequestResult.Value);
 
         }
 

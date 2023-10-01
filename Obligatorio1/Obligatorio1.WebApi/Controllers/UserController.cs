@@ -3,6 +3,7 @@ using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
 using Serilog;
+using Microsoft.AspNetCore.Http;
 
 namespace Obligatorio1.WebApi
 {
@@ -14,14 +15,16 @@ namespace Obligatorio1.WebApi
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary>
         /// Constructor del controlador de usuarios.
         /// </summary>
         /// <param name="userService">El servicio de usuarios.</param>
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -65,10 +68,10 @@ namespace Obligatorio1.WebApi
                 // Obtener el usuario autenticado
                 var loggedInUser = _userService.GetLoggedInUser();
 
-                // if (loggedInUser == null || loggedInUser.Role != "Administrador")
-                //{
-                // return Unauthorized("No tiene permiso para obtener la lista de usuarios.");
-                //}
+                 if (loggedInUser == null || loggedInUser.Role != "Administrador")
+                {
+                    return Unauthorized("No tiene permiso para obtener la lista de usuarios.");
+                 }
 
                 // Obtener todos los usuarios desde el servicio
                 var users = _userService.GetUsers();
@@ -148,6 +151,9 @@ namespace Obligatorio1.WebApi
 
                 Log.Information("Inicio de sesion exitoso para el usuario con email: {Email}", email);
 
+                // Almacena el usuario logeado en la sesión
+                _httpContextAccessor.HttpContext.Session.SetString("LoggedInUserId", user.UserID.ToString());
+
                 return Ok("Inicio de sesion exitoso.");
             }
             catch (UserException ex)
@@ -164,6 +170,38 @@ namespace Obligatorio1.WebApi
             }
         }
 
+        [HttpGet("loggedinuser")]
+        public IActionResult GetLoggedInUser()
+        {
+            try
+            {
+                // Recupera el ID del usuario logeado desde la sesión
+                var loggedInUserId = _httpContextAccessor.HttpContext.Session.GetString("LoggedInUserId");
+
+                if (string.IsNullOrEmpty(loggedInUserId))
+                {
+                    // No hay usuario logeado en la sesión
+                    return NotFound("No hay usuario logeado.");
+                }
+
+                // Obtén el usuario logeado desde el servicio
+                var user = _userService.GetUserByID(int.Parse(loggedInUserId));
+
+                if (user == null)
+                {
+                    return NotFound("Usuario logeado no encontrado.");
+                }
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error al obtener el usuario logeado: {ErrorMessage}", ex.Message);
+
+                return BadRequest($"Error al obtener el usuario logeado: {ex.Message}");
+            }
+        }
+
         /// <summary>
         /// Cierra sesion de un usuario registrado en el sistema.
         /// </summary>
@@ -175,12 +213,14 @@ namespace Obligatorio1.WebApi
             try
             {
                 Log.Information("Intentando cerrar sesion para el usuario con ID: {UserID}", user.UserID);
-
+                
+                HttpContext.Session.Clear();
+                
                 _userService.Logout(user);
 
                 Log.Information("Sesion cerrada exitosamente para el usuario con ID: {UserID}", user.UserID);
 
-                return NoContent(); // Devuelve una respuesta HTTP 204 No Content
+                return Ok("Sesión cerrada exitosamente."); // Devuelve una respuesta HTTP 204 No Content
             }
             catch (UserException ex)
             {
