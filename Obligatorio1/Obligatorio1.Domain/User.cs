@@ -20,7 +20,7 @@ namespace Obligatorio1.Domain
         public Cart Cart { get; set; }
         public User()
         {
-            this.UserID = 0;
+            //this.UserID = 0;
             this.UserName = string.Empty;
             this.Password = string.Empty;
             this.Email = string.Empty;
@@ -32,7 +32,7 @@ namespace Obligatorio1.Domain
 
         public User(int userID, string userName, string password, string email, string address, string role, List<Purchase>? purchases)
         {
-            this.UserID = userID;
+         //   this.UserID = userID;
             this.UserName = userName;
             this.Password = password;
             this.Email = email;

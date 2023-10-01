@@ -13,7 +13,7 @@ namespace Obligatorio1.DataAccess.Repositories
         private readonly IGenericRepository<User> _repository;
         public UserManagment(IGenericRepository<User> userRepositoy )
         {
-            _users = new List<User>();
+          //  _users = new List<User>();
             _authenticatedUser = null;
             _purchases = new List<Purchase>();
             _products = new List<Product>();
@@ -36,13 +36,8 @@ namespace Obligatorio1.DataAccess.Repositories
 
         public User Login(string email, string password)
         {
-            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
-            {
-                throw new UserException("Correo electrónico y contraseña son obligatorios.");
-            }
-
             //Perform authentication by searching for the user by email and password.
-            User? authenticatedUser = _users?.FirstOrDefault(u => u.Email == email && u.Password == password);
+            User? authenticatedUser = _repository.GetAll<User>().FirstOrDefault(u => u.Email == email && u.Password == password);
 
             if (authenticatedUser == null)
             {

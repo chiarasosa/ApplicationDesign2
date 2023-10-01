@@ -3,12 +3,11 @@ using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
 using Serilog;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Obligatorio1.WebApi
 {
     /// <summary>
-    /// Controlador para la gesti�n de usuarios.
+    /// Controlador para la gestion de usuarios.
     /// </summary>
     [ApiController]
     [Route("api/users")]
@@ -66,9 +65,9 @@ namespace Obligatorio1.WebApi
                 // Obtener el usuario autenticado
                 var loggedInUser = _userService.GetLoggedInUser();
 
-               // if (loggedInUser == null || loggedInUser.Role != "Administrador")
+                // if (loggedInUser == null || loggedInUser.Role != "Administrador")
                 //{
-                   // return Unauthorized("No tiene permiso para obtener la lista de usuarios.");
+                // return Unauthorized("No tiene permiso para obtener la lista de usuarios.");
                 //}
 
                 // Obtener todos los usuarios desde el servicio
@@ -91,7 +90,6 @@ namespace Obligatorio1.WebApi
             }
         }
 
-
         /// <summary>
         /// Obtiene un usuario por su ID.
         /// </summary>
@@ -107,7 +105,7 @@ namespace Obligatorio1.WebApi
 
                 if (user == null)
                 {
-                    return NotFound($"Usuario con ID {id} no encontrado");
+                    return NotFound($"Usuario con ID {id} no encontrado.");
                 }
 
                 // Devolver el usuario en una respuesta HTTP 200 OK
@@ -128,76 +126,75 @@ namespace Obligatorio1.WebApi
         }
 
         /// <summary>
-        /// Inicia sesi�n de un usuario registrado en el sistema.
+        /// Inicia sesion de un usuario registrado en el sistema.
         /// </summary>
-        /// <param name="email">El correo electr�nico del usuario.</param>
-        /// <param name="password">La contrase�a del usuario.</param>
-        /// <returns>Respuesta HTTP indicando el resultado del inicio de sesi�n.</returns>
+        /// <param name="email">El correo electronico del usuario.</param>
+        /// <param name="password">La contrasenia del usuario.</param>
+        /// <returns>Respuesta HTTP indicando el resultado del inicio de sesion.</returns>
         [HttpPost("login")]
         public IActionResult Login(string email, string password)
         {
             try
             {
-                Log.Information("Intentando iniciar sesi�n para el usuario con email: {Email}", email);
+                Log.Information("Intentando iniciar sesion para el usuario con email: {Email}", email);
 
                 var user = _userService.Login(email, password);
 
                 if (user == null)
                 {
-                    Log.Warning("Inicio de sesi�n fallido para el usuario con email: {Email}", email);
-                    return Unauthorized("Autenticaci�n fallida. Credenciales incorrectas");
+                    Log.Warning("Inicio de sesion fallido para el usuario con email: {Email}", email);
+                    return Unauthorized("Autenticacion fallida. Credenciales incorrectas.");
                 }
 
-                Log.Information("Inicio de sesi�n exitoso para el usuario con email: {Email}", email);
+                Log.Information("Inicio de sesion exitoso para el usuario con email: {Email}", email);
 
-                return Ok("Inicio de sesi�n exitoso");
+                return Ok("Inicio de sesion exitoso.");
             }
             catch (UserException ex)
             {
-                Log.Error(ex, "Error al iniciar sesi�n: {ErrorMessage}", ex.Message);
+                Log.Error(ex, "Error al iniciar sesion: {ErrorMessage}", ex.Message);
 
-                return BadRequest($"Error al iniciar sesi�n: {ex.Message}");
+                return BadRequest($"Error al iniciar sesion: {ex.Message}");
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error inesperado al iniciar sesi�n: {ErrorMessage}", ex.Message);
+                Log.Error(ex, "Error inesperado al iniciar sesion: {ErrorMessage}", ex.Message);
 
-                return BadRequest($"Error inesperado al iniciar sesi�n: {ex.Message}");
+                return BadRequest($"Error inesperado al iniciar sesion: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// Cierra sesi�n de un usuario registrado en el sistema.
+        /// Cierra sesion de un usuario registrado en el sistema.
         /// </summary>
-        /// <param name="user">El usuario que cierra sesi�n.</param>
-        /// <returns>Respuesta HTTP indicando el resultado del cierre de sesi�n.</returns>
+        /// <param name="user">El usuario que cierra sesion.</param>
+        /// <returns>Respuesta HTTP indicando el resultado del cierre de sesion.</returns>
         [HttpPost("logout")]
         public IActionResult Logout([FromBody] User user)
         {
             try
             {
-                Log.Information("Intentando cerrar sesi�n para el usuario con ID: {UserID}", user.UserID);
+                Log.Information("Intentando cerrar sesion para el usuario con ID: {UserID}", user.UserID);
 
                 _userService.Logout(user);
 
-                Log.Information("Sesi�n cerrada exitosamente para el usuario con ID: {UserID}", user.UserID);
+                Log.Information("Sesion cerrada exitosamente para el usuario con ID: {UserID}", user.UserID);
 
                 return NoContent(); // Devuelve una respuesta HTTP 204 No Content
             }
             catch (UserException ex)
             {
-                Log.Error(ex, "Error al cerrar sesi�n: {ErrorMessage}", ex.Message);
+                Log.Error(ex, "Error al cerrar sesion: {ErrorMessage}", ex.Message);
 
-                return BadRequest($"Error al cerrar sesi�n: {ex.Message}");
+                return BadRequest($"Error al cerrar sesion: {ex.Message}");
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error inesperado al cerrar sesi�n: {ErrorMessage}", ex.Message);
+                Log.Error(ex, "Error inesperado al cerrar sesion: {ErrorMessage}", ex.Message);
 
-                return BadRequest($"Error inesperado al cerrar sesi�n: {ex.Message}");
+                return BadRequest($"Error inesperado al cerrar sesion: {ex.Message}");
             }
         }
-
 
         /// <summary>
         /// Crea un nuevo usuario en el sistema.
@@ -206,7 +203,7 @@ namespace Obligatorio1.WebApi
         /// Permite a un usuario con permisos de administrador crear un nuevo usuario en el sistema.
         /// </remarks>
         /// <param name="user">Los datos del usuario a crear.</param>
-        /// <response code="201">El usuario se cre� con �xito.</response>
+        /// <response code="201">El usuario se creo con exito.</response>
         /// <response code="400">Error en la solicitud o al crear el usuario.</response>
         [HttpPost("create")]
         public IActionResult CreateUser([FromBody] User user)
@@ -245,7 +242,6 @@ namespace Obligatorio1.WebApi
             }
         }
 
-
         /// <summary>
         /// Elimina un usuario registrado en el sistema por su ID.
         /// </summary>
@@ -253,8 +249,8 @@ namespace Obligatorio1.WebApi
         /// Permite a un usuario con permisos de administrador eliminar un usuario por su ID.
         /// </remarks>
         /// <param name="id">El ID del usuario a eliminar.</param>
-        /// <response code="204">El usuario se elimin� con �xito.</response>
-        /// <response code="404">El usuario con el ID especificado no se encontr�.</response>
+        /// <response code="204">El usuario se elimino con exito.</response>
+        /// <response code="404">El usuario con el ID especificado no se encontro.</response>
         /// <response code="400">Error en la solicitud o al eliminar el usuario.</response>
         [HttpDelete("{id}")]
         public IActionResult DeleteUser([FromRoute] int id)
@@ -270,7 +266,7 @@ namespace Obligatorio1.WebApi
                     return BadRequest("No tiene permiso para eliminar usuarios.");
                 }
 
-                // Llama al m�todo DeleteUser del servicio para eliminar el usuario
+                // Llama al metodo DeleteUser del servicio para eliminar el usuario
                 _userService.DeleteUser(id);
 
                 Log.Information("Usuario eliminado exitosamente con ID: {UserID}", id);
@@ -281,7 +277,7 @@ namespace Obligatorio1.WebApi
             {
                 Log.Error(ex, "Error al eliminar el usuario: {ErrorMessage}", ex.Message);
 
-                return NotFound(ex.Message); // Devuelve un resultado NotFound con el mensaje de la excepci�n
+                return NotFound(ex.Message); // Devuelve un resultado NotFound con el mensaje de la excepcion
             }
             catch (Exception ex)
             {
@@ -356,7 +352,7 @@ namespace Obligatorio1.WebApi
                 var loggedInUser = _userService.GetLoggedInUser();
                 if (loggedInUser == null)
                 {
-                    return BadRequest("Debe iniciar sesi�n para acceder al historial de compras.");
+                    return BadRequest("Debe iniciar sesion para acceder al historial de compras.");
                 }
 
                 // Llama al m�todo GetPurchaseHistory del servicio para obtener el historial de compras del usuario
@@ -394,8 +390,8 @@ namespace Obligatorio1.WebApi
         /// Permite a un usuario registrado actualizar su perfil con nuevos datos.
         /// </remarks>
         /// <param name="user">Los datos del usuario a actualizar.</param>
-        /// <response code="200">La informaci�n del usuario se actualiz� con �xito.</response>
-        /// <response code="400">Error en la solicitud o al actualizar la informaci�n del usuario.</response>
+        /// <response code="200">La informacion del usuario se actualizo con exito.</response>
+        /// <response code="400">Error en la solicitud o al actualizar la informacion del usuario.</response>
         [HttpPut("UpdateUserProfile")]
         public IActionResult UpdateUserProfile([FromBody] User user)
         {
@@ -423,18 +419,18 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al actualizar el perfil del usuario: {ex.Message}");
             }
         }
+
         /// <summary>
-        /// Actualiza la informaci�n de un usuario.
+        /// Actualiza la informacion de un usuario.
         /// </summary>
         /// <remarks>
-        /// Permite a un usuario administrador actualizar la informaci�n de otro usuario por su ID.
+        /// Permite a un usuario administrador actualizar la informacion de otro usuario por su ID.
         /// </remarks>
         /// <param name="user">Los datos del usuario a actualizar.</param>
-        /// <response code="200">La informaci�n del usuario se actualiz� con �xito.</response>
-        /// <response code="400">Error en la solicitud o al actualizar la informaci�n.</response>
-        /// <response code="401">No tiene permiso para actualizar la informaci�n del usuario.</response>
+        /// <response code="200">La informacion del usuario se actualizo con exito.</response>
+        /// <response code="400">Error en la solicitud o al actualizar la informacion.</response>
+        /// <response code="401">No tiene permiso para actualizar la informacion del usuario.</response>
         [HttpPut("UpdateUserInformation")]
-
         public IActionResult UpdateUserInformation([FromBody] User user)
         {
             try
@@ -443,7 +439,7 @@ namespace Obligatorio1.WebApi
                 var loggedInUser = _userService.GetLoggedInUser();
                 if (loggedInUser == null || loggedInUser.Role != "Administrador")
                 {
-                    return Unauthorized("No tiene permiso para actualizar la informaci�n del usuario.");
+                    return Unauthorized("No tiene permiso para actualizar la informacion del usuario.");
                 }
 
                 // Intenta actualizar la informaci�n del usuario a trav�s del servicio de usuarios.
@@ -451,25 +447,19 @@ namespace Obligatorio1.WebApi
 
                 if (updatedUser == null)
                 {
-                    return BadRequest("Error al actualizar la informaci�n del usuario.");
+                    return BadRequest("Error al actualizar la informacion del usuario.");
                 }
 
                 return Ok(updatedUser); // Devuelve una respuesta HTTP 200 OK con el usuario actualizado
             }
             catch (UserException ex)
             {
-                return BadRequest($"Error al actualizar la informaci�n del usuario: {ex.Message}");
+                return BadRequest($"Error al actualizar la informacion del usuario: {ex.Message}");
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error inesperado al actualizar la informaci�n del usuario: {ex.Message}");
+                return BadRequest($"Error inesperado al actualizar la informacion del usuario: {ex.Message}");
             }
         }
-
-
-
     }
 }
-
-
-

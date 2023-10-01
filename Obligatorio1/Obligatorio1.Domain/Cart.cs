@@ -10,7 +10,7 @@ namespace Obligatorio1.Domain
     {
         public List<Product> Products;
 
-        public double TotalPrice;
+        public double TotalPrice { get; set; }
         public int CartID { get; set; }
 
         //private User User;

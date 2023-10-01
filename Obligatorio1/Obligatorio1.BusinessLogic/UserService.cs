@@ -36,18 +36,17 @@ namespace Obligatorio1.BusinessLogic
 
         public void RegisterUser(User user)
         {
-            // Verificar si ya existe un usuario con el mismo nombre de usuario
-            if (IsUserValid(user) && !IsUserNameAlreadyTaken(user.UserName))
+            // Verificar si el usuario es válido y si tanto el nombre de usuario como el correo no están duplicados
+            if (IsUserValid(user) && !IsUserNameAlreadyTaken(user.UserName) && !IsEmailAlreadyTaken(user.Email))
             {
                 _userManagment.RegisterUser(user);
             }
             else
             {
                 // Lanzar una excepción o manejar el error de alguna otra manera
-                throw new UserException("El nombre de usuario ya está en uso.");
+                throw new UserException("El nombre de usuario o el correo electrónico ya están en uso o son inválidos.");
             }
         }
-
 
         //**********************************************VALIDACIONES
         private bool IsUserValid(User user)
@@ -56,8 +55,6 @@ namespace Obligatorio1.BusinessLogic
             {
                 throw new UserException("Usuario inválido");
             }
-
-
 
             return true;
         }
@@ -71,6 +68,14 @@ namespace Obligatorio1.BusinessLogic
             return users.Any(u => u.UserName == userName);
         }
 
+        private bool IsEmailAlreadyTaken(string email)
+        {
+            // Obtener todos los usuarios del sistema
+            IEnumerable<User> users = _userManagment.GetAllUsers();
+
+            // Verificar si existe algún usuario con el mismo correo electrónico
+            return users.Any(u => u.Email == email);
+        }
         //***********************************************************
 
 
