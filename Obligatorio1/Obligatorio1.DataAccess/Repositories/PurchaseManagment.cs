@@ -10,10 +10,26 @@ namespace Obligatorio1.DataAccess.Repositories
 {
     public class PurchaseManagment : IPurchaseManagment
     {
-        
-        public int ValidateMoreThan1Item(Cart cart)
-        {         
-            return cart.Products.Count;
+        private readonly IGenericRepository<Purchase> _repository;
+        public PurchaseManagment(IGenericRepository<Purchase> purchaseRepositoy)
+        {
+            _repository = purchaseRepositoy;
         }
+        public void CreatePurchase(Purchase purchase)
+        {
+            try
+            {
+                _repository.Insert(purchase);
+                _repository.Save();
+            }
+            catch (Exception ex)
+            {
+                // Log the inner exception details
+                Console.WriteLine("Inner Exception Details: " + ex.InnerException?.Message);
+                throw;
+            }
+        }
+
+
     }
 }

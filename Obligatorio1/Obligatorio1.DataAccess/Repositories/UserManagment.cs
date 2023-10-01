@@ -55,6 +55,11 @@ namespace Obligatorio1.DataAccess.Repositories
             return authenticatedUser;
         }
 
+        public User GetLoggedinUser()
+        {
+            return _authenticatedUser;
+        }
+
         public void Logout(User user)
         {
             if (_authenticatedUser != null && user.UserID == _authenticatedUser.UserID)
@@ -166,7 +171,7 @@ namespace Obligatorio1.DataAccess.Repositories
             }
 
             // Simplemente devuelve las compras asociadas al usuario
-            return _purchases.Where(purchase => purchase.User.UserID == user.UserID);
+            return _purchases.Where(purchase => purchase.UserID == user.UserID);
         }
 
         public IEnumerable<Purchase> GetAllPurchases()

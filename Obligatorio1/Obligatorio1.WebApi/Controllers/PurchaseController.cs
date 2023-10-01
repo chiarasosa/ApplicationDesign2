@@ -12,11 +12,7 @@ namespace Obligatorio1.WebApi.Controllers
         private static List<Purchase> _purchases = new List<Purchase>() { 
             new Purchase() { 
                 PurchaseID = 145, 
-                User = new Domain.User(){
-                    UserID = 1,
-                    UserName= "Chiara",
-                    Email = "chiarasosa00@gmail.com"
-                }, 
+                UserID = 12, 
                 PurchasedProducts =
             {
                 new Product()
@@ -31,11 +27,7 @@ namespace Obligatorio1.WebApi.Controllers
                 PromoApplied = "3x1", DateOfPurchase = DateTime.Today },
         
             new Purchase() {
-                PurchaseID = 2, User = new User(){
-                    UserID = 2,
-                    UserName= "Chiara2",
-                    Email = "chiarasosa002@gmail.com"
-                }, PurchasedProducts =
+                PurchaseID = 2, UserID = 3, PurchasedProducts =
             {
                 new Product()
                 {
@@ -62,8 +54,18 @@ namespace Obligatorio1.WebApi.Controllers
         {
             try
             {
-                var purchase = _purchaseService.ExecutePurchase(cart);
-                return Ok("The purchase has been made successfully." + purchase);
+                /*
+                _purchases.Add(
+                    new Purchase() {
+                        PurchaseID = 1,
+                        UserID = 2,
+                        PurchasedProducts = cart.Products,
+                        DateOfPurchase = DateTime.Today,
+                        PromoApplied = cart.PromotionApplied
+                    });
+                */
+                _purchaseService.ExecutePurchase(cart);
+                return Ok("The purchase has been made successfully.");
             }
             catch (Exception ex)
             {
@@ -121,7 +123,7 @@ namespace Obligatorio1.WebApi.Controllers
         public IActionResult GetUsersPurchases([FromRoute] int id)
         {
             //var purchase = _purchaseService.GetPurchases().Find(x => x.User.UserID == id);
-            var purchases = _purchases.Where(x => x.User.UserID == id).ToList();
+            var purchases = _purchases.Where(x => x.UserID == id).ToList();
 
 
             if (purchases == null)

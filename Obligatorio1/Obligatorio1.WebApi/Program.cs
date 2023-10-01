@@ -36,13 +36,16 @@ namespace Obligatorio1.WebApi
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.Repositories.UserManagment>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPromoManagerManagment, Obligatorio1.DataAccess.Repositories.PromoManagerManagment>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.ICartService, Obligatorio1.BusinessLogic.CartService>();
-
+            builder.Services.AddScoped<Obligatorio1.IDataAccess.IPurchaseManagment, Obligatorio1.DataAccess.Repositories.PurchaseManagment>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.ICartManagment, Obligatorio1.DataAccess.CartManagment>();
             builder.Services.AddScoped<Obligatorio1.Domain.User>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IPurchaseService, Obligatorio1.BusinessLogic.PurchaseService>();
+            builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<Purchase>, Obligatorio1.DataAccess.Repositories.GenericRepository<Purchase>>();
+            builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<User>, Obligatorio1.DataAccess.Repositories.GenericRepository<User>>();
+            builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<Cart>, Obligatorio1.DataAccess.Repositories.GenericRepository<Cart>>();
 
             builder.Services.AddDbContext<Context>();
-            builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<User>, Obligatorio1.DataAccess.Repositories.GenericRepository<User>>();
+            
 
             //var serviceFactory = new Obligatorio1.ServiceFactory.ServiceFactory();
             //serviceFactory.RegistrateServices(builder.Services);

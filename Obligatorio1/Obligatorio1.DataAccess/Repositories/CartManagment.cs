@@ -12,15 +12,18 @@ namespace Obligatorio1.DataAccess
     public class CartManagment : ICartManagment
     {
         private User authenticatedUser;
+        private readonly IGenericRepository<User> _repository;
 
-        public CartManagment(User user)
+        public CartManagment(IGenericRepository<User> userRepository)
         {
-            authenticatedUser = user;
+            authenticatedUser = new User(1, "Chiara", "Chiara123", "chiarasosa@gmail.com", "Calle 1", "Administrador", new List<Purchase>());
+            _repository = userRepository;
         }
 
 
         public void AddProductToCart(Product product)
         {
+            
             authenticatedUser?.Cart.Products.Add(product);
         }
 
