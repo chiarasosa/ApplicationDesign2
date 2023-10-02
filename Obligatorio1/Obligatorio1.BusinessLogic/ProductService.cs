@@ -88,20 +88,17 @@ namespace Obligatorio1.BusinessLogic
             }
         }
 
-        public void CreateProduct(Product product)
+        public Product CreateProduct(Product product)
         {
-            try
+            
+               Product prod= productsManagement.CreateProduct(product);
+
+            if (prod==null)
             {
-                productsManagement.CreateProduct(product);
+                throw new ProductManagmentException("Error al crear el producto.");
             }
-            catch (ProductManagmentException e)
-            {
-                throw new ProductManagmentException($"Error al crear el producto: {e.Message}");
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Error inesperado al crear el producto: {e.Message}", e);
-            }
+            return prod;
+            
         }
 
         public List<Product> SearchByParameter(string text, string brand, string category)

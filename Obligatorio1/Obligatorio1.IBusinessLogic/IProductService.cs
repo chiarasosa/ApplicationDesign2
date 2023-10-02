@@ -16,7 +16,7 @@ namespace Obligatorio1.IBusinessLogic
 
         void DeleteProduct(int productID);
 
-        void CreateProduct(Product product);
+        Product CreateProduct(Product product);
 
         List<Product> SearchByParameter(string text, string brand, string category);
     }
