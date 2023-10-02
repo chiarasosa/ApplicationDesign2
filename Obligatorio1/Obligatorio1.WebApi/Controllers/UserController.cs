@@ -66,12 +66,15 @@ namespace Obligatorio1.WebApi
             try
             {
                 // Obtener el usuario autenticado
-                var loggedInUser = _userService.GetLoggedInUser();
+                var loggedInUserID = _httpContextAccessor.HttpContext.Session.GetString("LoggedInUserId");//_userService.GetLoggedInUser();
+                                                                                                        // Obtén el usuario logeado desde el servicio
+                var loggedInUser = _userService.GetUserByID(int.Parse(loggedInUserID));
 
-                 if (loggedInUser == null || loggedInUser.Role != "Administrador")
+
+                if (loggedInUser == null || loggedInUser.Role != "Administrador")
                 {
                     return Unauthorized("No tiene permiso para obtener la lista de usuarios.");
-                 }
+                }
 
                 // Obtener todos los usuarios desde el servicio
                 var users = _userService.GetUsers();
@@ -170,6 +173,10 @@ namespace Obligatorio1.WebApi
             }
         }
 
+        /// <summary>
+        /// Obtiene el usuario actualmente logeado en el sistema.
+        /// </summary>
+        /// <returns>Respuesta HTTP con el usuario logeado.</returns>
         [HttpGet("loggedinuser")]
         public IActionResult GetLoggedInUser()
         {
