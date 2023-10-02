@@ -68,7 +68,7 @@ namespace Obligatorio1.WebApi.Test
         [TestMethod]
         public void GetProductsError()
         {
-            mock.Setup(m => m.GetProducts()).Throws(new Exception("Error al obtener productos"));
+            mock.Setup(m => m.GetProducts()).Throws(new ProductManagmentException("Error al obtener productos"));
 
             var res = _controller.GetProducts();
 
@@ -112,7 +112,7 @@ namespace Obligatorio1.WebApi.Test
         public void GetProductIDBadRequest()
         {
             int id = 1;
-            mock.Setup(m => m.GetProductByID(id)).Throws(new Exception("Error al obtener el producto"));
+            mock.Setup(m => m.GetProductByID(id)).Throws(new ProductManagmentException("Error al obtener el producto"));
 
             var result = _controller.GetProductByID(id);
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
