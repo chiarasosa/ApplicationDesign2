@@ -14,6 +14,7 @@ namespace Obligatorio1.WebApi
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private User? _loggedInUser;
 
         /// <summary>
         /// Constructor del controlador de usuarios.
@@ -147,6 +148,8 @@ namespace Obligatorio1.WebApi
                 }
 
                 Log.Information("Inicio de sesion exitoso para el usuario con email: {Email}", email);
+
+                _loggedInUser = user;
 
                 return Ok("Inicio de sesion exitoso.");
             }

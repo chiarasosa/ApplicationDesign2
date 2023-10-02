@@ -16,7 +16,19 @@ namespace Obligatorio1.BusinessLogic
 
         public User? GetLoggedInUser()
         {
-            return loggedInUser;
+            var result = new User
+            {
+                UserID = 21, // ID del usuario logueado
+                UserName = "UsuarioDemo",
+                Email = "usuarioDemo@ejemplo.com",
+                Password = "ContraseñaDemo",
+                Role = "Administrador", // Rol del usuario (puede ser "Administrador" u otro)
+                Address = "DireccionDemo",
+                Cart= null,
+                Purchases = null,
+            };
+
+            return result;
         }
 
 
