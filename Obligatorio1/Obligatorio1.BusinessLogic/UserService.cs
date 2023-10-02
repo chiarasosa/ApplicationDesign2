@@ -243,12 +243,12 @@ namespace Obligatorio1.BusinessLogic
 
         public User DeleteUser(int userID)
         {
-            if (loggedInUser == null || loggedInUser.Role != "Administrador")
+          /*  if (loggedInUser == null || loggedInUser.Role != "Administrador")
             {
                 throw new UserException("No tiene permiso para eliminar usuarios.");
             }
 
-
+            */
 
             User userToDelete = _userManagment.GetUserByID(userID);
 

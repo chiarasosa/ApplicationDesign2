@@ -133,19 +133,20 @@ namespace Obligatorio1.DataAccess.Repositories
 
         public void DeleteUser(int userID)
         {
+           /*
             if (_authenticatedUser == null || _authenticatedUser.Role != "Administrador")
             {
                 throw new UserException("No tiene permiso para eliminar usuarios.");
-            }
+            }*/
 
-            User? userToDelete = _users?.FirstOrDefault(u => u.UserID == userID);
+            User? userToDelete = _repository.GetAll<User>().FirstOrDefault(u => u.UserID == userID);
 
             if (userToDelete == null)
             {
                 throw new UserException($"Usuario con ID {userID} no encontrado.");
             }
 
-            _users?.Remove(userToDelete);
+            _repository.Remove(userToDelete);
         }
 
         public IEnumerable<Purchase> GetPurchaseHistory(User user)
