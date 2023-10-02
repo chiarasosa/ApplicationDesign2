@@ -113,7 +113,7 @@ namespace Obligatorio1.DataAccess.Repositories
 
             if (_authenticatedUser == null || _authenticatedUser.Role != "Administrador")
             {
-                throw new UserException("No tiene permiso para actualizar la información del usuario.");
+                throw new UserException("No tiene permiso para actualizar la informacion del usuario.");
             }
 
             User? existingUser = _users?.FirstOrDefault(u => u.UserID == user.UserID);

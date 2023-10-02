@@ -197,7 +197,7 @@ namespace Obligatorio1.BusinessLogic
             // Verifica si el usuario autenticado es un administrador.
             if (loggedInUser == null || loggedInUser.Role != "Administrador")
             {
-                throw new UserException("No tiene permiso para actualizar la información del usuario.");
+                throw new UserException("No tiene permiso para actualizar la informacion del usuario.");
             }
 
 
