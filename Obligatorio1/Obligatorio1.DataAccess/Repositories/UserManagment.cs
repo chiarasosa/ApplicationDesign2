@@ -26,13 +26,27 @@ namespace Obligatorio1.DataAccess.Repositories
             _repository.Insert(user);
             _repository.Save();
         }
-
         public User UpdateUserProfile(User user)
         {
-            if (_users?.FirstOrDefault(u => u.UserID == user.UserID) == null)
+            var existingUser = _repository.GetAll<User>().FirstOrDefault(u => u.UserID == user.UserID);
+
+            if (existingUser == null)
                 throw new UserException("El usuario no existe.");
-            return user;
+
+            // Actualiza las propiedades de la entidad existente con los valores del usuario pasado como parámetro
+            existingUser.UserName = user.UserName;
+            existingUser.Password = user.Password;
+            existingUser.Email = user.Email;
+            existingUser.Address = user.Address;
+            existingUser.Role = user.Role;
+            existingUser.Cart = user.Cart;
+
+            _repository.Update(existingUser);
+            _repository.Save();
+
+            return existingUser;
         }
+
 
         public User Login(string email, string password)
         {
@@ -106,17 +120,15 @@ namespace Obligatorio1.DataAccess.Repositories
 
         public User UpdateUserInformation(User user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user), "El usuario proporcionado es nulo.");
-            }
+            var existingUser = _repository.GetAll<User>().FirstOrDefault(u => u.UserID == user.UserID);
 
-            if (_authenticatedUser == null || _authenticatedUser.Role != "Administrador")
-            {
-                throw new UserException("No tiene permiso para actualizar la informacion del usuario.");
-            }
+            if (existingUser == null)
+                throw new UserException("El usuario no existe.");
 
-            User? existingUser = _users?.FirstOrDefault(u => u.UserID == user.UserID);
+            /* if (_authenticatedUser == null || _authenticatedUser.Role != "Administrador")
+             {
+                 throw new UserException("No tiene permiso para actualizar la informacion del usuario.");
+             }*/
 
             if (existingUser == null)
             {
@@ -124,9 +136,14 @@ namespace Obligatorio1.DataAccess.Repositories
             }
 
             existingUser.UserName = user.UserName;
-            existingUser.Email = user.Email;
             existingUser.Password = user.Password;
+            existingUser.Email = user.Email;
             existingUser.Address = user.Address;
+            existingUser.Role = user.Role;
+            existingUser.Cart = user.Cart;
+
+            _repository.Update(existingUser);
+            _repository.Save();
 
             return existingUser;
         }
@@ -146,7 +163,8 @@ namespace Obligatorio1.DataAccess.Repositories
                 throw new UserException($"Usuario con ID {userID} no encontrado.");
             }
 
-            _repository.Remove(userToDelete);
+            _repository.Delete(userToDelete);
+            _repository.Save();
         }
 
         public IEnumerable<Purchase> GetPurchaseHistory(User user)

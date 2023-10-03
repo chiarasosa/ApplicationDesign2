@@ -198,7 +198,7 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al cerrar sesion: {ex.Message}");
             }
         }
-
+        /*
         /// <summary>
         /// Crea un nuevo usuario en el sistema.
         /// </summary>
@@ -244,6 +244,7 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al crear el usuario: {ex.Message}");
             }
         }
+        */
 
         /// <summary>
         /// Elimina un usuario registrado en el sistema por su ID.
@@ -274,13 +275,13 @@ namespace Obligatorio1.WebApi
 
                 Log.Information("Usuario eliminado exitosamente con ID: {UserID}", id);
 
-                return NoContent(); // Devuelve una respuesta HTTP 204 No Content
+                return Ok("Usuario eliminado exitosamente"); // Devuelve una respuesta HTTP 200 OK con un mensaje de éxito
             }
             catch (UserException ex)
             {
                 Log.Error(ex, "Error al eliminar el usuario: {ErrorMessage}", ex.Message);
 
-                return NotFound(ex.Message); // Devuelve un resultado NotFound con el mensaje de la excepcion
+                return NotFound(ex.Message); // Devuelve un resultado NotFound con el mensaje de la excepción
             }
             catch (Exception ex)
             {
@@ -289,6 +290,7 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al eliminar el usuario: {ex.Message}");
             }
         }
+
 
         /// <summary>
         /// Obtiene todas las compras realizadas en el sistema.
@@ -385,7 +387,7 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al obtener el historial de compras: {ex.Message}");
             }
         }
-
+        /*
         /// <summary>
         /// Actualiza el perfil de un usuario registrado en el sistema.
         /// </summary>
@@ -402,7 +404,7 @@ namespace Obligatorio1.WebApi
             {
                 Log.Information("Intentando actualizar el perfil del usuario con ID: {UserID}", user.UserID);
 
-                // Llama al m�todo UpdateUserProfile del servicio para actualizar el perfil del usuario
+                // Llama al metodo UpdateUserProfile del servicio para actualizar el perfil del usuario
                 var updatedUser = _userService.UpdateUserProfile(user);
 
                 Log.Information("Perfil del usuario actualizado exitosamente para el usuario con ID: {UserID}", user.UserID);
@@ -422,12 +424,12 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al actualizar el perfil del usuario: {ex.Message}");
             }
         }
-
+        */
         /// <summary>
-        /// Actualiza la informacion de un usuario.
+        /// Actualiza la informacion de un usuario registrado en el sistema.
         /// </summary>
         /// <remarks>
-        /// Permite a un usuario administrador actualizar la informacion de otro usuario por su ID.
+        /// Permite a un usuario administrador actualizar la informacion de un usuario por su ID.
         /// </remarks>
         /// <param name="user">Los datos del usuario a actualizar.</param>
         /// <response code="200">La informacion del usuario se actualizo con exito.</response>
