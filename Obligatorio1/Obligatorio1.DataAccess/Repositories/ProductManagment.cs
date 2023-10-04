@@ -1,5 +1,6 @@
 ﻿using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
+using Obligatorio1.IDataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,9 @@ namespace Obligatorio1.DataAccess.Repositories
     public class ProductManagment
     {
         private List<Product>? _products;
+        private readonly IGenericRepository<Product> _repository;
 
-        public ProductManagment()
+        public ProductManagment(IGenericRepository<Product> userRepositoy)
         {
             _products = new List<Product>();
         }
@@ -54,7 +56,9 @@ namespace Obligatorio1.DataAccess.Repositories
 
         public void RegisterProduct(Product product)
         {
-            _products?.Add(product);
+            //_products?.Add(product);
+            _repository.Insert(product);
+            _repository.Save();
         }
 
 
