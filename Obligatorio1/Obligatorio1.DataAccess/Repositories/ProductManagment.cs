@@ -24,7 +24,7 @@ namespace Obligatorio1.DataAccess.Repositories
 
 
             // Busca el producto por su ID
-            Product existingProduct = _products?.FirstOrDefault(p => p.ProductID == product.ProductID);
+            Product existingProduct = _repository.GetAll<Product>().FirstOrDefault(m => m.ProductID == product.ProductID);
 
             if (existingProduct == null)
             {
@@ -39,6 +39,9 @@ namespace Obligatorio1.DataAccess.Repositories
             existingProduct.Category = product.Category;
             existingProduct.Color = product.Color;
 
+
+            _repository.Update(existingProduct);
+            _repository.Save();
             return existingProduct;
         }
 
