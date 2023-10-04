@@ -32,5 +32,13 @@ namespace Obligatorio1.DataAccess.Repositories
         {
             return Context.Set<U>().ToList();
         }
+        public void Delete(T entity)
+        {
+            Context.Set<T>().Remove(entity);
+        }
+        public void Update(T entity)
+        {
+            Context.Entry(entity).State = EntityState.Modified;
+        }
     }
 }

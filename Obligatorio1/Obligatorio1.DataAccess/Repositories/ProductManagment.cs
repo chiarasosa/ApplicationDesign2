@@ -68,19 +68,20 @@ namespace Obligatorio1.DataAccess.Repositories
 
         public IEnumerable<Product> GetProducts()
         {
-            if (_products == null)
+            var aux = _repository.GetAll<Product>();
+            if (aux == null)
             {
                 return Enumerable.Empty<Product>();
             }
             else
             {
-                return _products;
+                return aux;
             }
         }
 
         public void DeleteProduct(int productID)
         {
-            Product? prod = _products?.FirstOrDefault(m => m.ProductID == productID);
+            Product? prod = _repository.GetAll<Product>().FirstOrDefault(m => m.ProductID == productID);
 
             if (prod == null)
             {
@@ -88,7 +89,8 @@ namespace Obligatorio1.DataAccess.Repositories
             }
             else
             {
-                _products?.Remove(prod);
+                _repository.Delete(prod);
+                _repository.Save();
             }
         }
 
@@ -103,7 +105,7 @@ namespace Obligatorio1.DataAccess.Repositories
             }
             else
             {
-                Product? product = _products?.FirstOrDefault(m => m.ProductID == prodID);
+                Product? product = _repository.GetAll<Product>().FirstOrDefault(m => m.ProductID == prodID);
 
                 if (product == null)
                 {
