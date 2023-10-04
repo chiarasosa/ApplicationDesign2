@@ -243,7 +243,7 @@ namespace Obligatorio1.WebApi.Test
             var result = _controller.Logout(user);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             _serviceMock.Verify(s => s.Logout(user), Times.Once);
         }
 

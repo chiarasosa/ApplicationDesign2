@@ -18,14 +18,26 @@ namespace Obligatorio1.BusinessLogic
         {
             var result = new User
             {
-                UserID = 21, // ID del usuario logueado
-                UserName = "UsuarioDemo",
-                Email = "usuarioDemo@ejemplo.com",
-                Password = "ContraseñaDemo",
+                
+                UserID = 27, // ID del usuario logueado
+                UserName = "UsuarioAdministrador",
+                Email = "usuarioAdministrador@ejemplo.com",
+                Password = "ContraseñaAdministrador",
                 Role = "Administrador", // Rol del usuario (puede ser "Administrador" u otro)
-                Address = "DireccionDemo",
+                Address = "DireccionAdministrador",
                 Cart= null,
                 Purchases = null,
+                
+                /*
+                UserID = 28, // ID del usuario logueado
+                UserName = "UsuarioComprador",
+                Email = "usuarioComprador@ejemplo.com",
+                Password = "ContraseñaComprador",
+                Role = "Comprador", // Rol del usuario (puede ser "Administrador" u otro)
+                Address = "DireccionComprador",
+                Cart= null,
+                Purchases = null,
+                */
             };
 
             return result;
@@ -279,10 +291,10 @@ namespace Obligatorio1.BusinessLogic
         }
         public IEnumerable<Purchase> GetAllPurchases()
         {
-            if (loggedInUser == null || loggedInUser.Role != "Administrador")
+            /*if (loggedInUser == null || loggedInUser.Role != "Administrador")
             {
                 throw new UserException("No tiene permiso para acceder a todas las compras.");
-            }
+            }*/
 
 
 

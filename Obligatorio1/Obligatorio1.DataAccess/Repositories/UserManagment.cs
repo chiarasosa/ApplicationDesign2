@@ -173,24 +173,25 @@ namespace Obligatorio1.DataAccess.Repositories
             {
                 throw new ArgumentNullException(nameof(user), "El usuario proporcionado es nulo.");
             }
-
+            /*
             if (_authenticatedUser == null || _authenticatedUser.UserID != user.UserID)
             {
                 throw new UserException("No tiene permiso para acceder al historial de compras de este usuario.");
-            }
+            }*/
 
             // Simplemente devuelve las compras asociadas al usuario
-            return _purchases.Where(purchase => purchase.User.UserID == user.UserID);
+            return _repository.GetAll<Purchase>().Where(purchase => purchase.User.UserID == user.UserID);
         }
 
         public IEnumerable<Purchase> GetAllPurchases()
         {
-            if (_authenticatedUser == null || _authenticatedUser.Role != "Administrador")
-            {
-                throw new UserException("No tiene permiso para acceder a todas las compras.");
-            }
+            /*  if (_authenticatedUser == null || _authenticatedUser.Role != "Administrador")
+              {
+                  throw new UserException("No tiene permiso para acceder a todas las compras.");
+              }*/
 
-            return _purchases;
+            return _repository.GetAll<Purchase>();
+
         }
 
 

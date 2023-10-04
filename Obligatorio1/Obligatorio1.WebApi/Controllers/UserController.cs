@@ -37,6 +37,8 @@ namespace Obligatorio1.WebApi
             {
                 Log.Information("Intentando registrar usuario: {@User}", user);
 
+
+
                 _userService.RegisterUser(user);
 
                 Log.Information("Usuario registrado exitosamente.");
@@ -183,7 +185,7 @@ namespace Obligatorio1.WebApi
 
                 Log.Information("Sesion cerrada exitosamente para el usuario con ID: {UserID}", user.UserID);
 
-                return NoContent(); // Devuelve una respuesta HTTP 204 No Content
+                return Ok("Se cerro la sesion correctamente."); // Devuelve una respuesta HTTP 204 No Content
             }
             catch (UserException ex)
             {
@@ -387,7 +389,7 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al obtener el historial de compras: {ex.Message}");
             }
         }
-        /*
+        
         /// <summary>
         /// Actualiza el perfil de un usuario registrado en el sistema.
         /// </summary>
@@ -402,6 +404,13 @@ namespace Obligatorio1.WebApi
         {
             try
             {
+                // Verifica si el usuario autenticado es el usuario a actualizar.
+                var loggedInUser = _userService.GetLoggedInUser();
+                if (loggedInUser == null || loggedInUser.UserID != user.UserID)
+                {
+                    return BadRequest("El id del usuario a actualizar no coincide con el usuario logeado.");
+                }
+
                 Log.Information("Intentando actualizar el perfil del usuario con ID: {UserID}", user.UserID);
 
                 // Llama al metodo UpdateUserProfile del servicio para actualizar el perfil del usuario
@@ -424,7 +433,7 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al actualizar el perfil del usuario: {ex.Message}");
             }
         }
-        */
+        
         /// <summary>
         /// Actualiza la informacion de un usuario registrado en el sistema.
         /// </summary>
