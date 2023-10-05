@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Obligatorio1.Domain;
@@ -11,6 +12,7 @@ namespace Obligatorio1.WebApi.Test
     {
         private UserController _controller;
         private Mock<IUserService> _serviceMock;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         [TestInitialize]
         public void Setup()
@@ -19,7 +21,7 @@ namespace Obligatorio1.WebApi.Test
             _serviceMock = new Mock<IUserService>();
 
             // Configurar el controlador con el servicio mock
-            _controller = new UserController(_serviceMock.Object);
+            _controller = new UserController(_serviceMock.Object, _httpContextAccessor);
         }
 
         [TestMethod]
@@ -184,7 +186,7 @@ namespace Obligatorio1.WebApi.Test
         {
             // Arrange
             string email = "agustin@gmail.com";
-            string password = "Contrase�aIncorrecta";
+            string password = "ContraseniaIncorrecta";
 
             // Configura el servicio simulado para devolver null, indicando credenciales incorrectas
             _serviceMock.Setup(s => s.Login(email, password)).Returns((User)null);

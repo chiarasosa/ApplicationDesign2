@@ -3,6 +3,7 @@ using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
 using Serilog;
+using Microsoft.AspNetCore.Http;
 
 namespace Obligatorio1.WebApi
 {
@@ -23,6 +24,7 @@ namespace Obligatorio1.WebApi
         public UserController(IUserService userService)
         {
             _userService = userService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -164,9 +166,9 @@ namespace Obligatorio1.WebApi
             }
         }
 
+
         /// <summary>
-        /// Log out of a user registered in the system.
-        /// </summary>
+        /// Cierra sesion de un usuario registrado en el sistema.
         /// <param name="user">The user who logs out.</param>
         /// <returns>HTTP response indicating the result of the logout.</returns>
         [HttpPost("logout")]
@@ -175,7 +177,9 @@ namespace Obligatorio1.WebApi
             try
             {
                 Log.Information("Intentando cerrar sesion para el usuario con ID: {UserID}", user.UserID);
-
+                
+                HttpContext.Session.Clear();
+                
                 _userService.Logout(user);
 
                 Log.Information("Sesion cerrada exitosamente para el usuario con ID: {UserID}", user.UserID);

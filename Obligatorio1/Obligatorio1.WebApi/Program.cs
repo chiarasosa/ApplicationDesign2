@@ -1,12 +1,21 @@
-using Microsoft.OpenApi.Models;
-using Obligatorio1.DataAccess.Repositories;
-using System.Reflection;
-using Obligatorio1.Domain;
-using Obligatorio1.DataAccess.Contexts;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Obligatorio1.DataAccess;
-using Obligatorio1.IDataAccess;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
+using Obligatorio1.DataAccess.Contexts;
+using Obligatorio1.DataAccess.Repositories;
+using Obligatorio1.Domain;
+using Obligatorio1.Exceptions;
+using Obligatorio1.IBusinessLogic;
+using Serilog;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace Obligatorio1.WebApi
 {
@@ -17,19 +26,26 @@ namespace Obligatorio1.WebApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            // Configure sessions
+            builder.Services.AddDistributedMemoryCache(); // Opcional, para almacenar en caché la sesión en memoria
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Establece el tiempo de inactividad de la sesión
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true; // Si deseas que la sesión sea esencial para la aplicación
+            });
+
             builder.Services.AddEndpointsApiExplorer();
-            //builder.Services.AddSwaggerGen();
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Obligatorio 1", Version = "v1" });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath); // Esto incluir� el archivo XML de documentaci�n en Swagger
+                c.IncludeXmlComments(xmlPath); // Esto incluirá el archivo XML de documentación en Swagger
             });
-            //Se configura que clase implementa a que interfaz
 
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IUserService, Obligatorio1.BusinessLogic.UserService>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, UserManagment>();
@@ -39,37 +55,24 @@ namespace Obligatorio1.WebApi
             builder.Services.AddDbContext<Context>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<User>, Obligatorio1.DataAccess.Repositories.GenericRepository<User>>();
 
-
-            /*
-            var serviceFactory = new Obligatorio1.ServiceFactory.ServiceFactory();
-            serviceFactory.RegistrateServices(builder.Services);
-            */
             var app = builder.Build();
 
-
-
-
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                //app.UseSwagger();
-                //app.UseSwaggerUI();
-
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Obligatorio 1");
                 });
-
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
 
+            // Habilita el middleware de sesiones
+            app.UseSession();
 
             app.MapControllers();
-
             app.Run();
         }
     }

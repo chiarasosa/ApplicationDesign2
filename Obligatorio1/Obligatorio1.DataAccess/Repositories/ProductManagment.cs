@@ -16,6 +16,7 @@ namespace Obligatorio1.DataAccess.Repositories
         {
             _products = new List<Product>();
         }
+
         public Product UpdateProduct(Product product)
         {
 
@@ -39,6 +40,7 @@ namespace Obligatorio1.DataAccess.Repositories
             return existingProduct;
         }
 
+
         public void CreateProduct(Product product)
         {
             if (_products?.Any(p => p.ProductID == product.ProductID) == true)
@@ -50,6 +52,66 @@ namespace Obligatorio1.DataAccess.Repositories
             _products?.Add(product);
         }
 
+        public void RegisterProduct(Product product)
+        {
+            _products?.Add(product);
+        }
 
+
+
+        public IEnumerable<Product> GetProducts()
+        {
+            if (_products == null)
+            {
+                return Enumerable.Empty<Product>();
+            }
+            else
+            {
+                return _products;
+            }
+        }
+
+        public void DeleteProduct(int productID)
+        {
+            Product? prod = _products?.FirstOrDefault(m => m.ProductID == productID);
+
+            if (prod == null)
+            {
+                throw new ProductManagmentException($"Producto con ID {productID} no encontrado");
+            }
+            else
+            {
+                _products?.Remove(prod);
+            }
+        }
+
+
+
+
+        public Product GetGetProductByID(int prodID)
+        {
+            if (prodID < 0)
+            {
+                throw new ProductManagmentException("ID del producto inválido");
+            }
+            else
+            {
+                Product? product = _products?.FirstOrDefault(m => m.ProductID == prodID);
+
+                if (product == null)
+                {
+                    throw new ProductManagmentException("No se encontró ningún ID que coincida");
+                }
+                else
+                {
+                    return product;
+                }
+            }
+        }
+
+        /* public List<Product> SearchByParameter(string text, string brand, string category)
+         {
+
+         }*/
     }
 }
