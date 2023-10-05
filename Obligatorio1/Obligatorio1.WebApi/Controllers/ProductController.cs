@@ -21,6 +21,11 @@ namespace Obligatorio1.WebApi
             _productService = productService;
         }
 
+        /// <summary>
+        /// Registra un nuevo producto en el sistema.
+        /// </summary>
+        /// <param name="product">Los datos del producto a registrar.</param>
+        /// <returns>Respuesta HTTP indicando el resultado del registro.</returns>
         [HttpPost]
 
         public IActionResult RegisterProduct([FromBody] Product product)
@@ -39,6 +44,11 @@ namespace Obligatorio1.WebApi
             }
         }
 
+
+        /// <summary>
+        /// Obtiene la lista de productos registrados en el sistema.
+        /// </summary>
+        /// <returns>Respuesta HTTP con la lista de productos.</returns>
         [HttpGet]
         [SwaggerOperation(
          Summary = "Obtiene la lista de productos",
@@ -67,6 +77,12 @@ namespace Obligatorio1.WebApi
 
         }
 
+
+        /// <summary>
+        /// Obtiene un producto por su ID.
+        /// </summary>
+        /// <param name="id">ID del producto a obtener.</param>
+        /// <returns>Respuesta HTTP con el producto solicitado.</returns>
         [HttpGet("{id}")]
         public IActionResult GetProductByID([FromRoute] int id)
         {
@@ -93,7 +109,11 @@ namespace Obligatorio1.WebApi
             }
         }
 
-
+        /// <summary>
+        /// Crea un nuevo producto en el sistema.
+        /// </summary>
+        /// <param name="product">Los datos del producto a crear.</param>
+        /// <returns>Respuesta HTTP con el producto creado.</returns>
         [HttpPost("create")]
         public IActionResult CreateProduct([FromBody] Product product)
         {
@@ -120,6 +140,11 @@ namespace Obligatorio1.WebApi
             }
         }
 
+        /// <summary>
+        /// Elimina un producto por su ID.
+        /// </summary>
+        /// <param name="id">ID del producto a eliminar.</param>
+        /// <returns>Respuesta HTTP indicando el resultado de la eliminación.</returns>
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct([FromRoute] int id)
         {
