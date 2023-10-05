@@ -157,7 +157,7 @@ namespace Obligatorio1.DataAccess.Repositories
                 throw new ArgumentNullException(nameof(user), "El usuario proporcionado es nulo.");
             }
 
-            return _repository.GetAll<Purchase>().Where(purchase => purchase.User.UserID == user.UserID);
+            return _repository.GetAll<Purchase>().Where(purchase => purchase.UserID == user.UserID);
         }
 
         public IEnumerable<Purchase> GetAllPurchases()
@@ -212,6 +212,5 @@ namespace Obligatorio1.DataAccess.Repositories
             }
         }
 
-        }       
     }
 }

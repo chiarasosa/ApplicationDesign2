@@ -25,6 +25,8 @@ namespace Obligatorio1.DataAccess.Contexts
             modelBuilder.Entity<Product>()
            .Property(p => p.ProductID)
            .ValueGeneratedOnAdd();
+
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

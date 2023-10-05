@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Obligatorio1.DataAccess.Contexts;
 
@@ -11,9 +12,11 @@ using Obligatorio1.DataAccess.Contexts;
 namespace Obligatorio1.DataAccess.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20231005061349_EigthMigration")]
+    partial class EigthMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +52,7 @@ namespace Obligatorio1.DataAccess.Migrations
                     b.Property<int>("Brand")
                         .HasColumnType("int");
 
-                    b.Property<int>("CartID")
+                    b.Property<int?>("CartID")
                         .HasColumnType("int");
 
                     b.Property<int>("Category")
@@ -149,9 +152,7 @@ namespace Obligatorio1.DataAccess.Migrations
                 {
                     b.HasOne("Obligatorio1.Domain.Cart", null)
                         .WithMany("Products")
-                        .HasForeignKey("CartID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CartID");
 
                     b.HasOne("Obligatorio1.Domain.Purchase", null)
                         .WithMany("PurchasedProducts")

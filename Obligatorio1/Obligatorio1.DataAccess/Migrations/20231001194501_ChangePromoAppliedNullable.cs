@@ -9,7 +9,8 @@ namespace Obligatorio1.DataAccess.Migrations
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        {/*
+            
             migrationBuilder.DropForeignKey(
                 name: "FK_Product_Purchase_PurchaseID",
                 table: "Product");
@@ -21,28 +22,29 @@ namespace Obligatorio1.DataAccess.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_Users_Cart_CartID",
                 table: "Users");
-
+            
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Product",
                 table: "Product");
+            
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Cart",
                 table: "Cart");
-
+            
             migrationBuilder.RenameTable(
                 name: "Product",
                 newName: "Products");
-
+            
             migrationBuilder.RenameTable(
                 name: "Cart",
                 newName: "Carts");
-
+            
             migrationBuilder.RenameIndex(
                 name: "IX_Product_PurchaseID",
                 table: "Products",
                 newName: "IX_Products_PurchaseID");
-
+           
             migrationBuilder.AlterColumn<int>(
                 name: "UserID",
                 table: "Purchase",
@@ -63,20 +65,20 @@ namespace Obligatorio1.DataAccess.Migrations
                 oldNullable: false 
             );
 
-
+        
             migrationBuilder.AddColumn<int>(
                 name: "CartID",
                 table: "Products",
                 type: "int",
                 nullable: true);
-
+            
             migrationBuilder.AddColumn<double>(
                 name: "TotalPrice",
                 table: "Carts",
                 type: "float",
                 nullable: false,
                 defaultValue: 0.0);
-
+           
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Products",
                 table: "Products",
@@ -121,11 +123,13 @@ namespace Obligatorio1.DataAccess.Migrations
                 principalTable: "Carts",
                 principalColumn: "CartID",
                 onDelete: ReferentialAction.Cascade);
+            */
         }
 
         /// <inheritdoc />
+        /// 
         protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        {/*
             migrationBuilder.DropForeignKey(
                 name: "FK_Products_Carts_CartID",
                 table: "Products");
@@ -214,6 +218,7 @@ namespace Obligatorio1.DataAccess.Migrations
                 principalTable: "Cart",
                 principalColumn: "CartID",
                 onDelete: ReferentialAction.Cascade);
+            */
         }
     }
 }

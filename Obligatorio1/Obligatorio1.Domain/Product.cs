@@ -12,6 +12,8 @@ namespace Obligatorio1.Domain
     {
         public int ProductID { get; set; }
 
+        public int CartID { get; set; }
+
         public string Name { get; set; }
 
         public int Price { get; set; }
