@@ -22,10 +22,10 @@ namespace Obligatorio1.WebApi
         }
 
         /// <summary>
-        /// Registra un nuevo producto en el sistema.
+        /// Registers a new product in the system.
         /// </summary>
-        /// <param name="product">Los datos del producto a registrar.</param>
-        /// <returns>Respuesta HTTP indicando el resultado del registro.</returns>
+        /// <param name="product">Product data to register.</param>
+        /// <returns> HTTP response with the register result.</returns>
         [HttpPost]
 
         public IActionResult RegisterProduct([FromBody] Product product)
@@ -46,9 +46,9 @@ namespace Obligatorio1.WebApi
 
 
         /// <summary>
-        /// Obtiene la lista de productos registrados en el sistema.
+        /// Obtains the list of registered products in the system.
         /// </summary>
-        /// <returns>Respuesta HTTP con la lista de productos.</returns>
+        /// <returns> HTTP response with the list of products.</returns>
         [HttpGet]
         [SwaggerOperation(
          Summary = "Obtiene la lista de productos",
@@ -79,10 +79,10 @@ namespace Obligatorio1.WebApi
 
 
         /// <summary>
-        /// Obtiene un producto por su ID.
+        /// Obtains a product by its ID.
         /// </summary>
-        /// <param name="id">ID del producto a obtener.</param>
-        /// <returns>Respuesta HTTP con el producto solicitado.</returns>
+        /// <param name="id">ID from the product searched.</param>
+        /// <returns> HTTP response with the required product.</returns>
         [HttpGet("{id}")]
         public IActionResult GetProductByID([FromRoute] int id)
         {
@@ -110,10 +110,10 @@ namespace Obligatorio1.WebApi
         }
 
         /// <summary>
-        /// Crea un nuevo producto en el sistema.
+        /// Creates a new prduct in the system.
         /// </summary>
-        /// <param name="product">Los datos del producto a crear.</param>
-        /// <returns>Respuesta HTTP con el producto creado.</returns>
+        /// <param name="product">The data of the product.</param>
+        /// <returns> HTTP response with the created product.</returns>
         [HttpPost("create")]
         public IActionResult CreateProduct([FromBody] Product product)
         {
@@ -141,10 +141,10 @@ namespace Obligatorio1.WebApi
         }
 
         /// <summary>
-        /// Elimina un producto por su ID.
+        /// Deletes a product by ID.
         /// </summary>
-        /// <param name="id">ID del producto a eliminar.</param>
-        /// <returns>Respuesta HTTP indicando el resultado de la eliminación.</returns>
+        /// <param name="id">ID from the product to delete.</param>
+        /// <returns> HTTP response and indicates de result of the delete.</returns>
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct([FromRoute] int id)
         {
