@@ -42,7 +42,6 @@ namespace Obligatorio1.BusinessLogic.Test
             _cartService = new CartService(_cartManagmentMock.Object, _promoManagerManagmentMock.Object);
         }
 
-
         [TestMethod]
         public void AddProductToCart_UserRegistered()
         {
@@ -53,7 +52,7 @@ namespace Obligatorio1.BusinessLogic.Test
             _cartManagmentMock.Setup(p => p.GetCart()).Returns(cart);
             _cartManagmentMock.Setup(p => p.UpdateCartWithDiscount(cart));
             _cartManagmentMock.Setup(x => x.AddProductToCart(product));
-            
+
             // Act
             _cartService.AddProductToCart(product);
 
@@ -74,7 +73,7 @@ namespace Obligatorio1.BusinessLogic.Test
             _cartManagmentMock.Setup(p => p.UpdateCartWithDiscount(cart));
             _cartManagmentMock.Setup(x => x.AddProductToCart(product));
             _cartManagmentMock.Setup(x => x.DeleteProductFromCart(product));
-            
+
             // Act
             _cartService.AddProductToCart(product);
             _cartService.DeleteProductFromCart(product);
@@ -89,7 +88,7 @@ namespace Obligatorio1.BusinessLogic.Test
         public void ApplyBestPromotion_EmptyCart()
         {
             // Arrange
-            Cart cart = new Cart();          
+            Cart cart = new Cart();
             _cartManagmentMock.Setup(p => p.GetCart()).Returns(cart);
             _cartManagmentMock.Setup(p => p.UpdateCartWithDiscount(cart));
 

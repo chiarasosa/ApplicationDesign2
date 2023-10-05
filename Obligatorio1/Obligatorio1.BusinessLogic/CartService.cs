@@ -44,13 +44,13 @@ namespace Obligatorio1.BusinessLogic
                     foreach (IPromoService promotion in availablePromotions)
                     {
                         double price = promotion.CalculateNewPriceWithDiscount(cart);
-                        if(price < bestDiscount)
+                        if (price < bestDiscount)
                         {
                             bestDiscount = price;
                             cart.PromotionApplied = promotion.GetName();
                         }
                         bestDiscount = Math.Min(bestDiscount, price);
-                        
+
                     }
 
                     cart.TotalPrice = bestDiscount;

@@ -31,7 +31,6 @@ namespace Obligatorio1.BusinessLogic
             }
             return prod;
         }
-
         public void RegisterProduct(Product product)
         {
             if (product == null || product.Price <= 0 || product.Brand <= 0 || product.Name == string.Empty)
@@ -90,34 +89,15 @@ namespace Obligatorio1.BusinessLogic
 
         public Product CreateProduct(Product product)
         {
-            
-               Product prod= productsManagement.CreateProduct(product);
 
-            if (prod==null)
+            Product prod = productsManagement.CreateProduct(product);
+
+            if (prod == null)
             {
                 throw new ProductManagmentException("Error al crear el producto.");
             }
             return prod;
-            
+
         }
-        /*
-        public List<Product> SearchByParameter(string text, string brand, string category)
-        {
-            try
-            {
-                return productsManagement.SearchByParameter(text, brand, category);
-            }
-            catch (ProductManagmentException e)
-            {
-                throw new ProductManagmentException($"Error al buscar con los parametros indicados: {e.Message}");
-            }
-            catch(Exception e)
-            {
-                throw new Exception($"Error inesperado", e);
-            }
-        }*/
-}
-
-
     }
-
+}

@@ -174,7 +174,7 @@ namespace Obligatorio1.WebApi
             try
             {
                 Log.Information("Intentando cerrar sesion para el usuario con ID: {UserID}", user.UserID);
-                
+
                 _userService.Logout(user);
 
                 Log.Information("Sesion cerrada exitosamente para el usuario con ID: {UserID}", user.UserID);
@@ -313,7 +313,7 @@ namespace Obligatorio1.WebApi
 
                 Log.Information("Historial de compras obtenido exitosamente para el usuario con ID: {UserID}", id);
 
-                return Ok(purchaseHistory); 
+                return Ok(purchaseHistory);
             }
             catch (UserException ex)
             {
@@ -399,7 +399,7 @@ namespace Obligatorio1.WebApi
                     return BadRequest("Error al actualizar la informacion del usuario.");
                 }
 
-                return Ok(updatedUser); 
+                return Ok(updatedUser);
             }
             catch (UserException ex)
             {

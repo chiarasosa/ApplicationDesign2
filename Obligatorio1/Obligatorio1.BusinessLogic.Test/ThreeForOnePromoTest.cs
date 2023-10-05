@@ -46,7 +46,7 @@ namespace Obligatorio1.BusinessLogic.Test
             double newPrice = threeForOnePromoLogic.CalculateNewPriceWithDiscount(cart);
 
             // Assert
-            Assert.AreEqual(45, newPrice); 
+            Assert.AreEqual(45, newPrice);
         }
 
         [TestMethod]
@@ -69,7 +69,7 @@ namespace Obligatorio1.BusinessLogic.Test
             double newPrice = threeForOnePromoLogic.CalculateNewPriceWithDiscount(cart);
 
             // Assert
-            Assert.AreEqual(45, newPrice); 
+            Assert.AreEqual(45, newPrice);
         }
 
         [TestMethod]
@@ -92,9 +92,9 @@ namespace Obligatorio1.BusinessLogic.Test
             //Arrange
             Cart cart = new Cart();
 
-            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, "red"));
-            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, "red"));
-            cart.Products.Add(new Product(3,"Jabon3", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(1, "Jabon", 10, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(2, "Jabon2", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(3, "Jabon3", 12, "Liquido", 12, 3, "red"));
 
             ThreeForOnePromoService threeForOnePromoLogic = new ThreeForOnePromoService();
             //Act
@@ -109,10 +109,10 @@ namespace Obligatorio1.BusinessLogic.Test
             //Arrange
             Cart cart = new Cart();
 
-            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, "red"));
-            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, "red"));
-            cart.Products.Add(new Product(3,"Jabon3", 12, "Liquido", 12, 3, "red"));
-            cart.Products.Add(new Product(4,"Jabon4", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(1, "Jabon", 10, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(2, "Jabon2", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(3, "Jabon3", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(4, "Jabon4", 12, "Liquido", 12, 3, "red"));
 
             ThreeForOnePromoService threeForOnePromoLogic = new ThreeForOnePromoService();
             //Act
@@ -127,8 +127,8 @@ namespace Obligatorio1.BusinessLogic.Test
             //Arrange
             Cart cart = new Cart();
 
-            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, "red"));
-            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(1, "Jabon", 10, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(2, "Jabon2", 12, "Liquido", 12, 3, "red"));
 
             ThreeForOnePromoService threeForOnePromoLogic = new ThreeForOnePromoService();
             //Act
@@ -155,11 +155,11 @@ namespace Obligatorio1.BusinessLogic.Test
             Dictionary<int, List<Product>> productsByBrand = threeForOnePromoLogic.GroupProductsByBrand(cart);
 
             // Assert
-            Assert.AreEqual(2, productsByBrand.Count); 
+            Assert.AreEqual(2, productsByBrand.Count);
             Assert.IsTrue(productsByBrand.ContainsKey(1));
             Assert.IsTrue(productsByBrand.ContainsKey(2));
-            Assert.AreEqual(3, productsByBrand[1].Count); 
-            Assert.AreEqual(2, productsByBrand[2].Count); 
+            Assert.AreEqual(3, productsByBrand[1].Count);
+            Assert.AreEqual(2, productsByBrand[2].Count);
         }
 
         [TestMethod]
@@ -181,7 +181,7 @@ namespace Obligatorio1.BusinessLogic.Test
 
             // Assert
             Assert.IsTrue(productsByBrand.ContainsKey(1));
-            Assert.AreNotEqual(4, productsByBrand[1].Count); 
+            Assert.AreNotEqual(4, productsByBrand[1].Count);
         }
 
         [TestMethod]
@@ -235,7 +235,7 @@ namespace Obligatorio1.BusinessLogic.Test
             int brandWithDiscount = threeForOnePromoLogic.FindBrandWithMaxDiscount(productsByBrand);
 
             // Assert
-            Assert.AreEqual(0, brandWithDiscount); 
+            Assert.AreEqual(0, brandWithDiscount);
         }
 
         [TestMethod]
@@ -251,7 +251,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 new Product { Brand = 2, Price = 15 },
                 new Product { Brand = 3, Price = 20 }
             };
-            cart.TotalPrice = 49; 
+            cart.TotalPrice = 49;
 
             ThreeForOnePromoService threeForOnePromoLogic = new ThreeForOnePromoService();
 
@@ -264,7 +264,7 @@ namespace Obligatorio1.BusinessLogic.Test
             });
 
             // Assert
-            Assert.AreEqual(37, cart.TotalPrice); 
+            Assert.AreEqual(37, cart.TotalPrice);
         }
 
         [TestMethod]
@@ -281,7 +281,7 @@ namespace Obligatorio1.BusinessLogic.Test
                 new Product { Brand = 2, Price = 30 },
                 new Product { Brand = 2, Price = 20 }
             };
-            cart.TotalPrice = 150; 
+            cart.TotalPrice = 150;
 
             ThreeForOnePromoService threeForOnePromoLogic = new ThreeForOnePromoService();
 
@@ -289,7 +289,7 @@ namespace Obligatorio1.BusinessLogic.Test
             double newPrice = threeForOnePromoLogic.CalculateNewPriceWithDiscount(cart);
 
             // Assert
-            Assert.AreEqual(100, newPrice); 
+            Assert.AreEqual(100, newPrice);
         }
     }
 }

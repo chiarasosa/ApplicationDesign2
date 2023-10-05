@@ -56,7 +56,7 @@ namespace Obligatorio1.BusinessLogic
 
         public bool CartHas3OrMoreItems(Cart cart)
         {
-            if(cart.Products != null)
+            if (cart.Products != null)
             {
                 int counter = 0;
                 foreach (Product item in cart.Products)

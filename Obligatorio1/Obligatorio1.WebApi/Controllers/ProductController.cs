@@ -40,17 +40,16 @@ namespace Obligatorio1.WebApi
             catch (Exception ex)
             {
                 Log.Error(ex, "Error al registrar el producto", ex.Message);
-                return BadRequest($"Error al registrar el usuario: {ex.Message}");
+                return BadRequest($"Error al registrar el producto: {ex.Message}");
             }
         }
-
 
         /// <summary>
         /// Obtains the list of registered products in the system.
         /// </summary>
         /// <returns> HTTP response with the list of products.</returns>
         [HttpGet]
-        
+
         public IActionResult GetProducts()
         {
             try
@@ -71,7 +70,6 @@ namespace Obligatorio1.WebApi
 
 
         }
-
 
         /// <summary>
         /// Obtains a product by its ID.

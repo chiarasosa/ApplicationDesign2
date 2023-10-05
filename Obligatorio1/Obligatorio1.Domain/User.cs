@@ -20,26 +20,22 @@ namespace Obligatorio1.Domain
         public Cart? Cart { get; set; }
         public User()
         {
-            //this.UserID = 0;
             this.UserName = string.Empty;
             this.Password = string.Empty;
             this.Email = string.Empty;
             this.Address = string.Empty;
             this.Role = string.Empty;
             this.Purchases = null;
-            //this.Cart = new Cart();
         }
 
         public User(int userID, string userName, string password, string email, string address, string role, List<Purchase>? purchases)
         {
-         //   this.UserID = userID;
             this.UserName = userName;
             this.Password = password;
             this.Email = email;
             this.Address = address;
             this.Role = role;
             this.Purchases = purchases;
-            //this.Cart = new Cart();
         }
     }
 }

@@ -83,18 +83,17 @@ namespace Obligatorio1.BusinessLogic
 
             foreach (Product product in cart.Products)
             {
-                
-                    if (!productsByColor.ContainsKey(product.Color))
-                    {
-                        productsByColor[product.Color] = new List<Product>();
-                    }
-                    productsByColor[product.Color].Add(product);
-                
+
+                if (!productsByColor.ContainsKey(product.Color))
+                {
+                    productsByColor[product.Color] = new List<Product>();
+                }
+                productsByColor[product.Color].Add(product);
+
             }
 
             return productsByColor;
         }
-
 
         public double ApplyDiscountToCart(Cart cart, List<Product> productsToDiscount)
         {

@@ -10,13 +10,11 @@ namespace Obligatorio1.IDataAccess
 {
     public interface IProductManagment
     {
-
         void RegisterProduct(Product product);
         Product UpdateProduct(Product product);
         Product GetProductByID(int productID);
         IEnumerable<Product> GetProducts();
         void DeleteProduct(int productID);
         Product CreateProduct(Product product);
-       // List<Product> SearchByParameter(string text, string brand, string category);
     }
 }

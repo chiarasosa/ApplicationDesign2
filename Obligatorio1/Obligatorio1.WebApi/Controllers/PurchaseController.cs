@@ -9,10 +9,10 @@ namespace Obligatorio1.WebApi.Controllers
     public class PurchaseController : ControllerBase
     {
         private readonly IPurchaseService _purchaseService;
-        private static List<Purchase> _purchases = new List<Purchase>() { 
-            new Purchase() { 
-                PurchaseID = 145, 
-                UserID = 12, 
+        private static List<Purchase> _purchases = new List<Purchase>() {
+            new Purchase() {
+                PurchaseID = 145,
+                UserID = 12,
                 PurchasedProducts =
             {
                 new Product()
@@ -23,9 +23,9 @@ namespace Obligatorio1.WebApi.Controllers
                 {
                     ProductID = 2,
                 }
-            }, 
+            },
                 PromoApplied = "3x1", DateOfPurchase = DateTime.Today },
-        
+
             new Purchase() {
                 PurchaseID = 2, UserID = 3, PurchasedProducts =
             {
@@ -135,6 +135,5 @@ namespace Obligatorio1.WebApi.Controllers
                 return Ok(purchases);
             }
         }
-
     }
 }

@@ -91,7 +91,7 @@ namespace Obligatorio1.WebApi.Test
 
             var NonAdminuser = new User(1, "Usuario1", "Password1", "usuario1@example.com", "Direcci�n1", "Comprador", null);
             _serviceMock.Setup(s => s.GetUsers()).Throws(new Exception("Error al obtener usuarios"));
-           
+
             _serviceMock.Setup(s => s.GetUserByID(NonAdminuser.UserID)).Returns(NonAdminuser);
             _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(NonAdminuser); // Mock GetLoggedInUser to return an admin user
 
@@ -632,8 +632,5 @@ namespace Obligatorio1.WebApi.Test
             Assert.AreEqual("Error al actualizar la informacion del usuario: El usuario a actualizar no existe.", badRequestResult.Value);
 
         }
-
-
-
     }
 }

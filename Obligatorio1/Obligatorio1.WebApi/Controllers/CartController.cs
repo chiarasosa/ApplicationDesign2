@@ -9,7 +9,8 @@ namespace Obligatorio1.WebApi.Controllers
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;
-        private static Cart _cart = new Cart() {
+        private static Cart _cart = new Cart()
+        {
             Products = new List<Product>() {
                 new Product() {
                     Name = "Jabon",

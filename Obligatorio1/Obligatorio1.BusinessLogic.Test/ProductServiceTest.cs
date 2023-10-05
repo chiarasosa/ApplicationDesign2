@@ -17,11 +17,11 @@ namespace Obligatorio1.BusinessLogic.Test
     public class ProductServiceTest
     {
         [TestMethod]
-        public void DeleteProductTest() 
+        public void DeleteProductTest()
         {
             Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
             ProductService service = new ProductService(mock.Object);
-            
+
             int prodID = 0;
             Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, "azul");
 
@@ -30,26 +30,26 @@ namespace Obligatorio1.BusinessLogic.Test
 
             service?.DeleteProduct(prodID);
 
-            mock?.Verify(m => m.GetProductByID(prodID),Times.Once);
+            mock?.Verify(m => m.GetProductByID(prodID), Times.Once);
             mock?.Verify(m => m.DeleteProduct(prodID), Times.Once);
         }
 
 
-         [TestMethod]
+        [TestMethod]
         public void CreateProductTest()
         {
             Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
             ProductService service = new ProductService(mock.Object);
-            
-           
+
+
             Product prod1 = new Product(1, "jabon", 120, "aloe", 1, 2, "azul");
             Product prod2 = new Product(2, "yerba", 89, "sin descripcion", 3, 4, "azul");
 
             mock?.Setup(m => m.CreateProduct(prod1)).Returns(prod1);
             Product? res = service?.CreateProduct(prod1);
 
-            Assert.AreEqual(res,prod1);
-            mock.Verify(m => m.CreateProduct(prod1),Times.Once);
+            Assert.AreEqual(res, prod1);
+            mock.Verify(m => m.CreateProduct(prod1), Times.Once);
 
         }
 
@@ -57,16 +57,16 @@ namespace Obligatorio1.BusinessLogic.Test
         [TestMethod]
         public void GetProductByIdTest()
         {
-            Mock<IProductManagment>? mock=new Mock<IProductManagment>(MockBehavior.Strict);
-            ProductService service= new ProductService(mock.Object);
-            
+            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
+            ProductService service = new ProductService(mock.Object);
+
             int prodID = 0;
-            Product prod = new Product(prodID,"jabon", 120, "sin descripcion", 1, 2, "azul");
+            Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, "azul");
 
 
             mock!.Setup(m => m.GetProductByID(prodID)).Returns(prod);
-           
-            Product? result=service?.GetProductByID(prodID);
+
+            Product? result = service?.GetProductByID(prodID);
 
             Assert.AreEqual(prod, result);
 
@@ -79,13 +79,13 @@ namespace Obligatorio1.BusinessLogic.Test
             Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
             ProductService service = new ProductService(mock.Object);
 
-            
+
             int prodID = 0;
             Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, "azul");
 
             mock?.Setup(x => x.RegisterProduct(prod));
 
-             service?.RegisterProduct(prod);
+            service?.RegisterProduct(prod);
 
             mock?.VerifyAll();
         }
@@ -97,7 +97,7 @@ namespace Obligatorio1.BusinessLogic.Test
             Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
             ProductService service = new ProductService(mock.Object);
 
-            
+
 
             List<Product> products = new List<Product>
             {
@@ -121,53 +121,16 @@ namespace Obligatorio1.BusinessLogic.Test
         {
             Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
             ProductService service = new ProductService(mock.Object);
-            Product prod=new Product(2, "lapicera bic", 30, "util escolar", 3, 3, "azul");
-            Product updated = new Product(prod.ProductID,"actualizado",31,"actualizado",4,4,"negro");
+            Product prod = new Product(2, "lapicera bic", 30, "util escolar", 3, 3, "azul");
+            Product updated = new Product(prod.ProductID, "actualizado", 31, "actualizado", 4, 4, "negro");
 
             mock?.Setup(x => x.UpdateProduct(It.IsAny<Product>())).Returns((Product product) => product);
             Product? result = service?.UpdateProduct(updated);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(updated, result);
-            mock?.Verify(x => x.UpdateProduct(updated),Times.Once);
+            mock?.Verify(x => x.UpdateProduct(updated), Times.Once);
 
         }
-        /*
-        [TestMethod]
-        public void SearchByParameter()
-        {
-            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
-            ProductService service = new ProductService(mock.Object);
-
-            List<Product> listProducts = new List<Product>();
-
-
-            Product prod=new Product(2, "lapicera bic", 30, "util escolar", 3, 3, "azul");
-            Product prod2 = new Product(2, "lapiz bic", 20, "util escolar", 2, 2, "rojo");
-            listProducts.Add(prod);
-            listProducts.Add(prod2);
-
-            mock.Setup(m => m.SearchByParameter(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns<string, string, string>((textoBusqueda, marca, categoria) =>
-
-             {
-                 return listProducts
-                 .Where(p =>
-                        (string.IsNullOrWhiteSpace(textoBusqueda) || p.Name.Contains(textoBusqueda)) &&
-                        (string.IsNullOrWhiteSpace(marca) || p.Brand.Equals(marca)) &&
-                        (string.IsNullOrWhiteSpace(categoria) || p.Category.Equals(categoria))).Select(p => new Product
-                        {
-                            Name = p.Name,
-                            Price = p.Price,
-                            Category = p.Category,
-                            Brand = p.Brand
-                            
-                        }).ToList();
-
-
-             });
-
-            var Result = mock.Object.SearchByParameter("lapiz bic", "30","3");
-            //Assert.AreEqual(1,Result);
-        }*/
     }
 }

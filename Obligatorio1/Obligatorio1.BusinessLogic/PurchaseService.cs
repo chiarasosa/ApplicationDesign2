@@ -22,7 +22,8 @@ namespace Obligatorio1.BusinessLogic
 
         public void ExecutePurchase(Cart cart)
         {
-            if(cart.Products.Count() == 0){
+            if (cart.Products.Count() == 0)
+            {
                 throw new Obligatorio1.Exceptions.ExceptionPurchase("El carrito debe tener mas de un elemento para poder realizar la compra.");
             }
             purchaseManagment.CreatePurchase(new Purchase
@@ -31,7 +32,7 @@ namespace Obligatorio1.BusinessLogic
                 PurchasedProducts = cart.Products,
                 PromoApplied = cart.PromotionApplied,
                 DateOfPurchase = DateTime.Today,
-            }); 
+            });
         }
 
         public List<Purchase> GetPurchases()

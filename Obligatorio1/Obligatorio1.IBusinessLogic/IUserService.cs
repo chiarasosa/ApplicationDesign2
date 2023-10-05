@@ -24,7 +24,7 @@ namespace Obligatorio1.IBusinessLogic
         User DeleteUser(int userID);
         IEnumerable<Purchase> GetAllPurchases();
         void CreateProduct(Product product);
-        
+
         Product UpdateProduct(Product product);
 
     }

@@ -9,11 +9,11 @@ namespace Obligatorio1.Domain
     public class Purchase
     {
         public int PurchaseID { get; set; }
-       
+
         public int UserID { get; set; }
 
         public List<Product> PurchasedProducts { get; set; }
-        
+
         public string PromoApplied { get; set; }
 
         public DateTime DateOfPurchase { get; set; }
@@ -27,7 +27,6 @@ namespace Obligatorio1.Domain
             this.DateOfPurchase = DateTime.Now;
         }
 
-        
         public Purchase(int PurchaseID, int userID, List<Product> PurchasedProducts, string NamePromoApplied, DateTime DateOfPurchase)
         {
             this.PurchaseID = PurchaseID;
@@ -36,6 +35,5 @@ namespace Obligatorio1.Domain
             this.PromoApplied = NamePromoApplied;
             this.DateOfPurchase = DateOfPurchase;
         }
-        
     }
 }

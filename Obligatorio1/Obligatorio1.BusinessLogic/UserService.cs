@@ -12,14 +12,12 @@ namespace Obligatorio1.BusinessLogic
         private readonly IUserManagment _userManagment;
         private User? loggedInUser;
 
-
-
         public User? GetLoggedInUser()
         {
             var result = new User
             {
 
-                UserID = 27,
+                UserID = 3,
                 UserName = "UsuarioAdministrador",
                 Email = "usuarioAdministrador@ejemplo.com",
                 Password = "ContraseñaAdministrador",
@@ -49,8 +47,6 @@ namespace Obligatorio1.BusinessLogic
         {
             loggedInUser = user;
         }
-
-
 
         public UserService(IUserManagment userManagment)
         {
@@ -97,8 +93,6 @@ namespace Obligatorio1.BusinessLogic
         }
         //***********************************************************
 
-
-
         public User UpdateUserProfile(User user)
         {
             if (IsUserValid(user))
@@ -124,9 +118,6 @@ namespace Obligatorio1.BusinessLogic
 
             return authenticatedUser;
         }
-
-
-
         public void Logout(User user)
         {
             if (loggedInUser != null && user.UserID == loggedInUser.UserID)
@@ -145,8 +136,6 @@ namespace Obligatorio1.BusinessLogic
             {
                 throw new UserException($"Usuario con ID {userID} no encontrado.");
             }
-
-
 
             return user;
         }
@@ -169,8 +158,6 @@ namespace Obligatorio1.BusinessLogic
                 throw new UserException("No tiene permiso para crear usuarios.");
             }
 
-
-
             if (IsUserValid(user))
             {
                 User createdUser = _userManagment.CreateUser(user);
@@ -181,8 +168,6 @@ namespace Obligatorio1.BusinessLogic
                 {
                     throw new UserException("Error al crear el usuario.");
                 }
-
-
 
                 return createdUser;
             }
@@ -213,7 +198,6 @@ namespace Obligatorio1.BusinessLogic
 
         public User DeleteUser(int userID)
         {
-
             User userToDelete = _userManagment.GetUserByID(userID);
 
             if (userToDelete == null)
@@ -276,7 +260,5 @@ namespace Obligatorio1.BusinessLogic
                 throw new Exception($"Error inesperado al actualizar el producto: {ex.Message}", ex);
             }
         }
-
-       
     }
 }

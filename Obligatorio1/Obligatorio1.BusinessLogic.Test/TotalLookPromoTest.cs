@@ -27,7 +27,6 @@ namespace Obligatorio1.BusinessLogic.Test
             Assert.AreEqual(0, newPrice);
         }
 
-
         [TestMethod]
         public void CalculateNewPriceWithDiscount_NoDiscountApplied()
         {
@@ -92,9 +91,9 @@ namespace Obligatorio1.BusinessLogic.Test
             //Arrange
             Cart cart = new Cart();
 
-            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, "red"));
-            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, "red"));
-            cart.Products.Add(new Product(3,"Jabon3", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(1, "Jabon", 10, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(2, "Jabon2", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(3, "Jabon3", 12, "Liquido", 12, 3, "red"));
 
             TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             //Act
@@ -109,10 +108,10 @@ namespace Obligatorio1.BusinessLogic.Test
             //Arrange
             Cart cart = new Cart();
 
-            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, "red"));
-            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, "red"));
-            cart.Products.Add(new Product(3,"Jabon3", 12, "Liquido", 12, 3, "red"));
-            cart.Products.Add(new Product(4,"Jabon4", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(1, "Jabon", 10, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(2, "Jabon2", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(3, "Jabon3", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(4, "Jabon4", 12, "Liquido", 12, 3, "red"));
 
             TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             //Act
@@ -127,8 +126,8 @@ namespace Obligatorio1.BusinessLogic.Test
             //Arrange
             Cart cart = new Cart();
 
-            cart.Products.Add(new Product(1,"Jabon", 10, "Liquido", 12, 3, "red"));
-            cart.Products.Add(new Product(2,"Jabon2", 12, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(1, "Jabon", 10, "Liquido", 12, 3, "red"));
+            cart.Products.Add(new Product(2, "Jabon2", 12, "Liquido", 12, 3, "red"));
 
             TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
             //Act
@@ -136,32 +135,7 @@ namespace Obligatorio1.BusinessLogic.Test
             //Assert
             Assert.IsFalse(result);
         }
-        /*
-        [TestMethod]
-        public void GroupProductsByColor_Correct()
-        {
-            // Arrange
-            Cart cart = new Cart();
-            cart.Products = new List<Product>
-            {
-                new Product{ Color="red", Price = 10 },
-                new Product { Color="blue", Price = 15 },
-                new Product { Color="red", Price = 7 },
-                new Product { Color="blue", Price = 20 },
-                new Product { Color="red", Price = 5 }
-            };
-            TotalLookPromoService totalLookPromoLogic = new TotalLookPromoService();
-            // Act
-            Dictionary<string, List<Product>> productsByColor = totalLookPromoLogic.GroupProductsByColor(cart);
-
-            // Assert
-            Assert.AreEqual(2, productsByColor.Count);
-            Assert.IsTrue(productsByColor.ContainsKey("red"));
-            Assert.IsTrue(productsByColor.ContainsKey("blue"));
-            Assert.AreEqual(3, productsByColor["red"].Count);
-            Assert.AreEqual(2, productsByColor["blue"].Count);
-        }
-        */
+       
         [TestMethod]
         public void GroupProductsByColor_Wrong()
         {
