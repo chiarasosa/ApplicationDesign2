@@ -14,7 +14,7 @@ namespace Obligatorio1.DataAccess.Contexts
         public virtual DbSet<User>? Users { get; set; }
         public virtual DbSet<Cart>? Carts { get; set; }
         public virtual DbSet<Purchase>? Purchase { get; set; }
-        public virtual DbSet<Product>? Products { get; set; }
+        public virtual DbSet<Product>? Product { get; set; }
 		
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 

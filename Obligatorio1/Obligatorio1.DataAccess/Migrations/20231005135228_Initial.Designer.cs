@@ -12,8 +12,8 @@ using Obligatorio1.DataAccess.Contexts;
 namespace Obligatorio1.DataAccess.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231001004756_ThirdMigration")]
-    partial class ThirdMigration
+    [Migration("20231005135228_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,7 @@ namespace Obligatorio1.DataAccess.Migrations
 
                     b.HasKey("CartID");
 
-                    b.ToTable("Cart");
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("Obligatorio1.Domain.Product", b =>
@@ -50,6 +50,9 @@ namespace Obligatorio1.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"));
 
                     b.Property<int>("Brand")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CartID")
                         .HasColumnType("int");
 
                     b.Property<int>("Category")
@@ -75,6 +78,8 @@ namespace Obligatorio1.DataAccess.Migrations
 
                     b.HasKey("ProductID");
 
+                    b.HasIndex("CartID");
+
                     b.HasIndex("PurchaseID");
 
                     b.ToTable("Product");
@@ -95,7 +100,7 @@ namespace Obligatorio1.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserID")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("PurchaseID");
@@ -117,7 +122,7 @@ namespace Obligatorio1.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CartID")
+                    b.Property<int?>("CartID")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -145,6 +150,10 @@ namespace Obligatorio1.DataAccess.Migrations
 
             modelBuilder.Entity("Obligatorio1.Domain.Product", b =>
                 {
+                    b.HasOne("Obligatorio1.Domain.Cart", null)
+                        .WithMany("Products")
+                        .HasForeignKey("CartID");
+
                     b.HasOne("Obligatorio1.Domain.Purchase", null)
                         .WithMany("PurchasedProducts")
                         .HasForeignKey("PurchaseID");
@@ -152,22 +161,25 @@ namespace Obligatorio1.DataAccess.Migrations
 
             modelBuilder.Entity("Obligatorio1.Domain.Purchase", b =>
                 {
-                    b.HasOne("Obligatorio1.Domain.User", "User")
+                    b.HasOne("Obligatorio1.Domain.User", null)
                         .WithMany("Purchases")
-                        .HasForeignKey("UserID");
-
-                    b.Navigation("User");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Obligatorio1.Domain.User", b =>
                 {
                     b.HasOne("Obligatorio1.Domain.Cart", "Cart")
                         .WithMany()
-                        .HasForeignKey("CartID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CartID");
 
                     b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("Obligatorio1.Domain.Cart", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Obligatorio1.Domain.Purchase", b =>

@@ -49,7 +49,7 @@ namespace Obligatorio1.DataAccess.Migrations
                     b.Property<int>("Brand")
                         .HasColumnType("int");
 
-                    b.Property<int>("CartID")
+                    b.Property<int?>("CartID")
                         .HasColumnType("int");
 
                     b.Property<int>("Category")
@@ -79,7 +79,7 @@ namespace Obligatorio1.DataAccess.Migrations
 
                     b.HasIndex("PurchaseID");
 
-                    b.ToTable("Products");
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("Obligatorio1.Domain.Purchase", b =>
@@ -149,9 +149,7 @@ namespace Obligatorio1.DataAccess.Migrations
                 {
                     b.HasOne("Obligatorio1.Domain.Cart", null)
                         .WithMany("Products")
-                        .HasForeignKey("CartID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CartID");
 
                     b.HasOne("Obligatorio1.Domain.Purchase", null)
                         .WithMany("PurchasedProducts")
