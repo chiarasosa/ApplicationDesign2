@@ -24,7 +24,6 @@ namespace Obligatorio1.WebApi
         public UserController(IUserService userService)
         {
             _userService = userService;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -38,8 +37,6 @@ namespace Obligatorio1.WebApi
             try
             {
                 Log.Information("Intentando registrar usuario: {@User}", user);
-
-
 
                 _userService.RegisterUser(user);
 
@@ -166,19 +163,17 @@ namespace Obligatorio1.WebApi
             }
         }
 
-
         /// <summary>
         /// Cierra sesion de un usuario registrado en el sistema.
-        /// <param name="user">The user who logs out.</param>
-        /// <returns>HTTP response indicating the result of the logout.</returns>
+        /// </summary>
+        /// <param name="user">El usuario que cierra sesion.</param>
+        /// <returns>Respuesta HTTP indicando el resultado del cierre de sesion.</returns>
         [HttpPost("logout")]
         public IActionResult Logout([FromBody] User user)
         {
             try
             {
                 Log.Information("Intentando cerrar sesion para el usuario con ID: {UserID}", user.UserID);
-                
-                HttpContext.Session.Clear();
                 
                 _userService.Logout(user);
 

@@ -12,7 +12,6 @@ namespace Obligatorio1.WebApi.Test
     {
         private UserController _controller;
         private Mock<IUserService> _serviceMock;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
         [TestInitialize]
         public void Setup()
@@ -21,7 +20,7 @@ namespace Obligatorio1.WebApi.Test
             _serviceMock = new Mock<IUserService>();
 
             // Configurar el controlador con el servicio mock
-            _controller = new UserController(_serviceMock.Object, _httpContextAccessor);
+            _controller = new UserController(_serviceMock.Object);
         }
 
         [TestMethod]
@@ -266,61 +265,7 @@ namespace Obligatorio1.WebApi.Test
             var badRequestResult = (BadRequestObjectResult)result;
             Assert.AreEqual($"Error al cerrar sesion: Error al hacer logout", badRequestResult.Value);
         }
-        /*
-        [TestMethod]
-        public void CreateUser_AdminUser_ReturnsCreatedUser()
-        {
-            // Arrange
-            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
-            var newUser = new User(2, "Pablo", "12123", "pablo@gmail.com", "Av. 18 de Julio 34", "Comprador", null);
 
-            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
-            _serviceMock.Setup(s => s.CreateUser(newUser)).Returns(newUser); // Mock CreateUser to return the new user
-
-            // Act
-            var result = _controller.CreateUser(newUser);
-
-            // Assert
-            Assert.IsInstanceOfType(result, typeof(CreatedAtActionResult));
-            // Add assertions for the createdUser properties as needed
-
-        }
-        
-        [TestMethod]
-        public void CreateUser_NonAdminUser_ReturnsBadRequest()
-        {
-            // Arrange
-            var nonAdminUser = new User(1, "NoAdmin", "Prueba123", "noadmin@gmail.com", "Calle 123", "Comprador", null);
-
-            // Act
-            var result = _controller.CreateUser(nonAdminUser);
-
-            // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
-            var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual("No tiene permiso para crear usuarios.", badRequestResult.Value);
-        }
-
-        [TestMethod]
-        public void CreateUser_InvalidUser_ReturnsBadRequest()
-        {
-            // Arrange
-            var adminUser = new User(1, "Agustin", "Prueba123", "agustin@gmail.com", "Rivera 400", "Administrador", null);
-            var invalidUser = new User(2, "", "", "", "", "", null);
-
-            _serviceMock.Setup(s => s.GetLoggedInUser()).Returns(adminUser); // Mock GetLoggedInUser to return an admin user
-            _serviceMock.Setup(s => s.CreateUser(invalidUser))
-                .Throws(new UserException("Usuario inv�lido.")); // Mock CreateUser to throw a UserException with the error message
-
-            // Act
-            var result = _controller.CreateUser(invalidUser);
-
-            // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
-            var badRequestResult = (BadRequestObjectResult)result;
-            Assert.AreEqual("Usuario inv�lido.", badRequestResult.Value);
-        }
-        */
         [TestMethod]
         public void DeleteUser_AdminUserWithPermission_DeletesUser()
         {
