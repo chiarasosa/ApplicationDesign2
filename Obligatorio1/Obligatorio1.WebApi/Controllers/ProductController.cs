@@ -50,12 +50,7 @@ namespace Obligatorio1.WebApi
         /// </summary>
         /// <returns> HTTP response with the list of products.</returns>
         [HttpGet]
-        [SwaggerOperation(
-         Summary = "Obtiene la lista de productos",
-         Description = "Obtiene todos los productos registrados en el sistema.")]
-        [ProducesResponseType(typeof(IEnumerable<Product>), 200)]
-        [ProducesResponseType(typeof(string), 400)]
-
+        
         public IActionResult GetProducts()
         {
             try
@@ -114,6 +109,8 @@ namespace Obligatorio1.WebApi
         /// </summary>
         /// <param name="product">The data of the product.</param>
         /// <returns> HTTP response with the created product.</returns>
+        /// /// <response code="201">The product was created successfully.</response>
+        /// <response code="400">There waws an error creating the product .</response>
         [HttpPost("create")]
         public IActionResult CreateProduct([FromBody] Product product)
         {
@@ -145,6 +142,9 @@ namespace Obligatorio1.WebApi
         /// </summary>
         /// <param name="id">ID from the product to delete.</param>
         /// <returns> HTTP response and indicates de result of the delete.</returns>
+        /// /// <response code="204">The product was deleted successfully.</response>
+        /// <response code="404">The product with ID wasnt able to be found.</response>
+        /// <response code="400">Error with the request.</response>
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct([FromRoute] int id)
         {
