@@ -19,7 +19,9 @@ namespace Obligatorio1.DataAccess.Contexts
            .Property(u => u.UserID)
            .ValueGeneratedOnAdd();
 
-
+            modelBuilder.Entity<Product>()
+           .Property(p => p.ProductID)
+           .ValueGeneratedOnAdd();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

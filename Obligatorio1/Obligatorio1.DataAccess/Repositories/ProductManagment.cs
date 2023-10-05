@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 
 namespace Obligatorio1.DataAccess.Repositories
 {
-    public class ProductManagment
+    public class ProductManagment: IProductManagment
     {
         private List<Product>? _products;
         private readonly IGenericRepository<Product> _repository;
 
-        public ProductManagment(IGenericRepository<Product> userRepositoy)
+        public ProductManagment(IGenericRepository<Product> productRepositoy)
         {
             _products = new List<Product>();
+            _repository = productRepositoy;
         }
 
         public Product UpdateProduct(Product product)
@@ -46,7 +47,7 @@ namespace Obligatorio1.DataAccess.Repositories
         }
 
 
-        public void CreateProduct(Product product)
+        public Product CreateProduct(Product product)
         {
             if (_products?.Any(p => p.ProductID == product.ProductID) == true)
             {
@@ -55,6 +56,8 @@ namespace Obligatorio1.DataAccess.Repositories
 
             // Agrega el nuevo producto a la lista de productos
             _products?.Add(product);
+
+            return product;
         }
 
         public void RegisterProduct(Product product)
@@ -97,7 +100,7 @@ namespace Obligatorio1.DataAccess.Repositories
 
 
 
-        public Product GetGetProductByID(int prodID)
+        public Product GetProductByID(int prodID)
         {
             if (prodID < 0)
             {

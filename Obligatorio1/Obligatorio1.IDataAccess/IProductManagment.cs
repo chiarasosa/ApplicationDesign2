@@ -17,6 +17,6 @@ namespace Obligatorio1.IDataAccess
         IEnumerable<Product> GetProducts();
         void DeleteProduct(int productID);
         Product CreateProduct(Product product);
-        List<Product> SearchByParameter(string text, string brand, string category);
+       // List<Product> SearchByParameter(string text, string brand, string category);
     }
 }

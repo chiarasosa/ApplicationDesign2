@@ -100,7 +100,7 @@ namespace Obligatorio1.BusinessLogic
             return prod;
             
         }
-
+        /*
         public List<Product> SearchByParameter(string text, string brand, string category)
         {
             try
@@ -115,7 +115,7 @@ namespace Obligatorio1.BusinessLogic
             {
                 throw new Exception($"Error inesperado", e);
             }
-        }
+        }*/
 }
 
 

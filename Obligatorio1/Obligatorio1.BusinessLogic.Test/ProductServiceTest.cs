@@ -132,7 +132,7 @@ namespace Obligatorio1.BusinessLogic.Test
             mock?.Verify(x => x.UpdateProduct(updated),Times.Once);
 
         }
-
+        /*
         [TestMethod]
         public void SearchByParameter()
         {
@@ -168,6 +168,6 @@ namespace Obligatorio1.BusinessLogic.Test
 
             var Result = mock.Object.SearchByParameter("lapiz bic", "30","3");
             //Assert.AreEqual(1,Result);
-        }
+        }*/
     }
 }

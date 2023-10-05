@@ -18,6 +18,6 @@ namespace Obligatorio1.IBusinessLogic
 
         Product CreateProduct(Product product);
 
-        List<Product> SearchByParameter(string text, string brand, string category);
+       // List<Product> SearchByParameter(string text, string brand, string category);
     }
 }
