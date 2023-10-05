@@ -12,6 +12,7 @@ namespace Obligatorio1.DataAccess.Contexts
         public Context(DbContextOptions options) : base(options) { }
 
         public virtual DbSet<User>? Users { get; set; }
+        public virtual DbSet<Product>? Products { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             modelBuilder.Entity<User>()

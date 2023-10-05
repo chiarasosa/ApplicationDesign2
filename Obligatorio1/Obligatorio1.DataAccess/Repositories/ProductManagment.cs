@@ -1,5 +1,6 @@
 ﻿using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
+using Obligatorio1.IDataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,9 @@ namespace Obligatorio1.DataAccess.Repositories
     public class ProductManagment
     {
         private List<Product>? _products;
+        private readonly IGenericRepository<Product> _repository;
 
-        public ProductManagment()
+        public ProductManagment(IGenericRepository<Product> userRepositoy)
         {
             _products = new List<Product>();
         }
@@ -22,7 +24,7 @@ namespace Obligatorio1.DataAccess.Repositories
 
 
             // Busca el producto por su ID
-            Product existingProduct = _products?.FirstOrDefault(p => p.ProductID == product.ProductID);
+            Product existingProduct = _repository.GetAll<Product>().FirstOrDefault(m => m.ProductID == product.ProductID);
 
             if (existingProduct == null)
             {
@@ -37,6 +39,9 @@ namespace Obligatorio1.DataAccess.Repositories
             existingProduct.Category = product.Category;
             existingProduct.Color = product.Color;
 
+
+            _repository.Update(existingProduct);
+            _repository.Save();
             return existingProduct;
         }
 
@@ -54,26 +59,29 @@ namespace Obligatorio1.DataAccess.Repositories
 
         public void RegisterProduct(Product product)
         {
-            _products?.Add(product);
+            //_products?.Add(product);
+            _repository.Insert(product);
+            _repository.Save();
         }
 
 
 
         public IEnumerable<Product> GetProducts()
         {
-            if (_products == null)
+            var aux = _repository.GetAll<Product>();
+            if (aux == null)
             {
                 return Enumerable.Empty<Product>();
             }
             else
             {
-                return _products;
+                return aux;
             }
         }
 
         public void DeleteProduct(int productID)
         {
-            Product? prod = _products?.FirstOrDefault(m => m.ProductID == productID);
+            Product? prod = _repository.GetAll<Product>().FirstOrDefault(m => m.ProductID == productID);
 
             if (prod == null)
             {
@@ -81,7 +89,8 @@ namespace Obligatorio1.DataAccess.Repositories
             }
             else
             {
-                _products?.Remove(prod);
+                _repository.Delete(prod);
+                _repository.Save();
             }
         }
 
@@ -96,7 +105,7 @@ namespace Obligatorio1.DataAccess.Repositories
             }
             else
             {
-                Product? product = _products?.FirstOrDefault(m => m.ProductID == prodID);
+                Product? product = _repository.GetAll<Product>().FirstOrDefault(m => m.ProductID == prodID);
 
                 if (product == null)
                 {
