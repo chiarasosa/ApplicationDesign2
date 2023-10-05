@@ -36,7 +36,7 @@ namespace Obligatorio1.BusinessLogic
         {
             if (product == null || product.Price <= 0 || product.Brand <= 0 || product.Name == string.Empty)
             {
-                throw new ProductManagmentException("");
+                throw new ProductManagmentException("Uno de los datos es incorrecto");
 
             }
             else
