@@ -18,22 +18,22 @@ namespace Obligatorio1.BusinessLogic
         {
             var result = new User
             {
-                
-                UserID = 27, // ID del usuario logueado
+
+                UserID = 27,
                 UserName = "UsuarioAdministrador",
                 Email = "usuarioAdministrador@ejemplo.com",
                 Password = "ContraseñaAdministrador",
-                Role = "Administrador", // Rol del usuario (puede ser "Administrador" u otro)
+                Role = "Administrador",
                 Address = "DireccionAdministrador",
-                Cart= null,
+                Cart = null,
                 Purchases = null,
-                
+
                 /*
                 UserID = 28, // ID del usuario logueado
                 UserName = "UsuarioComprador",
                 Email = "usuarioComprador@ejemplo.com",
                 Password = "ContraseñaComprador",
-                Role = "Comprador", // Rol del usuario (puede ser "Administrador" u otro)
+                Role = "Comprador", 
                 Address = "DireccionComprador",
                 Cart= null,
                 Purchases = null,
@@ -60,14 +60,13 @@ namespace Obligatorio1.BusinessLogic
 
         public void RegisterUser(User user)
         {
-            // Verificar si el usuario es válido y si tanto el nombre de usuario como el correo no están duplicados
+
             if (IsUserValid(user) && !IsUserNameAlreadyTaken(user.UserName) && !IsEmailAlreadyTaken(user.Email))
             {
                 _userManagment.RegisterUser(user);
             }
             else
             {
-                // Lanzar una excepción o manejar el error de alguna otra manera
                 throw new UserException("El nombre de usuario o el correo electrónico ya están en uso o son inválidos.");
             }
         }
@@ -85,19 +84,15 @@ namespace Obligatorio1.BusinessLogic
 
         private bool IsUserNameAlreadyTaken(string userName)
         {
-            // Obtener todos los usuarios del sistema
             IEnumerable<User> users = _userManagment.GetAllUsers();
 
-            // Verificar si existe algún usuario con el mismo nombre de usuario
             return users.Any(u => u.UserName == userName);
         }
 
         private bool IsEmailAlreadyTaken(string email)
         {
-            // Obtener todos los usuarios del sistema
             IEnumerable<User> users = _userManagment.GetAllUsers();
 
-            // Verificar si existe algún usuario con el mismo correo electrónico
             return users.Any(u => u.Email == email);
         }
         //***********************************************************
@@ -111,8 +106,6 @@ namespace Obligatorio1.BusinessLogic
             throw new UserException("Actualización fallida. Datos de usuario incorrectos."); ;
         }
 
-
-
         public User Login(string email, string password)
         {
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
@@ -120,22 +113,14 @@ namespace Obligatorio1.BusinessLogic
                 throw new UserException("Correo electrónico y contraseña son obligatorios.");
             }
 
-
-
             User? authenticatedUser = _userManagment.Login(email, password);
-
-
 
             if (authenticatedUser == null)
             {
                 throw new UserException("Autenticación fallida. Credenciales incorrectas.");
             }
 
-
-
             loggedInUser = authenticatedUser;
-
-
 
             return authenticatedUser;
         }
@@ -149,8 +134,6 @@ namespace Obligatorio1.BusinessLogic
                 loggedInUser = null;
             }
         }
-
-
 
         public User GetUserByID(int userID)
         {
@@ -168,8 +151,6 @@ namespace Obligatorio1.BusinessLogic
             return user;
         }
 
-
-
         public IEnumerable<User> GetUsers()
         {
             IEnumerable<User>? users = _userManagment.GetAllUsers();
@@ -181,9 +162,6 @@ namespace Obligatorio1.BusinessLogic
 
             return users;
         }
-
-
-
         public User CreateUser(User user)
         {
             if (loggedInUser == null || loggedInUser.Role != "Administrador")
@@ -214,35 +192,17 @@ namespace Obligatorio1.BusinessLogic
             }
         }
 
-
-
         public User UpdateUserInformation(User user)
         {
-            // Verifica si el usuario autenticado es un administrador.
-            /*if (loggedInUser == null || loggedInUser.Role != "Administrador")
-            {
-                throw new UserException("No tiene permiso para actualizar la informacion del usuario.");
-            }*/
-
-
-
-            // Verifica si el usuario proporcionado es válido.
             if (IsUserValid(user))
             {
-                // Intenta actualizar la información del usuario a través del servicio de administración de usuarios.
                 User updatedUser = _userManagment.UpdateUserInformation(user);
 
-
-
-                // Verifica si la actualización fue exitosa.
                 if (updatedUser == null)
                 {
                     throw new UserException("Error al actualizar la información del usuario.");
                 }
 
-
-
-                // Devuelve el usuario actualizado.
                 return updatedUser;
             }
             else
@@ -251,39 +211,20 @@ namespace Obligatorio1.BusinessLogic
             }
         }
 
-
-
         public User DeleteUser(int userID)
         {
-          /*  if (loggedInUser == null || loggedInUser.Role != "Administrador")
-            {
-                throw new UserException("No tiene permiso para eliminar usuarios.");
-            }
-
-            */
 
             User userToDelete = _userManagment.GetUserByID(userID);
-
-
 
             if (userToDelete == null)
             {
                 throw new UserException($"Usuario con ID {userID} no encontrado.");
             }
 
-
-
             _userManagment.DeleteUser(userID);
 
-
-
-            // Devuelve el usuario eliminado con éxito
             return userToDelete;
         }
-
-
-
-
 
         public IEnumerable<Purchase> GetPurchaseHistory(User user)
         {
@@ -291,17 +232,8 @@ namespace Obligatorio1.BusinessLogic
         }
         public IEnumerable<Purchase> GetAllPurchases()
         {
-            /*if (loggedInUser == null || loggedInUser.Role != "Administrador")
-            {
-                throw new UserException("No tiene permiso para acceder a todas las compras.");
-            }*/
-
-
-
             return _userManagment.GetAllPurchases();
         }
-
-
 
         public void CreateProduct(Product product)
         {
@@ -310,25 +242,19 @@ namespace Obligatorio1.BusinessLogic
                 throw new UserException("No tiene permiso para crear productos.");
             }
 
-
-
             try
             {
                 _userManagment.CreateProduct(product);
             }
             catch (UserException ex)
             {
-                // Maneja la excepción de usuario personalizada, si es necesario.
                 throw new UserException($"Error al crear el producto: {ex.Message}");
             }
             catch (Exception ex)
             {
-                // Maneja otras excepciones que puedan ocurrir.
                 throw new Exception($"Error inesperado al crear el producto: {ex.Message}", ex);
             }
         }
-
-
 
         public Product UpdateProduct(Product product)
         {
@@ -337,20 +263,16 @@ namespace Obligatorio1.BusinessLogic
                 throw new UserException("No tiene permiso para actualizar productos.");
             }
 
-
-
             try
             {
                 return _userManagment.UpdateProduct(product);
             }
             catch (UserException ex)
             {
-                // Maneja la excepción de usuario personalizada, si es necesario.
                 throw new UserException($"Error al actualizar el producto: {ex.Message}");
             }
             catch (Exception ex)
             {
-                // Maneja otras excepciones que puedan ocurrir.
                 throw new Exception($"Error inesperado al actualizar el producto: {ex.Message}", ex);
             }
         }
@@ -366,6 +288,3 @@ namespace Obligatorio1.BusinessLogic
         }
     }
 }
-
-
-

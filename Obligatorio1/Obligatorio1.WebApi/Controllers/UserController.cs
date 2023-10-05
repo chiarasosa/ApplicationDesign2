@@ -7,7 +7,7 @@ using Serilog;
 namespace Obligatorio1.WebApi
 {
     /// <summary>
-    /// Controlador para la gestion de usuarios.
+    /// Controller for user management.
     /// </summary>
     [ApiController]
     [Route("api/users")]
@@ -17,19 +17,19 @@ namespace Obligatorio1.WebApi
         private User? _loggedInUser;
 
         /// <summary>
-        /// Constructor del controlador de usuarios.
+        /// User Controller Constructor.
         /// </summary>
-        /// <param name="userService">El servicio de usuarios.</param>
+        /// <param name="userService">The user service.</param>
         public UserController(IUserService userService)
         {
             _userService = userService;
         }
 
         /// <summary>
-        /// Registra un nuevo usuario en el sistema.
+        /// Register a new user in the system.
         /// </summary>
-        /// <param name="user">Los datos del usuario a registrar.</param>
-        /// <returns>Respuesta HTTP indicando el resultado del registro.</returns>
+        /// <param name="user">The user data to register.</param>
+        /// <returns>HTTP response indicating the result of the registration.</returns>
         [HttpPost]
         public IActionResult RegisterUser([FromBody] User user)
         {
@@ -54,29 +54,26 @@ namespace Obligatorio1.WebApi
         }
 
         /// <summary>
-        /// Obtiene la lista de todos los usuarios registrados en el sistema.
+        /// Gets the list of all users registered in the system.
         /// </summary>
         ///<remarks>
-        /// Permite a un usuario con permisos de administrador obtener la lista de todos los usuarios registrados en el sistema.
+        /// Allows a user with administrator permissions to obtain the list of all users registered in the system.
         /// </remarks>
-        /// <returns>Respuesta HTTP con la lista de usuarios.</returns>
+        /// <returns>HTTP response with the list of users.</returns>
         [HttpGet]
         public IActionResult GetAllUsers()
         {
             try
             {
-                // Obtener el usuario autenticado
                 var loggedInUser = _userService.GetLoggedInUser();
 
-                 if (loggedInUser == null || loggedInUser.Role != "Administrador")
+                if (loggedInUser == null || loggedInUser.Role != "Administrador")
                 {
-                 return Unauthorized("No tiene permiso para obtener la lista de usuarios.");
+                    return Unauthorized("No tiene permiso para obtener la lista de usuarios.");
                 }
 
-                // Obtener todos los usuarios desde el servicio
                 var users = _userService.GetUsers();
 
-                // Devolver los usuarios en una respuesta HTTP 200 OK
                 return Ok(users);
             }
             catch (UserException ex)
@@ -94,16 +91,15 @@ namespace Obligatorio1.WebApi
         }
 
         /// <summary>
-        /// Obtiene un usuario por su ID.
+        /// Gets a user by their ID.
         /// </summary>
-        /// <param name="id">El ID del usuario a obtener.</param>
-        /// <returns>Respuesta HTTP con el usuario encontrado.</returns>
+        /// <param name="id">The ID of the user to obtain.</param>
+        /// <returns>HTTP response with the user found.</returns>
         [HttpGet("{id}")]
         public IActionResult GetUserByID([FromRoute] int id)
         {
             try
             {
-                // Obtener un usuario por su ID desde el servicio
                 var user = _userService.GetUserByID(id);
 
                 if (user == null)
@@ -111,7 +107,6 @@ namespace Obligatorio1.WebApi
                     return NotFound($"Usuario con ID {id} no encontrado.");
                 }
 
-                // Devolver el usuario en una respuesta HTTP 200 OK
                 return Ok(user);
             }
             catch (UserException ex)
@@ -129,11 +124,11 @@ namespace Obligatorio1.WebApi
         }
 
         /// <summary>
-        /// Inicia sesion de un usuario registrado en el sistema.
+        /// Log in as a user registered in the system.
         /// </summary>
-        /// <param name="email">El correo electronico del usuario.</param>
-        /// <param name="password">La contrasenia del usuario.</param>
-        /// <returns>Respuesta HTTP indicando el resultado del inicio de sesion.</returns>
+        /// <param name="email">The user's email address.</param>
+        /// <param name="password">The user's password.</param>
+        /// <returns>HTTP response indicating the result of the login.</returns>
         [HttpPost("login")]
         public IActionResult Login(string email, string password)
         {
@@ -170,10 +165,10 @@ namespace Obligatorio1.WebApi
         }
 
         /// <summary>
-        /// Cierra sesion de un usuario registrado en el sistema.
+        /// Log out of a user registered in the system.
         /// </summary>
-        /// <param name="user">El usuario que cierra sesion.</param>
-        /// <returns>Respuesta HTTP indicando el resultado del cierre de sesion.</returns>
+        /// <param name="user">The user who logs out.</param>
+        /// <returns>HTTP response indicating the result of the logout.</returns>
         [HttpPost("logout")]
         public IActionResult Logout([FromBody] User user)
         {
@@ -185,7 +180,7 @@ namespace Obligatorio1.WebApi
 
                 Log.Information("Sesion cerrada exitosamente para el usuario con ID: {UserID}", user.UserID);
 
-                return Ok("Se cerro la sesion correctamente."); // Devuelve una respuesta HTTP 204 No Content
+                return Ok("Se cerro la sesion correctamente.");
             }
             catch (UserException ex)
             {
@@ -200,64 +195,17 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al cerrar sesion: {ex.Message}");
             }
         }
-        /*
-        /// <summary>
-        /// Crea un nuevo usuario en el sistema.
-        /// </summary>
-        /// <remarks>
-        /// Permite a un usuario con permisos de administrador crear un nuevo usuario en el sistema.
-        /// </remarks>
-        /// <param name="user">Los datos del usuario a crear.</param>
-        /// <response code="201">El usuario se creo con exito.</response>
-        /// <response code="400">Error en la solicitud o al crear el usuario.</response>
-        [HttpPost("create")]
-        public IActionResult CreateUser([FromBody] User user)
-        {
-            try
-            {
-                Log.Information("Intentando crear un nuevo usuario: {@User}", user);
-
-                // Verifica si el usuario actual tiene permisos de administrador
-                var loggedInUser = _userService.GetLoggedInUser();
-                if (loggedInUser == null || loggedInUser.Role != "Administrador")
-                {
-                    throw new UserException("No tiene permiso para crear usuarios.");
-                }
-
-                // Llama al m�todo CreateUser del servicio para crear el usuario
-                var createdUser = _userService.CreateUser(user);
-
-                Log.Information("Usuario creado exitosamente: {@CreatedUser}", createdUser);
-
-                // Devuelve el usuario creado en una respuesta HTTP 201 Created
-                return CreatedAtAction(nameof(GetUserByID), new { id = createdUser.UserID }, createdUser);
-            }
-            catch (UserException ex)
-            {
-                Log.Error(ex, "Error al crear el usuario: {ErrorMessage}", ex.Message);
-
-                // Devuelve un resultado BadRequest con el mensaje de la excepci�n
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error inesperado al crear el usuario: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error inesperado al crear el usuario: {ex.Message}");
-            }
-        }
-        */
 
         /// <summary>
-        /// Elimina un usuario registrado en el sistema por su ID.
+        /// Delete a user registered in the system by their ID.
         /// </summary>
         /// <remarks>
-        /// Permite a un usuario con permisos de administrador eliminar un usuario por su ID.
+        /// Allows a user with administrator permissions to delete a user by user ID.
         /// </remarks>
-        /// <param name="id">El ID del usuario a eliminar.</param>
-        /// <response code="204">El usuario se elimino con exito.</response>
-        /// <response code="404">El usuario con el ID especificado no se encontro.</response>
-        /// <response code="400">Error en la solicitud o al eliminar el usuario.</response>
+        /// <param name="id">The ID of the user to delete.</param>
+        /// <response code="204">The user was successfully deleted.</response>
+        /// <response code="404">The user with the specified ID was not found.</response>
+        /// <response code="400">Error in the request or deleting the user.</response>
         [HttpDelete("{id}")]
         public IActionResult DeleteUser([FromRoute] int id)
         {
@@ -265,25 +213,23 @@ namespace Obligatorio1.WebApi
             {
                 Log.Information("Intentando eliminar el usuario con ID: {UserID}", id);
 
-                // Verifica si el usuario actual tiene permisos de administrador
                 var loggedInUser = _userService.GetLoggedInUser();
                 if (loggedInUser == null || loggedInUser.Role != "Administrador")
                 {
                     return BadRequest("No tiene permiso para eliminar usuarios.");
                 }
 
-                // Llama al metodo DeleteUser del servicio para eliminar el usuario
                 _userService.DeleteUser(id);
 
                 Log.Information("Usuario eliminado exitosamente con ID: {UserID}", id);
 
-                return Ok("Usuario eliminado exitosamente"); // Devuelve una respuesta HTTP 200 OK con un mensaje de éxito
+                return Ok("Usuario eliminado exitosamente");
             }
             catch (UserException ex)
             {
                 Log.Error(ex, "Error al eliminar el usuario: {ErrorMessage}", ex.Message);
 
-                return NotFound(ex.Message); // Devuelve un resultado NotFound con el mensaje de la excepción
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
@@ -293,16 +239,15 @@ namespace Obligatorio1.WebApi
             }
         }
 
-
         /// <summary>
-        /// Obtiene todas las compras realizadas en el sistema.
+        /// Gets all purchases made in the system.
         /// </summary>
         /// <remarks>
-        /// Permite a un usuario con permisos de administrador obtener todas las compras realizadas en el sistema.
+        /// Allows a user with administrator permissions to obtain all purchases made in the system.
         /// </remarks>
-        /// <response code="200">Las compras se obtuvieron exitosamente.</response>
-        /// <response code="400">Error en la solicitud o al obtener las compras.</response>
-        /// <response code="403">No tiene permiso para acceder a todas las compras (solo para usuarios no administradores).</response>
+        /// <response code="200">The purchases were successfully obtained.</response>
+        /// <response code="400">Error in requesting or obtaining purchases.</response>
+        /// <response code="403">You do not have permission to access all purchases (non-admin users only).</response>
         [HttpGet("AllPurchases")]
         public IActionResult GetAllPurchases()
         {
@@ -310,19 +255,16 @@ namespace Obligatorio1.WebApi
             {
                 Log.Information("Intentando obtener todas las compras.");
 
-                // Verifica si el usuario actual tiene permisos de administrador
                 var loggedInUser = _userService.GetLoggedInUser();
                 if (loggedInUser == null || loggedInUser.Role != "Administrador")
                 {
                     return BadRequest("No tiene permiso para acceder a todas las compras.");
                 }
-
-                // Llama al m�todo GetAllPurchases del servicio para obtener todas las compras
                 var purchases = _userService.GetAllPurchases();
 
                 Log.Information("Compras obtenidas exitosamente.");
 
-                return Ok(purchases); // Devuelve una respuesta HTTP 200 OK con la lista de compras
+                return Ok(purchases);
             }
             catch (UserException ex)
             {
@@ -339,15 +281,15 @@ namespace Obligatorio1.WebApi
         }
 
         /// <summary>
-        /// Obtiene el historial de compras de un usuario registrado en el sistema por su ID.
+        /// Obtains the purchase history of a user registered in the system by their ID.
         /// </summary>
         /// <remarks>
-        /// Permite a un usuario obtener el historial de compras de un usuario registrado en el sistema por su ID.
+        /// Allows a user to obtain the purchase history of a user registered in the system by their ID.
         /// </remarks>
-        /// <param name="id">El ID del usuario del cual se desea obtener el historial de compras.</param>
-        /// <response code="200">El historial de compras se obtuvo exitosamente.</response>
-        /// <response code="400">Error en la solicitud o al obtener el historial de compras.</response>
-        /// <response code="404">Usuario con el ID especificado no encontrado.</response>
+        /// <param name="id">The ID of the user for whom you want to obtain the purchase history.</param>
+        /// <response code="200">The purchase history was successfully obtained.</response>
+        /// <response code="400">Error in the request or obtaining the purchase history.</response>
+        /// <response code="404">User with the specified ID not found.</response>
         [HttpGet("GetPurchaseHistory/{id}")]
         public IActionResult GetPurchaseHistory([FromRoute] int id)
         {
@@ -355,14 +297,12 @@ namespace Obligatorio1.WebApi
             {
                 Log.Information("Intentando obtener el historial de compras del usuario con ID: {UserID}", id);
 
-                // Verifica si el usuario actual tiene permisos para acceder al historial de compras
                 var loggedInUser = _userService.GetLoggedInUser();
                 if (loggedInUser == null)
                 {
                     return BadRequest("Debe iniciar sesion para acceder al historial de compras.");
                 }
 
-                // Llama al m�todo GetPurchaseHistory del servicio para obtener el historial de compras del usuario
                 var user = _userService.GetUserByID(id);
 
                 if (user == null)
@@ -374,7 +314,7 @@ namespace Obligatorio1.WebApi
 
                 Log.Information("Historial de compras obtenido exitosamente para el usuario con ID: {UserID}", id);
 
-                return Ok(purchaseHistory); // Devuelve una respuesta HTTP 200 OK con el historial de compras
+                return Ok(purchaseHistory); 
             }
             catch (UserException ex)
             {
@@ -389,22 +329,21 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al obtener el historial de compras: {ex.Message}");
             }
         }
-        
+
         /// <summary>
-        /// Actualiza el perfil de un usuario registrado en el sistema.
+        /// Updates the profile of a user registered in the system.
         /// </summary>
         /// <remarks>
-        /// Permite a un usuario registrado actualizar su perfil con nuevos datos.
+        /// Allows a registered user to update their profile with new data.
         /// </remarks>
-        /// <param name="user">Los datos del usuario a actualizar.</param>
-        /// <response code="200">La informacion del usuario se actualizo con exito.</response>
-        /// <response code="400">Error en la solicitud o al actualizar la informacion del usuario.</response>
+        /// <param name="user">The user data to update.</param>
+        /// <response code="200">The user information was updated successfully.</response>
+        /// <response code="400">Error in the request or updating user information.</response>
         [HttpPut("UpdateUserProfile")]
         public IActionResult UpdateUserProfile([FromBody] User user)
         {
             try
             {
-                // Verifica si el usuario autenticado es el usuario a actualizar.
                 var loggedInUser = _userService.GetLoggedInUser();
                 if (loggedInUser == null || loggedInUser.UserID != user.UserID)
                 {
@@ -413,12 +352,11 @@ namespace Obligatorio1.WebApi
 
                 Log.Information("Intentando actualizar el perfil del usuario con ID: {UserID}", user.UserID);
 
-                // Llama al metodo UpdateUserProfile del servicio para actualizar el perfil del usuario
                 var updatedUser = _userService.UpdateUserProfile(user);
 
                 Log.Information("Perfil del usuario actualizado exitosamente para el usuario con ID: {UserID}", user.UserID);
 
-                return Ok(updatedUser); // Devuelve una respuesta HTTP 200 OK con el usuario actualizado
+                return Ok(updatedUser);
             }
             catch (UserException ex)
             {
@@ -433,30 +371,28 @@ namespace Obligatorio1.WebApi
                 return BadRequest($"Error inesperado al actualizar el perfil del usuario: {ex.Message}");
             }
         }
-        
+
         /// <summary>
-        /// Actualiza la informacion de un usuario registrado en el sistema.
+        /// Updates the information of a user registered in the system.
         /// </summary>
         /// <remarks>
-        /// Permite a un usuario administrador actualizar la informacion de un usuario por su ID.
+        /// Allows an administrator user to update a user's information by their ID.
         /// </remarks>
-        /// <param name="user">Los datos del usuario a actualizar.</param>
-        /// <response code="200">La informacion del usuario se actualizo con exito.</response>
-        /// <response code="400">Error en la solicitud o al actualizar la informacion.</response>
-        /// <response code="401">No tiene permiso para actualizar la informacion del usuario.</response>
+        /// <param name="user">The user data to update.</param>
+        /// <response code="200">The user information was updated successfully.</response>
+        /// <response code="400">Error in the request or updating the information.</response>
+        /// <response code="401">You do not have permission to update user information.</response>
         [HttpPut("UpdateUserInformation")]
         public IActionResult UpdateUserInformation([FromBody] User user)
         {
             try
             {
-                // Verifica si el usuario autenticado es un administrador.
                 var loggedInUser = _userService.GetLoggedInUser();
                 if (loggedInUser == null || loggedInUser.Role != "Administrador")
                 {
                     return Unauthorized("No tiene permiso para actualizar la informacion del usuario.");
                 }
 
-                // Intenta actualizar la informaci�n del usuario a trav�s del servicio de usuarios.
                 var updatedUser = _userService.UpdateUserInformation(user);
 
                 if (updatedUser == null)
@@ -464,7 +400,7 @@ namespace Obligatorio1.WebApi
                     return BadRequest("Error al actualizar la informacion del usuario.");
                 }
 
-                return Ok(updatedUser); // Devuelve una respuesta HTTP 200 OK con el usuario actualizado
+                return Ok(updatedUser); 
             }
             catch (UserException ex)
             {
