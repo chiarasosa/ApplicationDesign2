@@ -23,15 +23,22 @@ namespace Obligatorio1.WebApi
         public IConfiguration Configuration { get; }
 
         // Este método se utiliza para configurar los servicios que tu aplicación utilizará.
+        
         public void ConfigureServices(IServiceCollection services)
         {
             // Configuraciones de servicios aquí...
             services.AddScoped<Obligatorio1.IBusinessLogic.IUserService, Obligatorio1.BusinessLogic.UserService>();
-            services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, UserManagment>();
+            services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.Repositories.UserManagment>();
+            services.AddScoped<Obligatorio1.IBusinessLogic.ICartService, Obligatorio1.BusinessLogic.CartService>();
+            services.AddScoped<Obligatorio1.IDataAccess.ICartManagment, Obligatorio1.DataAccess.CartManagment>();
+            services.AddScoped<Obligatorio1.IDataAccess.IPromoManagerManagment, Obligatorio1.DataAccess.Repositories.PromoManagerManagment>();
+            services.AddScoped<Obligatorio1.IBusinessLogic.IPurchaseService, Obligatorio1.BusinessLogic.PurchaseService>();
+            services.AddScoped<Obligatorio1.IDataAccess.IPurchaseManagment, Obligatorio1.DataAccess.Repositories.PurchaseManagment>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Obligatorio 1", Version = "v1" });
             });
+
 
             // Registra el DbContext
             services.AddDbContext<Context>(options =>
@@ -39,9 +46,8 @@ namespace Obligatorio1.WebApi
                 options.UseSqlServer(Configuration.GetConnectionString("obligatrioDB"));
             });
 
-
         }
-
+        
         // Este método se utiliza para configurar cómo se manejarán las solicitudes HTTP entrantes.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

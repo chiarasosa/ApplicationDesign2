@@ -59,6 +59,11 @@ namespace Obligatorio1.DataAccess.Repositories
             return authenticatedUser;
         }
 
+        public User GetLoggedinUser()
+        {
+            return _authenticatedUser;
+        }
+
         public void Logout(User user)
         {
             if (_authenticatedUser != null && user.UserID == _authenticatedUser.UserID)
@@ -207,12 +212,6 @@ namespace Obligatorio1.DataAccess.Repositories
             }
         }
 
-        public void DeleteProductFromCart(Product product)
-        {
-            if (_authenticatedUser != null && _authenticatedUser.Cart != null)
-            {
-                _authenticatedUser?.Cart.Products.Remove(product);
-            }
-        }
+        }       
     }
 }

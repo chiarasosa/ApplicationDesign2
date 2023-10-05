@@ -354,7 +354,7 @@ namespace Obligatorio1.WebApi.Test
                     new Purchase
                     {
                         PurchaseID = 1,
-                        User = adminUser,
+                        UserID = 2,
                         PurchasedProducts = products,
                         PromoApplied = "Promo1",
                         DateOfPurchase = DateTime.Now
@@ -445,7 +445,7 @@ namespace Obligatorio1.WebApi.Test
         new Purchase
         {
             PurchaseID = 1,
-            User = userToRetrieveHistory,
+           // UserID = userToRetrieveHistory,
             PurchasedProducts = products,
             PromoApplied = "Promo1",
             DateOfPurchase = DateTime.Now
@@ -453,7 +453,7 @@ namespace Obligatorio1.WebApi.Test
         new Purchase
         {
             PurchaseID = 2,
-            User = userToRetrieveHistory,
+           // User = userToRetrieveHistory,
             PurchasedProducts = products,
             PromoApplied = "Promo2",
             DateOfPurchase = DateTime.Now

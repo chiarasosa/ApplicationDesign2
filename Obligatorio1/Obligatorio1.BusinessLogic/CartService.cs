@@ -11,21 +11,58 @@ namespace Obligatorio1.BusinessLogic
 {
     public class CartService : ICartService
     {
-        private readonly IUserManagment _userManagment;
+        private readonly ICartManagment _cartManagment;
+        private readonly IPromoManagerManagment promoManagerManagment;
 
-        public CartService(IUserManagment userManagment)
+        public CartService(ICartManagment cartManagment, IPromoManagerManagment promoManagerManagment)
         {
-            this._userManagment = userManagment;
+            this._cartManagment = cartManagment;
+            this.promoManagerManagment = promoManagerManagment;
         }
 
         public void AddProductToCart(Product product)
         {
-            _userManagment.AddProductToCart(product);
+            _cartManagment.AddProductToCart(product);
+            ApplyBestPromotion();
         }
 
         public void DeleteProductFromCart(Product product)
         {
-            _userManagment.DeleteProductFromCart(product);
+            _cartManagment.DeleteProductFromCart(product);
+            ApplyBestPromotion();
+        }
+
+        public Cart ApplyBestPromotion()
+        {
+            Cart cart = _cartManagment.GetCart();
+            if (cart.Products != null)
+            {
+                List<IPromoService> availablePromotions = promoManagerManagment.GetAvailablePromotions();
+                if (availablePromotions.Count() > 0)
+                {
+                    double bestDiscount = cart.TotalPrice;
+                    foreach (IPromoService promotion in availablePromotions)
+                    {
+                        double price = promotion.CalculateNewPriceWithDiscount(cart);
+                        if(price < bestDiscount)
+                        {
+                            bestDiscount = price;
+                            cart.PromotionApplied = promotion.GetName();
+                        }
+                        bestDiscount = Math.Min(bestDiscount, price);
+                        
+                    }
+
+                    cart.TotalPrice = bestDiscount;
+                }
+            }
+            _cartManagment.UpdateCartWithDiscount(cart);
+            return cart;
+        }
+
+        public Cart GetLoggedInCart()
+        {
+            return _cartManagment.GetCart();
         }
     }
 }

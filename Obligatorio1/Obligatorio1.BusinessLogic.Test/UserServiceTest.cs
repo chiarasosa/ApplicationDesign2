@@ -357,7 +357,6 @@ namespace Obligatorio1.BusinessLogic.Test
             _userManagmentMock?.Verify(x => x.UpdateProduct(updatedProduct), Times.Once);
         }
 
-
         [TestMethod]
         public void AddProductToCart_Correct()
         {
