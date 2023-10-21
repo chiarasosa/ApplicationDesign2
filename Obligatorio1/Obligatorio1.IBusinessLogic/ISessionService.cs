@@ -12,6 +12,6 @@ namespace Obligatorio1.IBusinessLogic
     {
         User? GetCurrentUser(Guid? authToken = null);
         Guid Authenticate(string email, string password);
-        void Logout(User user);
+        void Logout(Guid authToken);
     }
 }

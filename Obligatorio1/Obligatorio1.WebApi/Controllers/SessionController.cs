@@ -29,19 +29,28 @@ namespace Obligatorio1.WebApi.Controllers
 
         // En los endpoints que quiero usar autenticación, agrego el filtro, si quiero usarlo en todos los endpoints
         // de un controller lo agrego a nivel de la clase
-        
+        [ServiceFilter(typeof(AuthenticationFilter))]
         [HttpDelete]
-        public IActionResult Logout([FromBody] User user)
+        public IActionResult Logout()
         {
-            _sessionService.Logout(user);
-            return Ok("Logout successfully: " + user.UserName);
+            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
+            _sessionService.Logout(authToken);
+            return Ok("Logout successfully");
         }
 
-        [HttpGet]
+        [HttpGet("current-user")]
         public IActionResult GetLoggedInUser()
         {
-            var user = _sessionService.GetCurrentUser();
-            return Ok(user);
+            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
+            var user = _sessionService.GetCurrentUser(authToken);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            else
+            {
+                return NotFound("User not found");
+            }
         }
         
     }

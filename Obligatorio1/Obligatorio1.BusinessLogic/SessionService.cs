@@ -46,10 +46,13 @@ public class SessionService : ISessionService
 
         return session.AuthToken;
     }
-    public void Logout(User user)
+    public void Logout(Guid authToken)
     {
-        var session = _sessionRepository.Get(s => s.User == user, new List<string>() { "User" });
-        _sessionRepository.Delete(session);
-        _sessionRepository.Save();
+        var session = _sessionRepository.Get(s => s.AuthToken == authToken);
+        if (session != null)
+        {
+            _sessionRepository.Delete(session);
+            _sessionRepository.Save();
+        }
     }
 }
