@@ -1,6 +1,7 @@
 ﻿using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
 using Obligatorio1.IDataAccess;
+using System.Security.Authentication;
 
 namespace Obligatorio1.DataAccess.Repositories
 {
@@ -10,23 +11,28 @@ namespace Obligatorio1.DataAccess.Repositories
         private User? _authenticatedUser;
         private List<Purchase>? _purchases;
         private List<Product>? _products;
-        private readonly IGenericRepository<User> _repository;
-        public UserManagment(IGenericRepository<User> userRepositoy)
+        private readonly IGenericRepository<User> _userRepository;
+        private readonly IGenericRepository<Session> _sessionRepository;
+        public UserManagment(IGenericRepository<User> userRepositoy, IGenericRepository<Session> sessionRepository)
         {
             _authenticatedUser = null;
             _purchases = new List<Purchase>();
             _products = new List<Product>();
-            _repository = userRepositoy;
+            _userRepository = userRepositoy;
+            _sessionRepository = sessionRepository;
         }
 
         public void RegisterUser(User user)
         {
-            _repository.Insert(user);
-            _repository.Save();
+            _userRepository.Insert(user);
+            _userRepository.Save();
         }
+
+        
+
         public User UpdateUserProfile(User user)
         {
-            var existingUser = _repository.GetAll<User>().FirstOrDefault(u => u.UserID == user.UserID);
+            var existingUser = _userRepository.GetAll<User>().FirstOrDefault(u => u.UserID == user.UserID);
 
             if (existingUser == null)
                 throw new UserException("El usuario no existe.");
@@ -38,8 +44,8 @@ namespace Obligatorio1.DataAccess.Repositories
             existingUser.Role = user.Role;
             existingUser.Cart = user.Cart;
 
-            _repository.Update(existingUser);
-            _repository.Save();
+            _userRepository.Update(existingUser);
+            _userRepository.Save();
 
             return existingUser;
         }
@@ -47,7 +53,7 @@ namespace Obligatorio1.DataAccess.Repositories
 
         public User Login(string email, string password)
         {
-            User? authenticatedUser = _repository.GetAll<User>().FirstOrDefault(u => u.Email == email && u.Password == password);
+            User? authenticatedUser = _userRepository.GetAll<User>().FirstOrDefault(u => u.Email == email && u.Password == password);
 
             if (authenticatedUser == null)
             {
@@ -78,7 +84,7 @@ namespace Obligatorio1.DataAccess.Repositories
                 throw new UserException("ID de usuario inválido.");
             }
 
-            User? user = _repository.GetAll<User>().FirstOrDefault(u => u.UserID == userId);
+            User? user = _userRepository.GetAll<User>().FirstOrDefault(u => u.UserID == userId);
 
             if (user == null)
             {
@@ -89,7 +95,7 @@ namespace Obligatorio1.DataAccess.Repositories
         }
         public IEnumerable<User> GetAllUsers()
         {
-            var result = _repository.GetAll<User>();
+            var result = _userRepository.GetAll<User>();
             if (result != null)
             {
                 return result;
@@ -114,7 +120,7 @@ namespace Obligatorio1.DataAccess.Repositories
 
         public User UpdateUserInformation(User user)
         {
-            var existingUser = _repository.GetAll<User>().FirstOrDefault(u => u.UserID == user.UserID);
+            var existingUser = _userRepository.GetAll<User>().FirstOrDefault(u => u.UserID == user.UserID);
 
             if (existingUser == null)
                 throw new UserException("El usuario no existe.");
@@ -131,23 +137,23 @@ namespace Obligatorio1.DataAccess.Repositories
             existingUser.Role = user.Role;
             existingUser.Cart = user.Cart;
 
-            _repository.Update(existingUser);
-            _repository.Save();
+            _userRepository.Update(existingUser);
+            _userRepository.Save();
 
             return existingUser;
         }
 
         public void DeleteUser(int userID)
         {
-            User? userToDelete = _repository.GetAll<User>().FirstOrDefault(u => u.UserID == userID);
+            User? userToDelete = _userRepository.GetAll<User>().FirstOrDefault(u => u.UserID == userID);
 
             if (userToDelete == null)
             {
                 throw new UserException($"Usuario con ID {userID} no encontrado.");
             }
 
-            _repository.Delete(userToDelete);
-            _repository.Save();
+            _userRepository.Delete(userToDelete);
+            _userRepository.Save();
         }
 
         public IEnumerable<Purchase> GetPurchaseHistory(User user)
@@ -157,12 +163,12 @@ namespace Obligatorio1.DataAccess.Repositories
                 throw new ArgumentNullException(nameof(user), "El usuario proporcionado es nulo.");
             }
 
-            return _repository.GetAll<Purchase>().Where(purchase => purchase.UserID == user.UserID);
+            return _userRepository.GetAll<Purchase>().Where(purchase => purchase.UserID == user.UserID);
         }
 
         public IEnumerable<Purchase> GetAllPurchases()
         {
-            return _repository.GetAll<Purchase>();
+            return _userRepository.GetAll<Purchase>();
         }
 
         public void CreateProduct(Product product)

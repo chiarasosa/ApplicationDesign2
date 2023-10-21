@@ -12,7 +12,7 @@ namespace Obligatorio1.Domain
         public double TotalPrice { get; set; }
         public int CartID { get; set; }
 
-        public string? PromotionApplied;
+        public string? PromotionApplied { get; set; }
         public Cart()
         {
             this.Products = new List<Product>();

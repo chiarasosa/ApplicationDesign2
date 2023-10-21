@@ -61,7 +61,10 @@ namespace Obligatorio1.WebApi
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<User>, Obligatorio1.DataAccess.Repositories.GenericRepository<User>>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<Product>, Obligatorio1.DataAccess.Repositories.GenericRepository<Product>>();
 
-
+            builder.Services.AddScoped<Obligatorio1.WebApi.Filters.ExceptionFilter>();
+            builder.Services.AddScoped<Obligatorio1.WebApi.Filters.AuthenticationFilter>();
+            builder.Services.AddControllers(options => options.Filters.Add(typeof(Obligatorio1.WebApi.Filters.ExceptionFilter)));
+            builder.Services.AddControllers(options => options.Filters.Add(typeof(Obligatorio1.WebApi.Filters.AuthenticationFilter)));
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.Repositories.UserManagment>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPromoManagerManagment, Obligatorio1.DataAccess.Repositories.PromoManagerManagment>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPurchaseManagment, Obligatorio1.DataAccess.Repositories.PurchaseManagment>();
@@ -70,6 +73,8 @@ namespace Obligatorio1.WebApi
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IPurchaseService, Obligatorio1.BusinessLogic.PurchaseService>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<Purchase>, Obligatorio1.DataAccess.Repositories.GenericRepository<Purchase>>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<Cart>, Obligatorio1.DataAccess.Repositories.GenericRepository<Cart>>();
+            builder.Services.AddScoped<Obligatorio1.IBusinessLogic.ISessionService, Obligatorio1.BusinessLogic.SessionService>();
+            builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<Session>, Obligatorio1.DataAccess.Repositories.GenericRepository<Session>>();
 
             var app = builder.Build();
 

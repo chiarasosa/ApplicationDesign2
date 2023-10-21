@@ -118,6 +118,7 @@ namespace Obligatorio1.BusinessLogic
 
             return authenticatedUser;
         }
+
         public void Logout(User user)
         {
             if (loggedInUser != null && user.UserID == loggedInUser.UserID)

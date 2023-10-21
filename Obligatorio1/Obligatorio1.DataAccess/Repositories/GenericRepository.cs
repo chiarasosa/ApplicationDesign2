@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Obligatorio1.DataAccess.Contexts;
 using Obligatorio1.IDataAccess;
+using System.Linq.Expressions;
 
 namespace Obligatorio1.DataAccess.Repositories
 {
@@ -28,6 +29,20 @@ namespace Obligatorio1.DataAccess.Repositories
             Context.SaveChanges();
         }
 
+        public virtual T Get(Expression<Func<T, bool>> searchCondition, List<string> includes = null)
+        {
+            IQueryable<T> query = Context.Set<T>();
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return query.Where(searchCondition).Select(x => x)
+                .FirstOrDefault();
+        }
+
         public virtual IEnumerable<U> GetAll<U>() where U : class
         {
             return Context.Set<U>().ToList();
@@ -36,6 +51,8 @@ namespace Obligatorio1.DataAccess.Repositories
         {
             Context.Set<T>().Remove(entity);
         }
+
+      
         public void Update(T entity)
         {
             Context.Entry(entity).State = EntityState.Modified;

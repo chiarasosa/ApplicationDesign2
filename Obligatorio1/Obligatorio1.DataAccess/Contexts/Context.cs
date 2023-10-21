@@ -15,6 +15,8 @@ namespace Obligatorio1.DataAccess.Contexts
         public virtual DbSet<Cart>? Carts { get; set; }
         public virtual DbSet<Purchase>? Purchase { get; set; }
         public virtual DbSet<Product>? Product { get; set; }
+
+        public virtual DbSet<Session>? Sessions { get; set; }
 		
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
@@ -35,15 +37,16 @@ namespace Obligatorio1.DataAccess.Contexts
             {
                 string directory = Directory.GetCurrentDirectory();
 
-                 IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(directory)
-                .AddJsonFile("appsettings.json")
-                .Build();
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                    .SetBasePath(directory)
+                    .AddJsonFile("appsettings.json")
+                    .Build();
 
-                var connectionString = configuration.GetConnectionString(@"obligatrioDB");
+                var connectionString = configuration.GetConnectionString("obligatrioDB");
 
-                optionsBuilder.UseSqlServer(connectionString);
+                optionsBuilder.UseSqlServer(connectionString, b => b.MigrationsAssembly("Obligatorio1.DataAccess"));
             }
         }
+
     }
 }
