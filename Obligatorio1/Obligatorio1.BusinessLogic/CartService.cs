@@ -20,19 +20,19 @@ namespace Obligatorio1.BusinessLogic
             this.promoManagerManagment = promoManagerManagment;
         }
 
-        public void AddProductToCart(Product product)
+        public void AddProductToCart(Product product, Guid authToken)
         {
-            _cartManagment.AddProductToCart(product);
-            ApplyBestPromotion();
+            _cartManagment.AddProductToCart(product, authToken);
+            ApplyBestPromotion(authToken);
         }
 
-        public void DeleteProductFromCart(Product product)
+        public void DeleteProductFromCart(Product product, Guid authToken)
         {
-            _cartManagment.DeleteProductFromCart(product);
-            ApplyBestPromotion();
+            _cartManagment.DeleteProductFromCart(product, authToken);
+            ApplyBestPromotion(authToken);
         }
 
-        public Cart ApplyBestPromotion()
+        public Cart ApplyBestPromotion(Guid authToken)
         {
             Cart cart = _cartManagment.GetCart();
             if (cart.Products != null)
@@ -56,7 +56,7 @@ namespace Obligatorio1.BusinessLogic
                     cart.TotalPrice = bestDiscount;
                 }
             }
-            _cartManagment.UpdateCartWithDiscount(cart);
+            _cartManagment.UpdateCartWithDiscount(cart, authToken);
             return cart;
         }
 

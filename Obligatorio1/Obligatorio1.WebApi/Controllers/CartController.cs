@@ -9,34 +9,6 @@ namespace Obligatorio1.WebApi.Controllers
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;
-        private static Cart _cart = new Cart()
-        {
-            Products = new List<Product>() {
-                new Product() {
-                    Name = "Jabon",
-                    Price = 10,
-                    Description = "Liquido",
-                    Brand = 1,
-                    Category = 1,
-                },
-                new Product() {
-                    Name = "Fideos",
-                    Price = 20,
-                    Description = "Tallarines",
-                    Brand = 4,
-                    Category = 4,
-                },
-                new Product() {
-                    Name = "Pan",
-                    Price = 30,
-                    Description = "Blanco",
-                    Brand = 5,
-                    Category = 5,
-                }
-            },
-            TotalPrice = 60,
-            PromotionApplied = "3x1 promo",
-        };
 
         /// <summary>
         /// Constructor of Cart Controller.
@@ -55,10 +27,10 @@ namespace Obligatorio1.WebApi.Controllers
         [HttpPost("addProduct")]
         public IActionResult AddProductToCart([FromBody] Product product)
         {
+            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
             try
             {
-                _cart.Products.Add(product);
-                //_cartService.AddProductToCart(product);
+                _cartService.AddProductToCart(product, authToken);
                 return Ok("Product added to cart successfully.");
             }
             catch (Exception ex)
@@ -75,10 +47,10 @@ namespace Obligatorio1.WebApi.Controllers
         [HttpDelete("deleteProduct")]
         public IActionResult DeleteProductFromCart([FromBody] Product product)
         {
+            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
             try
             {
-                _cart.Products.Remove(product);
-                //_cartService.DeleteProductFromCart(product);
+                _cartService.DeleteProductFromCart(product, authToken);
                 return Ok("Product deleted from cart successfully.");
             }
             catch (Exception ex)
@@ -96,9 +68,9 @@ namespace Obligatorio1.WebApi.Controllers
         {
             try
             {
-                var cart = _cart;
+                //var cart = _cart;
                 //var cart = _cartService.GetLoggedInCart();
-                return Ok(cart);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -115,9 +87,9 @@ namespace Obligatorio1.WebApi.Controllers
         {
             try
             {
-                var products = _cart.Products;
+                //var products = _cart.Products;
                 //var peroducts = _cartService.GetLoggedInCart().Products.ToList();
-                return Ok(products);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -134,9 +106,9 @@ namespace Obligatorio1.WebApi.Controllers
         {
             try
             {
-                var promo = _cart.PromotionApplied;
+                //var promo = _cart.PromotionApplied;
                 //var promo = _cartService.GetLoggedInCart().PromotionApplied;
-                return Ok(promo);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -153,9 +125,9 @@ namespace Obligatorio1.WebApi.Controllers
         {
             try
             {
-                var price = _cart.TotalPrice;
+                //var price = _cart.TotalPrice;
                 //var price = _cartService.GetLoggedInCart().TotalPrice;
-                return Ok(price);
+                return Ok();
             }
             catch (Exception ex)
             {

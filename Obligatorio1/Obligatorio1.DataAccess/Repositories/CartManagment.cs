@@ -11,35 +11,56 @@ namespace Obligatorio1.DataAccess
 {
     public class CartManagment : ICartManagment
     {
-        private User authenticatedUser;
-        private readonly IGenericRepository<User> _repository;
+        private readonly IGenericRepository<Session> _sessionRepository;
+        private readonly IGenericRepository<Cart> _cartRepository;
 
-        public CartManagment(IGenericRepository<User> userRepository)
+        public CartManagment(IGenericRepository<Session> sessionRepository, IGenericRepository<Cart> cartRepository)
         {
-            authenticatedUser = new User(1, "Chiara", "Chiara123", "chiarasosa@gmail.com", "Calle 1", "Administrador", new List<Purchase>());
-            _repository = userRepository;
+            _cartRepository = cartRepository;
+            _sessionRepository = sessionRepository;
         }
 
 
-        public void AddProductToCart(Product product)
+        public void AddProductToCart(Product product, Guid authToken)
         {
-            
-            authenticatedUser?.Cart.Products.Add(product);
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+            if (session != null)
+            {
+                var cart = session.User.Cart;
+                cart.Products.Add(product);
+                cart.TotalPrice = cart.TotalPrice + product.Price;
+                _cartRepository.Update(cart);
+                _cartRepository.Save();
+            }
         }
 
-        public void DeleteProductFromCart(Product product)
+        public void DeleteProductFromCart(Product product, Guid authToken)
         {
-            authenticatedUser?.Cart.Products.Remove(product);
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+            if (session != null)
+            {
+                var cart = session.User.Cart;
+                cart.Products.Remove(product);
+                _cartRepository.Update(cart);
+                _cartRepository.Save();
+            }
         }
 
         public Cart GetCart()
         {
-            return authenticatedUser.Cart;
+            //return authenticatedUser.Cart;
+            return new Cart();
         }
 
-        public void UpdateCartWithDiscount(Cart cart)
+        public void UpdateCartWithDiscount(Cart cart, Guid authToken)
         {
-            authenticatedUser.Cart = cart;
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+            if (session != null)
+            {
+                session.User.Cart = cart;
+                _cartRepository.Update(cart);
+                _cartRepository.Save();
+            }
         }
     }
 }

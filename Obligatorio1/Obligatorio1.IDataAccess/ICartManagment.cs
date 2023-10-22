@@ -9,9 +9,9 @@ namespace Obligatorio1.IDataAccess
 {
     public interface ICartManagment
     {
-        void AddProductToCart(Product product);
-        void DeleteProductFromCart(Product product);
+        void AddProductToCart(Product product, Guid authToken);
+        void DeleteProductFromCart(Product product, Guid authToken);
         Cart GetCart();
-        void UpdateCartWithDiscount(Cart cart);
+        void UpdateCartWithDiscount(Cart cart, Guid authToken);
     }
 }
