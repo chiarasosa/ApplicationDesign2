@@ -42,6 +42,5 @@ namespace Obligatorio1.WebApi.Filters
                 }
             }
         }
-        
     }
 }

@@ -63,8 +63,10 @@ namespace Obligatorio1.WebApi
 
             builder.Services.AddScoped<Obligatorio1.WebApi.Filters.ExceptionFilter>();
             builder.Services.AddScoped<Obligatorio1.WebApi.Filters.AuthenticationFilter>();
+            builder.Services.AddScoped<Obligatorio1.WebApi.Filters.AuthorizationFilter>();
             builder.Services.AddControllers(options => options.Filters.Add(typeof(Obligatorio1.WebApi.Filters.ExceptionFilter)));
-            //builder.Services.AddControllers(options => options.Filters.Add(typeof(Obligatorio1.WebApi.Filters.AuthenticationFilter)));
+            builder.Services.AddControllers(options => options.Filters.Add(typeof(Obligatorio1.WebApi.Filters.AuthenticationFilter)));
+            builder.Services.AddControllers(options => options.Filters.Add(typeof(Obligatorio1.WebApi.Filters.AuthorizationFilter)));
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.Repositories.UserManagment>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPromoManagerManagment, Obligatorio1.DataAccess.Repositories.PromoManagerManagment>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPurchaseManagment, Obligatorio1.DataAccess.Repositories.PurchaseManagment>();

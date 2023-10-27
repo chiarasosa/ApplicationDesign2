@@ -4,6 +4,7 @@ using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
 using Serilog;
 using Microsoft.AspNetCore.Http;
+using Obligatorio1.WebApi.Filters;
 
 namespace Obligatorio1.WebApi
 {
@@ -60,34 +61,15 @@ namespace Obligatorio1.WebApi
         /// </remarks>
         /// <returns>HTTP response with the list of users.</returns>
         [HttpGet]
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationFilter), Arguments = new object[] { "Administrador" })]
         public IActionResult GetAllUsers()
         {
-            try
-            {
-                var loggedInUser = _userService.GetLoggedInUser();
-
-                if (loggedInUser == null || loggedInUser.Role != "Administrador")
-                {
-                    return Unauthorized("No tiene permiso para obtener la lista de usuarios.");
-                }
-
-                var users = _userService.GetUsers();
-
-                return Ok(users);
-            }
-            catch (UserException ex)
-            {
-                Log.Error(ex, "Error al obtener usuarios: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error al obtener usuarios: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error inesperado al obtener usuarios: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error inesperado al obtener usuarios: {ex.Message}");
-            }
+            // La lógica para obtener la lista de usuarios
+            var users = _userService.GetUsers();
+            return Ok(users);
         }
+
 
         /// <summary>
         /// Gets a user by their ID.
