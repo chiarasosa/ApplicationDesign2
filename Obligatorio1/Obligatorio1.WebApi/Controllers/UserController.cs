@@ -33,18 +33,11 @@ namespace Obligatorio1.WebApi
         /// <param name="user">The user data to register.</param>
         /// <returns>HTTP response indicating the result of the registration.</returns>
         [HttpPost]
+        [TypeFilter(typeof(ExceptionFilter))]
         public IActionResult RegisterUser([FromBody] User user)
         {
-            try
-            {
-                _userService.RegisterUser(user);
-
-                return Ok("Usuario registrado exitosamente.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error al registrar el usuario: {ex.Message}");
-            }
+            _userService.RegisterUser(user);
+             return Ok("Usuario registrado exitosamente.");
         }
 
         /// <summary>
@@ -57,6 +50,7 @@ namespace Obligatorio1.WebApi
         [HttpGet]
         [TypeFilter(typeof(AuthenticationFilter))]
         [TypeFilter(typeof(AuthorizationRolFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
         public IActionResult GetAllUsers()
         {
             var users = _userService.GetUsers();
@@ -88,37 +82,14 @@ namespace Obligatorio1.WebApi
         /// <response code="204">The user was successfully deleted.</response>
         /// <response code="404">The user with the specified ID was not found.</response>
         /// <response code="400">Error in the request or deleting the user.</response>
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
         [HttpDelete("{id}")]
         public IActionResult DeleteUser([FromRoute] int id)
         {
-            try
-            {
-                Log.Information("Intentando eliminar el usuario con ID: {UserID}", id);
-
-                var loggedInUser = _userService.GetLoggedInUser();
-                if (loggedInUser == null || loggedInUser.Role != "Administrador")
-                {
-                    return BadRequest("No tiene permiso para eliminar usuarios.");
-                }
-
-                _userService.DeleteUser(id);
-
-                Log.Information("Usuario eliminado exitosamente con ID: {UserID}", id);
-
-                return Ok("Usuario eliminado exitosamente");
-            }
-            catch (UserException ex)
-            {
-                Log.Error(ex, "Error al eliminar el usuario: {ErrorMessage}", ex.Message);
-
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error inesperado al eliminar el usuario: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error inesperado al eliminar el usuario: {ex.Message}");
-            }
+            _userService.DeleteUser(id);
+            return Ok("Usuario eliminado exitosamente");
         }
 
         /// <summary>
@@ -130,6 +101,9 @@ namespace Obligatorio1.WebApi
         /// <response code="200">The purchases were successfully obtained.</response>
         /// <response code="400">Error in requesting or obtaining purchases.</response>
         /// <response code="403">You do not have permission to access all purchases (non-admin users only).</response>
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
         [HttpGet("AllPurchases")]
         public IActionResult GetAllPurchases()
         {
