@@ -17,6 +17,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using Obligatorio1.IDataAccess;
+using Obligatorio1.WebApi.Filters;
 
 namespace Obligatorio1.WebApi
 {
@@ -60,13 +61,22 @@ namespace Obligatorio1.WebApi
             builder.Services.AddDbContext<Context>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<User>, Obligatorio1.DataAccess.Repositories.GenericRepository<User>>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<Product>, Obligatorio1.DataAccess.Repositories.GenericRepository<Product>>();
+                        builder.Services.AddScoped<Obligatorio1.IBusinessLogic.ISessionService, Obligatorio1.BusinessLogic.SessionService>();
 
             builder.Services.AddScoped<Obligatorio1.WebApi.Filters.ExceptionFilter>();
             builder.Services.AddScoped<Obligatorio1.WebApi.Filters.AuthenticationFilter>();
-            builder.Services.AddScoped<Obligatorio1.WebApi.Filters.AuthorizationFilter>();
-            builder.Services.AddControllers(options => options.Filters.Add(typeof(Obligatorio1.WebApi.Filters.ExceptionFilter)));
-            builder.Services.AddControllers(options => options.Filters.Add(typeof(Obligatorio1.WebApi.Filters.AuthenticationFilter)));
-            builder.Services.AddControllers(options => options.Filters.Add(typeof(Obligatorio1.WebApi.Filters.AuthorizationFilter)));
+            builder.Services.AddScoped<Obligatorio1.WebApi.Filters.AuthorizationRolFilter>();
+            builder.Services.AddScoped<AuthorizationRolFilter>();
+
+            /*builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(Obligatorio1.WebApi.Filters.ExceptionFilter));
+                options.Filters.Add(typeof(Obligatorio1.WebApi.Filters.AuthenticationFilter));
+                options.Filters.Add(typeof(Obligatorio1.WebApi.Filters.AuthorizationFilter));
+            });*/
+
+
+
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.Repositories.UserManagment>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPromoManagerManagment, Obligatorio1.DataAccess.Repositories.PromoManagerManagment>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPurchaseManagment, Obligatorio1.DataAccess.Repositories.PurchaseManagment>();
@@ -91,6 +101,7 @@ namespace Obligatorio1.WebApi
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
+           
 
             // Habilita el middleware de sesiones
             app.UseSession();

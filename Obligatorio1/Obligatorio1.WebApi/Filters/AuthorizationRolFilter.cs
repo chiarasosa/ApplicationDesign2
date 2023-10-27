@@ -1,54 +1,55 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Obligatorio1.IBusinessLogic;
+using System;
 
 namespace Obligatorio1.WebApi.Filters
 {
-
-    public class AuthorizationFilter : Attribute, IAuthorizationFilter
+    public class AuthorizationRolFilter : Attribute, IAuthorizationFilter
     {
-        public string RoleNeeded { get; set; }
+        private readonly string _roleNeeded = "Administrador";
+        private readonly ISessionService _sessionService;
+
+        // Recibe por inyeccion de dependencia, para esto tengo que registrarlo como
+        // service filter
+        public AuthorizationRolFilter(ISessionService sessionService)
+        {
+            _sessionService = sessionService;
+        }
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+            var sessionService = context.HttpContext.RequestServices.GetRequiredService<ISessionService>();
+
             var authorizationHeader = context.HttpContext.Request.Headers["Authorization"].ToString();
             Guid token = Guid.Empty;
 
             if (string.IsNullOrEmpty(authorizationHeader) || !Guid.TryParse(authorizationHeader, out token))
             {
-                // Si asigno un result se corta la ejecucion de la request y ya devuelve la response
                 context.Result = new ObjectResult(new { Message = "Authorization header is missing" })
                 {
                     StatusCode = 401
                 };
+                return;
             }
 
-            var sessionManager = GetSessionService(context);
-            var currentUser = sessionManager.GetCurrentUser(token);
+            var currentUser = sessionService.GetCurrentUser(token);
 
             if (currentUser == null)
             {
-                // Si asigno un result se corta la ejecucion de la request y ya devuelve la response
                 context.Result = new ObjectResult(new { Message = "Not authenticated" })
                 {
                     StatusCode = 401
                 };
+                return;
             }
-            else if (currentUser.Role != RoleNeeded)
+            else if (currentUser.Role != _roleNeeded)
             {
-                context.Result = new ObjectResult(new { Message = "Can't perform action" })
+                context.Result = new ObjectResult(new { Message = "Debe tener rol Administrador para ejecutar esta operacion" })
                 {
                     StatusCode = 403
                 };
             }
-        }
-
-        protected ISessionService GetSessionService(AuthorizationFilterContext context)
-        {
-            var sessionManagerObject = context.HttpContext.RequestServices.GetService(typeof(ISessionService));
-            var sessionService = sessionManagerObject as ISessionService;
-
-            return sessionService;
         }
     }
 }

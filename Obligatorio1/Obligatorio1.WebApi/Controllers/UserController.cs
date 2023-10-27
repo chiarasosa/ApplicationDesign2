@@ -37,18 +37,12 @@ namespace Obligatorio1.WebApi
         {
             try
             {
-                Log.Information("Intentando registrar usuario: {@User}", user);
-
                 _userService.RegisterUser(user);
-
-                Log.Information("Usuario registrado exitosamente.");
 
                 return Ok("Usuario registrado exitosamente.");
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error al registrar el usuario: {ErrorMessage}", ex.Message);
-
                 return BadRequest($"Error al registrar el usuario: {ex.Message}");
             }
         }
@@ -62,119 +56,26 @@ namespace Obligatorio1.WebApi
         /// <returns>HTTP response with the list of users.</returns>
         [HttpGet]
         [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(AuthorizationFilter), Arguments = new object[] { "Administrador" })]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
         public IActionResult GetAllUsers()
         {
-            // La lógica para obtener la lista de usuarios
             var users = _userService.GetUsers();
             return Ok(users);
         }
-
 
         /// <summary>
         /// Gets a user by their ID.
         /// </summary>
         /// <param name="id">The ID of the user to obtain.</param>
         /// <returns>HTTP response with the user found.</returns>
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
         [HttpGet("{id}")]
         public IActionResult GetUserByID([FromRoute] int id)
         {
-            try
-            {
-                var user = _userService.GetUserByID(id);
-
-                if (user == null)
-                {
-                    return NotFound($"Usuario con ID {id} no encontrado.");
-                }
-
-                return Ok(user);
-            }
-            catch (UserException ex)
-            {
-                Log.Error(ex, "Error al obtener el usuario: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error al obtener el usuario: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error inesperado al obtener el usuario: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error inesperado al obtener el usuario: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Log in as a user registered in the system.
-        /// </summary>
-        /// <param name="email">The user's email address.</param>
-        /// <param name="password">The user's password.</param>
-        /// <returns>HTTP response indicating the result of the login.</returns>
-        [HttpPost("login")]
-        public IActionResult Login(string email, string password)
-        {
-            try
-            {
-                Log.Information("Intentando iniciar sesion para el usuario con email: {Email}", email);
-
-                var user = _userService.Login(email, password);
-
-                if (user == null)
-                {
-                    Log.Warning("Inicio de sesion fallido para el usuario con email: {Email}", email);
-                    return Unauthorized("Autenticacion fallida. Credenciales incorrectas.");
-                }
-
-                Log.Information("Inicio de sesion exitoso para el usuario con email: {Email}", email);
-
-                _loggedInUser = user;
-
-                return Ok("Inicio de sesion exitoso.");
-            }
-            catch (UserException ex)
-            {
-                Log.Error(ex, "Error al iniciar sesion: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error al iniciar sesion: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error inesperado al iniciar sesion: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error inesperado al iniciar sesion: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Cierra sesion de un usuario registrado en el sistema.
-        /// </summary>
-        /// <param name="user">El usuario que cierra sesion.</param>
-        /// <returns>Respuesta HTTP indicando el resultado del cierre de sesion.</returns>
-        [HttpPost("logout")]
-        public IActionResult Logout([FromBody] User user)
-        {
-            try
-            {
-                Log.Information("Intentando cerrar sesion para el usuario con ID: {UserID}", user.UserID);
-
-                _userService.Logout(user);
-
-                Log.Information("Sesion cerrada exitosamente para el usuario con ID: {UserID}", user.UserID);
-
-                return Ok("Se cerro la sesion correctamente.");
-            }
-            catch (UserException ex)
-            {
-                Log.Error(ex, "Error al cerrar sesion: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error al cerrar sesion: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error inesperado al cerrar sesion: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error inesperado al cerrar sesion: {ex.Message}");
-            }
+            var user = _userService.GetUserByID(id);
+            return Ok(user);
         }
 
         /// <summary>

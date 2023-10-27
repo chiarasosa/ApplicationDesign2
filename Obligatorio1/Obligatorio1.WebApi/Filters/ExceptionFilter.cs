@@ -6,47 +6,38 @@ using Obligatorio1.Exceptions;
 namespace Obligatorio1.WebApi.Filters
 {
     public class ExceptionFilter : Attribute, IExceptionFilter
+{
+    public void OnException(ExceptionContext context)
     {
-        public void OnException(ExceptionContext context)
+        var statusCode = 500; // Código de estado predeterminado
+
+        if (context.Exception is ResourceNotFoundException)
         {
-            // Type type = context.GetType();
-            //Wrong
-            // switch (type)
-            // {
-
-            //     default:
-            // }
-            try
-            {
-                throw context.Exception;
-            }
-            catch (ResourceNotFoundException e)
-            {
-                context.Result = new ObjectResult(new { Message = e.Message }) { StatusCode = 404 };
-            }
-            catch (InvalidResourceException e)
-            {
-                context.Result = new ObjectResult(new { Message = e.Message }) { StatusCode = 400 };
-            }
-            catch (InvalidOperationException e)
-            {
-                // 409 - Conflict
-                context.Result = new ObjectResult(new { Message = e.Message }) { StatusCode = 409 };
-            }
-            catch (InvalidCredentialException e)
-            {
-                context.Result = new ObjectResult(new { Message = e.Message }) { StatusCode = 401 };
-            }
-            catch (Exception e)
-            {
-                // En un proyecto real, se agrega logging mas sofisticado
-                Console.WriteLine($"Message: {e.Message} - StackTrace: {e.StackTrace}");
-
-                context.Result = new ObjectResult(new
-                { Message = "We encountered some issues, try again later" })
-                { StatusCode = 500 };
-            }
+            statusCode = 404;
         }
+        else if (context.Exception is InvalidResourceException)
+        {
+            statusCode = 400;
+        }
+        else if (context.Exception is InvalidOperationException)
+        {
+            statusCode = 409;
+        }
+        else if (context.Exception is InvalidCredentialException)
+        {
+            statusCode = 401;
+        }
+        else if (context.Exception is UserException)
+        {
+            statusCode = 422; // Puedes usar otro código de estado apropiado para UserException
+        }
+
+        context.Result = new ObjectResult(new { Message = context.Exception.Message })
+        {
+            StatusCode = statusCode
+        };
     }
+}
+
 }
 
