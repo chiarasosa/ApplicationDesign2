@@ -31,8 +31,12 @@ namespace Obligatorio1.WebApi.Filters
         {
             statusCode = 422; // Puedes usar otro código de estado apropiado para UserException
         }
+        else if (context.Exception is ProductManagmentException)
+        {
+            statusCode = 422; // Puedes usar otro código de estado apropiado para UserException
+        }
 
-        context.Result = new ObjectResult(new { Message = context.Exception.Message })
+            context.Result = new ObjectResult(new { Message = context.Exception.Message })
         {
             StatusCode = statusCode
         };

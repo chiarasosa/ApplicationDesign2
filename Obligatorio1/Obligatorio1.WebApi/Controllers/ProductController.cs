@@ -5,6 +5,7 @@ using Serilog;
 using Swashbuckle.AspNetCore.Annotations;
 using Obligatorio1.Exceptions;
 using Obligatorio1.BusinessLogic;
+using Obligatorio1.WebApi.Filters;
 
 namespace Obligatorio1.WebApi
 {
@@ -109,31 +110,16 @@ namespace Obligatorio1.WebApi
         /// <returns> HTTP response with the created product.</returns>
         /// /// <response code="201">The product was created successfully.</response>
         /// <response code="400">There waws an error creating the product .</response>
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
         [HttpPost("create")]
         public IActionResult CreateProduct([FromBody] Product product)
         {
-
-            try
-            {
-                Log.Information("Intentando crear un nuevo producto: {@Product}", product);
-                var createProduct = _productService.CreateProduct(product);
-
-                Log.Information("Producto creado exitosamente: {@CreatedProduct}", createProduct);
-
-                return CreatedAtAction(nameof(GetProductByID), new { id = createProduct.ProductID }, createProduct);
-            }
-            catch (ProductManagmentException ex)
-            {
-                Log.Error(ex, "Error al crear el producto: {ErrorMessage}", ex.Message);
-                return BadRequest(ex.Message);
-            }
-            catch (Exception e)
-            {
-                Log.Error(e, "Error inesperado al crear el producto: {ErrorMessage}", e.Message);
-
-                return BadRequest($"Error inesperado al crear el producto: {e.Message}");
-            }
+            var createProduct = _productService.CreateProduct(product);
+            return CreatedAtAction(nameof(GetProductByID), new { id = createProduct.ProductID }, createProduct);
         }
+        
 
         /// <summary>
         /// Deletes a product by ID.

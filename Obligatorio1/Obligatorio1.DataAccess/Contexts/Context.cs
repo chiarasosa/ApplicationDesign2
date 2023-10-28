@@ -63,6 +63,9 @@ namespace Obligatorio1.DataAccess.Contexts
             .WithOne()
             .IsRequired(); // Asegura que la relación sea obligatoria
 
+            modelBuilder.Entity<Purchase>()
+             .HasMany(p => p.PurchasedProducts)
+             .WithMany();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
