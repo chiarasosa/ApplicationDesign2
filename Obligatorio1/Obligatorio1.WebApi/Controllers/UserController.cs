@@ -37,7 +37,7 @@ namespace Obligatorio1.WebApi
         public IActionResult RegisterUser([FromBody] User user)
         {
             _userService.RegisterUser(user);
-             return Ok("Usuario registrado exitosamente.");
+            return Ok("Usuario registrado exitosamente.");
         }
 
         /// <summary>
@@ -93,100 +93,6 @@ namespace Obligatorio1.WebApi
         }
 
         /// <summary>
-        /// Gets all purchases made in the system.
-        /// </summary>
-        /// <remarks>
-        /// Allows a user with administrator permissions to obtain all purchases made in the system.
-        /// </remarks>
-        /// <response code="200">The purchases were successfully obtained.</response>
-        /// <response code="400">Error in requesting or obtaining purchases.</response>
-        /// <response code="403">You do not have permission to access all purchases (non-admin users only).</response>
-        [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(AuthorizationRolFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
-        [HttpGet("AllPurchases")]
-        public IActionResult GetAllPurchases()
-        {
-            try
-            {
-                Log.Information("Intentando obtener todas las compras.");
-
-                var loggedInUser = _userService.GetLoggedInUser();
-                if (loggedInUser == null || loggedInUser.Role != "Administrador")
-                {
-                    return BadRequest("No tiene permiso para acceder a todas las compras.");
-                }
-                var purchases = _userService.GetAllPurchases();
-
-                Log.Information("Compras obtenidas exitosamente.");
-
-                return Ok(purchases);
-            }
-            catch (UserException ex)
-            {
-                Log.Error(ex, "Error al obtener compras: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error al obtener compras: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error inesperado al obtener compras: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error inesperado al obtener compras: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Obtains the purchase history of a user registered in the system by their ID.
-        /// </summary>
-        /// <remarks>
-        /// Allows a user to obtain the purchase history of a user registered in the system by their ID.
-        /// </remarks>
-        /// <param name="id">The ID of the user for whom you want to obtain the purchase history.</param>
-        /// <response code="200">The purchase history was successfully obtained.</response>
-        /// <response code="400">Error in the request or obtaining the purchase history.</response>
-        /// <response code="404">User with the specified ID not found.</response>
-        [HttpGet("GetPurchaseHistory/{id}")]
-        public IActionResult GetPurchaseHistory([FromRoute] int id)
-        {
-            try
-            {
-                Log.Information("Intentando obtener el historial de compras del usuario con ID: {UserID}", id);
-
-                var loggedInUser = _userService.GetLoggedInUser();
-                if (loggedInUser == null)
-                {
-                    return BadRequest("Debe iniciar sesion para acceder al historial de compras.");
-                }
-
-                var user = _userService.GetUserByID(id);
-
-                if (user == null)
-                {
-                    return NotFound($"Usuario con ID {id} no encontrado.");
-                }
-
-                var purchaseHistory = _userService.GetPurchaseHistory(user);
-
-                Log.Information("Historial de compras obtenido exitosamente para el usuario con ID: {UserID}", id);
-
-                return Ok(purchaseHistory);
-            }
-            catch (UserException ex)
-            {
-                Log.Error(ex, "Error al obtener el historial de compras: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error al obtener el historial de compras: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error inesperado al obtener el historial de compras: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error inesperado al obtener el historial de compras: {ex.Message}");
-            }
-        }
-
-        /// <summary>
         /// Updates the profile of a user registered in the system.
         /// </summary>
         /// <remarks>
@@ -195,77 +101,14 @@ namespace Obligatorio1.WebApi
         /// <param name="user">The user data to update.</param>
         /// <response code="200">The user information was updated successfully.</response>
         /// <response code="400">Error in the request or updating user information.</response>
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
         [HttpPut("UpdateUserProfile")]
         public IActionResult UpdateUserProfile([FromBody] User user)
         {
-            try
-            {
-                var loggedInUser = _userService.GetLoggedInUser();
-                if (loggedInUser == null || loggedInUser.UserID != user.UserID)
-                {
-                    return BadRequest("El id del usuario a actualizar no coincide con el usuario logeado.");
-                }
-
-                Log.Information("Intentando actualizar el perfil del usuario con ID: {UserID}", user.UserID);
-
-                var updatedUser = _userService.UpdateUserProfile(user);
-
-                Log.Information("Perfil del usuario actualizado exitosamente para el usuario con ID: {UserID}", user.UserID);
-
-                return Ok(updatedUser);
-            }
-            catch (UserException ex)
-            {
-                Log.Error(ex, "Error al actualizar el perfil del usuario: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error al actualizar el perfil del usuario: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error inesperado al actualizar el perfil del usuario: {ErrorMessage}", ex.Message);
-
-                return BadRequest($"Error inesperado al actualizar el perfil del usuario: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Updates the information of a user registered in the system.
-        /// </summary>
-        /// <remarks>
-        /// Allows an administrator user to update a user's information by their ID.
-        /// </remarks>
-        /// <param name="user">The user data to update.</param>
-        /// <response code="200">The user information was updated successfully.</response>
-        /// <response code="400">Error in the request or updating the information.</response>
-        /// <response code="401">You do not have permission to update user information.</response>
-        [HttpPut("UpdateUserInformation")]
-        public IActionResult UpdateUserInformation([FromBody] User user)
-        {
-            try
-            {
-                var loggedInUser = _userService.GetLoggedInUser();
-                if (loggedInUser == null || loggedInUser.Role != "Administrador")
-                {
-                    return Unauthorized("No tiene permiso para actualizar la informacion del usuario.");
-                }
-
-                var updatedUser = _userService.UpdateUserInformation(user);
-
-                if (updatedUser == null)
-                {
-                    return BadRequest("Error al actualizar la informacion del usuario.");
-                }
-
-                return Ok(updatedUser);
-            }
-            catch (UserException ex)
-            {
-                return BadRequest($"Error al actualizar la informacion del usuario: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error inesperado al actualizar la informacion del usuario: {ex.Message}");
-            }
+            var updatedUser = _userService.UpdateUserProfile(user);
+            return Ok(updatedUser);
         }
     }
 }
