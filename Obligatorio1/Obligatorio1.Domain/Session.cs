@@ -3,7 +3,7 @@
 
     public class Session
     {
-        public int Id { get; set; }
+        public int SessionID { get; set; }
         public Guid AuthToken { get; set; }
         public User User { get; set; }
 

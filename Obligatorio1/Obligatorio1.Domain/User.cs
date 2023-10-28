@@ -16,7 +16,6 @@ namespace Obligatorio1.Domain
         public string Address { get; set; }
         public string Role { get; set; }
         public List<Purchase>? Purchases { get; set; }
-
         public Cart? Cart { get; set; }
         public User()
         {

@@ -13,6 +13,9 @@ namespace Obligatorio1.Domain
         public int CartID { get; set; }
 
         public string? PromotionApplied { get; set; }
+        public int UserID { get; set; }
+       // public User User { get; set; }
+
         public Cart()
         {
             this.Products = new List<Product>();
