@@ -10,48 +10,11 @@ namespace Obligatorio1.BusinessLogic
     public class UserService : IUserService
     {
         private readonly IUserManagment _userManagment;
-        private User? loggedInUser;
-
-        public User? GetLoggedInUser()
-        {
-            var result = new User
-            {
-
-                UserID = 3,
-                UserName = "UsuarioAdministrador",
-                Email = "usuarioAdministrador@ejemplo.com",
-                Password = "ContraseñaAdministrador",
-                Role = "Administrador",
-                Address = "DireccionAdministrador",
-                Cart = null,
-                Purchases = null,
-
-                /*
-                UserID = 28, // ID del usuario logueado
-                UserName = "UsuarioComprador",
-                Email = "usuarioComprador@ejemplo.com",
-                Password = "ContraseñaComprador",
-                Role = "Comprador", 
-                Address = "DireccionComprador",
-                Cart= null,
-                Purchases = null,
-                */
-            };
-
-            return result;
-        }
-
-
-
-        public void SetLoggedInUser(User user)
-        {
-            loggedInUser = user;
-        }
+       
 
         public UserService(IUserManagment userManagment)
         {
             this._userManagment = userManagment;
-            this.loggedInUser = null;
         }
 
         public void RegisterUser(User user)
@@ -100,33 +63,6 @@ namespace Obligatorio1.BusinessLogic
             throw new UserException("Actualización fallida. Datos de usuario incorrectos."); ;
         }
 
-        public User Login(string email, string password)
-        {
-            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
-            {
-                throw new UserException("Correo electrónico y contraseña son obligatorios.");
-            }
-
-            User? authenticatedUser = _userManagment.Login(email, password);
-
-            if (authenticatedUser == null)
-            {
-                throw new UserException("Autenticación fallida. Credenciales incorrectas.");
-            }
-
-            loggedInUser = authenticatedUser;
-
-            return authenticatedUser;
-        }
-
-        public void Logout(User user)
-        {
-            if (loggedInUser != null && user.UserID == loggedInUser.UserID)
-            {
-                loggedInUser = null;
-            }
-        }
-
         public User GetUserByID(int userID)
         {
             User? user = _userManagment.GetUserByID(userID);
@@ -152,50 +88,6 @@ namespace Obligatorio1.BusinessLogic
 
             return users;
         }
-        public User CreateUser(User user)
-        {
-            if (loggedInUser == null || loggedInUser.Role != "Administrador")
-            {
-                throw new UserException("No tiene permiso para crear usuarios.");
-            }
-
-            if (IsUserValid(user))
-            {
-                User createdUser = _userManagment.CreateUser(user);
-
-
-
-                if (createdUser == null)
-                {
-                    throw new UserException("Error al crear el usuario.");
-                }
-
-                return createdUser;
-            }
-            else
-            {
-                throw new UserException("Usuario inválido.");
-            }
-        }
-
-        public User UpdateUserInformation(User user)
-        {
-            if (IsUserValid(user))
-            {
-                User updatedUser = _userManagment.UpdateUserInformation(user);
-
-                if (updatedUser == null)
-                {
-                    throw new UserException("Error al actualizar la información del usuario.");
-                }
-
-                return updatedUser;
-            }
-            else
-            {
-                throw new UserException("Usuario inválido.");
-            }
-        }
 
         public User DeleteUser(int userID)
         {
@@ -209,57 +101,6 @@ namespace Obligatorio1.BusinessLogic
             _userManagment.DeleteUser(userID);
 
             return userToDelete;
-        }
-
-        public IEnumerable<Purchase> GetPurchaseHistory(User user)
-        {
-            return _userManagment.GetPurchaseHistory(user);
-        }
-        public IEnumerable<Purchase> GetAllPurchases()
-        {
-            return _userManagment.GetAllPurchases();
-        }
-
-        public void CreateProduct(Product product)
-        {
-            if (loggedInUser == null || loggedInUser.Role != "Administrador")
-            {
-                throw new UserException("No tiene permiso para crear productos.");
-            }
-
-            try
-            {
-                _userManagment.CreateProduct(product);
-            }
-            catch (UserException ex)
-            {
-                throw new UserException($"Error al crear el producto: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error inesperado al crear el producto: {ex.Message}", ex);
-            }
-        }
-
-        public Product UpdateProduct(Product product)
-        {
-            if (loggedInUser == null || loggedInUser.Role != "Administrador")
-            {
-                throw new UserException("No tiene permiso para actualizar productos.");
-            }
-
-            try
-            {
-                return _userManagment.UpdateProduct(product);
-            }
-            catch (UserException ex)
-            {
-                throw new UserException($"Error al actualizar el producto: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error inesperado al actualizar el producto: {ex.Message}", ex);
-            }
         }
     }
 }
