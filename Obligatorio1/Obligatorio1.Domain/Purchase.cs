@@ -10,19 +10,19 @@ namespace Obligatorio1.Domain
     {
         public int PurchaseID { get; set; }
         public int UserID { get; set; }
-        public int ProductID { get; set; }
-        public List<Product> PurchasedProducts { get; set; }
+        public User User { get; set; }
+        public List<PurchaseProduct> PurchasedProducts { get; set; }
         public string PromoApplied { get; set; }
         public DateTime? DateOfPurchase { get; set; }
 
         public Purchase()
         {
-            this.PurchasedProducts = new List<Product>();
+            this.PurchasedProducts = new List<PurchaseProduct>();
             this.PromoApplied = String.Empty;
             this.DateOfPurchase = null;
         }
 
-        public Purchase(int PurchaseID, int userID, List<Product> PurchasedProducts, string NamePromoApplied, DateTime DateOfPurchase)
+        public Purchase(int PurchaseID, int userID, List<PurchaseProduct> PurchasedProducts, string NamePromoApplied, DateTime DateOfPurchase)
         {
             this.PurchaseID = PurchaseID;
             this.UserID = userID;

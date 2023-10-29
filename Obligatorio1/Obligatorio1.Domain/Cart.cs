@@ -9,16 +9,15 @@ namespace Obligatorio1.Domain
     public class Cart
     {
         public int CartID { get; set; }
-        public int ProductID { get; set; }
+        public List<CartProduct> CartProducts { get; set; }
         public List<Product> Products { get; set; }
         public double TotalPrice { get; set; }
-      
         public string? PromotionApplied { get; set; }
         public int UserID { get; set; }
         public User User { get; set; }
         public Cart()
         {
-            this.Products = new List<Product>();
+            this.CartProducts = new List<CartProduct>();
             this.TotalPrice = 0;
             this.PromotionApplied = null;
         }

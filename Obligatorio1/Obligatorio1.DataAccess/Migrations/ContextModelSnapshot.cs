@@ -30,9 +30,6 @@ namespace Obligatorio1.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartID"));
 
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
                     b.Property<string>("PromotionApplied")
                         .HasColumnType("nvarchar(max)");
 
@@ -50,13 +47,33 @@ namespace Obligatorio1.DataAccess.Migrations
                     b.ToTable("Carts");
                 });
 
+            modelBuilder.Entity("Obligatorio1.Domain.CartProduct", b =>
+                {
+                    b.Property<int>("CartID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartID", "ProductID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("CartProduct");
+                });
+
             modelBuilder.Entity("Obligatorio1.Domain.Product", b =>
                 {
                     b.Property<int>("ProductID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"));
+
                     b.Property<int>("Brand")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CartID")
                         .HasColumnType("int");
 
                     b.Property<int>("Category")
@@ -78,6 +95,8 @@ namespace Obligatorio1.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ProductID");
+
+                    b.HasIndex("CartID");
 
                     b.ToTable("Products");
                 });
@@ -108,6 +127,21 @@ namespace Obligatorio1.DataAccess.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Purchases");
+                });
+
+            modelBuilder.Entity("Obligatorio1.Domain.PurchaseProduct", b =>
+                {
+                    b.Property<int>("PurchaseID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("PurchaseID", "ProductID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("PurchaseProduct");
                 });
 
             modelBuilder.Entity("Obligatorio1.Domain.Session", b =>
@@ -175,28 +209,60 @@ namespace Obligatorio1.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Obligatorio1.Domain.CartProduct", b =>
+                {
+                    b.HasOne("Obligatorio1.Domain.Cart", "Cart")
+                        .WithMany("CartProducts")
+                        .HasForeignKey("CartID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Obligatorio1.Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Obligatorio1.Domain.Product", b =>
                 {
                     b.HasOne("Obligatorio1.Domain.Cart", null)
                         .WithMany("Products")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Obligatorio1.Domain.Purchase", null)
-                        .WithMany("PurchasedProducts")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CartID");
                 });
 
             modelBuilder.Entity("Obligatorio1.Domain.Purchase", b =>
                 {
-                    b.HasOne("Obligatorio1.Domain.User", null)
+                    b.HasOne("Obligatorio1.Domain.User", "User")
                         .WithMany("Purchases")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Obligatorio1.Domain.PurchaseProduct", b =>
+                {
+                    b.HasOne("Obligatorio1.Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Obligatorio1.Domain.Purchase", "Purchase")
+                        .WithMany("PurchasedProducts")
+                        .HasForeignKey("PurchaseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Purchase");
                 });
 
             modelBuilder.Entity("Obligatorio1.Domain.Session", b =>
@@ -212,6 +278,8 @@ namespace Obligatorio1.DataAccess.Migrations
 
             modelBuilder.Entity("Obligatorio1.Domain.Cart", b =>
                 {
+                    b.Navigation("CartProducts");
+
                     b.Navigation("Products");
                 });
 

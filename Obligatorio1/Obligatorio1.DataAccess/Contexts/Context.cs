@@ -20,61 +20,52 @@ namespace Obligatorio1.DataAccess.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<User>()
-           .Property(u => u.UserID)
-           .ValueGeneratedOnAdd();
+                           .Property(u => u.UserID)
+                           .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Product>()
-           .Property(p => p.ProductID)
-           .ValueGeneratedOnAdd();
+                .Property(p => p.ProductID)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Cart>()
-           .Property(c => c.CartID)
-           .ValueGeneratedOnAdd();
+                .Property(c => c.CartID)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Purchase>()
-            .Property(p => p.PurchaseID)
-            .ValueGeneratedOnAdd();
+                .Property(p => p.PurchaseID)
+                .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<Session>()
-            .Property(s => s.SessionID)
-            .ValueGeneratedOnAdd();
+            modelBuilder.Entity<CartProduct>()
+                .HasKey(cp => new { cp.CartID, cp.ProductID });
 
-            /*Relación Uno a Muchos entre User y Purchase:
-              Esta relación indica que un usuario puede tener muchas compras, pero cada compra pertenece a un solo usuario. 
-              En tu entidad User, ya tienes una propiedad de navegación Purchases. Aquí está cómo puedes configurar esta relación:*/
+            modelBuilder.Entity<PurchaseProduct>()
+                .HasKey(pp => new { pp.PurchaseID, pp.ProductID });
+
+            // Relación uno a uno entre User y Cart
             modelBuilder.Entity<User>()
-            .HasMany(u => u.Purchases)
-            .WithOne()
-            .HasForeignKey(p => p.UserID);
+                .HasOne(u => u.Cart)
+                .WithOne(c => c.User)
+                .HasForeignKey<Cart>(c => c.UserID);
 
-            /*Relación Uno a Uno entre User y Cart:
-              Esta relación indica que un usuario tiene un carrito y que un carrito pertenece a un usuario.
-              En tu entidad User, ya tienes una propiedad de navegación Cart. Aquí está cómo puedes configurar esta relación:*/
-            // Relación Uno a Uno entre User y Cart
-            modelBuilder.Entity<User>()
-            .HasOne(u => u.Cart)
-            .WithOne(c => c.User)  // Especifica la propiedad de navegación en Cart
-            .HasForeignKey<Cart>(c => c.UserID);
-
-
-            // Relación uno a muchos entre Purchase y Product
-            modelBuilder.Entity<Purchase>()
-            .HasMany(p => p.PurchasedProducts)
-            .WithOne()
-            .HasForeignKey(p => p.ProductID);
-
+            // Relación uno a muchos entre Cart y CartProduct
             modelBuilder.Entity<Cart>()
-            .HasMany(c => c.Products)
-            .WithOne()
-            .HasForeignKey(p => p.ProductID)
-            .OnDelete(DeleteBehavior.NoAction);
+                .HasMany(c => c.CartProducts)
+                .WithOne(cp => cp.Cart)
+                .HasForeignKey(cp => cp.CartID);
 
+            // Relación uno a muchos entre Purchase and PurchaseProduct
+            modelBuilder.Entity<Purchase>()
+                .HasMany(p => p.PurchasedProducts)
+                .WithOne(pp => pp.Purchase)
+                .HasForeignKey(pp => pp.PurchaseID);
 
-
+            // Relación uno a muchos entre User and Purchase
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Purchases)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserID);
         }
-
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
