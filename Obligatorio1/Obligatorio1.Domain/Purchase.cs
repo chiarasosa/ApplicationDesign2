@@ -10,6 +10,7 @@ namespace Obligatorio1.Domain
     {
         public int PurchaseID { get; set; }
         public int UserID { get; set; }
+        public int ProductID { get; set; }
         public List<Product> PurchasedProducts { get; set; }
         public string PromoApplied { get; set; }
         public DateTime? DateOfPurchase { get; set; }

@@ -66,8 +66,12 @@ namespace Obligatorio1.DataAccess.Contexts
             .HasForeignKey(p => p.ProductID);
 
             modelBuilder.Entity<Cart>()
-            .HasMany(c => c.Products)  // Cart tiene muchos productos
-            .WithOne();  // Cada producto pertenece a un solo carrito
+            .HasMany(c => c.Products)
+            .WithOne()
+            .HasForeignKey(p => p.ProductID)
+            .OnDelete(DeleteBehavior.NoAction);
+
+
 
         }
 
