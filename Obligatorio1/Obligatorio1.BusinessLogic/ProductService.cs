@@ -36,7 +36,6 @@ namespace Obligatorio1.BusinessLogic
             if (product == null || product.Price <= 0 || product.Brand <= 0 || product.Name == string.Empty)
             {
                 throw new ProductManagmentException("Uno de los datos es incorrecto");
-
             }
             else
             {
@@ -54,7 +53,6 @@ namespace Obligatorio1.BusinessLogic
             }
 
             return prod;
-
         }
 
         public void DeleteProduct(int productID)
@@ -63,7 +61,6 @@ namespace Obligatorio1.BusinessLogic
             if (product == null)
             {
                 throw new ProductManagmentException("Producto no encontrado");
-
             }
             else
             {
@@ -85,19 +82,6 @@ namespace Obligatorio1.BusinessLogic
             {
                 throw new Exception($"Error inesperado al actualizar el producto: {e.Message}", e);
             }
-        }
-
-        public Product CreateProduct(Product product)
-        {
-
-            Product prod = productsManagement.CreateProduct(product);
-
-            if (prod == null)
-            {
-                throw new ProductManagmentException("Error al crear el producto.");
-            }
-            return prod;
-
         }
     }
 }

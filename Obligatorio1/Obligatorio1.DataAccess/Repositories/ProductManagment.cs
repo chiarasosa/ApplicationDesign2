@@ -69,14 +69,14 @@ namespace Obligatorio1.DataAccess.Repositories
 
         public IEnumerable<Product> GetProducts()
         {
-            var aux = _repository.GetAll<Product>();
-            if (aux == null)
+            var result = _repository.GetAll<Product>();
+            if (result == null)
             {
                 return Enumerable.Empty<Product>();
             }
             else
             {
-                return aux;
+                return result;
             }
         }
 
