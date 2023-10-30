@@ -40,7 +40,7 @@ namespace Obligatorio1.DataAccess
             if (session != null)
             {
                 var cart = session.User.Cart;
-                cart.Products.Remove(product);
+               cart.Products.Remove(product);
                 _cartRepository.Update(cart);
                 _cartRepository.Save();
             }

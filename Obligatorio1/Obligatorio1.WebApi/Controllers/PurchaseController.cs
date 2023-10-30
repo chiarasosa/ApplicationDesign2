@@ -3,11 +3,11 @@ using Obligatorio1.IBusinessLogic;
 using Obligatorio1.Domain;
 
 namespace Obligatorio1.WebApi.Controllers
-{
-    [ApiController]
+{    [ApiController]
+
     [Route("api/purchase")]
     public class PurchaseController : ControllerBase
-    {
+    {/*
         private readonly IPurchaseService _purchaseService;
         private static List<Purchase> _purchases = new List<Purchase>() {
             new Purchase() {
@@ -63,7 +63,7 @@ namespace Obligatorio1.WebApi.Controllers
                         DateOfPurchase = DateTime.Today,
                         PromoApplied = cart.PromotionApplied
                     });
-                */
+
                 _purchaseService.ExecutePurchase(cart);
                 return Ok("The purchase has been made successfully.");
             }
@@ -134,6 +134,6 @@ namespace Obligatorio1.WebApi.Controllers
             {
                 return Ok(purchases);
             }
-        }
+        }*/
     }
 }

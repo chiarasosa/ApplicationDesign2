@@ -53,7 +53,16 @@ namespace Obligatorio1.WebApi
         [TypeFilter(typeof(ExceptionFilter))]
         public IActionResult GetAllUsers()
         {
-            var users = _userService.GetUsers();
+            var users = _userService.GetUsers().Select(u => new
+            {
+                u.UserID,
+                u.UserName,
+                u.Password,
+                u.Email,
+                u.Address,
+                u.Role
+            }).ToList();
+
             return Ok(users);
         }
 
@@ -69,7 +78,18 @@ namespace Obligatorio1.WebApi
         public IActionResult GetUserByID([FromRoute] int id)
         {
             var user = _userService.GetUserByID(id);
-            return Ok(user);
+
+            var userDto = new
+            {
+                user.UserID,
+                user.UserName,
+                user.Password,
+                user.Email,
+                user.Address,
+                user.Role
+            };
+
+            return Ok(userDto);
         }
 
         /// <summary>
@@ -108,7 +128,18 @@ namespace Obligatorio1.WebApi
         public IActionResult UpdateUserProfile([FromBody] User user)
         {
             var updatedUser = _userService.UpdateUserProfile(user);
-            return Ok(updatedUser);
+
+            var userDto = new
+            {
+                user.UserID,
+                user.UserName,
+                user.Password,
+                user.Email,
+                user.Address,
+                user.Role
+            };
+
+            return Ok(userDto);
         }
     }
 }

@@ -21,8 +21,8 @@ namespace Obligatorio1.DataAccess.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
-                           .Property(u => u.UserID)
-                           .ValueGeneratedOnAdd();
+                .Property(u => u.UserID)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.ProductID)
@@ -45,7 +45,7 @@ namespace Obligatorio1.DataAccess.Contexts
             // Relación uno a uno entre User y Cart
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Cart)
-                .WithOne(c => c.User)
+                .WithOne()
                 .HasForeignKey<Cart>(c => c.UserID);
 
             // Relación uno a muchos entre Cart y CartProduct

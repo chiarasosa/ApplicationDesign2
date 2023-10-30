@@ -12,7 +12,7 @@ using Obligatorio1.DataAccess.Contexts;
 namespace Obligatorio1.DataAccess.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231029193804_FirstMigration")]
+    [Migration("20231029205120_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -76,9 +76,6 @@ namespace Obligatorio1.DataAccess.Migrations
                     b.Property<int>("Brand")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CartID")
-                        .HasColumnType("int");
-
                     b.Property<int>("Category")
                         .HasColumnType("int");
 
@@ -99,8 +96,6 @@ namespace Obligatorio1.DataAccess.Migrations
 
                     b.HasKey("ProductID");
 
-                    b.HasIndex("CartID");
-
                     b.ToTable("Products");
                 });
 
@@ -114,9 +109,6 @@ namespace Obligatorio1.DataAccess.Migrations
 
                     b.Property<DateTime?>("DateOfPurchase")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
 
                     b.Property<string>("PromoApplied")
                         .IsRequired()
@@ -203,13 +195,11 @@ namespace Obligatorio1.DataAccess.Migrations
 
             modelBuilder.Entity("Obligatorio1.Domain.Cart", b =>
                 {
-                    b.HasOne("Obligatorio1.Domain.User", "User")
+                    b.HasOne("Obligatorio1.Domain.User", null)
                         .WithOne("Cart")
                         .HasForeignKey("Obligatorio1.Domain.Cart", "UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Obligatorio1.Domain.CartProduct", b =>
@@ -229,13 +219,6 @@ namespace Obligatorio1.DataAccess.Migrations
                     b.Navigation("Cart");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Obligatorio1.Domain.Product", b =>
-                {
-                    b.HasOne("Obligatorio1.Domain.Cart", null)
-                        .WithMany("Products")
-                        .HasForeignKey("CartID");
                 });
 
             modelBuilder.Entity("Obligatorio1.Domain.Purchase", b =>
@@ -282,8 +265,6 @@ namespace Obligatorio1.DataAccess.Migrations
             modelBuilder.Entity("Obligatorio1.Domain.Cart", b =>
                 {
                     b.Navigation("CartProducts");
-
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Obligatorio1.Domain.Purchase", b =>

@@ -18,16 +18,15 @@ namespace Obligatorio1.Domain
         public Product()
         {
             this.Name = string.Empty;
-            this.Price = 1;
+            this.Price = 0;
             this.Description = string.Empty;
             this.Brand = 0;
             this.Category = 0;
             this.Color = string.Empty;
         }
 
-        public Product(int productID, string name, int price, string description, int brand, int category, string color)
+        public Product(string name, int price, string description, int brand, int category, string color)
         {
-            this.ProductID = productID;
             this.Name = name;
             this.Price = price;
             this.Description = description;

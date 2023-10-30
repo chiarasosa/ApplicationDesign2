@@ -25,7 +25,7 @@ namespace Obligatorio1.Domain
             this.Address = string.Empty;
             this.Role = string.Empty;
             this.Purchases = null;
-            this.Cart = new Cart();
+            this.Cart = new Cart { Products = new List<Product>() };
         }
 
         public User(int userID, string userName, string password, string email, string address, string role, List<Purchase>? purchases)

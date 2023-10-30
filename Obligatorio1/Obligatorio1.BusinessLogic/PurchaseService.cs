@@ -29,7 +29,7 @@ namespace Obligatorio1.BusinessLogic
             purchaseManagment.CreatePurchase(new Purchase
             {
                // UserID = userManagment.GetLoggedinUser().UserID,
-                PurchasedProducts = cart.Products,
+              //  PurchasedProducts = cart.Products,
                 PromoApplied = cart.PromotionApplied,
                 DateOfPurchase = DateTime.Today,
             });

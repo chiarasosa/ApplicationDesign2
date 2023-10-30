@@ -39,7 +39,7 @@ namespace Obligatorio1.DataAccess.Repositories
             existingUser.Email = user.Email;
             existingUser.Address = user.Address;
             existingUser.Role = user.Role;
-            existingUser.Cart = user.Cart;
+           // existingUser.Cart = user.Cart;
 
             _userRepository.Update(existingUser);
             _userRepository.Save();
