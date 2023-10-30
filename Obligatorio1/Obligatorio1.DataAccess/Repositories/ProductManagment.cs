@@ -67,8 +67,6 @@ namespace Obligatorio1.DataAccess.Repositories
             _repository.Save();
         }
 
-
-
         public IEnumerable<Product> GetProducts()
         {
             var aux = _repository.GetAll<Product>();

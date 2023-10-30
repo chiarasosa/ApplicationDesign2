@@ -23,7 +23,7 @@ namespace Obligatorio1.WebApi.Filters
             if (string.IsNullOrEmpty(authorizationHeader) || !Guid.TryParse(authorizationHeader, out token))
             {
                 // Si asigno un result se corta la ejecucion de la request y ya devuelve la response
-                context.Result = new ObjectResult(new { Message = "Authorization header is missing" })
+                context.Result = new ObjectResult(new { Message = "Authorization header no es correcto." })
                 {
                     StatusCode = 401
                 };
@@ -35,7 +35,7 @@ namespace Obligatorio1.WebApi.Filters
                 if (currentUser == null)
                 {
                     // Si asigno un result se corta la ejecucion de la request y ya devuelve la response
-                    context.Result = new ObjectResult(new { Message = "Unauthorized" })
+                    context.Result = new ObjectResult(new { Message = "Fallo al autenticar." })
                     {
                         StatusCode = 403
                     };
