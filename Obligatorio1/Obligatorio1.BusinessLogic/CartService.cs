@@ -23,13 +23,13 @@ namespace Obligatorio1.BusinessLogic
         public void AddProductToCart(Product product, Guid authToken)
         {
             _cartManagment.AddProductToCart(product, authToken);
-            ApplyBestPromotion(authToken);
+            //ApplyBestPromotion(authToken);
         }
 
         public void DeleteProductFromCart(Product product, Guid authToken)
         {
             _cartManagment.DeleteProductFromCart(product, authToken);
-            ApplyBestPromotion(authToken);
+           // ApplyBestPromotion(authToken);
         }
 
         public Cart ApplyBestPromotion(Guid authToken)

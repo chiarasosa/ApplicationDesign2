@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Obligatorio1.Domain;
 using Obligatorio1.IBusinessLogic;
+using Obligatorio1.WebApi.Filters;
 
 namespace Obligatorio1.WebApi.Controllers
 {
@@ -24,19 +25,15 @@ namespace Obligatorio1.WebApi.Controllers
         /// </summary>
         /// <param name="product">Product that wants to be added.</param>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [HttpPost("addProduct")]
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
+        [HttpPost]
         public IActionResult AddProductToCart([FromBody] Product product)
         {
             var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
-            try
-            {
-                _cartService.AddProductToCart(product, authToken);
-                return Ok("Product added to cart successfully.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error adding product to cart: {ex.Message}");
-            }
+            _cartService.AddProductToCart(product, authToken);
+            return Ok("Product added to cart successfully.");
         }
 
         /// <summary>
@@ -44,38 +41,15 @@ namespace Obligatorio1.WebApi.Controllers
         /// </summary>
         /// <param name="product">Product that wants to be deleted.</param>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [HttpDelete("deleteProduct")]
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
+        [HttpDelete]
         public IActionResult DeleteProductFromCart([FromBody] Product product)
         {
             var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
-            try
-            {
-                _cartService.DeleteProductFromCart(product, authToken);
-                return Ok("Product deleted from cart successfully.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error deleting product from cart: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Gets the list of products from the cart.
-        /// </summary>
-        /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [HttpGet]
-        public IActionResult GetLoggedInCart()
-        {
-            try
-            {
-                //var cart = _cart;
-                //var cart = _cartService.GetLoggedInCart();
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error while getting the cart: {ex.Message}");
-            }
+            _cartService.DeleteProductFromCart(product, authToken);
+            return Ok("Product deleted from cart successfully.");
         }
 
         /// <summary>
