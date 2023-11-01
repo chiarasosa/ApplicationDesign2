@@ -1,4 +1,5 @@
-﻿using Obligatorio1.Domain;
+﻿using Obligatorio1.DataAccess.Repositories;
+using Obligatorio1.Domain;
 using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.DataAccess
@@ -9,12 +10,15 @@ namespace Obligatorio1.DataAccess
         private readonly IGenericRepository<Cart> _cartRepository;
         private readonly IGenericRepository<CartProduct> _cartProductRepository;
         private readonly ICartProductManagment _cartProductManagment;
+        private readonly IProductManagment _productManagment;
 
-        public CartManagment(IGenericRepository<Session> sessionRepository, IGenericRepository<Cart> cartRepository, ICartProductManagment cartProductManagment)
+        public CartManagment(IGenericRepository<Session> sessionRepository, IGenericRepository<Cart> cartRepository, 
+                             IProductManagment productManagment, ICartProductManagment cartProductManagment)
         {
             _cartRepository = cartRepository;
             _sessionRepository = sessionRepository;
             _cartProductManagment = cartProductManagment;
+            _productManagment = productManagment;
         }
 
         public void AddProductToCart(Product product, Guid authToken)
@@ -73,10 +77,33 @@ namespace Obligatorio1.DataAccess
         }
 
 
-        public Cart GetCart()
+        public List<Product> GetAllProductsFromCart(Guid authToken)
         {
-            return new Cart();
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+            List<Product> products = new List<Product>(); // Lista para almacenar los productos
+
+            if (session != null && session.User != null && session.User.Cart != null)
+            {
+                var cart = session.User.Cart;
+                var cartProducts = _cartProductManagment.GetCartProductsByCartID(cart.CartID);
+
+                // Obtener una lista de IDs de productos del carrito.
+                List<int> productIds = cartProducts.Select(cp => cp.ProductID).ToList();
+
+                foreach (int productId in productIds)
+                {
+                    Product product = _productManagment.GetProductByID(productId);
+                    if (product != null)
+                    {
+                        products.Add(product); // Agregar el producto a la lista si se encuentra en la base de datos.
+                    }
+                }
+            }
+
+            return products;
         }
+
+
 
         public void UpdateCartWithDiscount(Cart cart, Guid authToken)
         {

@@ -62,16 +62,9 @@ namespace Obligatorio1.WebApi.Controllers
         [HttpGet("{id}")]
         public IActionResult GetProductsFromCart()
         {
-            try
-            {
-                //var products = _cart.Products;
-                //var peroducts = _cartService.GetLoggedInCart().Products.ToList();
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error while getting the products: {ex.Message}");
-            }
+            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
+            var products = _cartService.GetAllProductsFromCart(authToken);
+            return Ok(products);
         }
 
         /// <summary>

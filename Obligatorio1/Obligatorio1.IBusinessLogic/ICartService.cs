@@ -10,11 +10,8 @@ namespace Obligatorio1.IBusinessLogic
     public interface ICartService
     {
         void AddProductToCart(Product product, Guid authToken);
-
+        public IEnumerable<Product> GetAllProductsFromCart(Guid authToken);
         void DeleteProductFromCart(Product product, Guid authToken);
-
         Cart ApplyBestPromotion(Guid authToken);
-
-        Cart GetLoggedInCart();
     }
 }

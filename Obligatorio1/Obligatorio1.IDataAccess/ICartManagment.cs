@@ -13,5 +13,6 @@ namespace Obligatorio1.IDataAccess
         void DeleteProductFromCart(Product product, Guid authToken);
         Cart GetCart();
         void UpdateCartWithDiscount(Cart cart, Guid authToken);
+        IEnumerable<Product> GetAllProductsFromCart(Guid authToken);
     }
 }

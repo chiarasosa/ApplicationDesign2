@@ -60,9 +60,17 @@ namespace Obligatorio1.BusinessLogic
             return cart;
         }
 
-        public Cart GetLoggedInCart()
+        public IEnumerable<Product> GetAllProductsFromCart(Guid authToken)
         {
-            return _cartManagment.GetCart();
+            Cart cart = _cartManagment.GetCart();
+            if (cart != null && cart.Products != null)
+            {
+                return cart.Products;
+            }
+            return Enumerable.Empty<Product>(); // Si no hay productos en el carrito, se devuelve una colección vacía.
         }
+
+
+
     }
 }
