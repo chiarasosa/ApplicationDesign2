@@ -30,7 +30,7 @@ namespace Obligatorio1.BusinessLogic
             // ApplyBestPromotion(authToken);
         }
 
-        public Cart ApplyBestPromotion(Guid authToken)
+        public Cart ApplyBestPromotionCart(Guid authToken)
         {
             Cart cart = _cartManagment.GetCart(authToken);
             if (cart.Products != null)
@@ -64,18 +64,26 @@ namespace Obligatorio1.BusinessLogic
             {
                 return products;
             }
-            throw new CartException("No existen productos asociados al carrito."); // Si no hay productos en el carrito, se devuelve una colección vacía.
+            throw new CartException("No existen productos asociados al carrito.");
         }
 
-        public String GetPromottionApplied(Guid authToken) {
+        public String GetPromottionAppliedCart(Guid authToken) {
 
             string result = "";
-            result= _cartManagment.GetPromottionApplied(authToken);
+            result= _cartManagment.GetPromottionAppliedCart(authToken);
 
             if (result == null || result == "")
                 throw new CartException("El carrito no tiene una promocion aplicada");
 
             return result;
+        }
+
+        public double GetTotalPriceCart(Guid authToken) {
+
+            double totalPrice = 0;
+            totalPrice = _cartManagment.GetTotalPriceCart(authToken);
+
+            return totalPrice;
         }
     }
 }

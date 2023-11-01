@@ -123,18 +123,31 @@ namespace Obligatorio1.DataAccess
             }
         }
 
-        public String GetPromottionApplied(Guid authToken)
+        public String GetPromottionAppliedCart(Guid authToken)
         {
             var result = "";
             var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
-          
-            if (session != null && session.User != null && session.User.Cart != null && 
+
+            if (session != null && session.User != null && session.User.Cart != null &&
                (session.User.Cart.PromotionApplied != null && session.User.Cart.PromotionApplied != ""))
             {
-                result= session.User.Cart.PromotionApplied;
+                result = session.User.Cart.PromotionApplied;
             }
 
             return result;
+        }
+
+        public double GetTotalPriceCart(Guid authToken)
+        {
+            double totalPrice = 0;
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+
+            if (session != null && session.User != null && session.User.Cart != null)
+            {
+                totalPrice = session.User.Cart.TotalPrice;
+            }
+
+            return totalPrice;
         }
     }
 }
