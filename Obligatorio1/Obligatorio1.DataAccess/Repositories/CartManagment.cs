@@ -8,11 +8,13 @@ namespace Obligatorio1.DataAccess
         private readonly IGenericRepository<Session> _sessionRepository;
         private readonly IGenericRepository<Cart> _cartRepository;
         private readonly IGenericRepository<CartProduct> _cartProductRepository;
+        private readonly ICartProductManagment _cartProductManagment;
 
-        public CartManagment(IGenericRepository<Session> sessionRepository, IGenericRepository<Cart> cartRepository)
+        public CartManagment(IGenericRepository<Session> sessionRepository, IGenericRepository<Cart> cartRepository, ICartProductManagment cartProductManagment)
         {
             _cartRepository = cartRepository;
             _sessionRepository = sessionRepository;
+            _cartProductManagment = cartProductManagment;
         }
 
         public void AddProductToCart(Product product, Guid authToken)
@@ -47,11 +49,29 @@ namespace Obligatorio1.DataAccess
             if (session != null)
             {
                 var cart = session.User.Cart;
-                cart.Products.Remove(product);
-                _cartRepository.Update(cart);
-                _cartRepository.Save();
+
+                if (cart != null)
+                {
+                    // Obtener la lista de productos asociados al carrito
+                    var cartProducts = _cartProductManagment.GetCartProductsByCartID(cart.CartID);
+
+                    // Buscar el producto que deseas eliminar
+                    var cartProductToDelete = cartProducts.FirstOrDefault(cp => cp.ProductID == product.ProductID);
+
+                    if (cartProductToDelete != null)
+                    {
+                        // Remover el producto de la lista de productos del carrito
+                        cartProducts.Remove(cartProductToDelete);
+
+                        // Actualizar la lista de productos asociados al carrito en la base de datos
+                        cart.CartProducts = cartProducts;
+                        _cartRepository.Update(cart);
+                        _cartRepository.Save();
+                    }
+                }
             }
         }
+
 
         public Cart GetCart()
         {

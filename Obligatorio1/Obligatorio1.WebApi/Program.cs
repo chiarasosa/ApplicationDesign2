@@ -81,12 +81,14 @@ namespace Obligatorio1.WebApi
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPromoManagerManagment, Obligatorio1.DataAccess.Repositories.PromoManagerManagment>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPurchaseManagment, Obligatorio1.DataAccess.Repositories.PurchaseManagment>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.ICartManagment, Obligatorio1.DataAccess.CartManagment>();
+            builder.Services.AddScoped<Obligatorio1.IDataAccess.ICartProductManagment, Obligatorio1.DataAccess.CartProductManagment>();
             builder.Services.AddScoped<Obligatorio1.Domain.User>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IPurchaseService, Obligatorio1.BusinessLogic.PurchaseService>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<Purchase>, Obligatorio1.DataAccess.Repositories.GenericRepository<Purchase>>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<Cart>, Obligatorio1.DataAccess.Repositories.GenericRepository<Cart>>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.ISessionService, Obligatorio1.BusinessLogic.SessionService>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<Session>, Obligatorio1.DataAccess.Repositories.GenericRepository<Session>>();
+            builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<CartProduct>, Obligatorio1.DataAccess.Repositories.GenericRepository<CartProduct>>();
 
             var app = builder.Build();
 

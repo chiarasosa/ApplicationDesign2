@@ -56,7 +56,10 @@ namespace Obligatorio1.WebApi.Controllers
         /// Gets the list of products from the cart.
         /// </summary>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [HttpGet("AllProducts")]
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
+        [HttpGet("{id}")]
         public IActionResult GetProductsFromCart()
         {
             try

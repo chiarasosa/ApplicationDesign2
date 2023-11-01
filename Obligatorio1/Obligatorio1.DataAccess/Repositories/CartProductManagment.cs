@@ -13,22 +13,24 @@ namespace Obligatorio1.DataAccess {
             _cartProductRepository = cartRepository;
             _sessionRepository = sessionRepository;
         }
-        public IEnumerable<CartProduct> GetCartProductsByCartID(int cartID)
+        public List<CartProduct> GetCartProductsByCartID(int cartID)
         {
-
             if (cartID <= 0)
             {
-                throw new ThrewException("ID de usuario inválido.");
+                throw new CartProductException("ID de carrito inválido.");
             }
 
-            CartProduct? cartProduct = _cartProductRepository.GetAll<CartProduct>().FirstOrDefault(cp => cp.CartID == cartID);
+            List<CartProduct> cartProducts = _cartProductRepository
+                .GetAll<CartProduct>()
+                .Where(cp => cp.CartID == cartID)
+                .ToList(); // Agregamos ToList() para materializar los resultados
 
-            if (cartProduct == null)
+            if (!cartProducts.Any())
             {
-                throw new UserException($"No existen productos asociados al carrito con el ID {cartID}.");
+                throw new CartProductException($"No existen productos asociados al carrito con el ID {cartID}.");
             }
 
-            return cartProduct;
+            return cartProducts;
         }
     }
 }
