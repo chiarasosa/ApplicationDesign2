@@ -1,7 +1,9 @@
-﻿using Obligatorio1.Domain;
+﻿using Microsoft.IdentityModel.Tokens;
+using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.IDataAccess;
+using System.Xml.XPath;
 
 namespace Obligatorio1.BusinessLogic
 {
@@ -63,6 +65,17 @@ namespace Obligatorio1.BusinessLogic
                 return products;
             }
             throw new CartException("No existen productos asociados al carrito."); // Si no hay productos en el carrito, se devuelve una colección vacía.
+        }
+
+        public String GetPromottionApplied(Guid authToken) {
+
+            string result = "";
+            result= _cartManagment.GetPromottionApplied(authToken);
+
+            if (result == null || result == "")
+                throw new CartException("El carrito no tiene una promocion aplicada");
+
+            return result;
         }
     }
 }

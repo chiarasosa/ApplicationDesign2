@@ -13,5 +13,6 @@ namespace Obligatorio1.IBusinessLogic
         public IEnumerable<Product> GetAllProductsFromCart(Guid authToken);
         void DeleteProductFromCart(Product product, Guid authToken);
         Cart ApplyBestPromotion(Guid authToken);
+        public String GetPromottionApplied(Guid authToken);
     }
 }

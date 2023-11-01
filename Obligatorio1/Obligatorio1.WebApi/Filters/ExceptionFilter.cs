@@ -35,6 +35,26 @@ namespace Obligatorio1.WebApi.Filters
         {
             statusCode = 422; // Puedes usar otro código de estado apropiado para UserException
         }
+        else if (context.Exception is CartException)
+        {
+            statusCode = 422; // Puedes usar otro código de estado apropiado para UserException
+        }
+        else if (context.Exception is CartManagmentException)
+        {
+            statusCode = 422; // Puedes usar otro código de estado apropiado para UserException
+        }
+        else if (context.Exception is CartProductException)
+        {
+            statusCode = 422; // Puedes usar otro código de estado apropiado para UserException
+        }
+        else if (context.Exception is ExceptionPurchase)
+        {
+            statusCode = 422; // Puedes usar otro código de estado apropiado para UserException
+        }
+        else if (context.Exception is UserManagmentException)
+        {
+            statusCode = 422; // Puedes usar otro código de estado apropiado para UserException
+        }
 
             context.Result = new ObjectResult(new { Message = context.Exception.Message })
         {

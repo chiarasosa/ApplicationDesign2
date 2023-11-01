@@ -14,5 +14,6 @@ namespace Obligatorio1.IDataAccess
         public Cart GetCart(Guid authToken);
         void UpdateCartWithDiscount(Cart cart, Guid authToken);
         IEnumerable<Product> GetAllProductsFromCart(Guid authToken);
+        public String GetPromottionApplied(Guid authToken);
     }
 }

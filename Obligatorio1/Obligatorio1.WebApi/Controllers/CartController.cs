@@ -59,7 +59,7 @@ namespace Obligatorio1.WebApi.Controllers
         [TypeFilter(typeof(AuthenticationFilter))]
         [TypeFilter(typeof(AuthorizationRolFilter))]
         [TypeFilter(typeof(ExceptionFilter))]
-        [HttpGet("{id}")]
+        [HttpGet("{cartId}")]
         public IActionResult GetProductsFromCart()
         {
             var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
@@ -71,19 +71,16 @@ namespace Obligatorio1.WebApi.Controllers
         /// Gets the promotion applied to the cart.
         /// </summary>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
         [HttpGet("PromotionApplied")]
         public IActionResult GetPromoAppliedToCart()
         {
-            try
-            {
-                //var promo = _cart.PromotionApplied;
-                //var promo = _cartService.GetLoggedInCart().PromotionApplied;
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error while getting the promotion: {ex.Message}");
-            }
+            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
+            var promo = _cartService.GetPromottionApplied(authToken); 
+
+            return Ok(promo);
         }
 
         /// <summary>

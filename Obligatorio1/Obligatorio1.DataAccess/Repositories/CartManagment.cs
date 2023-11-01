@@ -122,5 +122,19 @@ namespace Obligatorio1.DataAccess
                 _cartRepository.Save();
             }
         }
+
+        public String GetPromottionApplied(Guid authToken)
+        {
+            var result = "";
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+          
+            if (session != null && session.User != null && session.User.Cart != null && 
+               (session.User.Cart.PromotionApplied != null && session.User.Cart.PromotionApplied != ""))
+            {
+                result= session.User.Cart.PromotionApplied;
+            }
+
+            return result;
+        }
     }
 }
