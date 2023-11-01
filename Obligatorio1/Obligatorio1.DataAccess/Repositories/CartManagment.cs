@@ -1,5 +1,5 @@
-﻿using Obligatorio1.DataAccess.Repositories;
-using Obligatorio1.Domain;
+﻿using Obligatorio1.Domain;
+using Obligatorio1.Exceptions;
 using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.DataAccess
@@ -11,8 +11,7 @@ namespace Obligatorio1.DataAccess
         private readonly IGenericRepository<CartProduct> _cartProductRepository;
         private readonly ICartProductManagment _cartProductManagment;
         private readonly IProductManagment _productManagment;
-
-        public CartManagment(IGenericRepository<Session> sessionRepository, IGenericRepository<Cart> cartRepository, 
+        public CartManagment(IGenericRepository<Session> sessionRepository, IGenericRepository<Cart> cartRepository,
                              IProductManagment productManagment, ICartProductManagment cartProductManagment)
         {
             _cartRepository = cartRepository;
@@ -20,7 +19,6 @@ namespace Obligatorio1.DataAccess
             _cartProductManagment = cartProductManagment;
             _productManagment = productManagment;
         }
-
         public void AddProductToCart(Product product, Guid authToken)
         {
             var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
@@ -77,7 +75,7 @@ namespace Obligatorio1.DataAccess
         }
 
 
-        public List<Product> GetAllProductsFromCart(Guid authToken)
+        public IEnumerable<Product> GetAllProductsFromCart(Guid authToken)
         {
             var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
             List<Product> products = new List<Product>(); // Lista para almacenar los productos
@@ -103,7 +101,16 @@ namespace Obligatorio1.DataAccess
             return products;
         }
 
-
+        public Cart GetCart(Guid authToken)
+        {
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+            if (session != null && session.User != null && session.User.Cart != null)
+            {
+                return session.User.Cart;
+            }
+            else
+                throw new CartManagmentException($"Error al obtener el carrito con ID {session.User.Cart.CartID} no encontrado.");
+        }
 
         public void UpdateCartWithDiscount(Cart cart, Guid authToken)
         {

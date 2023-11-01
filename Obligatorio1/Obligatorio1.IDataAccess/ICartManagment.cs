@@ -11,7 +11,7 @@ namespace Obligatorio1.IDataAccess
     {
         void AddProductToCart(Product product, Guid authToken);
         void DeleteProductFromCart(Product product, Guid authToken);
-        Cart GetCart();
+        public Cart GetCart(Guid authToken);
         void UpdateCartWithDiscount(Cart cart, Guid authToken);
         IEnumerable<Product> GetAllProductsFromCart(Guid authToken);
     }

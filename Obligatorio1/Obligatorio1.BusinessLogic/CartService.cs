@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Obligatorio1.Domain;
+using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
-using Obligatorio1.Domain;
 using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.BusinessLogic
@@ -29,12 +25,12 @@ namespace Obligatorio1.BusinessLogic
         public void DeleteProductFromCart(Product product, Guid authToken)
         {
             _cartManagment.DeleteProductFromCart(product, authToken);
-           // ApplyBestPromotion(authToken);
+            // ApplyBestPromotion(authToken);
         }
 
         public Cart ApplyBestPromotion(Guid authToken)
         {
-            Cart cart = _cartManagment.GetCart();
+            Cart cart = _cartManagment.GetCart(authToken);
             if (cart.Products != null)
             {
                 List<IPromoService> availablePromotions = promoManagerManagment.GetAvailablePromotions();
@@ -52,7 +48,6 @@ namespace Obligatorio1.BusinessLogic
                         bestDiscount = Math.Min(bestDiscount, price);
 
                     }
-
                     cart.TotalPrice = bestDiscount;
                 }
             }
@@ -62,15 +57,12 @@ namespace Obligatorio1.BusinessLogic
 
         public IEnumerable<Product> GetAllProductsFromCart(Guid authToken)
         {
-            Cart cart = _cartManagment.GetCart();
-            if (cart != null && cart.Products != null)
+            IEnumerable<Product> products = _cartManagment.GetAllProductsFromCart(authToken);
+            if (products != null)
             {
-                return cart.Products;
+                return products;
             }
-            return Enumerable.Empty<Product>(); // Si no hay productos en el carrito, se devuelve una colección vacía.
+            throw new CartException("No existen productos asociados al carrito."); // Si no hay productos en el carrito, se devuelve una colección vacía.
         }
-
-
-
     }
 }
