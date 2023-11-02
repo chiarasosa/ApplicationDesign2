@@ -9,6 +9,6 @@ namespace Obligatorio1.IDataAccess
 {
     public interface IPurchaseManagment
     {
-        void CreatePurchase(Purchase purchase);
+        void CreatePurchase(Guid authToken);
     }
 }

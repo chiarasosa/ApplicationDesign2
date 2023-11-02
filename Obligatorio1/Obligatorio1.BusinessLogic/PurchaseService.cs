@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Obligatorio1.Domain;
+﻿using Obligatorio1.Domain;
+using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.IDataAccess;
 
@@ -11,33 +7,26 @@ namespace Obligatorio1.BusinessLogic
 {
     public class PurchaseService : IPurchaseService
     {
-        private readonly IPurchaseManagment purchaseManagment;
-        private readonly IUserManagment userManagment;
+        private readonly IPurchaseManagment _purchaseManagment;
+        private readonly ICartManagment _cartManagment;
+        private readonly IUserManagment _userManagment;
 
-        public PurchaseService(IPurchaseManagment purchaseManagment, IUserManagment userManagment)
+        public PurchaseService(IPurchaseManagment purchaseManagment, IUserManagment userManagment, ICartManagment cartManagment)
         {
-            this.purchaseManagment = purchaseManagment;
-            this.userManagment = userManagment;
+            this._purchaseManagment = purchaseManagment;
+            this._userManagment = userManagment;
+            this._cartManagment = cartManagment;
         }
 
-        public void ExecutePurchase(Cart cart)
+        public void CreatePurchase(Guid authToken)
         {
-            if (cart.Products.Count() == 0)
-            {
-                throw new Obligatorio1.Exceptions.ExceptionPurchase("El carrito debe tener mas de un elemento para poder realizar la compra.");
-            }
-            purchaseManagment.CreatePurchase(new Purchase
-            {
-               // UserID = userManagment.GetLoggedinUser().UserID,
-              //  PurchasedProducts = cart.Products,
-                PromoApplied = cart.PromotionApplied,
-                DateOfPurchase = DateTime.Today,
-            });
+            try { _purchaseManagment.CreatePurchase(authToken); }
+            catch { throw new ExceptionPurchase("Error inesperado al realizar la compra."); }
         }
-
         public List<Purchase> GetPurchases()
         {
             return new List<Purchase>();
         }
     }
 }
+

@@ -9,7 +9,7 @@ namespace Obligatorio1.IBusinessLogic
 {
     public interface IPurchaseService
     {
-        void ExecutePurchase(Cart cart);
+        void CreatePurchase(Guid authToken);
         List<Purchase> GetPurchases();
     }
 }
