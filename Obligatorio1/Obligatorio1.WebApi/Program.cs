@@ -89,6 +89,8 @@ namespace Obligatorio1.WebApi
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.ISessionService, Obligatorio1.BusinessLogic.SessionService>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<Session>, Obligatorio1.DataAccess.Repositories.GenericRepository<Session>>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<CartProduct>, Obligatorio1.DataAccess.Repositories.GenericRepository<CartProduct>>();
+            builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<PurchaseProduct>, Obligatorio1.DataAccess.Repositories.GenericRepository<PurchaseProduct>>();
+
 
             var app = builder.Build();
 

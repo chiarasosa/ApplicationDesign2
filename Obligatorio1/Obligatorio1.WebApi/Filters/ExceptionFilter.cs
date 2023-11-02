@@ -47,7 +47,7 @@ namespace Obligatorio1.WebApi.Filters
         {
             statusCode = 422; // Puedes usar otro código de estado apropiado para UserException
         }
-        else if (context.Exception is ExceptionPurchase)
+        else if (context.Exception is PurchaseException)
         {
             statusCode = 422; // Puedes usar otro código de estado apropiado para UserException
         }

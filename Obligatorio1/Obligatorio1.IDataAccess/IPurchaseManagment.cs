@@ -10,5 +10,7 @@ namespace Obligatorio1.IDataAccess
     public interface IPurchaseManagment
     {
         void CreatePurchase(Guid authToken);
+        Purchase GetPurchaseByID(int purchaseID);
+        public IEnumerable<Purchase> GetAllPurchases();
     }
 }

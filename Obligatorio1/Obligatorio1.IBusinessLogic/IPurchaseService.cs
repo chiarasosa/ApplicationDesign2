@@ -10,6 +10,6 @@ namespace Obligatorio1.IBusinessLogic
     public interface IPurchaseService
     {
         void CreatePurchase(Guid authToken);
-        List<Purchase> GetPurchases();
+        IEnumerable<Purchase> GetAllPurchases();
     }
 }

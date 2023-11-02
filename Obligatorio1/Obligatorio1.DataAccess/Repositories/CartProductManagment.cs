@@ -8,9 +8,9 @@ namespace Obligatorio1.DataAccess {
         private readonly IGenericRepository<Session> _sessionRepository;
         private readonly IGenericRepository<CartProduct> _cartProductRepository;
 
-        public CartProductManagment(IGenericRepository<Session> sessionRepository, IGenericRepository<CartProduct> cartRepository)
+        public CartProductManagment(IGenericRepository<Session> sessionRepository, IGenericRepository<CartProduct> cartProductRepository)
         {
-            _cartProductRepository = cartRepository;
+            _cartProductRepository = cartProductRepository;
             _sessionRepository = sessionRepository;
         }
         public List<CartProduct> GetCartProductsByCartID(int cartID)

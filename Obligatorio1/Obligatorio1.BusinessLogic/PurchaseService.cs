@@ -10,8 +10,10 @@ namespace Obligatorio1.BusinessLogic
         private readonly IPurchaseManagment _purchaseManagment;
         private readonly ICartManagment _cartManagment;
         private readonly IUserManagment _userManagment;
+ 
 
-        public PurchaseService(IPurchaseManagment purchaseManagment, IUserManagment userManagment, ICartManagment cartManagment)
+        public PurchaseService(IPurchaseManagment purchaseManagment, IUserManagment userManagment, ICartManagment cartManagment, 
+                        IGenericRepository<PurchaseProduct> purchaseProductRepository)
         {
             this._purchaseManagment = purchaseManagment;
             this._userManagment = userManagment;
@@ -21,11 +23,19 @@ namespace Obligatorio1.BusinessLogic
         public void CreatePurchase(Guid authToken)
         {
             try { _purchaseManagment.CreatePurchase(authToken); }
-            catch { throw new ExceptionPurchase("Error inesperado al realizar la compra."); }
+            catch { throw new PurchaseException("Error inesperado al realizar la compra."); }
         }
-        public List<Purchase> GetPurchases()
+        public IEnumerable<Purchase> GetAllPurchases()
         {
-            return new List<Purchase>();
+            try 
+            { 
+                var purchases= _purchaseManagment.GetAllPurchases();
+                return purchases;
+            }
+            catch 
+            { 
+                throw new PurchaseException("Error inesperado al obtener todas las compras."); 
+            }
         }
     }
 }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Obligatorio1.IDataAccess
 {
-    public interface ICartProductManagment
+    public interface IPurchaseProductManagment
     {
-        public List<CartProduct> GetCartProductsByCartID(int cartID);
+        public List<Product> GetProductsByPurchaseID(int purchaseID);
     }
 }
