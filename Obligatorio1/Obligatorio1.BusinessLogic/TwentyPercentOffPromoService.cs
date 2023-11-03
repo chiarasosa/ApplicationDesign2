@@ -10,15 +10,14 @@ namespace Obligatorio1.BusinessLogic
 {
     public class TwentyPercentOffPromoService : IPromoService
     {
-        public string Name;
         public TwentyPercentOffPromoService()
         {
-            this.Name = "20% Off Promo";
+ 
         }
 
         public string GetName()
         {
-            return this.Name;
+            return "20% Off Promo";
         }
         public double CalculateNewPriceWithDiscount(Cart cart)
         {

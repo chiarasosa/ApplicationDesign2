@@ -11,14 +11,12 @@ namespace Obligatorio1.BusinessLogic
 {
     public class ThreeForTwoPromoService : IPromoService
     {
-        public string Name;
         public ThreeForTwoPromoService()
         {
-            this.Name = "3x2 Promo";
         }
         public string GetName()
         {
-            return this.Name;
+            return "3x2 Promo";
         }
         public double CalculateNewPriceWithDiscount(Cart cart)
         {

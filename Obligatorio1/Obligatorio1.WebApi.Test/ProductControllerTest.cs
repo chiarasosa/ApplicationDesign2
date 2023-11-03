@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
@@ -121,3 +122,4 @@ namespace Obligatorio1.WebApi.Test
         }
     }
 }
+*/

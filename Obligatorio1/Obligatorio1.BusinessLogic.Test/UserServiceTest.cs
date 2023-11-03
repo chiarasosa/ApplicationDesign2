@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿/*
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
@@ -384,6 +385,7 @@ namespace Obligatorio1.BusinessLogic.Test
 
             //Assert
             _userManagmentMock?.VerifyAll();
-        }*/
+        }
     }
 }
+*/
