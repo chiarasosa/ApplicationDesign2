@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Obligatorio1.Domain\Obligatorio1.Domain.csproj" />
-    <ProjectReference Include="..\Obligatorio1.IBusinessLogic\Obligatorio1.IBusinessLogic.csproj" />
+    <ProjectReference Include="..\Obligatorio1.PromoInterface\Obligatorio1.PromoInterface.csproj" />
   </ItemGroup>
 
 </Project>

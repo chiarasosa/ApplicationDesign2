@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.ThreeForOnePro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.PromoInterface", "Obligatorio1.PromoInterface\Obligatorio1.PromoInterface.csproj", "{2265CADD-C128-448D-B8B0-7F0E519BFE11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.ThreeForTwoPromo", "Obligatorio1.ThreeForTwoPromo\Obligatorio1.ThreeForTwoPromo.csproj", "{638FE2D7-858F-486A-AE0A-454757807EB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{2265CADD-C128-448D-B8B0-7F0E519BFE11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2265CADD-C128-448D-B8B0-7F0E519BFE11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2265CADD-C128-448D-B8B0-7F0E519BFE11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{638FE2D7-858F-486A-AE0A-454757807EB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{638FE2D7-858F-486A-AE0A-454757807EB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{638FE2D7-858F-486A-AE0A-454757807EB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{638FE2D7-858F-486A-AE0A-454757807EB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
