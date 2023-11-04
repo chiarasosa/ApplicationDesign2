@@ -1,12 +1,14 @@
-﻿using System.Security.Authentication;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.WebApi.Filters;
-//using Obligatorio1.WebApi.Dtos;
 using Obligatorio1.Domain;
+using System;
 
 namespace Obligatorio1.WebApi.Controllers
 {
+    /// <summary>
+    /// Controller for managing user sessions and authentication.
+    /// </summary>
     [Route("api/sessions")]
     [ApiController]
     [ExceptionFilter]
@@ -14,11 +16,20 @@ namespace Obligatorio1.WebApi.Controllers
     {
         private readonly ISessionService _sessionService;
 
+        /// <summary>
+        /// Constructor for SessionController.
+        /// </summary>
+        /// <param name="sessionService">The session service to handle user sessions and authentication.</param>
         public SessionController(ISessionService sessionService)
         {
             _sessionService = sessionService;
         }
 
+        /// <summary>
+        /// Authenticates a user and returns an authentication token.
+        /// </summary>
+        /// <param name="user">User credentials for authentication.</param>
+        /// <returns>Returns an HTTP response with an authentication token if authentication is successful.</returns>
         [HttpPost]
         public IActionResult Login([FromBody] User user)
         {
@@ -26,9 +37,10 @@ namespace Obligatorio1.WebApi.Controllers
             return Ok(new { token = token });
         }
 
-
-        // En los endpoints que quiero usar autenticación, agrego el filtro, si quiero usarlo en todos los endpoints
-        // de un controller lo agrego a nivel de la clase
+        /// <summary>
+        /// Logs out a user, ending the current session.
+        /// </summary>
+        /// <returns>Returns an HTTP response indicating a successful logout.</returns>
         [ServiceFilter(typeof(AuthenticationFilter))]
         [HttpDelete]
         public IActionResult Logout()
@@ -38,6 +50,10 @@ namespace Obligatorio1.WebApi.Controllers
             return Ok("Logout successfully");
         }
 
+        /// <summary>
+        /// Retrieves the user currently logged in.
+        /// </summary>
+        /// <returns>Returns an HTTP response with the user information if a user is logged in.</returns>
         [HttpGet("current-user")]
         public IActionResult GetLoggedInUser()
         {
@@ -52,6 +68,5 @@ namespace Obligatorio1.WebApi.Controllers
                 return NotFound("User not found");
             }
         }
-        
     }
 }

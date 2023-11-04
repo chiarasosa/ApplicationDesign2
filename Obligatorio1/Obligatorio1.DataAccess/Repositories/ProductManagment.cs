@@ -22,12 +22,11 @@ namespace Obligatorio1.DataAccess.Repositories
 
         public Product UpdateProduct(Product product)
         {
-
             Product existingProduct = _repository.GetAll<Product>().FirstOrDefault(m => m.ProductID == product.ProductID);
 
             if (existingProduct == null)
             {
-                throw new UserException($"El producto con ID {product.ProductID} no existe.");
+                throw new UserException($"The product with ID {product.ProductID} does not exist.");
             }
 
             // Actualiza los campos del producto existente
@@ -47,7 +46,7 @@ namespace Obligatorio1.DataAccess.Repositories
         {
             if (_products?.Any(p => p.ProductID == product.ProductID) == true)
             {
-                throw new ProductManagmentException($"El producto con ID {product.ProductID} ya existe.");
+                throw new ProductManagmentException($"The product with ID {product.ProductID} already exists.");
             }
 
             _products?.Add(product);
@@ -80,7 +79,7 @@ namespace Obligatorio1.DataAccess.Repositories
 
             if (prod == null)
             {
-                throw new ProductManagmentException($"Producto con ID {productID} no encontrado");
+                throw new ProductManagmentException($"Product with ID {productID} not found.");
             }
             else
             {
@@ -93,7 +92,7 @@ namespace Obligatorio1.DataAccess.Repositories
         {
             if (prodID < 0)
             {
-                throw new ProductManagmentException("ID del producto inválido");
+                throw new ProductManagmentException("Invalid product ID.");
             }
             else
             {
@@ -101,7 +100,7 @@ namespace Obligatorio1.DataAccess.Repositories
 
                 if (product == null)
                 {
-                    throw new ProductManagmentException("No se encontró ningún ID que coincida");
+                    throw new ProductManagmentException("No matching ID found.");
                 }
                 else
                 {

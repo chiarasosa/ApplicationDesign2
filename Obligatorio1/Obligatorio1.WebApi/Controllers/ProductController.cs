@@ -31,7 +31,7 @@ namespace Obligatorio1.WebApi
         public IActionResult RegisterProduct([FromBody] Product product)
         {
             _productService.RegisterProduct(product);
-            return Ok("Producto registrado correctamente");
+            return Ok("Product registered correctly.");
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Obligatorio1.WebApi
         public IActionResult DeleteProduct([FromRoute] int id)
         {
             _productService.DeleteProduct(id);
-            return Ok("Producto eliminado correctamente.");
+            return Ok("Product disposed correctly.");
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Obligatorio1.WebApi
         public IActionResult UpdateProduct([FromBody] Product product)
         {
             _productService.UpdateProduct(product);
-            return Ok("Producto actualizado correctamente.");
+            return Ok("Product updated successfully.");
         }
     }
 }

@@ -68,6 +68,9 @@ namespace Obligatorio1.WebApi
         /// <summary>
         /// Gets a user by their ID.
         /// </summary>
+        ///<remarks>
+        /// Allows a user with administrator permissions to obtain the user by id.
+        /// </remarks>
         /// <param name="id">The ID of the user to obtain.</param>
         /// <returns>HTTP response with the user found.</returns>
         [TypeFilter(typeof(AuthenticationFilter))]
