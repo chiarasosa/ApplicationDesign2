@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.Exceptions", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.WebApi.Test", "Obligatorio1.WebApi.Test\Obligatorio1.WebApi.Test.csproj", "{FA004F6D-4B43-4710-8968-23887D9056C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.ServiceFactory", "Obligatorio1.ServiceFactory\Obligatorio1.ServiceFactory.csproj", "{EA5B70A3-EE67-49B6-8FAF-BB5768CF284B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Obligatorio1.ServiceFactory", "Obligatorio1.ServiceFactory\Obligatorio1.ServiceFactory.csproj", "{EA5B70A3-EE67-49B6-8FAF-BB5768CF284B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obligatorio1.ThreeForOnePromo", "Obligatorio1.ThreeForOnePromo\Obligatorio1.ThreeForOnePromo.csproj", "{B48679E7-6322-4AFE-93E8-44055EB44D97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{EA5B70A3-EE67-49B6-8FAF-BB5768CF284B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA5B70A3-EE67-49B6-8FAF-BB5768CF284B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA5B70A3-EE67-49B6-8FAF-BB5768CF284B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B48679E7-6322-4AFE-93E8-44055EB44D97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B48679E7-6322-4AFE-93E8-44055EB44D97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B48679E7-6322-4AFE-93E8-44055EB44D97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B48679E7-6322-4AFE-93E8-44055EB44D97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
