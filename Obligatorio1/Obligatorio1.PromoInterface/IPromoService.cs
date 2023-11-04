@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Obligatorio1.Domain;
 
-namespace Obligatorio1.IBusinessLogic
+namespace Obligatorio1.PromoInterface
 {
     public interface IPromoService
     {
