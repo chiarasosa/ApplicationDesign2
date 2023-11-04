@@ -26,7 +26,7 @@ namespace Obligatorio1.WebApi.Filters
 
             if (string.IsNullOrEmpty(authorizationHeader) || !Guid.TryParse(authorizationHeader, out token))
             {
-                context.Result = new ObjectResult(new { Message = "Authorization header is missing" })
+                context.Result = new ObjectResult(new { Message = "Authorization header is missing." })
                 {
                     StatusCode = 401
                 };
@@ -37,7 +37,7 @@ namespace Obligatorio1.WebApi.Filters
 
             if (currentUser == null)
             {
-                context.Result = new ObjectResult(new { Message = "Not authenticated" })
+                context.Result = new ObjectResult(new { Message = "Not authenticated." })
                 {
                     StatusCode = 401
                 };
@@ -45,7 +45,7 @@ namespace Obligatorio1.WebApi.Filters
             }
             else if (currentUser.Role != _roleNeeded)
             {
-                context.Result = new ObjectResult(new { Message = "Debe tener rol Administrador para ejecutar esta operacion" })
+                context.Result = new ObjectResult(new { Message = "Administrator role is required to execute this operation." })
                 {
                     StatusCode = 403
                 };

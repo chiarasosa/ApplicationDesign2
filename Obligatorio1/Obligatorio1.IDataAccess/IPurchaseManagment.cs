@@ -12,5 +12,6 @@ namespace Obligatorio1.IDataAccess
         void CreatePurchase(Guid authToken);
         Purchase GetPurchaseByID(int purchaseID);
         public IEnumerable<Purchase> GetAllPurchases();
+        IEnumerable<Purchase> GetPurchasesByUserID(int userID);
     }
 }

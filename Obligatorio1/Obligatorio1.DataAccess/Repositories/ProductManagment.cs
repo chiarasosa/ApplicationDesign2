@@ -23,8 +23,6 @@ namespace Obligatorio1.DataAccess.Repositories
         public Product UpdateProduct(Product product)
         {
 
-
-            // Busca el producto por su ID
             Product existingProduct = _repository.GetAll<Product>().FirstOrDefault(m => m.ProductID == product.ProductID);
 
             if (existingProduct == null)
@@ -40,12 +38,10 @@ namespace Obligatorio1.DataAccess.Repositories
             existingProduct.Category = product.Category;
             existingProduct.Color = product.Color;
 
-
             _repository.Update(existingProduct);
             _repository.Save();
             return existingProduct;
         }
-
 
         public Product CreateProduct(Product product)
         {
@@ -54,7 +50,6 @@ namespace Obligatorio1.DataAccess.Repositories
                 throw new ProductManagmentException($"El producto con ID {product.ProductID} ya existe.");
             }
 
-            // Agrega el nuevo producto a la lista de productos
             _products?.Add(product);
 
             return product;
@@ -62,7 +57,6 @@ namespace Obligatorio1.DataAccess.Repositories
 
         public void RegisterProduct(Product product)
         {
-            //_products?.Add(product);
             _repository.Insert(product);
             _repository.Save();
         }
@@ -95,9 +89,6 @@ namespace Obligatorio1.DataAccess.Repositories
             }
         }
 
-
-
-
         public Product GetProductByID(int prodID)
         {
             if (prodID < 0)
@@ -118,10 +109,5 @@ namespace Obligatorio1.DataAccess.Repositories
                 }
             }
         }
-
-        /* public List<Product> SearchByParameter(string text, string brand, string category)
-         {
-
-         }*/
     }
 }

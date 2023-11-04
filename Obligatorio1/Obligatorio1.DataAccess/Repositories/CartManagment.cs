@@ -74,7 +74,6 @@ namespace Obligatorio1.DataAccess
             }
         }
 
-
         public IEnumerable<Product> GetAllProductsFromCart(Guid authToken)
         {
             var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });

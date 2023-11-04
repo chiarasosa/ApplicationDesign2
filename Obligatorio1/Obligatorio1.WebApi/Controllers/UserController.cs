@@ -16,7 +16,6 @@ namespace Obligatorio1.WebApi
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private User? _loggedInUser;
 
         /// <summary>
         /// User Controller Constructor.
@@ -37,7 +36,7 @@ namespace Obligatorio1.WebApi
         public IActionResult RegisterUser([FromBody] User user)
         {
             _userService.RegisterUser(user);
-            return Ok("Usuario registrado exitosamente.");
+            return Ok("User successfully registered.");
         }
 
         /// <summary>
@@ -109,7 +108,7 @@ namespace Obligatorio1.WebApi
         public IActionResult DeleteUser([FromRoute] int id)
         {
             _userService.DeleteUser(id);
-            return Ok("Usuario eliminado exitosamente");
+            return Ok("User successfully deleted.");
         }
 
         /// <summary>

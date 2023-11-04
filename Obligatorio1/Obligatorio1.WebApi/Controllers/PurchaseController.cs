@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Obligatorio1.BusinessLogic;
-using Obligatorio1.Domain;
+using Newtonsoft.Json;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.WebApi.Filters;
 
@@ -38,56 +37,110 @@ namespace Obligatorio1.WebApi.Controllers
         /// </summary>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
         [HttpGet]
-        public IActionResult GetAllPurchases()
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
+        public IActionResult GetPurchases()
         {
             var purchases = _purchaseService.GetAllPurchases();
-            return Ok(purchases);
+
+            if (purchases == null || !purchases.Any())
+            {
+                return NotFound("No se encontraron compras en el sistema.");
+            }
+
+            var formattedPurchases = purchases.Select(purchase => new
+            {
+                PurchaseID = purchase.PurchaseID,
+                UserID = purchase.UserID,
+                PromoApplied = purchase.PromoApplied,
+                DateOfPurchase = purchase.DateOfPurchase,
+                PurchasedProducts = purchase.PurchasedProducts.Select(pp => new
+                {
+                    ProductID = pp.ProductID,
+                    Product = pp.Product
+                })
+            });
+
+            var jsonResult = JsonConvert.SerializeObject(formattedPurchases, Formatting.Indented);
+
+            return Ok(jsonResult);
+        }
+
+        /// <summary>
+        /// Get a specific a purchase.
+        /// </summary>
+        /// <param name="id">Id of purchase.</param>
+        /// <returns>Returns HTTP response with the result of the operation.</returns>
+        [HttpGet("{id}")]
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
+        public IActionResult GetSpecificPurchase([FromRoute] int id)
+        {
+            var purchase = _purchaseService.GetPurchaseByID(id);
+
+            if (purchase == null)
+            {
+                return NotFound(new { Message = "No se encontró la compra" });
+            }
+            else
+            {
+                var formattedPurchase = new
+                {
+                    PurchaseID = purchase.PurchaseID,
+                    UserID = purchase.UserID,
+                    PromoApplied = purchase.PromoApplied,
+                    DateOfPurchase = purchase.DateOfPurchase,
+                    PurchasedProducts = purchase.PurchasedProducts.Select(pp => new
+                    {
+                        ProductID = pp.ProductID,
+                        Product = pp.Product
+                    })
+                };
+
+                var jsonResult = JsonConvert.SerializeObject(formattedPurchase, Formatting.Indented);
+
+                return Ok(jsonResult);
+            }
+        }
+
+        /// <summary>
+        /// Get all purchases from a specific user.
+        /// </summary>
+        /// <param name="id">Id of user.</param>
+        /// <returns>Returns HTTP response with the result of the operation.</returns>
+        [HttpGet("usersPurchases/{id}")]
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
+        public IActionResult GetUsersPurchases([FromRoute] int id)
+        {
+            var purchases = _purchaseService.GetPurchasesByUserID(id);
+
+            if (purchases == null || !purchases.Any())
+            {
+                return NotFound(new { Message = "No se encontraron compras para el usuario con ID " + id });
+            }
+            else
+            {
+                var formattedPurchases = purchases.Select(purchase => new
+                {
+                    PurchaseID = purchase.PurchaseID,
+                    UserID = purchase.UserID,
+                    PromoApplied = purchase.PromoApplied,
+                    DateOfPurchase = purchase.DateOfPurchase,
+                    PurchasedProducts = purchase.PurchasedProducts.Select(pp => new
+                    {
+                        ProductID = pp.ProductID,
+                        Product = pp.Product
+                    })
+                });
+
+                var jsonResult = JsonConvert.SerializeObject(formattedPurchases, Formatting.Indented);
+
+                return Ok(jsonResult);
+            }
         }
     }
 }
-/*
-/// <summary>
-/// Get a specific a purchase.
-/// </summary>
-/// <param name="id">Id of purchase.</param>
-/// <returns>Returns HTTP response with the result of the operation.</returns>
-[HttpGet("{id}")]
-public IActionResult GetSpecificPurchase([FromRoute] int id)
-{
-    var purchase = _purchaseService.GetAllPurchases();
-
-    if (purchase == null)
-    {
-        return NotFound(new { Message = "Cant find purchase" });
-    }
-    else
-    {
-        return Ok(purchase);
-    }
-}
-
-
-
-
-/// <summary>
-/// Get all purchases from a specific user.
-/// </summary>
-/// <param name="id">Id of user.</param>
-/// <returns>Returns HTTP response with the result of the operation.</returns>
-[HttpGet("usersPurchases/{id}")]
-public IActionResult GetUsersPurchases([FromRoute] int id)
-{
-    //var purchase = _purchaseService.GetPurchases().Find(x => x.User.UserID == id);
-    var purchases = _purchases.Where(x => x.UserID == id).ToList();
-
-
-    if (purchases == null)
-    {
-        return NotFound(new { Message = "Cant find users purchases" });
-    }
-    else
-    {
-        return Ok(purchases);
-    }
-}*/
-//}

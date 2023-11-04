@@ -26,7 +26,7 @@ namespace Obligatorio1.BusinessLogic
             }
             else
             {
-                throw new UserException("El nombre de usuario o el correo electrónico ya están en uso o son inválidos.");
+                throw new UserException("The username or email is already in use or invalid.");
             }
         }
 
@@ -35,7 +35,7 @@ namespace Obligatorio1.BusinessLogic
         {
             if (user == null || user.UserName == string.Empty || user.Password == string.Empty)
             {
-                throw new UserException("Usuario inválido");
+                throw new UserException("Invalid User");
             }
 
             return true;
@@ -60,7 +60,7 @@ namespace Obligatorio1.BusinessLogic
         {
             if (IsUserValid(user))
                 return _userManagment.UpdateUserProfile(user);
-            throw new UserException("Actualización fallida. Datos de usuario incorrectos."); ;
+            throw new UserException("Update failed. Incorrect user data."); ;
         }
 
         public User GetUserByID(int userID)
@@ -71,7 +71,7 @@ namespace Obligatorio1.BusinessLogic
 
             if (user == null)
             {
-                throw new UserException($"Usuario con ID {userID} no encontrado.");
+                throw new UserException($"User with ID {userID} not found.");
             }
 
             return user;
@@ -83,7 +83,7 @@ namespace Obligatorio1.BusinessLogic
 
             if (users == null)
             {
-                throw new UserException("Error al obtener la lista de usuarios.");
+                throw new UserException("Error getting list of users.");
             }
 
             return users;
@@ -95,7 +95,7 @@ namespace Obligatorio1.BusinessLogic
 
             if (userToDelete == null)
             {
-                throw new UserException($"Usuario con ID {userID} no encontrado.");
+                throw new UserException($"User with ID {userID} not found.");
             }
 
             _userManagment.DeleteUser(userID);

@@ -37,6 +37,30 @@ namespace Obligatorio1.BusinessLogic
                 throw new PurchaseException("Error inesperado al obtener todas las compras."); 
             }
         }
+
+        public Purchase GetPurchaseByID(int purchaseID) 
+        {
+            try
+            {
+                var purchase = _purchaseManagment.GetPurchaseByID(purchaseID);
+                return purchase;
+            }
+            catch
+            {
+                throw new PurchaseException("Error inesperado al obtener la compra.");
+            }
+        }
+        public IEnumerable<Purchase> GetPurchasesByUserID(int userID)
+        {
+            try
+            {
+                var purchase = _purchaseManagment.GetPurchasesByUserID(userID);
+                return purchase;
+            }
+            catch
+            {
+                throw new PurchaseException("Error inesperado al obtener la compra.");
+            }
+        }
     }
 }
-

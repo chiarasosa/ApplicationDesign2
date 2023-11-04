@@ -10,14 +10,16 @@ namespace Obligatorio1.DataAccess.Repositories
         private readonly IGenericRepository<Purchase> _purchaseRepository;
         private readonly IGenericRepository<Session> _sessionRepository;
         private readonly ICartManagment _cartManagment;
+        private readonly IProductManagment _productManagment;
         private readonly IGenericRepository<PurchaseProduct> _purchaseProductRepository;
         public PurchaseManagment(IGenericRepository<Purchase> purchaseRepositoy, IGenericRepository<Session> sessionRepository,
-                                 ICartManagment cartManagment, IGenericRepository<PurchaseProduct> purchaseProductRepository)
+                                 ICartManagment cartManagment, IGenericRepository<PurchaseProduct> purchaseProductRepository, IProductManagment productManagment)
         {
             _purchaseRepository = purchaseRepositoy;
             _sessionRepository = sessionRepository;
             _cartManagment = cartManagment;
             _purchaseProductRepository = purchaseProductRepository;
+            _productManagment = productManagment;
         }
         public void CreatePurchase(Guid authToken)
         {
@@ -68,10 +70,23 @@ namespace Obligatorio1.DataAccess.Repositories
                     var purchaseProducts = _purchaseProductRepository
                         .GetAll<PurchaseProduct>()
                         .Where(pp => pp.PurchaseID == purchase.PurchaseID)
-                        .Select(pp => pp.Product)
                         .ToList();
 
-                  //  purchase.PurchasedProducts = purchaseProducts.Cast<Product>;
+                    // Crear una lista para almacenar los productos asociados a la compra.
+                    List<Product> products = new List<Product>();
+
+                    foreach (var purchaseProduct in purchaseProducts)
+                    {
+                        // Obtener el producto por su ID desde el sistema de gestión de productos.
+                        Product product = _productManagment.GetProductByID(purchaseProduct.ProductID);
+
+                        if (product != null)
+                        {
+                            products.Add(product); // Agregar el producto a la lista si se encuentra en la base de datos.
+                        }
+                    }
+
+                   // purchase = products;
                 }
 
                 return purchases;
@@ -80,26 +95,78 @@ namespace Obligatorio1.DataAccess.Repositories
             {
                 throw new PurchaseException("No se encontraron compras en el sistema.");
             }
-
         }
 
         public Purchase GetPurchaseByID(int purchaseID)
         {
-
             if (purchaseID <= 0)
             {
-                throw new PurchaseException("ID de purchase inválido.");
+                throw new PurchaseException("ID de compra inválido.");
             }
 
-            Purchase? p = _purchaseRepository.GetAll<Purchase>().FirstOrDefault(p => p.PurchaseID == purchaseID);
+            Purchase purchase = _purchaseRepository.GetAll<Purchase>().FirstOrDefault(p => p.PurchaseID == purchaseID);
 
-            if (p == null)
+            if (purchase == null)
             {
-                throw new PurchaseException($"No se encontró ningúna compra con el ID {purchaseID}.");
+                throw new PurchaseException($"No se encontró ninguna compra con el ID {purchaseID}.");
             }
 
-            return p;
+            var purchaseProducts = _purchaseProductRepository
+                .GetAll<PurchaseProduct>()
+                .Where(pp => pp.PurchaseID == purchase.PurchaseID)
+                .ToList();
 
+            // Crear una lista de Productos asociados a la compra
+            List<Product> products = new List<Product>();
+            foreach (var purchaseProduct in purchaseProducts)
+            {
+                Product product = _productManagment.GetProductByID(purchaseProduct.ProductID);
+                if (product != null)
+                {
+                    products.Add(product);
+                }
+            }
+
+            return purchase;
+        }
+
+        public IEnumerable<Purchase> GetPurchasesByUserID(int userID)
+        {
+            if (userID <= 0)
+            {
+                throw new PurchaseException("ID de usuario inválido.");
+            }
+
+            var purchases = _purchaseRepository.GetAll<Purchase>()
+                .Where(p => p.UserID == userID)
+                .ToList();
+
+            if (purchases == null || !purchases.Any())
+            {
+                throw new PurchaseException($"No se encontraron compras para el usuario con ID {userID}.");
+            }
+
+            foreach (var purchase in purchases)
+            {
+                var purchaseProducts = _purchaseProductRepository
+                    .GetAll<PurchaseProduct>()
+                    .Where(pp => pp.PurchaseID == purchase.PurchaseID)
+                    .ToList();
+
+                List<Product> products = new List<Product>();
+                foreach (var purchaseProduct in purchaseProducts)
+                {
+                    Product product = _productManagment.GetProductByID(purchaseProduct.ProductID);
+                    if (product != null)
+                    {
+                        products.Add(product);
+                    }
+                }
+
+              //  purchase.Products = products;
+            }
+
+            return purchases;
         }
     }
 }

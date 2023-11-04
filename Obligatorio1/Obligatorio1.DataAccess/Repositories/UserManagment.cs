@@ -7,14 +7,12 @@ namespace Obligatorio1.DataAccess.Repositories
     public class UserManagment : IUserManagment
     {
         private List<User>? _users;
-       // private User? _authenticatedUser;
         private List<Purchase>? _purchases;
         private List<Product>? _products;
         private readonly IGenericRepository<User> _userRepository;
         private readonly IGenericRepository<Session> _sessionRepository;
         public UserManagment(IGenericRepository<User> userRepositoy, IGenericRepository<Session> sessionRepository)
         {
-            //_authenticatedUser = null;
             _purchases = new List<Purchase>();
             _products = new List<Product>();
             _userRepository = userRepositoy;
@@ -32,14 +30,13 @@ namespace Obligatorio1.DataAccess.Repositories
             var existingUser = _userRepository.GetAll<User>().FirstOrDefault(u => u.UserID == user.UserID);
 
             if (existingUser == null)
-                throw new UserException("El usuario no existe.");
+                throw new UserException("Username does not exist.");
 
             existingUser.UserName = user.UserName;
             existingUser.Password = user.Password;
             existingUser.Email = user.Email;
             existingUser.Address = user.Address;
             existingUser.Role = user.Role;
-           // existingUser.Cart = user.Cart;
 
             _userRepository.Update(existingUser);
             _userRepository.Save();
@@ -51,14 +48,14 @@ namespace Obligatorio1.DataAccess.Repositories
         {
             if (userId <= 0)
             {
-                throw new UserException("ID de usuario inválido.");
+                throw new UserException("Invalid user ID.");
             }
 
             User? user = _userRepository.GetAll<User>().FirstOrDefault(u => u.UserID == userId);
 
             if (user == null)
             {
-                throw new UserException($"No se encontró ningún usuario con el ID {userId}.");
+                throw new UserException($"No user with ID {userId} was found.");
             }
 
             return user;
@@ -81,7 +78,7 @@ namespace Obligatorio1.DataAccess.Repositories
 
             if (userToDelete == null)
             {
-                throw new UserException($"Usuario con ID {userID} no encontrado.");
+                throw new UserException($"User with ID {userID} not found.");
             }
 
             _userRepository.Delete(userToDelete);

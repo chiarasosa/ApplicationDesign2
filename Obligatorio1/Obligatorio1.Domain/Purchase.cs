@@ -12,6 +12,7 @@ namespace Obligatorio1.Domain
         public int UserID { get; set; }
         public User User { get; set; }
         public List<PurchaseProduct> PurchasedProducts { get; set; }
+
         public string PromoApplied { get; set; }
         public DateTime? DateOfPurchase { get; set; }
 

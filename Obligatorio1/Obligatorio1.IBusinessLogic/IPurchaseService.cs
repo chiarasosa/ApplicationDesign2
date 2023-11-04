@@ -11,5 +11,7 @@ namespace Obligatorio1.IBusinessLogic
     {
         void CreatePurchase(Guid authToken);
         IEnumerable<Purchase> GetAllPurchases();
+        public Purchase GetPurchaseByID(int purchaseID);
+        IEnumerable<Purchase> GetPurchasesByUserID(int userID);
     }
 }
