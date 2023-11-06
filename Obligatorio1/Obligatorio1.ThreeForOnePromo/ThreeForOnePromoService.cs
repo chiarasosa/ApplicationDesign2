@@ -4,20 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Obligatorio1.Domain;
-using Obligatorio1.IBusinessLogic;
+using Obligatorio1.PromoInterface;
 
 namespace Obligatorio1.BusinessLogic
 {
     public class ThreeForOnePromoService : IPromoService
     {
-        public string Name;
+        public string Name = "3x1 Promo";
         public ThreeForOnePromoService()
         {
-            this.Name = "3x1 Promo";
         }
         public string GetName()
         {
-            return this.Name;
+            return "3x1 Promo";
         }
         public double CalculateNewPriceWithDiscount(Cart cart)
         {

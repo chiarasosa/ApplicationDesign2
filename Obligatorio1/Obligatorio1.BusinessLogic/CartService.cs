@@ -11,48 +11,30 @@ namespace Obligatorio1.BusinessLogic
     {
         private readonly ICartManagment _cartManagment;
         private readonly IPromoManagerManagment promoManagerManagment;
+        private readonly IPromotionsService promotionsService;
 
-        public CartService(ICartManagment cartManagment, IPromoManagerManagment promoManagerManagment)
+        public CartService(ICartManagment cartManagment, IPromoManagerManagment promoManagerManagment, IPromotionsService promotionsService)
         {
             this._cartManagment = cartManagment;
             this.promoManagerManagment = promoManagerManagment;
+            this.promotionsService = promotionsService;
         }
 
         public void AddProductToCart(Product product, Guid authToken)
         {
             _cartManagment.AddProductToCart(product, authToken);
-            //ApplyBestPromotion(authToken);
+            ApplyBestPromotionCart(authToken);
         }
 
         public void DeleteProductFromCart(Product product, Guid authToken)
         {
             _cartManagment.DeleteProductFromCart(product, authToken);
-            // ApplyBestPromotion(authToken);
+            ApplyBestPromotionCart(authToken);
         }
 
         public Cart ApplyBestPromotionCart(Guid authToken)
         {
-            Cart cart = _cartManagment.GetCart(authToken);
-            if (cart.Products != null)
-            {
-                List<IPromoService> availablePromotions = promoManagerManagment.GetAvailablePromotions();
-                if (availablePromotions.Count() > 0)
-                {
-                    double bestDiscount = cart.TotalPrice;
-                    foreach (IPromoService promotion in availablePromotions)
-                    {
-                        double price = promotion.CalculateNewPriceWithDiscount(cart);
-                        if (price < bestDiscount)
-                        {
-                            bestDiscount = price;
-                            cart.PromotionApplied = promotion.GetName();
-                        }
-                        bestDiscount = Math.Min(bestDiscount, price);
-
-                    }
-                    cart.TotalPrice = bestDiscount;
-                }
-            }
+            Cart cart = promotionsService.ApplyBestPromotionToCart(authToken);
             _cartManagment.UpdateCartWithDiscount(cart, authToken);
             return cart;
         }
