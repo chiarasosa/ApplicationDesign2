@@ -10,6 +10,7 @@ namespace Obligatorio1.BusinessLogic
 {
     public class ThreeForTwoPromoService : IPromoService
     {
+        public string Name = "3x2 Promo";
         public ThreeForTwoPromoService()
         {
         }

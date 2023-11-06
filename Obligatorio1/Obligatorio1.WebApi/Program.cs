@@ -12,6 +12,7 @@ using Obligatorio1.DataAccess.Repositories;
 using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
+using Obligatorio1.IBusinessLogic;
 using Serilog;
 using System;
 using System.IO;

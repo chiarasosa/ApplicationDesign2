@@ -10,8 +10,11 @@ namespace Obligatorio1.BusinessLogic
 {
     public class TotalLookPromoService : IPromoService
     {
+        public string Name = "Total Look Promo";
+
         public TotalLookPromoService()
         {
+
         }
 
         public string GetName()
