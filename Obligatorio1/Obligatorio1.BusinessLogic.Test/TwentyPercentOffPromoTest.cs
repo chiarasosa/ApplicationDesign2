@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿/*
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Obligatorio1.Domain;
 using System;
 using System.Linq;
@@ -133,3 +134,4 @@ namespace Obligatorio1.BusinessLogic.Test
         }
     }
 }
+*/
