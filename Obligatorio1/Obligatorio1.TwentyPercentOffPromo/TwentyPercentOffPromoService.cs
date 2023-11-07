@@ -10,7 +10,6 @@ namespace Obligatorio1.BusinessLogic
 {
     public class TwentyPercentOffPromoService : IPromoService
     {
-        public string Name = "20% Off Promo";
         public TwentyPercentOffPromoService()
         {
  
@@ -22,28 +21,13 @@ namespace Obligatorio1.BusinessLogic
         }
         public double CalculateNewPriceWithDiscount(Cart cart)
         {
-            if (!CartHas2OrMoreItems(cart))
+            if (!(cart.Products.Count >= 2))
             {
                 return cart.TotalPrice;
             }
             cart.TotalPrice -= cart.Products.Max(p => p.Price) * 0.2;
 
             return cart.TotalPrice;
-        }
-
-        public bool CartHas2OrMoreItems(Cart cart)
-        {
-            if (cart.Products != null)
-            {
-                int counter = 0;
-                foreach (Product item in cart.Products)
-                {
-                    counter++;
-                    if (counter == 2)
-                        return true;
-                }
-            }
-            return false;
         }
 
     }

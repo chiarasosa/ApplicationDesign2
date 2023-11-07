@@ -7,7 +7,7 @@ using Obligatorio1.PromoInterface;
 namespace Obligatorio1.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/cart")]
+    [Route("api/carts")]
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;

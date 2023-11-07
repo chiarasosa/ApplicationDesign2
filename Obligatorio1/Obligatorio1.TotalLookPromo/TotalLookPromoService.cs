@@ -10,8 +10,6 @@ namespace Obligatorio1.BusinessLogic
 {
     public class TotalLookPromoService : IPromoService
     {
-        public string Name = "Total Look Promo";
-
         public TotalLookPromoService()
         {
 
@@ -24,12 +22,12 @@ namespace Obligatorio1.BusinessLogic
 
         public double CalculateNewPriceWithDiscount(Cart cart)
         {
-            if (!CartHas3OrMoreItems(cart))
+            if (!(cart.Products.Count >= 3))
             {
                 return cart.TotalPrice;
             }
 
-            Dictionary<string, List<Product>> productsByColor = GroupProductsByColor(cart);
+            Dictionary<string, List<Product>> productsByColor = PromoUtility.GroupProductsBy(cart, product => product.Color);
 
             string colorWithDiscount = FindColorWithMaxDiscount(productsByColor);
 
@@ -63,21 +61,7 @@ namespace Obligatorio1.BusinessLogic
             return colorWithMaxDiscount;
         }
 
-        public bool CartHas3OrMoreItems(Cart cart)
-        {
-            if (cart.Products != null)
-            {
-                int counter = 0;
-                foreach (Product item in cart.Products)
-                {
-                    counter++;
-                    if (counter == 3)
-                        return true;
-                }
-            }
-            return false;
-        }
-
+        /*
         public Dictionary<string, List<Product>> GroupProductsByColor(Cart cart)
         {
             Dictionary<string, List<Product>> productsByColor = new Dictionary<string, List<Product>>();
@@ -95,6 +79,7 @@ namespace Obligatorio1.BusinessLogic
 
             return productsByColor;
         }
+        */
 
         public double ApplyDiscountToCart(Cart cart, List<Product> productsToDiscount)
         {

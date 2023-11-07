@@ -10,7 +10,6 @@ namespace Obligatorio1.BusinessLogic
 {
     public class ThreeForTwoPromoService : IPromoService
     {
-        public string Name = "3x2 Promo";
         public ThreeForTwoPromoService()
         {
         }
@@ -20,12 +19,12 @@ namespace Obligatorio1.BusinessLogic
         }
         public double CalculateNewPriceWithDiscount(Cart cart)
         {
-            if (!CartHas3OrMoreItems(cart))
+            if (!(cart.Products.Count >= 3))
             {
                 return cart.TotalPrice;
             }
 
-            Dictionary<int, List<Product>> productsByCategory = GroupProductsByCategory(cart);
+            Dictionary<int, List<Product>> productsByCategory = PromoUtility.GroupProductsBy(cart, product => product.Category);
 
             int categoryWithDiscount = FindCategoryWithMaxDiscount(productsByCategory);
 
@@ -59,21 +58,7 @@ namespace Obligatorio1.BusinessLogic
             return categoryWithMaxDiscount;
         }
 
-        public bool CartHas3OrMoreItems(Cart cart)
-        {
-            if (cart.Products != null)
-            {
-                int counter = 0;
-                foreach (Product item in cart.Products)
-                {
-                    counter++;
-                    if (counter == 3)
-                        return true;
-                }
-            }
-            return false;
-        }
-
+        /*
         public Dictionary<int, List<Product>> GroupProductsByCategory(Cart cart)
         {
             Dictionary<int, List<Product>> productsByCategory = new Dictionary<int, List<Product>>();
@@ -89,6 +74,7 @@ namespace Obligatorio1.BusinessLogic
 
             return productsByCategory;
         }
+        */
 
         public double ApplyDiscountToCart(Cart cart, List<Product> productsToDiscount)
         {

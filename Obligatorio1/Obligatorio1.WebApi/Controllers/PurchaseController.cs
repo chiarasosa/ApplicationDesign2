@@ -7,7 +7,7 @@ namespace Obligatorio1.WebApi.Controllers
 {
     [ApiController]
 
-    [Route("api/purchase")]
+    [Route("api/purchases")]
     public class PurchaseController : ControllerBase
     {
         private readonly IPurchaseService _purchaseService;
