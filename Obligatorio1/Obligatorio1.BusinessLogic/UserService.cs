@@ -9,12 +9,14 @@ namespace Obligatorio1.BusinessLogic
 {
     public class UserService : IUserService
     {
-        private readonly IUserManagment _userManagment;
-       
+        private readonly IGenericRepository<User> _userRepository;
+        private readonly IGenericRepository<Session> _sessionRepository;
 
-        public UserService(IUserManagment userManagment)
+
+        public UserService(IGenericRepository<User> userRepositoy, IGenericRepository<Session> sessionRepository)
         {
-            this._userManagment = userManagment;
+            _userRepository = userRepositoy;
+            _sessionRepository = sessionRepository;
         }
 
         public void RegisterUser(User user)
@@ -22,7 +24,8 @@ namespace Obligatorio1.BusinessLogic
 
             if (IsUserValid(user) && !IsUserNameAlreadyTaken(user.UserName) && !IsEmailAlreadyTaken(user.Email))
             {
-                _userManagment.RegisterUser(user);
+                _userRepository.Insert(user);
+                _userRepository.Save();
             }
             else
             {
@@ -43,14 +46,14 @@ namespace Obligatorio1.BusinessLogic
 
         private bool IsUserNameAlreadyTaken(string userName)
         {
-            IEnumerable<User> users = _userManagment.GetAllUsers();
+            IEnumerable<User> users = GetUsers();
 
             return users.Any(u => u.UserName == userName);
         }
 
         private bool IsEmailAlreadyTaken(string email)
         {
-            IEnumerable<User> users = _userManagment.GetAllUsers();
+            IEnumerable<User> users = GetUsers();
 
             return users.Any(u => u.Email == email);
         }
@@ -59,15 +62,36 @@ namespace Obligatorio1.BusinessLogic
         public User UpdateUserProfile(User user)
         {
             if (IsUserValid(user))
-                return _userManagment.UpdateUserProfile(user);
-            throw new UserException("Update failed. Incorrect user data."); ;
+            {
+                var existingUser = _userRepository.GetAll<User>().FirstOrDefault(u => u.UserID == user.UserID);
+
+                if (existingUser == null)
+                    throw new UserException("Username does not exist.");
+
+                existingUser.UserName = user.UserName;
+                existingUser.Password = user.Password;
+                existingUser.Email = user.Email;
+                existingUser.Address = user.Address;
+                existingUser.Role = user.Role;
+
+                _userRepository.Update(existingUser);
+                _userRepository.Save();
+                return existingUser;
+            }
+            else
+            {
+                throw new UserException("Update failed. Incorrect user data.");
+            }
         }
 
         public User GetUserByID(int userID)
-        {
-            User? user = _userManagment.GetUserByID(userID);
+        {           
+            if (userID <= 0)
+            {
+                throw new UserException("Invalid user ID.");
+            }
 
-
+            User? user = _userRepository.GetAll<User>().FirstOrDefault(u => u.UserID == userID);
 
             if (user == null)
             {
@@ -79,26 +103,28 @@ namespace Obligatorio1.BusinessLogic
 
         public IEnumerable<User> GetUsers()
         {
-            IEnumerable<User>? users = _userManagment.GetAllUsers();
-
-            if (users == null)
+            var result = _userRepository.GetAll<User>();
+            if (result != null)
             {
-                throw new UserException("Error getting list of users.");
+                return result;
             }
-
-            return users;
+            else
+            {
+                return Enumerable.Empty<User>();
+            }
         }
 
         public User DeleteUser(int userID)
         {
-            User userToDelete = _userManagment.GetUserByID(userID);
+            User? userToDelete = _userRepository.GetAll<User>().FirstOrDefault(u => u.UserID == userID);
 
             if (userToDelete == null)
             {
                 throw new UserException($"User with ID {userID} not found.");
             }
 
-            _userManagment.DeleteUser(userID);
+            _userRepository.Delete(userToDelete);
+            _userRepository.Save();
 
             return userToDelete;
         }
