@@ -11,12 +11,12 @@ namespace Obligatorio1.BusinessLogic
     {
         private readonly IGenericRepository<Session> _sessionRepository;
         private readonly IGenericRepository<Cart> _cartRepository;
-        private readonly ProductService _productService;
+        private readonly IProductService _productService;
         private readonly IGenericRepository<CartProduct> _cartProductRepository;
-        private readonly PromotionsService _promotionsService;
+        private readonly IPromotionsService _promotionsService;
 
         public CartService(IGenericRepository<Session> sessionRepository, IGenericRepository<Cart> cartRepository, 
-            ProductService productService, IGenericRepository<CartProduct> cartProductRepository, PromotionsService promotionsService)
+            IProductService productService, IGenericRepository<CartProduct> cartProductRepository, IPromotionsService promotionsService)
         {
             _cartRepository = cartRepository;
             _sessionRepository = sessionRepository;

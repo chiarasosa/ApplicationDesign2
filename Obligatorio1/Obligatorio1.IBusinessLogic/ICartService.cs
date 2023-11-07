@@ -15,5 +15,7 @@ namespace Obligatorio1.IBusinessLogic
         Cart ApplyBestPromotionCart(Guid authToken);
         public String GetPromottionAppliedCart(Guid authToken);
         public double GetTotalPriceCart(Guid authToken);
+        List<CartProduct> GetCartProductsByCartID(int cartID);
+
     }
 }

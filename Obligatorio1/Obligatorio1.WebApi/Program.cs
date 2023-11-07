@@ -42,11 +42,7 @@ namespace Obligatorio1.WebApi
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IUserService, Obligatorio1.BusinessLogic.UserService>();
 
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IProductService, Obligatorio1.BusinessLogic.ProductService>();
-            builder.Services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, UserManagment>();
-
-            builder.Services.AddScoped<Obligatorio1.IDataAccess.IPromoManagerManagment, PromoManagerManagment>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.ICartService, Obligatorio1.BusinessLogic.CartService>();
-            builder.Services.AddScoped<Obligatorio1.IDataAccess.IProductManagment, ProductManagment>();
             builder.Services.AddDbContext<Context>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<User>, Obligatorio1.DataAccess.Repositories.GenericRepository<User>>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<Product>, Obligatorio1.DataAccess.Repositories.GenericRepository<Product>>();
@@ -56,12 +52,8 @@ namespace Obligatorio1.WebApi
             builder.Services.AddScoped<Obligatorio1.WebApi.Filters.AuthenticationFilter>();
             builder.Services.AddScoped<Obligatorio1.WebApi.Filters.AuthorizationRolFilter>();
             builder.Services.AddScoped<AuthorizationRolFilter>();
-
-            builder.Services.AddScoped<Obligatorio1.IDataAccess.IUserManagment, Obligatorio1.DataAccess.Repositories.UserManagment>();
-            builder.Services.AddScoped<Obligatorio1.IDataAccess.IPromoManagerManagment, Obligatorio1.DataAccess.Repositories.PromoManagerManagment>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IPurchaseManagment, Obligatorio1.DataAccess.Repositories.PurchaseManagment>();
-            builder.Services.AddScoped<Obligatorio1.IDataAccess.ICartManagment, Obligatorio1.DataAccess.CartManagment>();
-            builder.Services.AddScoped<Obligatorio1.IDataAccess.ICartProductManagment, Obligatorio1.DataAccess.CartProductManagment>();
+           
             builder.Services.AddScoped<Obligatorio1.Domain.User>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IPurchaseService, Obligatorio1.BusinessLogic.PurchaseService>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IPromotionsService, Obligatorio1.BusinessLogic.PromotionsService>();
