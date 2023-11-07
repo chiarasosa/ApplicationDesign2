@@ -14,23 +14,34 @@ namespace Obligatorio1.BusinessLogic
 {
     public class ProductService : IProductService
     {
-        private readonly IProductManagment productsManagement;
+        private readonly IGenericRepository<Product> _repository;
 
-        public ProductService(IProductManagment productsManagement)
+        public ProductService(IGenericRepository<Product> productRepositoy)
         {
-            this.productsManagement = productsManagement;
+            _repository = productRepositoy;
         }
 
         public Product GetProductByID(int prodID)
         {
-            Product? prod = productsManagement.GetProductByID(prodID);
-
-            if (prod == null)
+            if (prodID < 0)
             {
-                throw new ProductManagmentException("Producto no encontrado");
+                throw new ProductManagmentException("Invalid product ID.");
             }
-            return prod;
+            else
+            {
+                Product? product = _repository.GetAll<Product>().FirstOrDefault(m => m.ProductID == prodID);
+
+                if (product == null)
+                {
+                    throw new ProductManagmentException("No matching ID found.");
+                }
+                else
+                {
+                    return product;
+                }
+            }
         }
+
         public void RegisterProduct(Product product)
         {
             if (product == null || product.Price <= 0 || product.Brand <= 0 || product.Name == string.Empty)
@@ -39,49 +50,58 @@ namespace Obligatorio1.BusinessLogic
             }
             else
             {
-                productsManagement.RegisterProduct(product);
+                _repository.Insert(product);
+                _repository.Save();
             }
         }
 
         public IEnumerable<Product> GetProducts()
         {
-            IEnumerable<Product>? prod = productsManagement.GetProducts();
-
-            if (prod == null)
+            var result = _repository.GetAll<Product>();
+            if (result == null)
             {
-                throw new ProductManagmentException("Error al obtener la lista de productos.");
+                return Enumerable.Empty<Product>();
             }
-
-            return prod;
+            else
+            {
+                return result;
+            }
         }
 
         public void DeleteProduct(int productID)
         {
-            Product product = productsManagement.GetProductByID(productID);
+            Product product = GetProductByID(productID);
             if (product == null)
             {
                 throw new ProductManagmentException("Producto no encontrado");
             }
             else
             {
-                productsManagement.DeleteProduct(productID);
+                _repository.Delete(product);
+                _repository.Save();
             }
         }
 
         public Product UpdateProduct(Product prod)
         {
-            try
+            Product existingProduct = GetProductByID(prod.ProductID);
+
+            if (existingProduct == null)
             {
-                return productsManagement.UpdateProduct(prod);
+                throw new UserException($"The product with ID {prod.ProductID} does not exist.");
             }
-            catch (ProductManagmentException e)
-            {
-                throw new ProductManagmentException($"Error al actualizar el producto: {e.Message}");
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Error inesperado al actualizar el producto: {e.Message}", e);
-            }
+
+            // Actualiza los campos del producto existente
+            existingProduct.Name = prod.Name;
+            existingProduct.Description = prod.Description;
+            existingProduct.Price = prod.Price;
+            existingProduct.Brand = prod.Brand;
+            existingProduct.Category = prod.Category;
+            existingProduct.Color = prod.Color;
+
+            _repository.Update(existingProduct);
+            _repository.Save();
+            return existingProduct;
         }
     }
 }

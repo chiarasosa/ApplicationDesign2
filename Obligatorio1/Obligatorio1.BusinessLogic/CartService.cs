@@ -9,39 +9,109 @@ namespace Obligatorio1.BusinessLogic
 {
     public class CartService : ICartService
     {
-        private readonly ICartManagment _cartManagment;
-        private readonly IPromoManagerManagment promoManagerManagment;
-        private readonly IPromotionsService promotionsService;
+        private readonly IGenericRepository<Session> _sessionRepository;
+        private readonly IGenericRepository<Cart> _cartRepository;
+        private readonly ProductService _productService;
+        private readonly IGenericRepository<CartProduct> _cartProductRepository;
+        private readonly PromotionsService _promotionsService;
 
-        public CartService(ICartManagment cartManagment, IPromoManagerManagment promoManagerManagment, IPromotionsService promotionsService)
+        public CartService(IGenericRepository<Session> sessionRepository, IGenericRepository<Cart> cartRepository, 
+            ProductService productService, IGenericRepository<CartProduct> cartProductRepository, PromotionsService promotionsService)
         {
-            this._cartManagment = cartManagment;
-            this.promoManagerManagment = promoManagerManagment;
-            this.promotionsService = promotionsService;
+            _cartRepository = cartRepository;
+            _sessionRepository = sessionRepository;
+            _productService = productService;
+            _cartProductRepository = cartProductRepository;
+            _promotionsService = promotionsService;
         }
 
         public void AddProductToCart(Product product, Guid authToken)
         {
-            _cartManagment.AddProductToCart(product, authToken);
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+            if (session != null)
+            {
+                var cart = session.User.Cart;
+                if (cart.Products == null)
+                    cart.Products = new List<Product>();
+
+                if (cart.CartProducts == null)
+                    cart.CartProducts = new List<CartProduct>();
+
+                var cartProduct = new CartProduct();
+                cartProduct.Product = product;
+                cartProduct.ProductID = product.ProductID;
+                cartProduct.CartID = cart.CartID;
+                cartProduct.Cart = cart;
+
+                cart.Products.Add(product);
+                cart.CartProducts.Add(cartProduct);
+                cart.TotalPrice = cart.TotalPrice + product.Price;
+                _cartRepository.Update(cart);
+                _cartRepository.Save();
+            }
             ApplyBestPromotionCart(authToken);
         }
 
         public void DeleteProductFromCart(Product product, Guid authToken)
         {
-            _cartManagment.DeleteProductFromCart(product, authToken);
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+            if (session != null)
+            {
+                var cart = session.User.Cart;
+
+                if (cart != null)
+                {
+                    var cartProducts = GetCartProductsByCartID(cart.CartID);
+
+                    var cartProductToDelete = cartProducts.FirstOrDefault(cp => cp.ProductID == product.ProductID);
+
+                    if (cartProductToDelete != null)
+                    {
+                        cartProducts.Remove(cartProductToDelete);
+                        cart.CartProducts = cartProducts;
+                        _cartRepository.Update(cart);
+                        _cartRepository.Save();
+                    }
+                }
+            }
             ApplyBestPromotionCart(authToken);
         }
 
         public Cart ApplyBestPromotionCart(Guid authToken)
         {
-            Cart cart = promotionsService.ApplyBestPromotionToCart(authToken);
-            _cartManagment.UpdateCartWithDiscount(cart, authToken);
+            Cart cart = _promotionsService.ApplyBestPromotionToCart(authToken);
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+            if (session != null)
+            {
+                session.User.Cart = cart;
+                _cartRepository.Update(cart);
+                _cartRepository.Save();
+            }
             return cart;
         }
 
         public IEnumerable<Product> GetAllProductsFromCart(Guid authToken)
         {
-            IEnumerable<Product> products = _cartManagment.GetAllProductsFromCart(authToken);
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+            List<Product> products = new List<Product>(); // Lista para almacenar los productos
+
+            if (session != null && session.User != null && session.User.Cart != null)
+            {
+                var cart = session.User.Cart;
+                var cartProducts = GetCartProductsByCartID(cart.CartID);
+
+                // Obtener una lista de IDs de productos del carrito.
+                List<int> productIds = cartProducts.Select(cp => cp.ProductID).ToList();
+
+                foreach (int productId in productIds)
+                {
+                    Product product = _productService.GetProductByID(productId);
+                    if (product != null)
+                    {
+                        products.Add(product);
+                    }
+                }
+            }
             if (products != null)
             {
                 return products;
@@ -51,8 +121,14 @@ namespace Obligatorio1.BusinessLogic
 
         public String GetPromottionAppliedCart(Guid authToken) {
 
-            string result = "";
-            result= _cartManagment.GetPromottionAppliedCart(authToken);
+            var result = "";
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+
+            if (session != null && session.User != null && session.User.Cart != null &&
+               (session.User.Cart.PromotionApplied != null && session.User.Cart.PromotionApplied != ""))
+            {
+                result = session.User.Cart.PromotionApplied;
+            }
 
             if (result == null || result == "")
                 throw new CartException("El carrito no tiene una promocion aplicada");
@@ -63,9 +139,34 @@ namespace Obligatorio1.BusinessLogic
         public double GetTotalPriceCart(Guid authToken) {
 
             double totalPrice = 0;
-            totalPrice = _cartManagment.GetTotalPriceCart(authToken);
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+
+            if (session != null && session.User != null && session.User.Cart != null)
+            {
+                totalPrice = session.User.Cart.TotalPrice;
+            }
 
             return totalPrice;
+        }
+
+        public List<CartProduct> GetCartProductsByCartID(int cartID)
+        {
+            if (cartID <= 0)
+            {
+                throw new CartProductException("ID de carrito inválido.");
+            }
+
+            List<CartProduct> cartProducts = _cartProductRepository
+                .GetAll<CartProduct>()
+                .Where(cp => cp.CartID == cartID)
+                .ToList(); // Agregamos ToList() para materializar los resultados
+
+            if (!cartProducts.Any())
+            {
+                throw new CartProductException($"No existen productos asociados al carrito con el ID {cartID}.");
+            }
+
+            return cartProducts;
         }
     }
 }

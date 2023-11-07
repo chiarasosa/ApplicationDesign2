@@ -116,7 +116,7 @@ namespace Obligatorio1.BusinessLogic
 
         public User DeleteUser(int userID)
         {
-            User? userToDelete = _userRepository.GetAll<User>().FirstOrDefault(u => u.UserID == userID);
+            User? userToDelete = GetUserByID(userID);
 
             if (userToDelete == null)
             {
