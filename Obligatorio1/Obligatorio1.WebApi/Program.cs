@@ -10,6 +10,7 @@ using System.IO;
 using Obligatorio1.IDataAccess;
 using Obligatorio1.WebApi.Filters;
 using System.Reflection;
+using Obligatorio1.ServiceFactory1;
 
 namespace Obligatorio1.WebApi
 {
@@ -60,7 +61,11 @@ namespace Obligatorio1.WebApi
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<CartProduct>, Obligatorio1.DataAccess.Repositories.GenericRepository<CartProduct>>();
             builder.Services.AddScoped<Obligatorio1.IDataAccess.IGenericRepository<PurchaseProduct>, Obligatorio1.DataAccess.Repositories.GenericRepository<PurchaseProduct>>();
 
+            var servicesFactory = new ServiceFactory();
+            servicesFactory.RegistrateServices(builder.Services);
+
             var app = builder.Build();
+            app.UseCors();
 
             if (app.Environment.IsDevelopment())
             {
