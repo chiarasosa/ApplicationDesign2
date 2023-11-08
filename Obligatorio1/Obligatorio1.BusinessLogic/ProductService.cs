@@ -103,5 +103,48 @@ namespace Obligatorio1.BusinessLogic
             _repository.Save();
             return existingProduct;
         }
+
+        public IEnumerable<Product> GetProductsRange(int min, int max)
+        {
+            IEnumerable<Product>? prod = GetProducts();
+
+            if (prod == null)
+            {
+                throw new ProductManagmentException("Error al obtener la lista de productos.");
+            }
+            else
+            {
+                IEnumerable<Product> productosFiltrados = prod.Where(producto =>
+            producto.Price >= min &&
+            producto.Price <= max);
+                return productosFiltrados;
+
+            }
+
+            return prod;
+
+        }
+
+        public IEnumerable<Product> GetProductsSearch(int marca, int categoria, string texto)
+        {
+            IEnumerable<Product>? prod = GetProducts();
+
+            if (prod == null)
+            {
+                throw new ProductManagmentException("Error al obtener la lista de productos.");
+            }
+            else
+            {
+                IEnumerable<Product> productosFiltrados = prod.Where(producto =>
+            producto.Brand == marca ||
+            producto.Category == categoria ||
+            producto.Description == texto);
+                return productosFiltrados;
+
+            }
+
+            return prod;
+
+        }
     }
 }
