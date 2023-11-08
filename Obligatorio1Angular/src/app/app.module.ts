@@ -7,6 +7,7 @@ import { InicioSesionComponent } from './componentes/inicio-sesion/inicio-sesion
 import { RegistrarComponent } from './componentes/registrar/registrar.component';
 import { LandingPageComponent } from './componentes/landing-page/landing-page.component';
 import { BarraComponent } from './componentes/barra/barra.component';
+import { ListaProductosComponent } from './lista-productos/lista-productos.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { BarraComponent } from './componentes/barra/barra.component';
     InicioSesionComponent,
     RegistrarComponent,
     LandingPageComponent,
-    BarraComponent
+    BarraComponent,
+    ListaProductosComponent
   ],
   imports: [
     BrowserModule,
