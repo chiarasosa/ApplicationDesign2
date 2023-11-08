@@ -15,10 +15,10 @@ public class PromotionsService : IPromotionsService
         _sessionRepository = sessionRepository;
     }
 
-    public Cart ApplyBestPromotionToCart(Guid AuthToken)
+    public Cart ApplyBestPromotionToCart(Cart cart)
     {
-        var session = _sessionRepository.Get(s => s.AuthToken == AuthToken, new List<string>() { "User.Cart" });
-        Cart cart = session.User.Cart;
+        //var session = _sessionRepository.Get(s => s.AuthToken == AuthToken, new List<string>() { "User.Cart" });
+        //Cart cart = session.User.Cart;
         if (cart.Products != null)
         {
             List<IPromoService> promos = GetPromotionsAvailable();
@@ -35,6 +35,11 @@ public class PromotionsService : IPromotionsService
             }
         }
         return cart;
+    }
+
+    public string MetodoPrueba(Cart cart)
+    {
+        return ApplyBestPromotionToCart(cart).PromotionApplied;
     }
 
     public List<IPromoService> GetPromotionsAvailable()

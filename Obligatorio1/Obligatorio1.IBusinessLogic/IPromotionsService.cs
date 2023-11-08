@@ -10,7 +10,8 @@ namespace Obligatorio1.IBusinessLogic
 {
     public interface IPromotionsService
     {
-        Cart ApplyBestPromotionToCart(Guid AuthToken);
+        Cart ApplyBestPromotionToCart(Cart cart);
         List<IPromoService> GetPromotionsAvailable();
+        string MetodoPrueba(Cart cart);
     }
 }

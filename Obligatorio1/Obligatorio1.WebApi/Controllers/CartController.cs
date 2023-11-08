@@ -2,7 +2,6 @@
 using Obligatorio1.Domain;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.WebApi.Filters;
-using Obligatorio1.PromoInterface;
 
 namespace Obligatorio1.WebApi.Controllers
 {
@@ -11,16 +10,14 @@ namespace Obligatorio1.WebApi.Controllers
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;
-        private readonly IPromotionsService _promotionsService;
 
         /// <summary>
         /// Constructor of Cart Controller.
         /// </summary>
         /// <param name="cartService">Cart Services.</param>
-        public CartController(ICartService cartService, IPromotionsService promotionsService)
+        public CartController(ICartService cartService)
         {
             _cartService = cartService;
-            _promotionsService = promotionsService;
         }
 
         /// <summary>
@@ -36,6 +33,13 @@ namespace Obligatorio1.WebApi.Controllers
             var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
             _cartService.AddProductToCart(product, authToken);
             return Ok("Product added to cart successfully.");
+        }
+
+        [HttpGet("Prueba")]
+        public IActionResult MetodoPrueba()
+        {
+            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
+            return Ok(_cartService.MetodoPrueba(authToken));
         }
 
         /// <summary>
@@ -96,20 +100,6 @@ namespace Obligatorio1.WebApi.Controllers
 
             return Ok(price);
         }
-
-
-        //PRUEBA REFLECTION
-
-        [HttpGet("Promotions")]
-        public IActionResult GetPromotionsAvailable()
-        {
-            List<IPromoService> promos = _promotionsService.GetPromotionsAvailable();
-            List<string> names = new List<string>();
-            foreach (var promotion in promos)
-            {
-                names.Add(promotion.GetName());
-            }
-            return Ok(names);
-        }
+        
     }
 }

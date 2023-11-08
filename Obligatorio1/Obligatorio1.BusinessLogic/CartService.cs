@@ -43,13 +43,21 @@ namespace Obligatorio1.BusinessLogic
                 cartProduct.CartID = cart.CartID;
                 cartProduct.Cart = cart;
 
+                cart.Products = GetAllProductsFromCart(authToken).ToList();
                 cart.Products.Add(product);
                 cart.CartProducts.Add(cartProduct);
                 cart.TotalPrice = cart.TotalPrice + product.Price;
+                cart = _promotionsService.ApplyBestPromotionToCart(cart);
                 _cartRepository.Update(cart);
                 _cartRepository.Save();
             }
-            ApplyBestPromotionCart(authToken);
+            
+        }
+
+        public string MetodoPrueba(Guid authToken)
+        {
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+            return _promotionsService.MetodoPrueba(session.User.Cart);
         }
 
         public void DeleteProductFromCart(Product product, Guid authToken)
@@ -69,25 +77,12 @@ namespace Obligatorio1.BusinessLogic
                     {
                         cartProducts.Remove(cartProductToDelete);
                         cart.CartProducts = cartProducts;
+                        cart = _promotionsService.ApplyBestPromotionToCart(cart);
                         _cartRepository.Update(cart);
                         _cartRepository.Save();
                     }
                 }
             }
-            ApplyBestPromotionCart(authToken);
-        }
-
-        public Cart ApplyBestPromotionCart(Guid authToken)
-        {
-            Cart cart = _promotionsService.ApplyBestPromotionToCart(authToken);
-            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
-            if (session != null)
-            {
-                session.User.Cart = cart;
-                _cartRepository.Update(cart);
-                _cartRepository.Save();
-            }
-            return cart;
         }
 
         public IEnumerable<Product> GetAllProductsFromCart(Guid authToken)

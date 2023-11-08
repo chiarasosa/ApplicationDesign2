@@ -15,13 +15,13 @@ namespace Obligatorio1.Domain
         [NotMapped]
         public List<Product> Products { get; set; }
         public double TotalPrice { get; set; }
-        public string? PromotionApplied { get; set; }
+        public string PromotionApplied { get; set; }
         public int UserID { get; set; }
         public Cart()
         {
             this.CartProducts = new List<CartProduct>();
             this.TotalPrice = 0;
-            this.PromotionApplied = null;
+            this.PromotionApplied = "none";
         }
     }
 }

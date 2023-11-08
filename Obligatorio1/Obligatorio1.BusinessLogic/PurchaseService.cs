@@ -44,6 +44,7 @@ namespace Obligatorio1.BusinessLogic
                     PurchasedProducts = new List<PurchaseProduct>(), 
                     PromoApplied = "Promo 1",
                     DateOfPurchase = DateTime.Today,
+                    PaymentMethod = "Nada"
                 };
 
                 // Agregar productos a la compra
