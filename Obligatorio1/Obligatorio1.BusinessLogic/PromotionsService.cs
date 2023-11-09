@@ -35,11 +35,6 @@ public class PromotionsService : IPromotionsService
         return cart;
     }
 
-    public string MetodoPrueba(Cart cart)
-    {
-        return ApplyBestPromotionToCart(cart).PromotionApplied;
-    }
-
     public List<IPromoService> GetPromotionsAvailable()
     {
         List<IPromoService> availablePromotions = new List<IPromoService>();
