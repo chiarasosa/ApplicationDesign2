@@ -17,8 +17,6 @@ public class PromotionsService : IPromotionsService
 
     public Cart ApplyBestPromotionToCart(Cart cart)
     {
-        //var session = _sessionRepository.Get(s => s.AuthToken == AuthToken, new List<string>() { "User.Cart" });
-        //Cart cart = session.User.Cart;
         if (cart.Products != null)
         {
             List<IPromoService> promos = GetPromotionsAvailable();
@@ -47,7 +45,6 @@ public class PromotionsService : IPromotionsService
         List<IPromoService> availablePromotions = new List<IPromoService>();
         string promosPath = "./Promotions";
         string[] filePaths = Directory.GetFiles(promosPath);
-        // "./Importers/JsonImporter.dll" y "./Importers/XmlImporter.dll"
 
         foreach (string filePath in filePaths)
         {

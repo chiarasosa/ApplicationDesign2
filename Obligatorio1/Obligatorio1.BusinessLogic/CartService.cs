@@ -50,14 +50,7 @@ namespace Obligatorio1.BusinessLogic
                 cart = _promotionsService.ApplyBestPromotionToCart(cart);
                 _cartRepository.Update(cart);
                 _cartRepository.Save();
-            }
-            
-        }
-
-        public string MetodoPrueba(Guid authToken)
-        {
-            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
-            return _promotionsService.MetodoPrueba(session.User.Cart);
+            }          
         }
 
         public void DeleteProductFromCart(Product product, Guid authToken)
@@ -88,14 +81,13 @@ namespace Obligatorio1.BusinessLogic
         public IEnumerable<Product> GetAllProductsFromCart(Guid authToken)
         {
             var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
-            List<Product> products = new List<Product>(); // Lista para almacenar los productos
+            List<Product> products = new List<Product>();
 
             if (session != null && session.User != null && session.User.Cart != null)
             {
                 var cart = session.User.Cart;
                 var cartProducts = GetCartProductsByCartID(cart.CartID);
 
-                // Obtener una lista de IDs de productos del carrito.
                 List<int> productIds = cartProducts.Select(cp => cp.ProductID).ToList();
 
                 foreach (int productId in productIds)
@@ -154,7 +146,7 @@ namespace Obligatorio1.BusinessLogic
             List<CartProduct> cartProducts = _cartProductRepository
                 .GetAll<CartProduct>()
                 .Where(cp => cp.CartID == cartID)
-                .ToList(); // Agregamos ToList() para materializar los resultados
+                .ToList();
 
             if (!cartProducts.Any())
             {

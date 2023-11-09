@@ -13,6 +13,7 @@ namespace Obligatorio1.WebApi
     /// </summary>
     [ApiController]
     [Route("api/users")]
+    [TypeFilter(typeof(ExceptionFilter))]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -32,7 +33,6 @@ namespace Obligatorio1.WebApi
         /// <param name="user">The user data to register.</param>
         /// <returns>HTTP response indicating the result of the registration.</returns>
         [HttpPost]
-        [TypeFilter(typeof(ExceptionFilter))]
         public IActionResult RegisterUser([FromBody] User user)
         {
             _userService.RegisterUser(user);
@@ -49,7 +49,6 @@ namespace Obligatorio1.WebApi
         [HttpGet]
         [TypeFilter(typeof(AuthenticationFilter))]
         [TypeFilter(typeof(AuthorizationRolFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         public IActionResult GetAllUsers()
         {
             var users = _userService.GetUsers().Select(u => new
@@ -61,7 +60,6 @@ namespace Obligatorio1.WebApi
                 u.Address,
                 u.Role
             }).ToList();
-
             return Ok(users);
         }
 
@@ -75,12 +73,10 @@ namespace Obligatorio1.WebApi
         /// <returns>HTTP response with the user found.</returns>
         [TypeFilter(typeof(AuthenticationFilter))]
         [TypeFilter(typeof(AuthorizationRolFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         [HttpGet("{id}")]
         public IActionResult GetUserByID([FromRoute] int id)
         {
             var user = _userService.GetUserByID(id);
-
             var userDto = new
             {
                 user.UserID,
@@ -90,7 +86,6 @@ namespace Obligatorio1.WebApi
                 user.Address,
                 user.Role
             };
-
             return Ok(userDto);
         }
 
@@ -106,7 +101,6 @@ namespace Obligatorio1.WebApi
         /// <response code="400">Error in the request or deleting the user.</response>
         [TypeFilter(typeof(AuthenticationFilter))]
         [TypeFilter(typeof(AuthorizationRolFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         [HttpDelete("{id}")]
         public IActionResult DeleteUser([FromRoute] int id)
         {
@@ -125,12 +119,10 @@ namespace Obligatorio1.WebApi
         /// <response code="400">Error in the request or updating user information.</response>
         [TypeFilter(typeof(AuthenticationFilter))]
         [TypeFilter(typeof(AuthorizationRolFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         [HttpPut("UpdateUserProfile")]
         public IActionResult UpdateUserProfile([FromBody] User user)
         {
             var updatedUser = _userService.UpdateUserProfile(user);
-
             var userDto = new
             {
                 user.UserID,
@@ -140,7 +132,6 @@ namespace Obligatorio1.WebApi
                 user.Address,
                 user.Role
             };
-
             return Ok(userDto);
         }
     }

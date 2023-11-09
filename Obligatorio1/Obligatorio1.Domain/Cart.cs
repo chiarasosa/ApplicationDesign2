@@ -21,7 +21,7 @@ namespace Obligatorio1.Domain
         {
             this.CartProducts = new List<CartProduct>();
             this.TotalPrice = 0;
-            this.PromotionApplied = "none";
+            this.PromotionApplied = null;
         }
     }
 }

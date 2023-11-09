@@ -11,7 +11,7 @@ namespace Obligatorio1.WebApi.Controllers
     /// </summary>
     [Route("api/sessions")]
     [ApiController]
-    [ExceptionFilter]
+    [TypeFilter(typeof(ExceptionFilter))]
     public class SessionController : ControllerBase
     {
         private readonly ISessionService _sessionService;

@@ -6,8 +6,9 @@ using Obligatorio1.WebApi.Filters;
 namespace Obligatorio1.WebApi.Controllers
 {
     [ApiController]
-
     [Route("api/purchases")]
+    [TypeFilter(typeof(AuthenticationFilter))]
+    [TypeFilter(typeof(ExceptionFilter))]
     public class PurchaseController : ControllerBase
     {
         private readonly IPurchaseService _purchaseService;
@@ -23,8 +24,6 @@ namespace Obligatorio1.WebApi.Controllers
         /// <param name="cart">Cart that wants to be purchased.</param>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
         [HttpPost]
-        [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         public IActionResult CreatePurchase()
         {
             var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
@@ -37,9 +36,7 @@ namespace Obligatorio1.WebApi.Controllers
         /// </summary>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
         [HttpGet]
-        [TypeFilter(typeof(AuthenticationFilter))]
         [TypeFilter(typeof(AuthorizationRolFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         public IActionResult GetPurchases()
         {
             var purchases = _purchaseService.GetAllPurchases();
@@ -73,9 +70,7 @@ namespace Obligatorio1.WebApi.Controllers
         /// <param name="id">Id of purchase.</param>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
         [HttpGet("{id}")]
-        [TypeFilter(typeof(AuthenticationFilter))]
         [TypeFilter(typeof(AuthorizationRolFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         public IActionResult GetSpecificPurchase([FromRoute] int id)
         {
             var purchase = _purchaseService.GetPurchaseByID(id);
@@ -111,9 +106,7 @@ namespace Obligatorio1.WebApi.Controllers
         /// <param name="id">Id of user.</param>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
         [HttpGet("usersPurchases/{id}")]
-        [TypeFilter(typeof(AuthenticationFilter))]
         [TypeFilter(typeof(AuthorizationRolFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         public IActionResult GetUsersPurchases([FromRoute] int id)
         {
             var purchases = _purchaseService.GetPurchasesByUserID(id);

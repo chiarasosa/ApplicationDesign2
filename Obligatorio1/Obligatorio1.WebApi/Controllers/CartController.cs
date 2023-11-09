@@ -7,6 +7,8 @@ namespace Obligatorio1.WebApi.Controllers
 {
     [ApiController]
     [Route("api/carts")]
+    [TypeFilter(typeof(AuthenticationFilter))]
+    [TypeFilter(typeof(ExceptionFilter))]
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;
@@ -25,8 +27,6 @@ namespace Obligatorio1.WebApi.Controllers
         /// </summary>
         /// <param name="product">Product that wants to be added.</param>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         [HttpPost]
         public IActionResult AddProductToCart([FromBody] Product product)
         {
@@ -35,20 +35,11 @@ namespace Obligatorio1.WebApi.Controllers
             return Ok("Product added to cart successfully.");
         }
 
-        [HttpGet("Prueba")]
-        public IActionResult MetodoPrueba()
-        {
-            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
-            return Ok(_cartService.MetodoPrueba(authToken));
-        }
-
         /// <summary>
         /// Deletes a product from the cart and refreshes the final price with best promotion.
         /// </summary>
         /// <param name="product">Product that wants to be deleted.</param>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         [HttpDelete]
         public IActionResult DeleteProductFromCart([FromBody] Product product)
         {
@@ -61,8 +52,6 @@ namespace Obligatorio1.WebApi.Controllers
         /// Gets the list of products from the cart.
         /// </summary>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         [HttpGet()]
         public IActionResult GetProductsFromCart()
         {
@@ -75,8 +64,6 @@ namespace Obligatorio1.WebApi.Controllers
         /// Gets the promotion applied to the cart.
         /// </summary>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         [HttpGet("PromotionApplied")]
         public IActionResult GetPromoAppliedToCart()
         {
@@ -90,8 +77,6 @@ namespace Obligatorio1.WebApi.Controllers
         /// Gets the total price of the cart.
         /// </summary>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         [HttpGet("TotalPrice")]
         public IActionResult GetTotalPrice()
         {

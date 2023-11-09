@@ -39,8 +39,7 @@ namespace Obligatorio1.DataAccess.Repositories
                     query = query.Include(include);
                 }
             }
-            return query.Where(searchCondition).Select(x => x)
-                .FirstOrDefault();
+            return query.Where(searchCondition).Select(x => x).FirstOrDefault();
         }
 
         public virtual IEnumerable<U> GetAll<U>() where U : class
@@ -51,8 +50,7 @@ namespace Obligatorio1.DataAccess.Repositories
         {
             Context.Set<T>().Remove(entity);
         }
-
-      
+   
         public void Update(T entity)
         {
             Context.Entry(entity).State = EntityState.Modified;

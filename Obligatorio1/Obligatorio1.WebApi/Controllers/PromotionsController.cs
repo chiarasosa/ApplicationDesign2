@@ -7,21 +7,25 @@ using Obligatorio1.PromoInterface;
 namespace Obligatorio1.WebApi.Controllers
 {
     [ApiController]
-
+    [TypeFilter(typeof(ExceptionFilter))]
     [Route("api/promotions")]
     public class PromotionsController : ControllerBase
     {
         private readonly IPromotionsService _promotionsService;
 
         /// <summary>
-        /// Constructor of Cart Controller.
+        /// Constructor of Promotions Controller.
         /// </summary>
-        /// <param name="cartService">Cart Services.</param>
+        /// <param name="promotinosService">Promotions Services.</param>
         public PromotionsController(IPromotionsService promotionsService)
         {
             _promotionsService = promotionsService;
         }
 
+        /// <summary>
+        /// Get all the promotions available.
+        /// </summary>
+        /// <returns>HTTP response indicating the result of all the promotions available.</returns>
         [HttpGet()]
         public IActionResult GetPromotionsAvailable()
         {

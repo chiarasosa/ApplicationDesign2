@@ -9,7 +9,9 @@ namespace Obligatorio1.WebApi
 {
     [ApiController]
     [Route("api/products")]
-
+    [TypeFilter(typeof(AuthenticationFilter))]
+    [TypeFilter(typeof(AuthorizationRolFilter))]
+    [TypeFilter(typeof(ExceptionFilter))]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -24,9 +26,6 @@ namespace Obligatorio1.WebApi
         /// </summary>
         /// <param name="product">Product data to register.</param>
         /// <returns> HTTP response with the register result.</returns>
-        [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(AuthorizationRolFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         [HttpPost]
         public IActionResult RegisterProduct([FromBody] Product product)
         {
@@ -38,9 +37,6 @@ namespace Obligatorio1.WebApi
         /// Obtains the list of registered products in the system.
         /// </summary>
         /// <returns> HTTP response with the list of products.</returns>
-        [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(AuthorizationRolFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         [HttpGet]
         public IActionResult GetProducts()
         {
@@ -53,9 +49,6 @@ namespace Obligatorio1.WebApi
         /// </summary>
         /// <param name="id">ID from the product searched.</param>
         /// <returns> HTTP response with the required product.</returns>
-        [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(AuthorizationRolFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         [HttpGet("{id}")]
         public IActionResult GetProductByID([FromRoute] int id)
         {
@@ -71,9 +64,6 @@ namespace Obligatorio1.WebApi
         /// /// <response code="204">The product was deleted successfully.</response>
         /// <response code="404">The product with ID wasnt able to be found.</response>
         /// <response code="400">Error with the request.</response>
-        [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(AuthorizationRolFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct([FromRoute] int id)
         {
@@ -89,9 +79,6 @@ namespace Obligatorio1.WebApi
         /// <response code="204">The product was updated successfully.</response>
         /// <response code="404">The product with the specified ID was not found.</response>
         /// <response code="400">Error with the request.</response>
-        [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(AuthorizationRolFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
         [HttpPut("UpdateProduct")]
         public IActionResult UpdateProduct([FromBody] Product product)
         {

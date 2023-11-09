@@ -47,7 +47,6 @@ namespace Obligatorio1.BusinessLogic
                     PaymentMethod = "Nada"
                 };
 
-                // Agregar productos a la compra
                 foreach (var product in cart.Products)
                 {
                     var purchaseProduct = new PurchaseProduct
