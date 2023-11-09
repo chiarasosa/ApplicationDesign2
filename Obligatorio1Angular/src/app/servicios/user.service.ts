@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IUserService, Session } from '../interfaces/user-service';
+import { UserEndpoints } from '../networking/endpoints';
 
-enum UserEndpoints{
-  LOGIN='http://localhost:5222/api/sessions'
-}
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,7 @@ export class UserService implements IUserService {
   public login():Observable<Session>{
     return this._httpService.post<Session>(UserEndpoints.LOGIN,{
 
-      
+
     })
   }
 }
