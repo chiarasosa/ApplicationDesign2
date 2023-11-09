@@ -12,6 +12,5 @@ namespace Obligatorio1.IBusinessLogic
     {
         Cart ApplyBestPromotionToCart(Cart cart);
         List<IPromoService> GetPromotionsAvailable();
-        string MetodoPrueba(Cart cart);
     }
 }

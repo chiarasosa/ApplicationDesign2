@@ -130,7 +130,7 @@ namespace Obligatorio1.BusinessLogic
 
         }
 
-        public IEnumerable<Product> GetProductsSearch(int marca, int categoria, string texto)
+        public IEnumerable<Product> GetProductsInPromotions()
         {
             IEnumerable<Product>? prod = GetProducts();
 
@@ -141,15 +141,10 @@ namespace Obligatorio1.BusinessLogic
             else
             {
                 IEnumerable<Product> productosFiltrados = prod.Where(producto =>
-            producto.Brand == marca ||
-            producto.Category == categoria ||
-            producto.Description == texto);
+            producto.AvailableToPromotions == true);
                 return productosFiltrados;
 
             }
-
-            return prod;
-
         }
     }
 }

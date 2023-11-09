@@ -19,12 +19,13 @@ namespace Obligatorio1.BusinessLogic
         }
         public double CalculateNewPriceWithDiscount(Cart cart)
         {
-            if (!(cart.Products.Count >= 3))
+            if (!(PromoUtility.ProductsWithPromotions(cart).Count >= 3))
             {
                 return cart.TotalPrice;
             }
 
-            Dictionary<int, List<Product>> productsByBrand = PromoUtility.GroupProductsBy(cart, product => product.Brand);
+            Dictionary<int, List<Product>> productsByBrand = PromoUtility.GroupProductsBy(PromoUtility.ProductsWithPromotions(cart),
+                product => product.Brand);
 
             int brandWithDiscount = FindBrandWithMaxDiscount(productsByBrand);
 
