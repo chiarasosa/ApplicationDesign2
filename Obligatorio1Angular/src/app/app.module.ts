@@ -8,6 +8,9 @@ import { RegistrarComponent } from './componentes/registrar/registrar.component'
 import { LandingPageComponent } from './componentes/landing-page/landing-page.component';
 import { BarraComponent } from './componentes/barra/barra.component';
 import { ListaProductosComponent } from './componentes/lista-productos/lista-productos.component';
+import { ProductoComponent } from './componentes/producto/producto.component';
+import { PromocionComponent } from './promocion/promocion.component';
+import { CompraComponent } from './compra/compra.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import { ListaProductosComponent } from './componentes/lista-productos/lista-pro
     RegistrarComponent,
     LandingPageComponent,
     BarraComponent,
-    ListaProductosComponent
+    ListaProductosComponent,
+    ProductoComponent,
+    PromocionComponent,
+    CompraComponent
   ],
   imports: [
     BrowserModule,

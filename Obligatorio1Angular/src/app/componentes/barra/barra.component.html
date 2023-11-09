@@ -1,1 +1,30 @@
-<p>barra works!</p>
+<!--<ul>
+    <li><a href="#home">Comprar</a></li>
+    <li><a href="#news">Productos</a></li>
+    <li class="dropdown">
+      <a href="javascript:void(0)" class="dropbtn">Promociones</a>
+      <div class="dropdown-content">
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+      </div>
+    </li>
+  </ul>
+
+-->
+<nav class="navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item" [ngClass]="{ 'active': activeRoute === '/landing' }">
+        <a class="nav-link" [routerLink]="['/landing']"> <h4>Inicio</h4> </a>
+      </li>
+      <li class="nav-item" [ngClass]="{ 'active': activeRoute === '/Producto' }">
+        <a class="nav-link" [routerLink]="['/Producto']"> <h4>Productos</h4></a>
+      </li>
+      <li class="nav-item" [ngClass]="{ 'active': activeRoute === '/profile' }">
+        <a class="nav-link" [routerLink]="['/profile']"><h4>Perfil</h4></a>
+      </li>
+      <li class="nav-item" *ngIf="userRole==='Administrator'" [ngClass]="{ 'active': activeRoute === '/admin' }">
+        <a class="nav-link" [routerLink]="['/admin']"><h4>Administrador</h4></a>
+      </li>
+    </ul>
+  </nav>
