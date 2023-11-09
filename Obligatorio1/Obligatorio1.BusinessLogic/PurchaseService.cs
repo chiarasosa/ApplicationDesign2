@@ -37,15 +37,15 @@ namespace Obligatorio1.BusinessLogic
                 {
                     throw new PurchaseException("El carrito debe tener al menos un elemento para poder realizar la compra.");
                 }
-
+                
                 var newPurchase = new Purchase
                 {
-                    UserID = session.User.UserID, 
-                    PurchasedProducts = new List<PurchaseProduct>(), 
-                    PromoApplied = "Promo 1",
+                    UserID = session.User.UserID,
+                    PromoApplied = cart.PromotionApplied,
                     DateOfPurchase = DateTime.Today,
-                    PaymentMethod = "Nada"
                 };
+
+                cart = ApplyDiscountIfPaganza(cart, newPurchase);
 
                 foreach (var product in cart.Products)
                 {
@@ -55,9 +55,19 @@ namespace Obligatorio1.BusinessLogic
                     };
                     newPurchase.PurchasedProducts.Add(purchaseProduct);
                 }
+
                 _purchaseRepository.Insert(newPurchase);
                 _purchaseRepository.Save();
             }
+        }
+
+        public Cart ApplyDiscountIfPaganza(Cart cart, Purchase purchase)
+        {
+            if(purchase.PaymentMethod == "Paganza")
+            {
+                cart.TotalPrice = cart.TotalPrice * 0.9;
+            }
+            return cart;
         }
 
         public IEnumerable<Purchase> GetAllPurchases()

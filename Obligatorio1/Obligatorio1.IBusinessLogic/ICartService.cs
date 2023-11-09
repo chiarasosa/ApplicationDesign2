@@ -15,7 +15,6 @@ namespace Obligatorio1.IBusinessLogic
         public String GetPromottionAppliedCart(Guid authToken);
         public double GetTotalPriceCart(Guid authToken);
         List<CartProduct> GetCartProductsByCartID(int cartID);
-        string MetodoPrueba(Guid authToken);
 
     }
 }
