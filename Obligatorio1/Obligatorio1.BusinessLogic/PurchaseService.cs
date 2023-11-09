@@ -49,11 +49,20 @@ namespace Obligatorio1.BusinessLogic
 
                 foreach (var product in cart.Products)
                 {
-                    var purchaseProduct = new PurchaseProduct
+                    if(product.Stock > 0)
                     {
-                        ProductID = product.ProductID,
-                    };
-                    newPurchase.PurchasedProducts.Add(purchaseProduct);
+                        var purchaseProduct = new PurchaseProduct
+                        {
+                            ProductID = product.ProductID,
+                        };
+                        newPurchase.PurchasedProducts.Add(purchaseProduct);
+                        _productService.ProductSold(product);
+                    }
+                    else
+                    {
+                        cart.Products.Remove(product);
+                    }
+                    
                 }
 
                 _purchaseRepository.Insert(newPurchase);

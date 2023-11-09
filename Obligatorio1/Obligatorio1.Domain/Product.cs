@@ -15,6 +15,10 @@ namespace Obligatorio1.Domain
         public int Brand { get; set; }
         public int Category { get; set; }
         public string Color { get; set; }
+
+        public bool AvailableToPromotions { get; set; }
+
+        public int Stock { get; set; }
         public Product()
         {
             this.Name = string.Empty;
@@ -23,9 +27,12 @@ namespace Obligatorio1.Domain
             this.Brand = 0;
             this.Category = 0;
             this.Color = string.Empty;
+            this.Stock = 0;
+            this.AvailableToPromotions = true;
         }
 
-        public Product(string name, int price, string description, int brand, int category, string color)
+        public Product(string name, int price, string description, int brand, int category, string color, int stock, 
+            bool availableToPromotions)
         {
             this.Name = name;
             this.Price = price;
@@ -33,6 +40,8 @@ namespace Obligatorio1.Domain
             this.Brand = brand;
             this.Category = category;
             this.Color = color;
+            this.Stock = stock;
+            this.AvailableToPromotions = availableToPromotions;
         }
     }
 }

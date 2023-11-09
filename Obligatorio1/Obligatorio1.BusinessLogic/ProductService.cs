@@ -68,6 +68,13 @@ namespace Obligatorio1.BusinessLogic
             }
         }
 
+        public void ProductSold (Product product)
+        {
+            product.Stock = product.Stock - 1;
+            _repository.Update(product);
+            _repository.Save();
+        }
+
         public void DeleteProduct(int productID)
         {
             Product product = GetProductByID(productID);
@@ -106,22 +113,20 @@ namespace Obligatorio1.BusinessLogic
 
         public IEnumerable<Product> GetProductsRange(int min, int max)
         {
-            IEnumerable<Product>? prod = GetProducts();
+            IEnumerable<Product>? products = GetProducts();
 
-            if (prod == null)
+            if (products == null)
             {
                 throw new ProductManagmentException("Error al obtener la lista de productos.");
             }
             else
             {
-                IEnumerable<Product> productosFiltrados = prod.Where(producto =>
+                IEnumerable<Product> productosFiltrados = products.Where(producto =>
             producto.Price >= min &&
             producto.Price <= max);
                 return productosFiltrados;
 
             }
-
-            return prod;
 
         }
 

@@ -27,31 +27,41 @@ namespace Obligatorio1.BusinessLogic
 
         public void AddProductToCart(Product product, Guid authToken)
         {
-            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
-            if (session != null)
+            Product productToAdd = _productService.GetProductByID(product.ProductID);
+            if (productToAdd.Stock > 0)
             {
-                var cart = session.User.Cart;
-                if (cart.Products == null)
-                    cart.Products = new List<Product>();
+                var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+                if (session != null)
+                {
+                    var cart = session.User.Cart;
+                    if (cart.Products == null)
+                        cart.Products = new List<Product>();
 
-                if (cart.CartProducts == null)
-                    cart.CartProducts = new List<CartProduct>();
+                    if (cart.CartProducts == null)
+                        cart.CartProducts = new List<CartProduct>();
 
-                var cartProduct = new CartProduct();
-                cartProduct.Product = product;
-                cartProduct.ProductID = product.ProductID;
-                cartProduct.CartID = cart.CartID;
-                cartProduct.Cart = cart;
+                    var cartProduct = new CartProduct();
+                    cartProduct.Product = productToAdd;
+                    cartProduct.ProductID = productToAdd.ProductID;
+                    cartProduct.CartID = cart.CartID;
+                    cartProduct.Cart = cart;
 
-                cart.Products = GetAllProductsFromCart(authToken).ToList();
-                cart.Products.Add(product);
-                cart.CartProducts.Add(cartProduct);
-                cart.TotalPrice = cart.TotalPrice + product.Price;
-                cart = _promotionsService.ApplyBestPromotionToCart(cart);
-                _cartRepository.Update(cart);
-                _cartRepository.Save();
-            }          
+                    cart.Products = GetAllProductsFromCart(authToken).ToList();
+                    cart.Products.Add(productToAdd);
+                    cart.CartProducts.Add(cartProduct);
+                    cart.TotalPrice = cart.TotalPrice + productToAdd.Price;
+                    cart = _promotionsService.ApplyBestPromotionToCart(cart);
+                    _cartRepository.Update(cart);
+                    _cartRepository.Save();
+                }
+            }
+            else
+            {
+                throw new CartException("El producto no tiene stock disponible.");
+            }
+                
         }
+
 
         public void DeleteProductFromCart(Product product, Guid authToken)
         {

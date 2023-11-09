@@ -16,5 +16,6 @@ namespace Obligatorio1.IBusinessLogic
         void DeleteProduct(int productID);
         IEnumerable<Product> GetProductsRange(int min, int max);
         IEnumerable<Product> GetProductsSearch(int marca, int categoria, string texto);
+        void ProductSold(Product product);
     }
 }
