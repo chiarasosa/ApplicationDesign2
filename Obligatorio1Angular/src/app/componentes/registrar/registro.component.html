@@ -1,0 +1,22 @@
+<div>
+  <h5>Ingrese nombre:</h5>
+  <input type="text" [(ngModel)]="user.username" name="nombreRegistrar"><br><br>
+
+  <h5>Ingrese contraseña:</h5>
+  <input type="password" [(ngModel)]="user.password" name="contraseñaRegistrar"><br><br>
+
+  <h5>Ingrese mail:</h5>
+  <input type="email" [(ngModel)]="user.email" name="mailRegistrar"><br><br>
+
+  <h5>Ingrese rol:</h5>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" [(ngModel)]="user.role" value="Administrador" name="flexRadioDefault">
+    <label class="form-check-label" for="flexRadioDefault1">Administrador</label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" [(ngModel)]="user.role" value="Comprador" name="flexRadioDefault">
+    <label class="form-check-label" for="flexRadioDefault2">Comprador</label>
+  </div>
+
+  <button (click)="registerUser()">Registrar</button>
+</div>

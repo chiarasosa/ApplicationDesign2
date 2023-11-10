@@ -36,7 +36,10 @@ namespace Obligatorio1.WebApi
         public IActionResult RegisterUser([FromBody] User user)
         {
             _userService.RegisterUser(user);
-            return Ok("User successfully registered.");
+
+            var response = new { message = "User successfully registered." };
+
+            return Ok(response);
         }
 
         /// <summary>
