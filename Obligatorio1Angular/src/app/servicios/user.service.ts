@@ -1,19 +1,28 @@
+// userService.ts
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../interfaces/user.model'; // Asegúrate de importar la interfaz User desde donde corresponda
+import { User } from '../modelos/User';
+import { IUserService, Session } from '../interfaces/user-service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class UserService implements IUserService {
+  private baseUrl = 'https://localhost:7004/api';
 
-  private baseUrl = 'https://localhost:7004/api'; // Reemplaza con la URL de tu API .NET
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
+  public registerUser(user: User): Observable<void> {
+    const url = `${this.baseUrl}/users`;
+    return this.http.post<void>(url, user);
+  }
 
-  public registerUser(user: User): Observable<any> {
-    const url = `${this.baseUrl}/users`; // Asegúrate de que la ruta coincida con la de tu API .NET
-    return this.http.post(url, user);
+ // Método para el inicio de sesión
+   // Ajusta la firma del método para coincidir con la interfaz
+   public loginUser(user: User): Observable<Session> {
+    const url = `${this.baseUrl}/sessions`;
+    return this.http.post<Session>(url, user);
   }
 }

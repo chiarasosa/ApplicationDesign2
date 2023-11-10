@@ -8,7 +8,7 @@ import { ListaProductosComponent } from './componentes/lista-productos/lista-pro
 import { LandingPageComponent } from './componentes/landing-page/landing-page.component';
 
 const routes: Routes = [
-  { path: 'inicioSesion', component: InicioSesionComponent },
+  {path: 'inicioSesion', component: InicioSesionComponent },
   {path: 'Registrar', component: RegistroComponent},
   {path: 'barra', component:BarraComponent},
   {path:'producto',component:ProductoComponent},

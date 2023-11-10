@@ -1,11 +1,14 @@
-import {Observable} from "rxjs/internal/Observable";
+import { Observable } from 'rxjs';
+import { User } from '../modelos/User'; // Asegúrate de importar el modelo User adecuado
 
-export interface Session{
-    token:string;
+export interface Session {
+  token: string;
 }
 
-export interface IUserService{
-    login():Observable<Session>
-}
+export interface IUserService {
 
-//NO SE USA
+  loginUser(user: { email: string, password: string }): Observable<Session>;
+
+  registerUser(user: User): Observable<void>;
+
+}
