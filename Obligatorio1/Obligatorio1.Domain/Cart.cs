@@ -15,7 +15,7 @@ namespace Obligatorio1.Domain
         [NotMapped]
         public List<Product> Products { get; set; }
         public double TotalPrice { get; set; }
-        public string PromotionApplied { get; set; }
+        public string? PromotionApplied { get; set; }
         public int UserID { get; set; }
         public Cart()
         {

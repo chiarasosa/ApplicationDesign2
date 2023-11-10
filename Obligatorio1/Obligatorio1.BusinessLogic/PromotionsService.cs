@@ -48,20 +48,22 @@ public class PromotionsService : IPromotionsService
         {
             if (filePath.EndsWith(".dll"))
             {
-                FileInfo fileInfo = new FileInfo(filePath);
-                AssemblyLoadContext context = new AssemblyLoadContext(null, true);
-                Assembly assembly = context.LoadFromAssemblyPath(fileInfo.FullName);
+                //using (AssemblyLoadContext context = new AssemblyLoadContext(null, true))
+                //    {
+                    FileInfo fileInfo = new FileInfo(filePath);
+                    AssemblyLoadContext context = new AssemblyLoadContext(null, true);
+                    Assembly assembly = context.LoadFromAssemblyPath(fileInfo.FullName);
 
-                foreach (Type type in assembly.GetTypes())
-                {
-                    if (typeof(IPromoService).IsAssignableFrom(type) && !type.IsInterface)
+                    foreach (Type type in assembly.GetTypes())
                     {
-                        IPromoService promotion = (IPromoService)Activator.CreateInstance(type);
-                        if (promotion != null)
-                            availablePromotions.Add(promotion);
+                        if (typeof(IPromoService).IsAssignableFrom(type) && !type.IsInterface)
+                        {
+                            IPromoService promotion = (IPromoService)Activator.CreateInstance(type);
+                            if (promotion != null)
+                                availablePromotions.Add(promotion);
+                        }
                     }
-                }
-                context.Unload();
+                    context.Unload();
             }
         }
 

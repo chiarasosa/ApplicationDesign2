@@ -36,7 +36,7 @@ namespace Obligatorio1.Domain
             this.Address = address;
             this.Role = role;
             this.Purchases = purchases;
-            this.Cart = new Cart();
+            this.Cart = new Cart { Products = new List<Product>() };
         }
     }
 }
