@@ -21,9 +21,14 @@ namespace Obligatorio1.BusinessLogic
         }
         public double CalculateNewPriceWithDiscount(Cart cart)
         {
-            if (!(cart.Products.Count >= 2))
+            if (!(PromoUtility.ProductsWithPromotions(cart).Count >= 2))
             {
                 return cart.TotalPrice;
+            }
+            else
+            {
+                cart.TotalPrice -= PromoUtility.ProductsWithPromotions(cart).Max(p => p.Price) * 0.2;
+ 
             }
             cart.TotalPrice -= cart.Products.Max(p => p.Price) * 0.2;
 

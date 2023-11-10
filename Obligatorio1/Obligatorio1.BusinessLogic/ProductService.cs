@@ -68,6 +68,13 @@ namespace Obligatorio1.BusinessLogic
             }
         }
 
+        public void ProductSold (Product product)
+        {
+            product.Stock = product.Stock - 1;
+            _repository.Update(product);
+            _repository.Save();
+        }
+
         public void DeleteProduct(int productID)
         {
             Product product = GetProductByID(productID);
@@ -82,9 +89,9 @@ namespace Obligatorio1.BusinessLogic
             }
         }
 
-        public Product UpdateProduct(Product prod)
+        public Product UpdateProduct(int id, Product prod)
         {
-            Product existingProduct = GetProductByID(prod.ProductID);
+            Product existingProduct = GetProductByID(id);
 
             if (existingProduct == null)
             {
@@ -98,6 +105,8 @@ namespace Obligatorio1.BusinessLogic
             existingProduct.Brand = prod.Brand;
             existingProduct.Category = prod.Category;
             existingProduct.Color = prod.Color;
+            existingProduct.Stock = prod.Stock;
+            existingProduct.AvailableToPromotions = prod.AvailableToPromotions;
 
             _repository.Update(existingProduct);
             _repository.Save();
@@ -106,26 +115,24 @@ namespace Obligatorio1.BusinessLogic
 
         public IEnumerable<Product> GetProductsRange(int min, int max)
         {
-            IEnumerable<Product>? prod = GetProducts();
+            IEnumerable<Product>? products = GetProducts();
 
-            if (prod == null)
+            if (products == null)
             {
                 throw new ProductManagmentException("Error al obtener la lista de productos.");
             }
             else
             {
-                IEnumerable<Product> productosFiltrados = prod.Where(producto =>
+                IEnumerable<Product> productosFiltrados = products.Where(producto =>
             producto.Price >= min &&
             producto.Price <= max);
                 return productosFiltrados;
 
             }
 
-            return prod;
-
         }
 
-        public IEnumerable<Product> GetProductsSearch(int marca, int categoria, string texto)
+        public IEnumerable<Product> GetProductsInPromotions()
         {
             IEnumerable<Product>? prod = GetProducts();
 
@@ -136,15 +143,10 @@ namespace Obligatorio1.BusinessLogic
             else
             {
                 IEnumerable<Product> productosFiltrados = prod.Where(producto =>
-            producto.Brand == marca ||
-            producto.Category == categoria ||
-            producto.Description == texto);
+            producto.AvailableToPromotions == true);
                 return productosFiltrados;
 
             }
-
-            return prod;
-
         }
     }
 }

@@ -1,9 +1,12 @@
 ﻿using System.Reflection;
+using System.IO;
 using Obligatorio1.Domain;
 using Obligatorio1.IDataAccess;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.Exceptions;
 using Obligatorio1.PromoInterface;
+using System.Runtime.Loader;
+using System.Collections.Generic;
 
 namespace Obligatorio1.BusinessLogic;
 
@@ -17,8 +20,6 @@ public class PromotionsService : IPromotionsService
 
     public Cart ApplyBestPromotionToCart(Cart cart)
     {
-        //var session = _sessionRepository.Get(s => s.AuthToken == AuthToken, new List<string>() { "User.Cart" });
-        //Cart cart = session.User.Cart;
         if (cart.Products != null)
         {
             List<IPromoService> promos = GetPromotionsAvailable();
@@ -37,34 +38,32 @@ public class PromotionsService : IPromotionsService
         return cart;
     }
 
-    public string MetodoPrueba(Cart cart)
-    {
-        return ApplyBestPromotionToCart(cart).PromotionApplied;
-    }
-
     public List<IPromoService> GetPromotionsAvailable()
     {
         List<IPromoService> availablePromotions = new List<IPromoService>();
         string promosPath = "./Promotions";
         string[] filePaths = Directory.GetFiles(promosPath);
-        // "./Importers/JsonImporter.dll" y "./Importers/XmlImporter.dll"
 
         foreach (string filePath in filePaths)
         {
             if (filePath.EndsWith(".dll"))
             {
-                FileInfo fileInfo = new FileInfo(filePath);
-                Assembly assembly = Assembly.LoadFile(fileInfo.FullName);
+                //using (AssemblyLoadContext context = new AssemblyLoadContext(null, true))
+                //    {
+                    FileInfo fileInfo = new FileInfo(filePath);
+                    AssemblyLoadContext context = new AssemblyLoadContext(null, true);
+                    Assembly assembly = context.LoadFromAssemblyPath(fileInfo.FullName);
 
-                foreach (Type type in assembly.GetTypes())
-                {
-                    if (typeof(IPromoService).IsAssignableFrom(type) && !type.IsInterface)
+                    foreach (Type type in assembly.GetTypes())
                     {
-                        IPromoService promotion = (IPromoService)Activator.CreateInstance(type);
-                        if (promotion != null)
-                            availablePromotions.Add(promotion);
+                        if (typeof(IPromoService).IsAssignableFrom(type) && !type.IsInterface)
+                        {
+                            IPromoService promotion = (IPromoService)Activator.CreateInstance(type);
+                            if (promotion != null)
+                                availablePromotions.Add(promotion);
+                        }
                     }
-                }
+                    context.Unload();
             }
         }
 

@@ -10,6 +10,6 @@ namespace Obligatorio1.IBusinessLogic
         IEnumerable<User> GetUsers();
         User GetUserByID(int userID);
         User DeleteUser(int userID);
-        User UpdateUserProfile(User user);
+        User UpdateUserProfile(int id, User user);
     }
 }

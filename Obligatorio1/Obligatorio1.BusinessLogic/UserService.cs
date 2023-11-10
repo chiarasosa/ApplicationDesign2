@@ -59,11 +59,11 @@ namespace Obligatorio1.BusinessLogic
         }
         //***********************************************************
 
-        public User UpdateUserProfile(User user)
+        public User UpdateUserProfile(int id, User user)
         {
-            if (IsUserValid(user))
+            if (GetUserByID(id) != null)
             {
-                var existingUser = _userRepository.GetAll<User>().FirstOrDefault(u => u.UserID == user.UserID);
+                var existingUser = GetUserByID(id);
 
                 if (existingUser == null)
                     throw new UserException("Username does not exist.");

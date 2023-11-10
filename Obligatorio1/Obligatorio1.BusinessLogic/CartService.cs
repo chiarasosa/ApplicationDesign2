@@ -27,38 +27,41 @@ namespace Obligatorio1.BusinessLogic
 
         public void AddProductToCart(Product product, Guid authToken)
         {
-            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
-            if (session != null)
+            Product productToAdd = _productService.GetProductByID(product.ProductID);
+            if (productToAdd.Stock > 0)
             {
-                var cart = session.User.Cart;
-                if (cart.Products == null)
-                    cart.Products = new List<Product>();
+                var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+                if (session != null)
+                {
+                    var cart = session.User.Cart;
+                    if (cart.Products == null)
+                        cart.Products = new List<Product>();
 
-                if (cart.CartProducts == null)
-                    cart.CartProducts = new List<CartProduct>();
+                    if (cart.CartProducts == null)
+                        cart.CartProducts = new List<CartProduct>();
 
-                var cartProduct = new CartProduct();
-                cartProduct.Product = product;
-                cartProduct.ProductID = product.ProductID;
-                cartProduct.CartID = cart.CartID;
-                cartProduct.Cart = cart;
+                    var cartProduct = new CartProduct();
+                    cartProduct.Product = productToAdd;
+                    cartProduct.ProductID = productToAdd.ProductID;
+                    cartProduct.CartID = cart.CartID;
+                    cartProduct.Cart = cart;
 
-                cart.Products = GetAllProductsFromCart(authToken).ToList();
-                cart.Products.Add(product);
-                cart.CartProducts.Add(cartProduct);
-                cart.TotalPrice = cart.TotalPrice + product.Price;
-                cart = _promotionsService.ApplyBestPromotionToCart(cart);
-                _cartRepository.Update(cart);
-                _cartRepository.Save();
+                    cart.Products = GetAllProductsFromCart(authToken).ToList();
+                    cart.Products.Add(productToAdd);
+                    cart.CartProducts.Add(cartProduct);
+                    cart.TotalPrice = cart.TotalPrice + productToAdd.Price;
+                    cart = _promotionsService.ApplyBestPromotionToCart(cart);
+                    _cartRepository.Update(cart);
+                    _cartRepository.Save();
+                }
             }
-            
+            else
+            {
+                throw new CartException("El producto no tiene stock disponible.");
+            }
+                
         }
 
-        public string MetodoPrueba(Guid authToken)
-        {
-            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
-            return _promotionsService.MetodoPrueba(session.User.Cart);
-        }
 
         public void DeleteProductFromCart(Product product, Guid authToken)
         {
@@ -88,14 +91,13 @@ namespace Obligatorio1.BusinessLogic
         public IEnumerable<Product> GetAllProductsFromCart(Guid authToken)
         {
             var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
-            List<Product> products = new List<Product>(); // Lista para almacenar los productos
+            List<Product> products = new List<Product>();
 
             if (session != null && session.User != null && session.User.Cart != null)
             {
                 var cart = session.User.Cart;
                 var cartProducts = GetCartProductsByCartID(cart.CartID);
 
-                // Obtener una lista de IDs de productos del carrito.
                 List<int> productIds = cartProducts.Select(cp => cp.ProductID).ToList();
 
                 foreach (int productId in productIds)
@@ -154,7 +156,7 @@ namespace Obligatorio1.BusinessLogic
             List<CartProduct> cartProducts = _cartProductRepository
                 .GetAll<CartProduct>()
                 .Where(cp => cp.CartID == cartID)
-                .ToList(); // Agregamos ToList() para materializar los resultados
+                .ToList();
 
             if (!cartProducts.Any())
             {

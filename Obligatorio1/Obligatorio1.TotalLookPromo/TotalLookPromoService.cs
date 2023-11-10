@@ -22,12 +22,14 @@ namespace Obligatorio1.BusinessLogic
 
         public double CalculateNewPriceWithDiscount(Cart cart)
         {
-            if (!(cart.Products.Count >= 3))
+            if (!(PromoUtility.ProductsWithPromotions(cart).Count >= 3))
             {
                 return cart.TotalPrice;
             }
 
-            Dictionary<string, List<Product>> productsByColor = PromoUtility.GroupProductsBy(cart, product => product.Color);
+            //solo ordeno los productos que estan incluidos en promociones por su color, los demas los ignoro
+            Dictionary<string, List<Product>> productsByColor = PromoUtility.GroupProductsBy(PromoUtility.ProductsWithPromotions(cart),
+                product => product.Color);
 
             string colorWithDiscount = FindColorWithMaxDiscount(productsByColor);
 
@@ -37,6 +39,19 @@ namespace Obligatorio1.BusinessLogic
             }
 
             return cart.TotalPrice;
+        }
+
+        public List<Product> ProductsWithPromotions(Cart cart)
+        {
+            List<Product> products = new List<Product>();
+            foreach (Product product in cart.Products)
+            {
+                if (product.AvailableToPromotions == true)
+                {
+                    products.Add(product);
+                }
+            }
+            return products;
         }
 
         public string FindColorWithMaxDiscount(Dictionary<string, List<Product>> productsByColor)
