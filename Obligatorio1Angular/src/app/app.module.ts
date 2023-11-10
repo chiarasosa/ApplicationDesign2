@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
-
+import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button'; // Agrega esta importación
+import { DialogService } from './servicios/dialog.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InicioSesionComponent } from './componentes/inicio-sesion/inicio-sesion.component';
@@ -13,6 +15,8 @@ import { ListaProductosComponent } from './componentes/lista-productos/lista-pro
 import { ProductoComponent } from './componentes/producto/producto.component';
 import { PromocionComponent } from './componentes/promocion/promocion.component';
 import { CompraComponent } from './componentes/compra/compra.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { AlertDialogComponent } from './componentes/alert-dialog/alert-dialog.component';
 
 @NgModule({
   declarations: [
@@ -25,14 +29,18 @@ import { CompraComponent } from './componentes/compra/compra.component';
     ProductoComponent,
     PromocionComponent,
     CompraComponent,
+    AlertDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule, // Agrega HttpClientModule a la lista de importaciones
+    HttpClientModule,
+    MatDialogModule,
+    MatButtonModule,
+    NoopAnimationsModule, // Agrega MatButtonModule aquí
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [DialogService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
