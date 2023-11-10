@@ -119,10 +119,10 @@ namespace Obligatorio1.WebApi
         /// <response code="400">Error in the request or updating user information.</response>
         [TypeFilter(typeof(AuthenticationFilter))]
         [TypeFilter(typeof(AuthorizationRolFilter))]
-        [HttpPut("UpdateUserProfile")]
-        public IActionResult UpdateUserProfile([FromBody] User user)
+        [HttpPut("{id}")]
+        public IActionResult UpdateUserProfile([FromRoute] int id, [FromBody] User user)
         {
-            var updatedUser = _userService.UpdateUserProfile(user);
+            var updatedUser = _userService.UpdateUserProfile(id,user);
             var userDto = new
             {
                 user.UserID,

@@ -89,9 +89,9 @@ namespace Obligatorio1.BusinessLogic
             }
         }
 
-        public Product UpdateProduct(Product prod)
+        public Product UpdateProduct(int id, Product prod)
         {
-            Product existingProduct = GetProductByID(prod.ProductID);
+            Product existingProduct = GetProductByID(id);
 
             if (existingProduct == null)
             {
@@ -105,6 +105,8 @@ namespace Obligatorio1.BusinessLogic
             existingProduct.Brand = prod.Brand;
             existingProduct.Category = prod.Category;
             existingProduct.Color = prod.Color;
+            existingProduct.Stock = prod.Stock;
+            existingProduct.AvailableToPromotions = prod.AvailableToPromotions;
 
             _repository.Update(existingProduct);
             _repository.Save();

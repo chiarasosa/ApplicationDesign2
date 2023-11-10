@@ -1,9 +1,12 @@
 ﻿using System.Reflection;
+using System.IO;
 using Obligatorio1.Domain;
 using Obligatorio1.IDataAccess;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.Exceptions;
 using Obligatorio1.PromoInterface;
+using System.Runtime.Loader;
+using System.Collections.Generic;
 
 namespace Obligatorio1.BusinessLogic;
 
@@ -46,7 +49,8 @@ public class PromotionsService : IPromotionsService
             if (filePath.EndsWith(".dll"))
             {
                 FileInfo fileInfo = new FileInfo(filePath);
-                Assembly assembly = Assembly.LoadFile(fileInfo.FullName);
+                AssemblyLoadContext context = new AssemblyLoadContext(null, true);
+                Assembly assembly = context.LoadFromAssemblyPath(fileInfo.FullName);
 
                 foreach (Type type in assembly.GetTypes())
                 {
@@ -57,6 +61,7 @@ public class PromotionsService : IPromotionsService
                             availablePromotions.Add(promotion);
                     }
                 }
+                context.Unload();
             }
         }
 

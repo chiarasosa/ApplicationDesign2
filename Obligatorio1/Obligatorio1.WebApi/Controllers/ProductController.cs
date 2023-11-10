@@ -79,10 +79,10 @@ namespace Obligatorio1.WebApi
         /// <response code="204">The product was updated successfully.</response>
         /// <response code="404">The product with the specified ID was not found.</response>
         /// <response code="400">Error with the request.</response>
-        [HttpPut("UpdateProduct")]
-        public IActionResult UpdateProduct([FromBody] Product product)
+        [HttpPut("{id}")]
+        public IActionResult UpdateProduct([FromRoute] int id, [FromBody] Product product)
         {
-            _productService.UpdateProduct(product);
+            _productService.UpdateProduct(id, product);
             return Ok("Product updated successfully.");
         }
     }
