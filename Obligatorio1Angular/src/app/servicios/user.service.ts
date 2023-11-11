@@ -1,29 +1,66 @@
-// userService.ts
-
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { User } from '../modelos/User';
-import { IUserService } from '../interfaces/user-service';
-import {Session } from '../interfaces/session';
+import { Session } from '../interfaces/session';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserService implements IUserService {
+export class UserService {
   private baseUrl = 'https://localhost:7004/api';
 
   constructor(private http: HttpClient) {}
 
   public registerUser(user: User): Observable<void> {
     const url = `${this.baseUrl}/users`;
-    return this.http.post<void>(url, user);
+    return this.http.post<void>(url, user).pipe(
+      catchError(this.handleError)
+    );
   }
 
- // Método para el inicio de sesión
-   // Ajusta la firma del método para coincidir con la interfaz
-   public loginUser(user: User): Observable<Session> {
+  public loginUser(user: User): Observable<Session> {
     const url = `${this.baseUrl}/sessions`;
-    return this.http.post<Session>(url, user);
+    return this.http.post<Session>(url, user).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  public getUserFromToken(): Observable<User> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return throwError('Token no disponible');
+    }
+
+    const url = `${this.baseUrl}/current-user`;
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .get<User>(url, { headers })
+      .pipe(catchError(this.handleError));
+  }
+
+  public getUsuarios(): Observable<User[]> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return throwError('Token no disponible');
+    }
+
+    const url = `${this.baseUrl}/users`;
+    const headers = new HttpHeaders({
+      Authorization: token,
+    });
+
+    return this.http
+      .get<User[]>(url, { headers })
+      .pipe(catchError(this.handleError));
+  }
+
+  private handleError(error: any) {
+    console.error('Ocurrió un error:', error);
+    return throwError(error);
   }
 }

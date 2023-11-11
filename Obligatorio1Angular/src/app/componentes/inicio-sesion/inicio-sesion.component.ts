@@ -22,7 +22,7 @@ export class InicioSesionComponent {
       (response) => {
         // Maneja la respuesta del inicio de sesión aquí
         console.log('Inicio de sesión exitoso:', response);
-        this.localStorageService.setToken(JSON.stringify({token: response.token}));
+        this.localStorageService.setToken(response.token);
         this.openAlertDialog('Éxito', 'Inicio de sesión exitoso');
 
         // Redirige a la página deseada
