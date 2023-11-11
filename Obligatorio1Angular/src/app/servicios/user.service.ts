@@ -35,7 +35,7 @@ export class UserService {
 
     const url = `${this.baseUrl}/current-user`;
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     });
 
     return this.http
@@ -72,6 +72,22 @@ export class UserService {
 
     return this.http
       .delete<void>(url, { headers })
+      .pipe(catchError(this.handleError));
+  }
+
+  public updateUser(updatedUser: User): Observable<User> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return throwError('Token no disponible');
+    }
+
+    const url = `${this.baseUrl}/users/${updatedUser.userID}`;
+    const headers = new HttpHeaders({
+      Authorization: token,
+    });
+
+    return this.http
+      .put<User>(url, updatedUser, { headers })
       .pipe(catchError(this.handleError));
   }
 

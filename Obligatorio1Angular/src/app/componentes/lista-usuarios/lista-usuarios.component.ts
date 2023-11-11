@@ -10,6 +10,7 @@ import { DialogService } from 'src/app/servicios/dialog.service';
 })
 export class ListaUsuariosComponent implements OnInit {
   users: User[] = [];
+  userBeingEdited: User | null = null;
 
   constructor(private userService: UserService, private dialogService: DialogService) {}
 
@@ -20,7 +21,7 @@ export class ListaUsuariosComponent implements OnInit {
       },
       error => {
         console.error('Error al obtener la lista de usuarios:', error);
-        this.dialogService.openAlertDialog('Error', error.message); // Abre la modal y muestra el mensaje de error
+        this.dialogService.openAlertDialog('Error', error.message);
       }
     );
   }
@@ -28,12 +29,31 @@ export class ListaUsuariosComponent implements OnInit {
   deleteUser(userID: number) {
     this.userService.deleteUser(userID).subscribe(
       () => {
-        // Elimina el usuario de la lista actual
         this.users = this.users.filter(user => user.userID !== userID);
       },
       (error) => {
         console.error('Error al eliminar usuario:', error);
-        // Muestra un mensaje de error, por ejemplo, usando tu servicio de diálogo
+        this.dialogService.openAlertDialog('Error', error.message);
+      }
+    );
+  }
+
+  editUser(user: User) {
+    this.userBeingEdited = { ...user };
+  }
+
+  updateUser(updatedUser: User) {
+    this.userService.updateUser(updatedUser).subscribe(
+      (response) => {
+        // Actualiza la lista de usuarios con los datos actualizados
+        this.users = this.users.map(user =>
+          user.userID === updatedUser.userID ? { ...user, ...response } : user
+        );
+        
+        this.userBeingEdited = null; // Sale del modo de edición
+      },
+      (error) => {
+        console.error('Error al actualizar usuario:', error);
         this.dialogService.openAlertDialog('Error', error.message);
       }
     );

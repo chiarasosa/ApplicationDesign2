@@ -5,7 +5,7 @@
       <th>Email</th>
       <th>Rol</th>
       <th>Dirección</th>
-      <th>Acciones</th> <!-- Agregamos una nueva columna para acciones -->
+      <th>Acciones</th>
     </tr>
   </thead>
   <tbody>
@@ -16,8 +16,20 @@
       <td>{{ user.address }}</td>
       <td>
         <button (click)="deleteUser(user.userID)">Eliminar</button>
-        <button (click)="updateUser(user.userID)">Actualizar</button> <!-- Botón de Actualizar -->
+        <button (click)="editUser(user)">Editar</button> <!-- Agrega el botón "Editar" -->
+        <button (click)="updateUser(user)">Actualizar</button> <!-- Agrega el botón "Actualizar" -->
       </td>
     </tr>
   </tbody>
 </table>
+
+<!-- Formulario de edición -->
+<div *ngIf="userBeingEdited">
+  <form (ngSubmit)="updateUser(userBeingEdited)">
+    <input [(ngModel)]="userBeingEdited.userName" name="userName" placeholder="Nombre">
+    <input [(ngModel)]="userBeingEdited.email" name="email" placeholder="Email">
+    <input [(ngModel)]="userBeingEdited.role" name="role" placeholder="Rol">
+    <input [(ngModel)]="userBeingEdited.address" name="address" placeholder="Dirección">
+    <button type="submit">Guardar Cambios</button>
+  </form>
+</div>
