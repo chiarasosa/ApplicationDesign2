@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { User } from '../modelos/User'; // Asegúrate de importar el modelo User adecuado
-import { Session } from 'src/app/interfaces/Session';
+import { Session } from '../interfaces/session';
 
 export interface IUserService {
 

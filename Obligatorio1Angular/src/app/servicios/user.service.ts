@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../modelos/User';
 import { IUserService } from '../interfaces/user-service';
-import {Session } from '../interfaces/Session';
+import {Session } from '../interfaces/session';
 
 @Injectable({
   providedIn: 'root',
