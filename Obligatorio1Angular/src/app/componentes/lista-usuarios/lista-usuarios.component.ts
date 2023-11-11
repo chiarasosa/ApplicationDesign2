@@ -16,10 +16,10 @@ export class ListaUsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getUsuarios().subscribe(
-      users => {
+      (users) => {
         this.users = users;
       },
-      error => {
+      (error) => {
         console.error('Error al obtener la lista de usuarios:', error);
         this.dialogService.openAlertDialog('Error', error.message);
       }
@@ -29,7 +29,7 @@ export class ListaUsuariosComponent implements OnInit {
   deleteUser(userID: number) {
     this.userService.deleteUser(userID).subscribe(
       () => {
-        this.users = this.users.filter(user => user.userID !== userID);
+        this.users = this.users.filter((user) => user.userID !== userID);
       },
       (error) => {
         console.error('Error al eliminar usuario:', error);
@@ -42,15 +42,16 @@ export class ListaUsuariosComponent implements OnInit {
     this.userBeingEdited = { ...user };
   }
 
-  updateUser(updatedUser: User) {
+  saveUserChanges(updatedUser: User) {
     this.userService.updateUser(updatedUser).subscribe(
       (response) => {
         // Actualiza la lista de usuarios con los datos actualizados
-        this.users = this.users.map(user =>
+        this.users = this.users.map((user) =>
           user.userID === updatedUser.userID ? { ...user, ...response } : user
         );
-        
+
         this.userBeingEdited = null; // Sale del modo de edición
+        this.dialogService.openAlertDialog('Éxito', 'Usuario actualizado correctamente');
       },
       (error) => {
         console.error('Error al actualizar usuario:', error);

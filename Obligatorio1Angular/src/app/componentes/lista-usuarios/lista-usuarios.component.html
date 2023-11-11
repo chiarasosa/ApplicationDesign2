@@ -16,8 +16,8 @@
       <td>{{ user.address }}</td>
       <td>
         <button (click)="deleteUser(user.userID)">Eliminar</button>
-        <button (click)="editUser(user)">Editar</button> <!-- Agrega el botón "Editar" -->
-        <button (click)="updateUser(user)">Actualizar</button> <!-- Agrega el botón "Actualizar" -->
+        <button *ngIf="!userBeingEdited" (click)="editUser(user)">Editar</button>
+        <button *ngIf="userBeingEdited === user" (click)="saveUserChanges(user)">Guardar Cambios</button>
       </td>
     </tr>
   </tbody>
@@ -25,7 +25,7 @@
 
 <!-- Formulario de edición -->
 <div *ngIf="userBeingEdited">
-  <form (ngSubmit)="updateUser(userBeingEdited)">
+  <form (ngSubmit)="saveUserChanges(userBeingEdited)">
     <input [(ngModel)]="userBeingEdited.userName" name="userName" placeholder="Nombre">
     <input [(ngModel)]="userBeingEdited.email" name="email" placeholder="Email">
     <input [(ngModel)]="userBeingEdited.role" name="role" placeholder="Rol">
