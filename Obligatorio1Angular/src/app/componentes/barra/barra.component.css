@@ -48,3 +48,26 @@ ul {
   .dropdown:hover .dropdown-content {
     display: block;
   }
+
+  .navbar {
+    display: flex;
+    justify-content: space-between; /* Distribuye los elementos a lo largo del contenedor */
+    align-items: center; /* Centra verticalmente los elementos en el contenedor */
+    background-color: #38444d; /* Ajusta según sea necesario */
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-nav .nav-item-right {
+    margin-right: 0; /* Empuja los elementos al extremo derecho de la barra */
+}
+
+.navbar-nav a {
+    margin-right: 15px; /* Espaciado entre elementos de la barra */
+    text-decoration: none; 
+    font-size: 20px; /* Tamaño de la fuente, ajusta según tu preferencia */
+    font-family: 'Arial', sans-serif;
+}
