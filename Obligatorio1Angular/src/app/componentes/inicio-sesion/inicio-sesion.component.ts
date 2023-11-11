@@ -5,6 +5,7 @@ import { UserService } from 'src/app/servicios/user.service';
 import { Router } from '@angular/router';
 import { User } from 'src/app/modelos/User'; // Asegúrate de importar el modelo User adecuado
 import { DialogService } from 'src/app/servicios/dialog.service'; // Asegúrate de importar el servicio DialogService
+import { LocalStorageService } from 'src/app/servicios/localStorage';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -14,13 +15,14 @@ import { DialogService } from 'src/app/servicios/dialog.service'; // Asegúrate 
 export class InicioSesionComponent {
   user: User = new User('', '', '', '', ''); // Crea una nueva instancia de User
 
-  constructor(private userService: UserService, private router: Router, private dialogService: DialogService) {}
+  constructor(private userService: UserService, private router: Router, private dialogService: DialogService, private localStorageService: LocalStorageService) {}
 
   loginUser() {
     this.userService.loginUser(this.user).subscribe(
       (response) => {
         // Maneja la respuesta del inicio de sesión aquí
         console.log('Inicio de sesión exitoso:', response);
+        this.localStorageService.setToken(JSON.stringify({token: response.token}));
         this.openAlertDialog('Éxito', 'Inicio de sesión exitoso');
 
         // Redirige a la página deseada
