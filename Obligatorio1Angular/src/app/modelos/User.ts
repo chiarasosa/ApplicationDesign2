@@ -1,5 +1,3 @@
-// src/app/models/user.model.ts
-
 export class User {
     username: string;
     password: string;
@@ -14,5 +12,6 @@ export class User {
       this.role = role;
       this.address = address;
     }
-  }
-  
+  }  
+}
+

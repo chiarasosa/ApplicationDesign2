@@ -17,6 +17,7 @@ import { PromocionComponent } from './componentes/promocion/promocion.component'
 import { CompraComponent } from './componentes/compra/compra.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AlertDialogComponent } from './componentes/alert-dialog/alert-dialog.component';
+import { CrearProductoComponent } from './componentes/crear-producto/crear-producto.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { AlertDialogComponent } from './componentes/alert-dialog/alert-dialog.co
     PromocionComponent,
     CompraComponent,
     AlertDialogComponent
+    CrearProductoComponent,
   ],
   imports: [
     BrowserModule,
