@@ -30,7 +30,7 @@ import { CrearProductoComponent } from './componentes/crear-producto/crear-produ
     ProductoComponent,
     PromocionComponent,
     CompraComponent,
-    AlertDialogComponent
+    AlertDialogComponent,
     CrearProductoComponent,
   ],
   imports: [
