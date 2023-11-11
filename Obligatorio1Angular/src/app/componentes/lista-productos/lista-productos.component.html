@@ -1,1 +1,8 @@
-<p>lista-productos works!</p>
+<ul *ngIf="products">
+    <li *ngFor="let product of products">
+      <h3>{{ product.name }}</h3>
+      <p>Precio: {{ product.price }}</p>
+      <p>{{ product.description }}</p>
+    </li>
+  </ul>
+  
