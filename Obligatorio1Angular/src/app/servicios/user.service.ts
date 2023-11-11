@@ -4,7 +4,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../modelos/User';
-import { IUserService, Session } from '../interfaces/user-service';
+import { IUserService } from '../interfaces/user-service';
+import {Session } from '../interfaces/Session';
 
 @Injectable({
   providedIn: 'root',
