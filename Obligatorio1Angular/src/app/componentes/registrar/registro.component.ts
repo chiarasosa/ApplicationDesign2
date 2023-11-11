@@ -21,7 +21,7 @@ export class RegistroComponent {
       },
       (error) => {
         console.error('Error al registrar usuario:', error);
-        this.openAlertDialog('Error', 'No se pudo registrar el usuario');
+        this.openAlertDialog('Error', error.error.message);
       }
     );
   }

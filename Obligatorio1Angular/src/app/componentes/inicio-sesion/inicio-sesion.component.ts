@@ -13,7 +13,7 @@ import { LocalStorageService } from 'src/app/servicios/localStorage';
   styleUrls: ['./inicio-sesion.component.css'],
 })
 export class InicioSesionComponent {
-  user: User = new User('', '', '', '', ''); // Crea una nueva instancia de User
+  user: User = new User(0,'', '', '', '', ''); // Crea una nueva instancia de User
 
   constructor(private userService: UserService, private router: Router, private dialogService: DialogService, private localStorageService: LocalStorageService) {}
 
@@ -30,7 +30,7 @@ export class InicioSesionComponent {
       },
       (error) => {
         console.error('Error en el inicio de sesión:', error);
-        this.openAlertDialog('Error', 'Error en el inicio de sesión');
+        this.openAlertDialog('Error', error.error.message);
 
         // Maneja errores de inicio de sesión aquí
       }

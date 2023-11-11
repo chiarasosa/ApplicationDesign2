@@ -1,5 +1,5 @@
 import { Product } from "./Product";
-import { User } from "../interfaces/user.model";
+import { User } from "src/app/modelos/User";
 import { Purchase } from "./Purchase";
 
 

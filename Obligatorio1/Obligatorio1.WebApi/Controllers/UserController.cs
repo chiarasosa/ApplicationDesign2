@@ -107,9 +107,17 @@ namespace Obligatorio1.WebApi
         [HttpDelete("{id}")]
         public IActionResult DeleteUser([FromRoute] int id)
         {
-            _userService.DeleteUser(id);
-            return Ok("User successfully deleted.");
+            try
+            {
+                _userService.DeleteUser(id);
+                return Ok(new { message = "User successfully deleted." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "Error deleting user: " + ex.Message });
+            }
         }
+
 
         /// <summary>
         /// Updates the profile of a user registered in the system.

@@ -59,6 +59,22 @@ export class UserService {
       .pipe(catchError(this.handleError));
   }
 
+  public deleteUser(userID: number): Observable<void> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return throwError('Token no disponible');
+    }
+
+    const url = `${this.baseUrl}/users/${userID}`;
+    const headers = new HttpHeaders({
+      Authorization: token,
+    });
+
+    return this.http
+      .delete<void>(url, { headers })
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(error: any) {
     console.error('Ocurrió un error:', error);
     return throwError(error);

@@ -1,18 +1,23 @@
 <table>
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Rol</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users">
-
-        <td>{{ user.username }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.role }}</td>
-      </tr>
-    </tbody>
-  </table>
-  
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Rol</th>
+      <th>Dirección</th>
+      <th>Acciones</th> <!-- Agregamos una nueva columna para acciones -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.userName }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.role }}</td>
+      <td>{{ user.address }}</td>
+      <td>
+        <button (click)="deleteUser(user.userID)">Eliminar</button>
+        <button (click)="updateUser(user.userID)">Actualizar</button> <!-- Botón de Actualizar -->
+      </td>
+    </tr>
+  </tbody>
+</table>
