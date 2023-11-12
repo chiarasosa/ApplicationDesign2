@@ -21,7 +21,7 @@ export class ListaUsuariosComponent implements OnInit {
       },
       (error) => {
         console.error('Error al obtener la lista de usuarios:', error);
-        this.dialogService.openAlertDialog('Error', error.message);
+        this.dialogService.openAlertDialog('Error', error.error.message);
       }
     );
   }
