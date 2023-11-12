@@ -18,14 +18,20 @@
       </div>
     </li>
 
-    <li class="dropdown" [ngClass]="{ 'active': activeRoute === '/Producto' }">
-      <a href="javascript:void(0)" class="nav-link dropbtn"><h4>Productos</h4></a>
-      <div class="dropdown-content">
-        <a class="nav-link" [routerLink]="['/app-lista-productos']">Lista de productos</a>
-        <a class="nav-link" [routerLink]="['/registrar-productos']">Registrar productos</a>
-        <a class="nav-link" [routerLink]="['/productos-3']">Productos 3</a>
-      </div>
-    </li>
+      <li class="dropdown" [ngClass]="{ 'active': activeRoute === '/Producto' }">
+        <a href="#" class="dropbtn" [routerLink]="['/producto']">Productos</a>
+        <div class="dropdown-content">
+            <a href="#" [routerLink]="['/app-lista-productos']">Lista de productos </a>
+            <a class="nav-link" [routerLink]="['/crear-producto']">Registrar productos</a>
+            <a href="#">Productos 3</a>
+        </div>
+      </li>
 
+	      <li class="nav-item-right-carrito" [ngClass]="{ 'active': activeRoute === '/landing' }">
+        <a routerLink="/inicioSesion" routerLinkActive="active" ariaCurrentWhenActive="page">
+
+          <img class="carritos" src="assets/carrito-de-compras.png" alt="Carrito de compras">
+        </a>
+      </li>
   </ul>
-</nav>
+
