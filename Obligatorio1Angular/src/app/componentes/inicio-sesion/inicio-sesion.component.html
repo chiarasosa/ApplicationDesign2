@@ -1,12 +1,41 @@
-<!-- inicio-sesion.component.html -->
-<div>
-  <span aria-hidden="true"></span>
-  <h1>Inicio de sesión</h1>
-  <h5>Email de usuario</h5>
-  <input type="text" [(ngModel)]="user.email" name="emailUsuario" required><br><br>
+<!DOCTYPE html>
+<html lang="en">
 
-  <h5>Contraseña</h5>
-  <input type="password" [(ngModel)]="user.password" name="contrasenaUsuario" required><br><br>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../favicon.ico">
 
-  <button (click)="loginUser()">Iniciar</button>
-</div>
+  <title>Iniciar Sesión</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="inicio-sesion.component.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <form class="form-signin">
+      <h2 class="form-signin-heading">Inicio de sesión</h2>
+
+      <input type="text" [(ngModel)]="user.email" id="inputEmail" class="form-control" placeholder="Email de usuario"
+        [(ngModel)]="user.email" name="emailUsuario" required autofocus>
+
+      <input type="password" [(ngModel)]="user.password" id="inputPassword" class="form-control"
+        placeholder="Contraseña" [(ngModel)]="user.password" name="contrasenaUsuario" required>
+
+      <button class="btn btn-lg btn-outline-primary btn-block" type="button"
+        (click)="loginUser()">Iniciar sesión</button>
+    </form>
+
+  </div> 
+
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
