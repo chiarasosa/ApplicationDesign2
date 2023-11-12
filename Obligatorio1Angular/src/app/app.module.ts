@@ -19,6 +19,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AlertDialogComponent } from './componentes/alert-dialog/alert-dialog.component';
 import { CrearProductoComponent } from './componentes/crear-producto/crear-producto.component';
 import { ListaUsuariosComponent } from './componentes/lista-usuarios/lista-usuarios.component';
+import { ListaProductosCompraComponent } from './componentes/lista-productos-compra/lista-productos-compra.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ListaUsuariosComponent } from './componentes/lista-usuarios/lista-usuar
     AlertDialogComponent,
     CrearProductoComponent,
     ListaUsuariosComponent,
+    ListaProductosCompraComponent,
   ],
   imports: [
     BrowserModule,

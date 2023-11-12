@@ -17,18 +17,17 @@
     </li>
 
       <li class="dropdown" [ngClass]="{ 'active': activeRoute === '/Producto' }">
-        <a href="#" class="dropbtn" [routerLink]="['/producto']">Productos</a>
+        <a href="#" class="dropbtn" [routerLink]="['/producto']">Administrar Productos</a>
         <div class="dropdown-content">
             <a href="#" [routerLink]="['/lista-productos']">Lista de productos </a>
             <a class="nav-link" [routerLink]="['/crear-producto']">Registrar productos</a>
-            <a href="#">Productos 3</a>
         </div>
       </li>
 
       <li class="dropdown" [ngClass]="{ 'active': activeRoute === '/Compra' }">
         <a href="#" class="dropbtn">Compras</a>
         <div class="dropdown-content">
-          <a [routerLink]="['/realizar-compra']">Realizar Compra</a>
+          <a [routerLink]="['/lista-productos-compra']">Realizar Compra</a>
           <a [routerLink]="['/listar-compras']">Listar Compras</a>
         </div>
       </li>

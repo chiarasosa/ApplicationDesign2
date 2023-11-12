@@ -30,6 +30,7 @@ export class ListaUsuariosComponent implements OnInit {
     this.userService.deleteUser(userID).subscribe(
       () => {
         this.users = this.users.filter((user) => user.userID !== userID);
+        this.dialogService.openAlertDialog('Éxito', 'Usuario actualizado correctamente');
       },
       (error) => {
         console.error('Error al eliminar usuario:', error);

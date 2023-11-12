@@ -1,0 +1,23 @@
+<h2>Lista de Productos</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Precio</th>
+      <th>Descripción</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{ product.name }}</td>
+      <td>{{ product.price }}</td>
+      <td>{{ product.description }}</td>
+      <td>
+        <button (click)="addToCart(product)">Agregar al Carrito</button>
+        <button (click)="removeFromCart(product)">Eliminar del Carrito</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
