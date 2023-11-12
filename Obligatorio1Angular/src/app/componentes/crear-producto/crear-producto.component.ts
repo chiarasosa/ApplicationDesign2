@@ -20,15 +20,15 @@ export class CrearProductoComponent {
     this.producrService.registerProduct(this.product).subscribe(
       (response) => {
         // Maneja la respuesta del inicio de sesión aquí
-        console.log('Inicio de sesión exitoso:', response);
-        this.localStorageService.setToken(JSON.stringify({token: response.token}));
-        this.openAlertDialog('Éxito', 'Inicio de sesión exitoso');
+        console.log('Producto registrado:', response);
+        
+        this.openAlertDialog('Éxito', 'Creación exitosa');
 
         
       },
       (error) => {
-        console.error('Error en el inicio de sesión:', error);
-        this.openAlertDialog('Error', 'Error en el inicio de sesión');
+        console.error('Error al registrar producto:', error);
+        this.openAlertDialog('Error', 'Error al registrar el producto');
 
         // Maneja errores de inicio de sesión aquí
       }
@@ -37,7 +37,7 @@ export class CrearProductoComponent {
     );
   }
   openAlertDialog(title: string, message: string) {
-    this.dialogService.openAlertDialog(title, message); 
+    this.dialogService.openAlertDialog(title, message); // Usa dialogService
   }
 
 }
