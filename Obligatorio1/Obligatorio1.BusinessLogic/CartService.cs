@@ -3,6 +3,7 @@ using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.IDataAccess;
+using System.Linq.Expressions;
 using System.Xml.XPath;
 
 namespace Obligatorio1.BusinessLogic
@@ -46,7 +47,11 @@ namespace Obligatorio1.BusinessLogic
                     cartProduct.CartID = cart.CartID;
                     cartProduct.Cart = cart;
 
-                    cart.Products = GetAllProductsFromCart(authToken).ToList();
+                    try
+                    {
+                        cart.Products = GetAllProductsFromCart(authToken).ToList();
+                    }
+                    catch (Exception ex) { }
                     cart.Products.Add(productToAdd);
                     cart.CartProducts.Add(cartProduct);
                     cart.TotalPrice = cart.TotalPrice + productToAdd.Price;
