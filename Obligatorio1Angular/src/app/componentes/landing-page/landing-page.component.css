@@ -1,143 +1,65 @@
-.registros{
-    text-align:right;
-    margin: 15px;
-    float: right;
-    
-}
-
-a{
-    margin:15px;
-}
-
-.ort{
-    font: 1em georgia;
-}
-
 .H1Header{
-    color: azure;
-    text-align: center;
+  color: rgb(0, 58, 41);
+  text-align: center;
+  padding: 30px;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 
+  'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 60px;
 }
-header{
-    background-color: rgb(35, 34, 34);
+
+.H2Header {
+color: rgb(255, 255, 255);
+font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+font-size: 35px;
+text-align: left;
+align-items: center;
 }
 
-/* Estilo para el footer */
-footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-  }
-  
-  /* Contenedor del footer */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  /* Estilo para el contenido del footer */
-  .footer-content {
-    display: flex;
-    align-items: center;
-  }
-  
-  /* Estilo para el logo en el footer */
-  .footer-logo img {
-    width: 100px; /* Ajusta el ancho según tu logo */
-  }
-  
-  /* Estilo para los enlaces del footer */
-  .footer-links ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-  }
-  
-  .footer-links li {
-    margin-right: 20px;
-  }
-  
-  .footer-links a {
-    text-decoration: none;
-    color: #fff;
-  }
-  
-  /* Estilo para los iconos de redes sociales */
-  .footer-social ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-  }
-  
-  .footer-social li {
-    margin-right: 10px;
-  }
-  
-  .footer-social a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 20px;
-  }
-  
-  /* Estilo para los iconos de redes sociales (Font Awesome) */
-  .footer-social i {
-    font-size: 20px;
-  }
-  
-  /* Estilo para los enlaces cuando se pasan por encima (hover) */
-  .footer-links a:hover, .footer-social a:hover {
-    text-decoration: underline;
-  }
+.container {
+max-width: 1200px;
+margin: 0 auto;
+}
 
-  .imgFooter{
-    width: 5%;
-    height: 5%;
-  }
-  
-  .container-fluid{
-    
-    background-color: rgb(35, 34, 34);
-    box-sizing: border-box;
-  }
+.footer {
+position: absolute;
+bottom: 0;
+width: 100%;
+height: 100px; /* Set the fixed height of the footer here */
+background-color: rgb(85, 105, 134);
+}
 
-  .navBar{
-    float:left;
-    color: #fff;
-    background-color: rgb(35, 34, 34);
-    box-sizing: border-box;
-  }
+.footer-table {
+width: 100%;
+border-collapse: collapse;
+}
 
-  #navbarSupportedContent{
-    background-color: rgb(35, 34, 34);
-    color: #fff;
-    box-sizing: border-box;
-  }
+.footer-left,
+.footer-left-2,
+.footer-right {
+padding: 30px;
+align-items: center;
+}
 
-  nav{
-    background-color: rgb(35, 34, 34);
-    color: #fff;
-    box-sizing: border-box;
-  }
+.footer-left-2 {
+padding: 0%;
+line-height: 80%;
+}
 
-  .contenedorGrande{
-    background-color: rgb(35, 34, 34);
-    color: #fff;
-    box-sizing: border-box;
-  }
-  
-  .dropdown-toggle{
-    color: #fff;
-  }
+.footer-right {
+text-align: right;
+}
 
-  .navbar-expand-lg{
-    color: #fff;
-  }
+.footer-links ul {
+list-style: none;
+padding: 0;
+margin: 0;
+}
 
-  .registros a{
-    color: #fff;
-  }
+.footer-links li {
+margin-right: 10%; /* Ajusta el espacio entre "Inicio" y los demás elementos */
+}
+
+.footer-links a {
+text-decoration: none;
+color: #fff;
+}
