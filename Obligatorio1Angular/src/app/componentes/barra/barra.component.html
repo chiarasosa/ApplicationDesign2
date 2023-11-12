@@ -27,7 +27,7 @@
         <a href="#" class="dropbtn" [routerLink]="['/producto']">Productos</a>
         <div class="dropdown-content">
             <a href="#" [routerLink]="['/app-lista-productos']">Lista de productos </a>
-            <a href="#">Registrar productos</a>
+            <a class="nav-link" [routerLink]="['/crear-producto']">Registrar productos</a>
             <a href="#">Productos 3</a>
         </div>
       </li>
@@ -40,8 +40,18 @@
         <a routerLink="/inicioSesion" routerLinkActive="active" ariaCurrentWhenActive="page">Inicio de sesión</a>
       </li>
 
+      
+
       <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }">
           <a routerLink="/Registrar" routerLinkActive="active" ariaCurrentWhenActive="page">Registrarse</a>
+      </li>
+      <br>
+
+      <li class="nav-item-right-carrito" [ngClass]="{ 'active': activeRoute === '/landing' }">
+        <a routerLink="/inicioSesion" routerLinkActive="active" ariaCurrentWhenActive="page">
+
+          <img class="carritos" src="assets/carrito-de-compras.png" alt="Carrito de compras">
+        </a>
       </li>
 
     </ul>

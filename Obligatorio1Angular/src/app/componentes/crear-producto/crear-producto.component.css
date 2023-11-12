@@ -1,0 +1,11 @@
+.form-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 1px; /* Ajusta la altura al 100% del viewport */
+  }
+  
+  form {
+    /* Estilos adicionales para el formulario si es necesario */
+  }
+  

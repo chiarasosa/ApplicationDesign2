@@ -63,6 +63,7 @@ ul {
 
 .navbar-nav .nav-item-right {
     margin-right: 0; /* Empuja los elementos al extremo derecho de la barra */
+    text-align: right;
 }
 
 .navbar-nav a {
@@ -70,4 +71,13 @@ ul {
     text-decoration: none; 
     font-size: 20px; /* Tamaño de la fuente, ajusta según tu preferencia */
     font-family: 'Arial', sans-serif;
+}
+
+.carritos{
+  width: 50px;
+  height: 50px;
+}
+
+.nav-item-right-carrito{
+  text-align: right;
 }

@@ -6,6 +6,7 @@ import { BarraComponent } from './componentes/barra/barra.component';
 import { ProductoComponent } from './componentes/producto/producto.component';
 import { ListaProductosComponent } from './componentes/lista-productos/lista-productos.component';
 import { LandingPageComponent } from './componentes/landing-page/landing-page.component';
+import { CrearProductoComponent } from './componentes/crear-producto/crear-producto.component';
 
 const routes: Routes = [
   {path: 'inicioSesion', component: InicioSesionComponent },
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'barra', component:BarraComponent},
   {path:'producto',component:ProductoComponent},
   {path:'lista-productos',component:ListaProductosComponent},
-  {path:'landing',component:LandingPageComponent}
+  {path:'landing',component:LandingPageComponent},
+  {path:'crear-producto',component:CrearProductoComponent}
 ];
 
 @NgModule({
