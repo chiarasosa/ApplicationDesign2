@@ -3,11 +3,11 @@
     <ul class="navbar-nav">
 
     <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }">
-      <a routerLink="/Registrar" routerLinkActive="active" ariaCurrentWhenActive="page"><h4>Registrarse</h4></a>
+      <a routerLink="/Registrar" routerLinkActive="active" ariaCurrentWhenActive="page">Registrarse</a>
     </li>
 
     <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }">
-      <a routerLink="/inicioSesion" routerLinkActive="active" ariaCurrentWhenActive="page"><h4>Inicio de sesión</h4></a>
+      <a routerLink="/inicioSesion" routerLinkActive="active" ariaCurrentWhenActive="page">Inicio de sesión</a>
     </li>
 
     </ul>
@@ -17,11 +17,11 @@
 
 
 
-<nav class="navbar">
+<nav class="navbar navbar-expand-lg custom-navbar">
   <ul class="navbar-nav">
 
     <li class="dropdown" [ngClass]="{ 'active': activeRoute === '/Usuario' }">
-      <a href="javascript:void(0)" class="nav-link dropbtn"><h4>Administrar usuarios</h4></a>
+      <a href="#" class="dropbtn" [routerLink]="['/usuario']">Administrar usuarios</a>
       <div class="dropdown-content">
         <a class="nav-link" [routerLink]="['/lista-usuarios']">Lista de usuarios</a>
       </div>
