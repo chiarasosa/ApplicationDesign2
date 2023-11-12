@@ -1,37 +1,41 @@
-<nav class="navbar navbar-expand-lg custom-navbar">
-  <div class="container-fluid">
+<!DOCTYPE html>
+<html>
+
+<body>
+  <nav class="navbar navbar-expand-lg custom-navbar">
+    <div class="container-fluid">
+      <ul class="navbar-nav">
+
+        <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }">
+          <a routerLink="/Registrar" routerLinkActive="active" ariaCurrentWhenActive="page">Registrarse</a>
+        </li>
+
+        <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }">
+          <a routerLink="/inicioSesion" routerLinkActive="active" ariaCurrentWhenActive="page">Inicio de sesión</a>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+
+
+
+
+  <nav class="navbar navbar-expand-lg custom-navbar">
     <ul class="navbar-nav">
 
-    <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }">
-      <a routerLink="/Registrar" routerLinkActive="active" ariaCurrentWhenActive="page">Registrarse</a>
-    </li>
-
-    <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }">
-      <a routerLink="/inicioSesion" routerLinkActive="active" ariaCurrentWhenActive="page">Inicio de sesión</a>
-    </li>
-
-    </ul>
-  </div>
-</nav>
-
-
-
-
-<nav class="navbar navbar-expand-lg custom-navbar">
-  <ul class="navbar-nav">
-
-    <li class="dropdown" [ngClass]="{ 'active': activeRoute === '/Usuario' }">
-      <a href="#" class="dropbtn" [routerLink]="['/usuario']">Administrar usuarios</a>
-      <div class="dropdown-content">
-        <a class="nav-link" [routerLink]="['/lista-usuarios']">Lista de usuarios</a>
-      </div>
-    </li>
+      <li class="dropdown" [ngClass]="{ 'active': activeRoute === '/Usuario' }">
+        <a href="#" class="dropbtn" [routerLink]="['/usuario']">Administrar usuarios</a>
+        <div class="dropdown-content">
+          <a class="nav-link" [routerLink]="['/lista-usuarios']">Lista de usuarios</a>
+        </div>
+      </li>
 
       <li class="dropdown" [ngClass]="{ 'active': activeRoute === '/Producto' }">
         <a href="#" class="dropbtn" [routerLink]="['/producto']">Administrar productos</a>
         <div class="dropdown-content">
-            <a href="#" [routerLink]="['/lista-productos']">Lista de productos </a>
-            <a class="nav-link" [routerLink]="['/crear-producto']">Registrar productos</a>
+          <a href="#" [routerLink]="['/lista-productos']">Lista de productos </a>
+          <a class="nav-link" [routerLink]="['/crear-producto']">Registrar productos</a>
         </div>
       </li>
 
@@ -42,15 +46,18 @@
           <a [routerLink]="['/listar-compras']">Listar Compras</a>
         </div>
       </li>
-      
 
-	      <li class="nav-item-right-carrito" [ngClass]="{ 'active': activeRoute === '/landing' }">
+
+      <li class="nav-item-right-carrito" [ngClass]="{ 'active': activeRoute === '/landing' }">
         <a routerLink="/inicioSesion" routerLinkActive="active" ariaCurrentWhenActive="page">
 
           <img class="carritos" src="assets/carrito-de-compras.png" alt="Carrito de compras">
         </a>
       </li>
 
-  </ul>
+    </ul>
 
-</nav>
+  </nav>
+</body>
+
+</html>
