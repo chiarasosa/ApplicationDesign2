@@ -39,7 +39,7 @@
         </li>
 
 	      <li class="nav-item-right-carrito" [ngClass]="{ 'active': activeRoute === '/landing' }">
-        <a routerLink="/inicioSesion" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <a  routerLinkActive="active" ariaCurrentWhenActive="page" [routerLink]="['/producto']">
 
           <img class="carritos" src="assets/carrito-de-compras.png" alt="Carrito de compras">
         </a>

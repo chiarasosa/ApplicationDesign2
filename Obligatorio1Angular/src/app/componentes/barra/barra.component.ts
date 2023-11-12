@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { LocalStorageService } from 'src/app/servicios/localStorage';
 import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 import { DialogService } from 'src/app/servicios/dialog.service';
+import { CarritoComponent } from 'src/app/carrito/carrito.component';
 
 @Component({
   selector: 'app-barra',
