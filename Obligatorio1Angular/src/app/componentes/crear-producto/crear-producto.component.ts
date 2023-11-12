@@ -17,6 +17,28 @@ export class CrearProductoComponent {
   constructor(private producrService: ProductService, private router: Router, private dialogService: DialogService, private localStorageService: LocalStorageService) {}
 
   onSubmit():void {
-    
+    this.producrService.registerProduct(this.product).subscribe(
+      (response) => {
+        // Maneja la respuesta del inicio de sesión aquí
+        console.log('Inicio de sesión exitoso:', response);
+        this.localStorageService.setToken(JSON.stringify({token: response.token}));
+        this.openAlertDialog('Éxito', 'Inicio de sesión exitoso');
+
+        
+      },
+      (error) => {
+        console.error('Error en el inicio de sesión:', error);
+        this.openAlertDialog('Error', 'Error en el inicio de sesión');
+
+        // Maneja errores de inicio de sesión aquí
+      }
+
+
+    );
   }
+  openAlertDialog(title: string, message: string) {
+    this.dialogService.openAlertDialog(title, message); 
+  }
+
 }
+
