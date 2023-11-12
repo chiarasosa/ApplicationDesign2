@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { LocalStorageService } from 'src/app/servicios/localStorage';
 
 @Component({
   selector: 'app-barra',
@@ -11,7 +12,7 @@ export class BarraComponent {
   userRole: string = '';
   activeRoute: string = '';
 
-  constructor(private router:Router){
+  constructor(private router:Router,private localStorageService: LocalStorageService){
 
     const userData = localStorage.getItem('user');
     if (userData) {
@@ -21,7 +22,11 @@ export class BarraComponent {
       }
     }
   }
-
+  
+  logout() {
+   this.localStorageService.removeToken();
+  }
+  
   setActiveRoute(route: string): void {
     this.activeRoute = route;
   }
