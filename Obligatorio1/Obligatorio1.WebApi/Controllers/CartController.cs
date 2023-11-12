@@ -32,7 +32,7 @@ namespace Obligatorio1.WebApi.Controllers
         {
             var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
             _cartService.AddProductToCart(product, authToken);
-            return Ok("Product added to cart successfully.");
+            return Ok(new { message= "Product added to cart successfully."});
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Obligatorio1.WebApi.Controllers
         {
             var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
             _cartService.DeleteProductFromCart(product, authToken);
-            return Ok("Product deleted from cart successfully.");
+            return Ok(new { message = "Product deleted from cart successfully."});
         }
 
         /// <summary>
