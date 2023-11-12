@@ -96,10 +96,12 @@ namespace Obligatorio1.WebApi
         /// <response code="404">The product with the specified ID was not found.</response>
         /// <response code="400">Error with the request.</response>
         [HttpPut("{id}")]
-        public IActionResult UpdateProduct([FromRoute] int id, [FromBody] Product product)
+        public JsonResult UpdateProduct([FromRoute] int id, [FromBody] Product product)
         {
             _productService.UpdateProduct(id, product);
-            return Ok("Product updated successfully.");
+            var response = new { message = "Product updated successfully" };
+            return new JsonResult(response);
         }
+
     }
 }

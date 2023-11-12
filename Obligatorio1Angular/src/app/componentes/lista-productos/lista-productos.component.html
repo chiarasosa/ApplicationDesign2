@@ -1,9 +1,32 @@
-<p>Lo carga</p>
-<ul *ngIf="products">
-    <li *ngFor="let product of products">
-      <h3>{{ product.name }}</h3>
-      <p>Precio: {{ product.price }}</p>
-      <p>{{ product.description }}</p>
-    </li>
-  </ul>
-  
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Precio</th>
+      <th>Descripción</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{ product.name }}</td>
+      <td>{{ product.price }}</td>
+      <td>{{ product.description }}</td>
+      <td>
+        <button (click)="deleteProduct(product.productID)">Eliminar</button>
+        <button *ngIf="!productBeingEdited" (click)="editProduct(product)">Editar</button>
+        <button *ngIf="productBeingEdited === product" (click)="saveProductChanges(product)">Guardar Cambios</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Formulario de edición -->
+<div *ngIf="productBeingEdited">
+  <form (ngSubmit)="saveProductChanges(productBeingEdited)">
+    <input [(ngModel)]="productBeingEdited.name" name="name" placeholder="Nombre">
+    <input [(ngModel)]="productBeingEdited.price" name="price" placeholder="Precio">
+    <input [(ngModel)]="productBeingEdited.description" name="description" placeholder="Descripción">
+    <button type="submit">Guardar Cambios</button>
+  </form>
+</div>
