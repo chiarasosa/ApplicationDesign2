@@ -45,6 +45,7 @@ export class UserService {
 
   public getUsuarios(): Observable<User[]> {
     const token = localStorage.getItem('token');
+    console.log("TOKEN: " + token);
     if (!token) {
       return throwError('Token no disponible');
     }

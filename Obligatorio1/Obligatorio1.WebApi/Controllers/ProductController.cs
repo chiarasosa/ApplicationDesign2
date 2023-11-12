@@ -4,13 +4,14 @@ using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.WebApi.Filters;
 using Serilog;
+using Microsoft.AspNetCore.Http;
 
 namespace Obligatorio1.WebApi
 {
     [ApiController]
     [Route("api/products")]
-    [TypeFilter(typeof(AuthenticationFilter))]
-    [TypeFilter(typeof(AuthorizationRolFilter))]
+  //  [TypeFilter(typeof(AuthenticationFilter))]
+   // [TypeFilter(typeof(AuthorizationRolFilter))]
     [TypeFilter(typeof(ExceptionFilter))]
     public class ProductController : ControllerBase
     {
@@ -26,12 +27,27 @@ namespace Obligatorio1.WebApi
         /// </summary>
         /// <param name="product">Product data to register.</param>
         /// <returns> HTTP response with the register result.</returns>
+
+        [TypeFilter(typeof(AuthenticationFilter))]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
         [HttpPost]
         public IActionResult RegisterProduct([FromBody] Product product)
         {
-            _productService.RegisterProduct(product);
-            return Ok("Product registered correctly.");
+            try
+            {
+                _productService.RegisterProduct(product);
+                // Si el registro se realiza correctamente, devolvemos una respuesta de éxito
+                var response = new { message = "Product registered correctly." };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                // Si ocurre un error, devolvemos una respuesta de error con información sobre el error
+                var errorResponse = new { error = "An error occurred while registering the product.", details = ex.Message };
+                return BadRequest(errorResponse);
+            }
         }
+
 
         /// <summary>
         /// Obtains the list of registered products in the system.

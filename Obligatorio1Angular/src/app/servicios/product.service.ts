@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../modelos/Product';
 import { Observable, throwError } from 'rxjs';
-import { HttpClient,HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Session } from '../interfaces/session';
 import { catchError } from 'rxjs/operators';
 
@@ -23,14 +23,18 @@ export class ProductService {
     if(!token){
       return throwError('Token no disponible.');
     }
-    const url = `${this.baseUrl}/products/${product.productID}`;
-    const headers=new HttpHeaders(
-      {Authorization:token,}
-    )
+    console.log("TOKEN: " + token);
+    const url = `${this.baseUrl}/products`;
+    const headers = new HttpHeaders({
+      Authorization: token,
+    });
 
-    return this.http.post<void>(url, product).pipe(
+    return this.http.post<void>(url, product, {headers}).pipe(
       catchError(this.handleError));
   }
+
+
+  
 
   private handleError(error: any) {
     console.error('Ocurrió un error:', error);
