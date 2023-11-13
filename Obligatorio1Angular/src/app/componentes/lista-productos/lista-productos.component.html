@@ -1,39 +1,74 @@
+<div class="table-container">
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.description }}</td>
+        <td class="table-actions">
+          <button
+            class="btn btn-danger btn-eliminar"
+            (click)="deleteProduct(product.productID)"
+          >
+            Eliminar
+          </button>
+          <button
+            *ngIf="!productBeingEdited"
+            class="btn btn-primary btn-editar"
+            (click)="editProduct(product)"
+          >
+            Editar
+          </button>
+          <button
+            *ngIf="productBeingEdited === product"
+            class="btn btn-success btn-guardar"
+            (click)="saveProductChanges(product)"
+          >
+            Guardar Cambios
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-<table class="table table-striped">
-  <thead class="thead-dark">
-    <tr>
-      <th>Nombre</th>
-      <th>Precio</th>
-      <th>Descripción</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let product of products">
-      <td>{{ product.name }}</td>
-      <td>{{ product.price }}</td>
-      <td>{{ product.description }}</td>
-      <td class="table-actions">
-        <button class="btn btn-danger btn-eliminar" (click)="deleteProduct(product.productID)">Eliminar</button>
-        <button *ngIf="!productBeingEdited" class="btn btn-primary btn-editar" (click)="editProduct(product)">Editar</button>
-        <button *ngIf="productBeingEdited === product" class="btn btn-success btn-guardar" (click)="saveProductChanges(product)">Guardar Cambios</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- Formulario de edición -->
-<div *ngIf="productBeingEdited">
-  <form class="mt-3" (ngSubmit)="saveProductChanges(productBeingEdited)">
-    <div class="mb-3">
-      <input class="form-control" [(ngModel)]="productBeingEdited.name" name="name" placeholder="Nombre">
-    </div>
-    <div class="mb-3">
-      <input class="form-control" [(ngModel)]="productBeingEdited.price" name="price" placeholder="Precio">
-    </div>
-    <div class="mb-3">
-      <input class="form-control" [(ngModel)]="productBeingEdited.description" name="description" placeholder="Descripción">
-    </div>
-    <button type="submit" class="btn btn-success btn-guardar">Guardar Cambios</button>
-  </form>
+  <!-- Formulario de edición -->
+  <div *ngIf="productBeingEdited">
+    <form class="mt-3" (ngSubmit)="saveProductChanges(productBeingEdited)">
+      <div class="mb-3">
+        <input
+          class="form-control"
+          [(ngModel)]="productBeingEdited.name"
+          name="name"
+          placeholder="Nombre"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          class="form-control"
+          [(ngModel)]="productBeingEdited.price"
+          name="price"
+          placeholder="Precio"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          class="form-control"
+          [(ngModel)]="productBeingEdited.description"
+          name="description"
+          placeholder="Descripción"
+        />
+      </div>
+      <button type="submit" class="btn btn-success btn-guardar">
+        Guardar Cambios
+      </button>
+    </form>
+  </div>
 </div>
