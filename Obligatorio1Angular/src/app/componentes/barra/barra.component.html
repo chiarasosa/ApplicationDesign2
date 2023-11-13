@@ -1,9 +1,4 @@
 
-
-     
-
- 
-
 <!DOCTYPE html>
 <html>
  
@@ -23,10 +18,7 @@
       </ul>
     </div>
   </nav>
- 
- 
- 
- 
+  
   <nav class="navbar navbar-expand-lg custom-navbar">
     <ul class="navbar-nav">
  
@@ -48,7 +40,7 @@
       <li class="dropdown" [ngClass]="{ 'active': activeRoute === '/Compra' }">
         <a href="#" class="dropbtn">Compras</a>
         <div class="dropdown-content">
-          <a [routerLink]="['/realizar-compra']">Realizar Compra</a>
+          <a [routerLink]="['/lista-productos-compra']">Realizar Compra</a>
           <a [routerLink]="['/listar-compras']">Listar Compras</a>
         </div>
       </li>

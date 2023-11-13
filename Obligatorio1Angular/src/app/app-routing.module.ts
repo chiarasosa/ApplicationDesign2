@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'lista-usuarios', component: ListaUsuariosComponent }, // Agrega esta línea
   { path:'crear-producto',component:CrearProductoComponent},
   { path:'Compra', component: CompraComponent},
-  { path:'lista-productos-compra', component: ListaProductosCompraComponent}
+  { path:'lista-productos-compra', component: ListaProductosCompraComponent},
   { path: 'lista-usuarios', component: ListaUsuariosComponent },
   {path:'crear-producto',component:CrearProductoComponent},
   {path:'Compra', component: CompraComponent}
