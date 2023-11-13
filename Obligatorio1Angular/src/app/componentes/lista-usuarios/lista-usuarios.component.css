@@ -21,14 +21,12 @@
   color: #fff;
 }
 
-.form-control {
-  margin-bottom: 10px;
-}
-
-.table th,
-.table td,
+/* Estilo solo para los botones y controles del formulario */
 .btn,
 .form-control {
   font-size: 16px;
+}
 
+.form-control {
+  margin-bottom: 10px;
 }
