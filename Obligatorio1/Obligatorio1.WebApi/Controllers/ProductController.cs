@@ -84,7 +84,7 @@ namespace Obligatorio1.WebApi
         public IActionResult DeleteProduct([FromRoute] int id)
         {
             _productService.DeleteProduct(id);
-            return Ok("Product disposed correctly.");
+            return Ok(new { messaje = "Product disposed correctly." });
         }
 
         /// <summary>

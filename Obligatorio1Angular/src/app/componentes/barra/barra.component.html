@@ -10,17 +10,17 @@
     </li>
 
     <li class="dropdown" [ngClass]="{ 'active': activeRoute === '/Usuario' }">
-      <a href="javascript:void(0)" class="nav-link dropbtn"><h4>Usuarios</h4></a>
+      <a href="javascript:void(0)" class="nav-link dropbtn"><h4>Administrar Usuarios</h4></a>
       <div class="dropdown-content">
-        <a class="nav-link" [routerLink]="['/lista-usuarios']">Listar usuarios</a>
+        <a class="nav-link" [routerLink]="['/lista-usuarios']">Lista de usuarios</a>
       </div>
     </li>
 
       <li class="dropdown" [ngClass]="{ 'active': activeRoute === '/Producto' }">
         <a href="#" class="dropbtn" [routerLink]="['/producto']">Administrar Productos</a>
         <div class="dropdown-content">
+          <a class="nav-link" [routerLink]="['/crear-producto']">Registrar producto</a>
             <a href="#" [routerLink]="['/lista-productos']">Lista de productos </a>
-            <a class="nav-link" [routerLink]="['/crear-producto']">Registrar productos</a>
         </div>
       </li>
 

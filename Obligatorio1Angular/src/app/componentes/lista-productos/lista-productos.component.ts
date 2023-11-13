@@ -33,8 +33,20 @@ export class ListaProductosComponent implements OnInit {
   deleteProduct(productID: number) {
     this.productService.deleteProduct(productID).subscribe(
       () => {
+        // Elimina el producto de la lista
         this.products = this.products.filter((product) => product.productID !== productID);
         this.dialogService.openAlertDialog('Éxito', 'Producto eliminado correctamente');
+  
+        // Después de eliminar, obtén la lista actualizada de productos
+        this.productService.getProducts().subscribe(
+          (products) => {
+            this.products = products;
+          },
+          (error) => {
+            console.error('Error al obtener la lista de productos:', error);
+            this.dialogService.openAlertDialog('Error', error.error.message);
+          }
+        );
       },
       (error) => {
         console.error('Error al eliminar producto:', error);
@@ -42,7 +54,7 @@ export class ListaProductosComponent implements OnInit {
       }
     );
   }
-
+  
   editProduct(product: Product) {
     this.productBeingEdited = { ...product };
   }

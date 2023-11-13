@@ -29,8 +29,20 @@ export class ListaUsuariosComponent implements OnInit {
   deleteUser(userID: number) {
     this.userService.deleteUser(userID).subscribe(
       () => {
+        // Elimina el usuario de la lista
         this.users = this.users.filter((user) => user.userID !== userID);
-        this.dialogService.openAlertDialog('Éxito', 'Usuario actualizado correctamente');
+        this.dialogService.openAlertDialog('Éxito', 'Usuario eliminado correctamente');
+  
+        // Después de eliminar, obtén la lista actualizada de usuarios
+        this.userService.getUsuarios().subscribe(
+          (users) => {
+            this.users = users;
+          },
+          (error) => {
+            console.error('Error al obtener la lista de usuarios:', error);
+            this.dialogService.openAlertDialog('Error', error.error.message);
+          }
+        );
       },
       (error) => {
         console.error('Error al eliminar usuario:', error);
@@ -38,6 +50,7 @@ export class ListaUsuariosComponent implements OnInit {
       }
     );
   }
+  
 
   editUser(user: User) {
     this.userBeingEdited = { ...user };
