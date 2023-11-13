@@ -5,23 +5,21 @@
   <nav class="navbar navbar-expand-lg custom-navbar">
     <div class="container-fluid">
       <ul class="navbar-nav">
-
         <!-- Utiliza *ngIf para mostrar el botón "Registrarse" solo si el usuario no ha iniciado sesión -->
         <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }" *ngIf="!isLoggedIn">
           <a routerLink="/Registrar" routerLinkActive="active" ariaCurrentWhenActive="page">Registrarse</a>
         </li>
 
-        <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }">
+        <!-- Utiliza *ngIf para mostrar el botón "Inicio de sesión" solo si el usuario no ha iniciado sesión -->
+        <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }" *ngIf="!isLoggedIn">
           <a routerLink="/inicioSesion" routerLinkActive="active" ariaCurrentWhenActive="page">Inicio de sesión</a>
         </li>
-        
       </ul>
     </div>
   </nav>
   
   <nav class="navbar navbar-expand-lg custom-navbar">
     <ul class="navbar-nav">
-
       <li class="dropdown" [ngClass]="{ 'active': activeRoute === '/Usuario' }">
         <a href="#" class="dropbtn" [routerLink]="['/usuario']">Administrar usuarios</a>
         <div class="dropdown-content">
@@ -46,7 +44,7 @@
       </li>
 
       <li class="nav-item-right-carrito" [ngClass]="{ 'active': activeRoute === '/landing' }">
-        <a href="#" (click)="logout() " routerLink="/inicioSesion">Cerrar sesión</a>
+        <a href="#" (click)="logout()" routerLink="/inicioSesion">Cerrar sesión</a>
       </li>
 
       <li class="nav-item-right-carrito" [ngClass]="{ 'active': activeRoute === '/landing' }">

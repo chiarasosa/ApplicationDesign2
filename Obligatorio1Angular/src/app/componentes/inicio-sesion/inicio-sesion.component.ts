@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/modelos/User';
 import { LocalStorageService } from 'src/app/servicios/localStorage';
 import { DialogService } from 'src/app/servicios/dialog.service';
+import { AuthService } from 'src/app/servicios/auth.service';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -13,25 +14,23 @@ import { DialogService } from 'src/app/servicios/dialog.service';
 export class InicioSesionComponent {
   user: User = new User(0, '', '', '', '', '');
   isLoggedIn: boolean = false; // Variable para controlar el estado del inicio de sesión
-
   constructor(
     private userService: UserService,
     private router: Router,
     private dialogService: DialogService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private authService: AuthService
   ) {}
-
+  
   loginUser() {
     this.userService.loginUser(this.user).subscribe(
       (response) => {
         console.log('Inicio de sesión exitoso:', response);
         this.localStorageService.setToken(response.token);
-        window.location.reload();
-        this.isLoggedIn = true;
-        this.openAlertDialog('Éxito', 'Inicio de sesión exitoso.');
-
-        // Establece la variable isLoggedIn en true después de iniciar sesión con éxito
-
+        this.authService.setLoggedIn(true); // Notifica a otros componentes que el usuario ha iniciado sesión
+        this.openAlertDialog('Éxito', 'Inicio de sesión exitoso');
+  
+        // No es necesario recargar la página
         // Redirige a la página deseada
         // this.router.navigate(['/pagina-deseada']);
       },
@@ -41,6 +40,7 @@ export class InicioSesionComponent {
       }
     );
   }
+  
 
   openAlertDialog(title: string, message: string) {
     this.dialogService.openAlertDialog(title, message);
