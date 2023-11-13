@@ -21,7 +21,7 @@ export class ListaUsuariosComponent implements OnInit {
       },
       (error) => {
         console.error('Error al obtener la lista de usuarios:', error);
-        this.dialogService.openAlertDialog('Error', error.error.message);
+        this.dialogService.openAlertDialog('Error', 'Error al obtener la lista de usuarios. Intente nuevamente.');
       }
     );
   }
@@ -31,7 +31,7 @@ export class ListaUsuariosComponent implements OnInit {
       () => {
         // Elimina el usuario de la lista
         this.users = this.users.filter((user) => user.userID !== userID);
-        this.dialogService.openAlertDialog('Éxito', 'Usuario eliminado correctamente');
+        this.dialogService.openAlertDialog('Éxito', 'Usuario eliminado con éxito.');
   
         // Después de eliminar, obtén la lista actualizada de usuarios
         this.userService.getUsuarios().subscribe(
@@ -40,13 +40,13 @@ export class ListaUsuariosComponent implements OnInit {
           },
           (error) => {
             console.error('Error al obtener la lista de usuarios:', error);
-            this.dialogService.openAlertDialog('Error', error.error.message);
+            this.dialogService.openAlertDialog('Error', 'Error al eliminar usuario. Intente nuevamente.');
           }
         );
       },
       (error) => {
         console.error('Error al eliminar usuario:', error);
-        this.dialogService.openAlertDialog('Error', error.message);
+        this.dialogService.openAlertDialog('Error', 'Error al eliminar usuario. Intente nuevamente.');
       }
     );
   }
@@ -69,7 +69,7 @@ export class ListaUsuariosComponent implements OnInit {
       },
       (error) => {
         console.error('Error al actualizar usuario:', error);
-        this.dialogService.openAlertDialog('Error', error.message);
+        this.dialogService.openAlertDialog('Error','Error al actualizar usuario. Intente nuevamente.');
       }
     );
   }

@@ -25,7 +25,7 @@ export class ListaProductosComponent implements OnInit {
       },
       (error) => {
         console.error('Error al obtener la lista de productos:', error);
-        this.dialogService.openAlertDialog('Error', error.error.message);
+        this.dialogService.openAlertDialog('Error', 'Error al obtener la lista de productos. Intente nuevamente.');
       }
     );
   }
@@ -35,7 +35,7 @@ export class ListaProductosComponent implements OnInit {
       () => {
         // Elimina el producto de la lista
         this.products = this.products.filter((product) => product.productID !== productID);
-        this.dialogService.openAlertDialog('Éxito', 'Producto eliminado correctamente');
+        this.dialogService.openAlertDialog('Éxito', 'Producto eliminado correctamente.');
   
         // Después de eliminar, obtén la lista actualizada de productos
         this.productService.getProducts().subscribe(
@@ -50,7 +50,7 @@ export class ListaProductosComponent implements OnInit {
       },
       (error) => {
         console.error('Error al eliminar producto:', error);
-        this.dialogService.openAlertDialog('Error', error.message);
+        this.dialogService.openAlertDialog('Error', 'Error al eliminar el producto. Intente nuevamente.');
       }
     );
   }
@@ -68,11 +68,11 @@ export class ListaProductosComponent implements OnInit {
         );
 
         this.productBeingEdited = null; // Sale del modo de edición
-        this.dialogService.openAlertDialog('Éxito', 'Producto actualizado correctamente');
+        this.dialogService.openAlertDialog('Éxito', 'Producto actualizado correctamente.');
       },
       (error) => {
         console.error('Error al actualizar producto:', error);
-        this.dialogService.openAlertDialog('Error', error.message);
+        this.dialogService.openAlertDialog('Error', 'Error al actulizar el producto. Intente nuevamente.');
       }
     );
   }

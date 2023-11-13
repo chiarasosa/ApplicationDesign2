@@ -10,8 +10,8 @@ namespace Obligatorio1.WebApi
 {
     [ApiController]
     [Route("api/products")]
-  //  [TypeFilter(typeof(AuthenticationFilter))]
-   // [TypeFilter(typeof(AuthorizationRolFilter))]
+    //  [TypeFilter(typeof(AuthenticationFilter))]
+    // [TypeFilter(typeof(AuthorizationRolFilter))]
     [TypeFilter(typeof(ExceptionFilter))]
     public class ProductController : ControllerBase
     {
@@ -56,8 +56,23 @@ namespace Obligatorio1.WebApi
         [HttpGet]
         public IActionResult GetProducts()
         {
-            var products = _productService.GetProducts();
-            return Ok(products);
+            try
+            {
+                var products = _productService.GetProducts();
+                if (products != null)
+                {
+                    return Ok(products);
+                }
+                else
+                {
+                    return NotFound(new { message = "No products found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                return BadRequest(new { message = "Error: " + ex.Message });
+            }
         }
 
         /// <summary>
@@ -68,9 +83,25 @@ namespace Obligatorio1.WebApi
         [HttpGet("{id}")]
         public IActionResult GetProductByID([FromRoute] int id)
         {
-            var product = _productService.GetProductByID(id);
-            return Ok(product);
+            try
+            {
+                var product = _productService.GetProductByID(id);
+                if (product != null)
+                {
+                    return Ok(product);
+                }
+                else
+                {
+                    return NotFound(new { message = "Product not found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                return BadRequest(new { message = "Error: " + ex.Message });
+            }
         }
+
 
         /// <summary>
         /// Deletes a product by ID.
@@ -83,8 +114,16 @@ namespace Obligatorio1.WebApi
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct([FromRoute] int id)
         {
-            _productService.DeleteProduct(id);
-            return Ok(new { messaje = "Product disposed correctly." });
+            try
+            {
+                _productService.DeleteProduct(id);
+                return Ok(new { message = "Product disposed correctly." });
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                return BadRequest(new { message = "Error: " + ex.Message });
+            }
         }
 
         /// <summary>
@@ -96,11 +135,19 @@ namespace Obligatorio1.WebApi
         /// <response code="404">The product with the specified ID was not found.</response>
         /// <response code="400">Error with the request.</response>
         [HttpPut("{id}")]
-        public JsonResult UpdateProduct([FromRoute] int id, [FromBody] Product product)
+        public IActionResult UpdateProduct([FromRoute] int id, [FromBody] Product product)
         {
-            _productService.UpdateProduct(id, product);
-            var response = new { message = "Product updated successfully" };
-            return new JsonResult(response);
+            try
+            {
+                _productService.UpdateProduct(id, product);
+                var response = new { message = "Successfully updated product" };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                return BadRequest(new { message = "Error: " + ex.Message });
+            }
         }
 
     }

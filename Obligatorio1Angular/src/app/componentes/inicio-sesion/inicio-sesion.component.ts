@@ -23,23 +23,19 @@ export class InicioSesionComponent {
         // Maneja la respuesta del inicio de sesión aquí
         console.log('Inicio de sesión exitoso:', response);
         this.localStorageService.setToken(response.token);
-        this.openAlertDialog('Éxito', 'Inicio de sesión exitoso');
+        this.openAlertDialog('Éxito', 'Inicio de sesión exitoso.');
 
         // Redirige a la página deseada
        // this.router.navigate(['/pagina-deseada']); // Reemplaza 'pagina-deseada' con la ruta a la página que deseas después del inicio de sesión
       },
       (error) => {
         console.error('Error en el inicio de sesión:', error);
-        this.openAlertDialog('Error', error.error.message);
-
-        // Maneja errores de inicio de sesión aquí
+        this.openAlertDialog('Error', 'Error al iniciar sesion. Intente nuevamente.');
       }
     );
   }
   
-  // No olvides definir el método openAlertDialog como se mencionó en los pasos anteriores
   openAlertDialog(title: string, message: string) {
-    this.dialogService.openAlertDialog(title, message); // Usa dialogService
+    this.dialogService.openAlertDialog(title, message); 
   }
-  
 }

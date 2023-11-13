@@ -17,11 +17,11 @@ export class RegistroComponent {
     this.userService.registerUser(this.user).subscribe(
       (response) => {
         console.log('Usuario registrado con éxito:', response);
-        this.openAlertDialog('Éxito', 'Usuario registrado con éxito');
+        this.openAlertDialog('Éxito', 'Usuario registrado con éxito.');
       },
       (error) => {
         console.error('Error al registrar usuario:', error);
-        this.openAlertDialog('Error', error.error.message);
+        this.openAlertDialog('Error', 'Error al registrar el usuario. Intente nuevamente.');
       }
     );
   }

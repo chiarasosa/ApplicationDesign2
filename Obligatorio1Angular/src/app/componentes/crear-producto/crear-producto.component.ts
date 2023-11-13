@@ -22,23 +22,17 @@ export class CrearProductoComponent {
         // Maneja la respuesta del inicio de sesión aquí
         console.log('Producto registrado:', response);
         
-        this.openAlertDialog('Éxito', 'Creación exitosa');
+        this.openAlertDialog('Éxito', 'Producto registado con exito.');
 
         
       },
       (error) => {
         console.error('Error al registrar producto:', error);
-        this.openAlertDialog('Error', 'Error al registrar el producto');
-
-        // Maneja errores de inicio de sesión aquí
+        this.openAlertDialog('Error', 'Error al registrar el producto. Intente nuevamente.');
       }
-
-
     );
   }
   openAlertDialog(title: string, message: string) {
     this.dialogService.openAlertDialog(title, message); // Usa dialogService
   }
-
 }
-
