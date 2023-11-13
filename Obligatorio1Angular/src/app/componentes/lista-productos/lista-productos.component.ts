@@ -25,7 +25,7 @@ export class ListaProductosComponent implements OnInit {
       },
       (error) => {
         console.error('Error al obtener la lista de productos:', error);
-        this.dialogService.openAlertDialog('Error', 'Error al obtener la lista de productos. Intente nuevamente.');
+        this.dialogService.openAlertDialog('Error', error.error.message);
       }
     );
   }

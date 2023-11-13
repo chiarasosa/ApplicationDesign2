@@ -10,8 +10,8 @@ namespace Obligatorio1.WebApi
 {
     [ApiController]
     [Route("api/products")]
-    //  [TypeFilter(typeof(AuthenticationFilter))]
-    // [TypeFilter(typeof(AuthorizationRolFilter))]
+    [TypeFilter(typeof(AuthenticationFilter))]
+    [TypeFilter(typeof(AuthorizationRolFilter))]
     [TypeFilter(typeof(ExceptionFilter))]
     public class ProductController : ControllerBase
     {
@@ -28,9 +28,9 @@ namespace Obligatorio1.WebApi
         /// <param name="product">Product data to register.</param>
         /// <returns> HTTP response with the register result.</returns>
 
+        [HttpPost]
         [TypeFilter(typeof(AuthenticationFilter))]
         [TypeFilter(typeof(AuthorizationRolFilter))]
-        [HttpPost]
         public IActionResult RegisterProduct([FromBody] Product product)
         {
             try

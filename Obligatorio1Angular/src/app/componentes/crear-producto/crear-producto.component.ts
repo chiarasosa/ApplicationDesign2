@@ -28,7 +28,7 @@ export class CrearProductoComponent {
       },
       (error) => {
         console.error('Error al registrar producto:', error);
-        this.openAlertDialog('Error', 'Error al registrar el producto. Intente nuevamente.');
+        this.openAlertDialog('Error', error.error.message);
       }
     );
   }

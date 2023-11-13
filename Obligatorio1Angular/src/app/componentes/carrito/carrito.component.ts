@@ -28,7 +28,7 @@ export class CarritoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cartService.getCart();
+    this.getCarts();
   }
 
   removeFromCart(product: Product) {
@@ -36,6 +36,8 @@ export class CarritoComponent implements OnInit {
       () => {
         // Manejo en caso de éxito
         this.dialogService.openAlertDialog('Éxito', 'Producto eliminado del carrito correctamente');
+        // Refrescar la lista de carritos después de eliminar un producto
+        this.getCarts();
       },
       (error) => {
         // Manejo de errores
@@ -44,6 +46,20 @@ export class CarritoComponent implements OnInit {
       }
     );
   }
+  
+  getCarts() {
+    this.cartService.getCart().subscribe(
+      (products) => {
+        // Actualizar la lista de carritos
+        this.products = products;
+      },
+      (error) => {
+        console.error('Error al obtener la lista de carritos:', error);
+        this.dialogService.openAlertDialog('Error', 'Error al obtener la lista de carritos');
+      }
+    );
+  }
+  
 
   registerPurchase(){
 
