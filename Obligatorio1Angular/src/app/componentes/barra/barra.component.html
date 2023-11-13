@@ -6,7 +6,8 @@
     <div class="container-fluid">
       <ul class="navbar-nav">
 
-        <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }">
+        <!-- Utiliza *ngIf para mostrar el botón "Registrarse" solo si el usuario no ha iniciado sesión -->
+        <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }" *ngIf="!isLoggedIn">
           <a routerLink="/Registrar" routerLinkActive="active" ariaCurrentWhenActive="page">Registrarse</a>
         </li>
 
