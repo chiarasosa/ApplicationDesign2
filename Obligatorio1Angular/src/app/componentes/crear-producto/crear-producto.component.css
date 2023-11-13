@@ -1,30 +1,32 @@
-/* Estilos personalizados */
-
-body {
-  padding: 40px;
+.container {
+  padding: 30px;
+  padding-top: 160px;
+  padding-bottom: 100px;
 }
 
 .form-container {
-  max-width: 500px;
-  padding: 15px;
+  max-width: 400px;
+  z-index: 1;
+  padding: 10px;
   margin: auto;
   border: 1px solid #c7c8c8;
-  border-radius: 5px;
+  border-radius: 3px;
   background-color: #e7eaec;
   text-align: center;
 }
 
 .form-container .form-signin-heading {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  font-size: 18px;
 }
 
 .form-container .form-control {
   position: relative;
   box-sizing: border-box;
   height: auto;
-  padding: 10px;
-  font-size: 16px;
-  margin-bottom: 10px;
+  padding: 8px;
+  font-size: 14px;
+  margin-bottom: 8px;
 }
 
 .form-container .form-control:focus {
@@ -38,7 +40,7 @@ body {
 }
 
 .form-container input[type="password"] {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
@@ -47,9 +49,9 @@ body {
   width: 100%;
   background-color: #587ba0;
   color: #fff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px 15px;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
 }
 

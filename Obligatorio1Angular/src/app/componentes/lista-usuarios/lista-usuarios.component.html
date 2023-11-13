@@ -1,3 +1,29 @@
+<!-- Contenedor de la tabla con márgenes -->
+<div class="table-container">
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Dirección</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.userName }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.address }}</td>
+        <td class="table-actions">
+          <button class="btn btn-danger btn-eliminar" (click)="deleteUser(user.userID)">Eliminar</button>
+          <button *ngIf="!userBeingEdited" class="btn btn-primary btn-editar" (click)="editUser(user)">Editar</button>
+          <button *ngIf="userBeingEdited === user" class="btn btn-success btn-guardar" (click)="saveUserChanges(user)">Guardar Cambios</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
 <table class="table table-striped">
   <thead class="thead-dark">

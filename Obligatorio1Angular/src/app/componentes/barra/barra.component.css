@@ -1,9 +1,6 @@
 ul {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
     overflow: hidden;
-
   }
   
   li {
@@ -29,7 +26,7 @@ ul {
   .dropdown-content {
     display: none;
     position: fixed;
-    background-color: white; /* Change to green */
+    background-color: white;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -49,10 +46,36 @@ ul {
   }
 
   .navbar {
-    display: flex;
     justify-content: space-between; /* Distribuye los elementos a lo largo del contenedor */
     align-items: center; /* Centra verticalmente los elementos en el contenedor */
-    background-color: #d8dadb; /* Ajusta según sea necesario */
+    background-color: #d8dadb;
+    width: 60%; /* Ajusta según sea necesario */
+}
+
+.navbar-top {
+  justify-content: flex-end; /* Mueve los elementos a la derecha */
+}
+
+.navbar-nav-top {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Mueve los elementos a la derecha */
+}
+
+.navbar-nav-top li {
+  margin-left: 15px;
+}
+
+.navbar-nav-top a {
+  text-decoration: none;
+  font-size: 18px;
+  font-family: 'Arial', sans-serif;
+  color: rgb(0, 58, 41);
+  transition: color 0.3s ease;
+}
+
+.navbar-nav-top a:hover {
+  color: #2c3e50;
 }
 
 .navbar-nav {
@@ -92,12 +115,9 @@ ul {
 
 .custom-navbar .navbar-nav a {
   font-size: 18px;
-  color: #333; /* Cambia esto al color que prefieras */
+  color: rgb(0, 58, 41); /* Cambia esto al color que prefieras */
 }
 
-.custom-navbar .navbar-nav li {
-  margin-right: 5px; /* Puedes ajustar este valor según tus preferencias */
-}
 
 .carritos{
   width:30px;

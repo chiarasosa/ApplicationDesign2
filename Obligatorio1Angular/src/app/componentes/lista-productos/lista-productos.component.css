@@ -1,3 +1,9 @@
+.table-container{
+  padding: 50px;
+  padding-top: 180px;
+  padding-bottom: 150px;
+}
+
 .table-actions {
   display: flex;
   gap: 10px;
@@ -32,3 +38,8 @@
   font-size: 16px;
 
 }
+
+.table thead tr:first-child th {
+  border-bottom: 1px solid #000; 
+}
+
