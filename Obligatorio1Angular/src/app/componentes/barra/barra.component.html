@@ -45,7 +45,6 @@
         </div>
       </li>
  
- 
            <li class="dropdown" [ngClass]="{ 'active': activeRoute === '/Compra' }">
         <a href="#" class="dropbtn">Compras</a>
         <div class="dropdown-content">
@@ -57,6 +56,15 @@
 
       <li class="nav-item-right-carrito" [ngClass]="{ 'active': activeRoute === '/landing' }">
         <a routerLink="/inicioSesion" routerLinkActive="active" ariaCurrentWhenActive="page">
+
+        <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }">
+          
+          <a href="#" (click)="logout() " routerLink="/inicioSesion">Cerrar sesión</a>
+
+        </li>
+
+	      <li class="nav-item-right-carrito" [ngClass]="{ 'active': activeRoute === '/landing' }">
+        <a  routerLinkActive="active" ariaCurrentWhenActive="page" [routerLink]="['/carrito']">
 
           <img class="carritos" src="assets/carrito-de-compras.png" alt="Carrito de compras">
         </a>
