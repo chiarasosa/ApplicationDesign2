@@ -1,39 +1,34 @@
-/* Estilos adicionales para la tabla y los botones */
 .table-actions {
-    display: flex;
-    gap: 10px; /* Separación entre los botones de editar y eliminar */
-  }
-  
-  /* Estilo para el botón de editar */
-  .btn-editar {
-    background-color: #a7dff5; /* Color azul claro (pastel) */
-    border-color: #a7dff5; /* Color del borde */
-    color: #fff; /* Texto en blanco */
-  }
-  
-  /* Estilo para el botón de eliminar */
-  .btn-eliminar {
-    background-color: #fd9684; /* Color rojo claro (pastel) */
-    border-color: #fd9684; /* Color del borde */
-    color: #fff; /* Texto en blanco */
-  }
-  
-  /* Estilo para el botón de guardar cambios */
-  .btn-guardar {
-    background-color: #8FBC8F; /* Color verde oscuro (pastel) */
-    border-color: #8FBC8F; /* Color del borde */
-    color: #fff; /* Texto en blanco */
-  }
-  
-  /* Estilo para los inputs del formulario */
-  .form-control {
-    margin-bottom: 10px; /* Separación entre los inputs del formulario */
-  }
-  
-  .table th,
-  .table td,
-  .btn,
-  .form-control {
-    font-size: 16px; /* Tamaño de la letra aumentado */
+  display: flex;
+  gap: 10px;
+}
 
-  }
+.btn-editar {
+  background-color: #a7dff5;
+  border-color: #a7dff5;
+  color: #fff;
+}
+
+.btn-eliminar {
+  background-color: #fd9684;
+  border-color: #fd9684;
+  color: #fff;
+}
+
+.btn-guardar {
+  background-color: #9af39a;
+  border-color: #9af39a;
+  color: #fff;
+}
+
+.form-control {
+  margin-bottom: 10px;
+}
+
+.table th,
+.table td,
+.btn,
+.form-control {
+  font-size: 16px;
+
+}
