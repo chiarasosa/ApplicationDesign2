@@ -20,7 +20,7 @@ import { AlertDialogComponent } from './componentes/alert-dialog/alert-dialog.co
 import { CrearProductoComponent } from './componentes/crear-producto/crear-producto.component';
 import { ListaUsuariosComponent } from './componentes/lista-usuarios/lista-usuarios.component';
 import { ListaProductosCompraComponent } from './componentes/lista-productos-compra/lista-productos-compra.component';
-import { CarritoComponent } from './carrito/carrito.component';
+import { CarritoComponent } from './componentes/carrito/carrito.component';
 
 @NgModule({
   declarations: [

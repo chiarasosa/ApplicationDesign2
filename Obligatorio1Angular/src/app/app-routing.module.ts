@@ -10,7 +10,7 @@ import { ListaUsuariosComponent } from './componentes/lista-usuarios/lista-usuar
 import { CrearProductoComponent } from './componentes/crear-producto/crear-producto.component';
 import { ListaProductosCompraComponent } from './componentes/lista-productos-compra/lista-productos-compra.component';
 import { CompraComponent } from './componentes/compra/compra.component';
-import { CarritoComponent } from './carrito/carrito.component';
+import { CarritoComponent } from './componentes/carrito/carrito.component';
 
 const routes: Routes = [
   { path: 'inicioSesion', component: InicioSesionComponent },
