@@ -1,4 +1,4 @@
-﻿/*
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Obligatorio1.Domain;
@@ -90,4 +90,3 @@ namespace Obligatorio1.WebApi.Test
     }
 
 }
-*/

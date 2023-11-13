@@ -1,5 +1,6 @@
-<table>
-  <thead>
+
+<table class="table table-striped">
+  <thead class="thead-dark">
     <tr>
       <th>Nombre</th>
       <th>Email</th>
@@ -10,14 +11,14 @@
   </thead>
   <tbody>
     <tr *ngFor="let user of users">
-      <td>{{ user.userName }}</td>
+      <td>{{ user.userName }}</td>nf
       <td>{{ user.email }}</td>
       <td>{{ user.role }}</td>
       <td>{{ user.address }}</td>
-      <td>
-        <button (click)="deleteUser(user.userID)">Eliminar</button>
-        <button *ngIf="!userBeingEdited" (click)="editUser(user)">Editar</button>
-        <button *ngIf="userBeingEdited === user" (click)="saveUserChanges(user)">Guardar Cambios</button>
+      <td class="table-actions">
+        <button class="btn btn-danger btn-eliminar" (click)="deleteUser(user.userID)">Eliminar</button>
+        <button *ngIf="!userBeingEdited" class="btn btn-primary btn-editar" (click)="editUser(user)">Editar</button>
+        <button *ngIf="userBeingEdited === user" class="btn btn-success btn-guardar" (click)="saveUserChanges(user)">Guardar Cambios</button>
       </td>
     </tr>
   </tbody>
@@ -25,11 +26,11 @@
 
 <!-- Formulario de edición -->
 <div *ngIf="userBeingEdited">
-  <form (ngSubmit)="saveUserChanges(userBeingEdited)">
-    <input [(ngModel)]="userBeingEdited.userName" name="userName" placeholder="Nombre">
-    <input [(ngModel)]="userBeingEdited.email" name="email" placeholder="Email">
-    <input [(ngModel)]="userBeingEdited.role" name="role" placeholder="Rol">
-    <input [(ngModel)]="userBeingEdited.address" name="address" placeholder="Dirección">
-    <button type="submit">Guardar Cambios</button>
+  <form class="mt-3" (ngSubmit)="saveUserChanges(userBeingEdited)">
+    <input class="form-control" [(ngModel)]="userBeingEdited.userName" name="userName" placeholder="Nombre">
+    <input class="form-control" [(ngModel)]="userBeingEdited.email" name="email" placeholder="Email">
+    <input class="form-control" [(ngModel)]="userBeingEdited.role" name="role" placeholder="Rol">
+    <input class="form-control" [(ngModel)]="userBeingEdited.address" name="address" placeholder="Dirección">
+    <button type="submit" class="btn btn-success btn-guardar">Guardar Cambios</button>
   </form>
 </div>

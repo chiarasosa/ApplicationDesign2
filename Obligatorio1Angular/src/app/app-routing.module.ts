@@ -6,7 +6,7 @@ import { BarraComponent } from './componentes/barra/barra.component';
 import { ProductoComponent } from './componentes/producto/producto.component';
 import { ListaProductosComponent } from './componentes/lista-productos/lista-productos.component';
 import { LandingPageComponent } from './componentes/landing-page/landing-page.component';
-import { ListaUsuariosComponent } from './componentes/lista-usuarios/lista-usuarios.component'; // Importa el componente ListaUsuariosComponent
+import { ListaUsuariosComponent } from './componentes/lista-usuarios/lista-usuarios.component'; 
 import { CrearProductoComponent } from './componentes/crear-producto/crear-producto.component';
 import { ListaProductosCompraComponent } from './componentes/lista-productos-compra/lista-productos-compra.component';
 import { CompraComponent } from './componentes/compra/compra.component';
@@ -22,6 +22,9 @@ const routes: Routes = [
   { path:'crear-producto',component:CrearProductoComponent},
   { path:'Compra', component: CompraComponent},
   { path:'lista-productos-compra', component: ListaProductosCompraComponent}
+  { path: 'lista-usuarios', component: ListaUsuariosComponent },
+  {path:'crear-producto',component:CrearProductoComponent},
+  {path:'Compra', component: CompraComponent}
 ];
 
 @NgModule({
