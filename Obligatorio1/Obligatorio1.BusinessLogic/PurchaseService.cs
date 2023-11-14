@@ -56,12 +56,12 @@ namespace Obligatorio1.BusinessLogic
                             ProductID = product.ProductID,
                         };
                         newPurchase.PurchasedProducts.Add(purchaseProduct);
-                        _productService.ProductSold(product);
+                    //    _productService.ProductSold(product);
                     }
-                    else
-                    {
-                        cart.Products.Remove(product);
-                    }
+                   // else
+                   // {
+                     //   cart.Products.Remove(product);
+                    //}
                     
                 }
 
