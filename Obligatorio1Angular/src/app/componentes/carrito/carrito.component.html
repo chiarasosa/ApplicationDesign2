@@ -1,71 +1,73 @@
 <div class="container">
-<table>
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Precio</th>
-        <th>Descripción</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of products">
-        <td>{{ product.name }}</td>
-        <td>{{ product.price }}</td>
-        <td>{{ product.description }}</td>
-        <td>
-          
-          <button (click)="removeFromCart(product)">Eliminar del Carrito</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-md-8">
+      <h2>Productos en el Carrito</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products">
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.description }}</td>
+            <td>
+              <button class="btn btn-danger" (click)="removeFromCart(product)">Eliminar del Carrito</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-4">
+      <div>
+        <h2>Tarjetas de Crédito</h2>
+        <input type="radio" name="metodoPago" id="visa">
+        <label for="visa">Visa</label>
+        <br>
+        <input type="radio" name="metodoPago" id="mastercard">
+        <label for="mastercard">MasterCard</label>
+      </div>
 
-  <div>
-    <h2>Tarjetas de Crédito</h2>
-    <input type="radio" name="metodoPago" id="visa">
-    <label for="visa">Visa</label>
-    <br>
-    <input type="radio" name="metodoPago" id="mastercard">
-    <label for="mastercard">MasterCard</label>
-  </div>
-  
-  <div>
-    <h2>Débitos Bancarios</h2>
-    <input type="radio" name="metodoPago" id="santander">
-    <label for="santander">Banco Santander</label>
-    <br>
-    <input type="radio" name="metodoPago" id="itau">
-    <label for="itau">Banco ITAU</label>
-    <br>
-    <input type="radio" name="metodoPago" id="bbva">
-    <label for="bbva">Banco BBVA</label>
-  </div>
-  
-  <div>
-    <h2>Otros Métodos</h2>
-    <input type="radio" name="metodoPago" id="paypal">
-    <label for="paypal">Paypal</label>
-    <br>
-    <input type="radio" name="metodoPago" id="paganza">
-    <label for="paganza">Paganza</label>
-  </div>
-  <br>
-  <div>
-    <p>Total a pagar:${{ getTotalPrice() }}</p>
+      <div>
+        <h2>Débitos Bancarios</h2>
+        <input type="radio" name="metodoPago" id="santander">
+        <label for="santander">Banco Santander</label>
+        <br>
+        <input type="radio" name="metodoPago" id="itau">
+        <label for="itau">Banco ITAU</label>
+        <br>
+        <input type="radio" name="metodoPago" id="bbva">
+        <label for="bbva">Banco BBVA</label>
+      </div>
 
-  </div>
-  <div *ngIf="promotionData">
-    <p>Nombre de la promoción: {{ promotionData.name }}</p>
-    <p>Descripción: {{ promotionData.description }}</p>
-    
-  </div>
-  <div *ngIf="!promotionData">
-    <p>No hay información de promoción disponible.</p>
-  </div>
-  
+      <div>
+        <h2>Otros Métodos</h2>
+        <input type="radio" name="metodoPago" id="paypal">
+        <label for="paypal">Paypal</label>
+        <br>
+        <input type="radio" name="metodoPago" id="paganza">
+        <label for="paganza">Paganza</label>
+      </div>
 
-  
-  <button (click)="registerPurchase()">Comprar</button>
+      <br>
+      <div>
+        <p>Total a pagar: ${{ getTotalPrice() }}</p>
+      </div>
 
+      <div *ngIf="promotionData">
+        <p>Nombre de la promoción: {{ promotionData.name }}</p>
+        <p>Descripción: {{ promotionData.description }}</p>
+      </div>
+      <div *ngIf="!promotionData">
+        <p>No hay información de promoción disponible.</p>
+      </div>
+
+      <button class="btn btn-success" (click)="registerPurchase()">Comprar</button>
+    </div>
+  </div>
 </div>
