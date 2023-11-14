@@ -24,7 +24,7 @@ namespace Obligatorio1.BusinessLogic
             _productService = productService;
         }
 
-        public void CreatePurchase(Guid authToken)
+        public void CreatePurchase(Guid authToken, Purchase p)
         {
             var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
 
@@ -43,6 +43,7 @@ namespace Obligatorio1.BusinessLogic
                     UserID = session.User.UserID,
                     PromoApplied = cart.PromotionApplied,
                     DateOfPurchase = DateTime.Today,
+                    PaymentMethod=p.PaymentMethod
                 };
 
                 cart = ApplyDiscountIfPaganza(cart, newPurchase);
