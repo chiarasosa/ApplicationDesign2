@@ -1,14 +1,14 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8">
-      <h2>Productos en el Carrito</h2>
+      <h1>Carrito de compras</h1>
       <table class="table">
         <thead>
           <tr>
             <th>Nombre</th>
             <th>Precio</th>
             <th>Descripción</th>
-            <th>Acciones</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -17,7 +17,7 @@
             <td>{{ product.price }}</td>
             <td>{{ product.description }}</td>
             <td>
-              <button class="btn btn-danger" (click)="removeFromCart(product)">Eliminar del Carrito</button>
+              <button class="btn btn-danger" (click)="removeFromCart(product)">Eliminar</button>
             </td>
           </tr>
         </tbody>
@@ -25,7 +25,8 @@
     </div>
     <div class="col-md-4">
       <div>
-        <h2>Tarjetas de Crédito</h2>
+        <h2>Métodos de pago</h2>
+        <h4>Tarjetas de Crédito</h4>
         <input type="radio" name="metodoPago" id="visa">
         <label for="visa">Visa</label>
         <br>
@@ -34,7 +35,7 @@
       </div>
 
       <div>
-        <h2>Débitos Bancarios</h2>
+        <h4>Débitos Bancarios</h4>
         <input type="radio" name="metodoPago" id="santander">
         <label for="santander">Banco Santander</label>
         <br>
@@ -46,7 +47,7 @@
       </div>
 
       <div>
-        <h2>Otros Métodos</h2>
+        <h4>Otros Métodos</h4>
         <input type="radio" name="metodoPago" id="paypal">
         <label for="paypal">Paypal</label>
         <br>
@@ -55,9 +56,6 @@
       </div>
 
       <br>
-      <div>
-        <p>Total a pagar: ${{ getTotalPrice() }}</p>
-      </div>
 
       <div *ngIf="promotionData">
         <p>Nombre de la promoción: {{ promotionData.name }}</p>
@@ -67,7 +65,10 @@
         <p>No hay información de promoción disponible.</p>
       </div>
 
+      <div class="total" >Total: ${{ getTotalPrice() }}</div>
+
       <button class="btn btn-success" (click)="registerPurchase()">Comprar</button>
+
     </div>
   </div>
 </div>
