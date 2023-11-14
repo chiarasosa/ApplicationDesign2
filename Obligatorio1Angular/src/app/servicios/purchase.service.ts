@@ -14,8 +14,17 @@ export class PurchaseService {
   constructor(private http: HttpClient) { }
 
   public registerPurchase(purchase: Purchase): Observable<void> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return throwError('Token no disponible');
+    }
+ 
+    const headers = new HttpHeaders({
+      Authorization: token,
+    });
+
     const url = `${this.baseUrl}/purchases`;
-    return this.http.post<void>(url, purchase).pipe(
+    return this.http.post<void>(url, purchase,{headers}).pipe(
       catchError(this.handleError)
     );
   }

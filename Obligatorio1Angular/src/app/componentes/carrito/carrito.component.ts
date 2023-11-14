@@ -92,7 +92,26 @@ export class CarritoComponent implements OnInit {
 
   registerPurchase(){
 
-    this.purchaseService.registerPurchase(this.purchase);
+    this.purchaseService.registerPurchase(this.purchase).subscribe(
+      (response) => {
+        // Maneja la respuesta del inicio de sesión aquí
+        console.log('Compra registrada:', response);
+       
+        this.openAlertDialog('Éxito', 'Compra realizada con exito.');
+ 
+       
+      },
+      (error) => {
+        console.error('Error al registrar la compra:', error);
+        this.openAlertDialog('Error', 'Error al registrar la compra. Intente nuevamente.');
+      }
+    );
   }
+
+  openAlertDialog(title: string, message: string) {
+    this.dialogService.openAlertDialog(title, message); // Usa dialogService
+  }
+
+  
 
 }

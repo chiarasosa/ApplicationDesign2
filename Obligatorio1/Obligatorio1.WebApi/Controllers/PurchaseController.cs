@@ -31,6 +31,7 @@ namespace Obligatorio1.WebApi.Controllers
             try
             {
                _purchaseService.CreatePurchase(authToken);
+
                 return Ok(new { message = "The purchase has been made successfully." });
             }
             catch (Exception ex)

@@ -56,6 +56,7 @@ namespace Obligatorio1.BusinessLogic
                             ProductID = product.ProductID,
                         };
                         newPurchase.PurchasedProducts.Add(purchaseProduct);
+
                     //    _productService.ProductSold(product);
                     }
                    // else
