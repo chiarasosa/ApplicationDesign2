@@ -32,7 +32,7 @@ export class CarritoComponent implements OnInit {
   ngOnInit(): void {
     this.getCarts();
     this.getPromotionData();
-    this.selectedPaymentMethod = 'visa';
+    this.selectedPaymentMethod= undefined;
 
     
   }
