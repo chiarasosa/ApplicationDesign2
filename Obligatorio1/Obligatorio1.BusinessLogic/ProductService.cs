@@ -44,7 +44,7 @@ namespace Obligatorio1.BusinessLogic
 
         public void RegisterProduct(Product product)
         {
-            if (product == null || product.Price <= 0 || product.Brand <= 0 || product.Name == string.Empty)
+            if (product == null || product.Price <= 0 || (product.Brand==null ||product.Brand == "" ) || product.Name == string.Empty)
             {
                 throw new ProductManagmentException("Uno de los datos es incorrecto");
             }
