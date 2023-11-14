@@ -27,8 +27,6 @@ export class CartService {
       Authorization: token,
     });
 
-    console.log('Enviando solicitud POST al servidor:', product); // Agregar mensaje de depuración
-
     return this.http.post<void>(url, product, { headers }).pipe(
       catchError(this.handleError)
     );

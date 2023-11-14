@@ -24,7 +24,6 @@ export class PurchaseService {
 
     const url = `${this.baseUrl}/purchases`;
     purchase.paymentMethod = selectedPaymentMethod;
-    console.log(purchase.paymentMethod);
     return this.http.post<void>(url, purchase,{headers}).pipe(
       catchError(this.handleError)
     );
