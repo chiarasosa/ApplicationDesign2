@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Obligatorio1.Domain;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.WebApi.Filters;
 
@@ -24,13 +25,13 @@ namespace Obligatorio1.WebApi.Controllers
         /// <param name="cart">Cart that wants to be purchased.</param>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
         [HttpPost]
-        public IActionResult CreatePurchase()
+        public IActionResult CreatePurchase([FromBody] Purchase p)
         {
            
             var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
             try
             {
-               _purchaseService.CreatePurchase(authToken);
+               _purchaseService.CreatePurchase(authToken, p);
 
                 return Ok(new { message = "The purchase has been made successfully." });
             }
@@ -63,6 +64,7 @@ namespace Obligatorio1.WebApi.Controllers
                 EmailUsuario= purchase.EmailUsuario,
                 PromoApplied = purchase.PromoApplied,
                 DateOfPurchase = purchase.DateOfPurchase,
+                PaymentMethod = purchase.PaymentMethod,
                 PurchasedProducts = purchase.PurchasedProducts.Select(pp => new
                 {
                     ProductID = pp.ProductID,

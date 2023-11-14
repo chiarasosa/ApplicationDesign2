@@ -27,7 +27,7 @@ export class ListaComprasComponent implements OnInit {
       (error) => {
         console.error('Error al obtener la lista de compras:', error);
         // Puedes manejar el error según tus necesidades, por ejemplo, mostrar un mensaje al usuario
-        // this.dialogService.openAlertDialog('Error', 'Error al obtener la lista de compras. Intente nuevamente.');
+        this.dialogService.openAlertDialog('Error', 'Error al obtener la lista de compras. Intente nuevamente.');
       }
     );
   }

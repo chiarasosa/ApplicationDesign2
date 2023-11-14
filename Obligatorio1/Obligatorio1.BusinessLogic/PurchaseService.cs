@@ -24,7 +24,7 @@ namespace Obligatorio1.BusinessLogic
             _productService = productService;
         }
 
-        public void CreatePurchase(Guid authToken)
+        public void CreatePurchase(Guid authToken, Purchase p)
         {
             var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
 
@@ -37,14 +37,15 @@ namespace Obligatorio1.BusinessLogic
                 {
                     throw new PurchaseException("El carrito debe tener al menos un elemento para poder realizar la compra.");
                 }
-                
+
                 var newPurchase = new Purchase
                 {
                     UserID = session.User.UserID,
-                    UserName= session.User.UserName,
+                    UserName = session.User.UserName,
                     PromoApplied = cart.PromotionApplied,
                     DateOfPurchase = DateTime.Today,
-                    EmailUsuario= session.User.Email,
+                    EmailUsuario = session.User.Email,
+                    PaymentMethod = p.PaymentMethod,
                 };
 
                 cart = ApplyDiscountIfPaganza(cart, newPurchase);

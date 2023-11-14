@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ namespace Obligatorio1.Domain
         public List<PurchaseProduct> PurchasedProducts { get; set; }
 
         public string PromoApplied { get; set; }
+        
+        [Column(TypeName = "datetime2")]
         public DateTime? DateOfPurchase { get; set; }
 
         public string PaymentMethod { get; set; }
