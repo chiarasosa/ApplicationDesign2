@@ -83,7 +83,7 @@ export class CartService {
       return throwError('Token no disponible');
     }
 
-    const url = `${this.baseUrl}/get-promotion`;
+    const url = `${this.baseUrl}/carts/PromotionApplied`;
     const headers = new HttpHeaders({
       Authorization: token,
     });

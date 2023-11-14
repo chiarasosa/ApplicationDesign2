@@ -59,13 +59,11 @@
         <p>Total a pagar: ${{ getTotalPrice() }}</p>
       </div>
 
-      <div *ngIf="promotionData">
-        <p>Nombre de la promoción: {{ promotionData.name }}</p>
-        <p>Descripción: {{ promotionData.description }}</p>
+      <div >
+        <p>Nombre de la promoción: {{ promotionData }}</p>
+
       </div>
-      <div *ngIf="!promotionData">
-        <p>No hay información de promoción disponible.</p>
-      </div>
+
 
       <button class="btn btn-success" (click)="registerPurchase()">Comprar</button>
     </div>

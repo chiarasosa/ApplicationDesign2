@@ -70,7 +70,7 @@ namespace Obligatorio1.WebApi.Controllers
             var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
             var promo = _cartService.GetPromottionAppliedCart(authToken);
 
-            return Ok(promo);
+            return Ok(new { message= promo });
         }
 
         /// <summary>

@@ -50,16 +50,9 @@ export class CarritoComponent implements OnInit {
   }
   
   getPromotionData() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('Token no disponible'); // Agregar mensaje de error
-      // Manejar el error o lanzar una alerta si es necesario
-      return;
-    }
-
     this.cartService.getPromotionAppliedToCart().subscribe(
       (data) => {
-        this.promotionData = data;
+        this.promotionData = data.message;
         // Hacer algo con los datos recibidos, por ejemplo, asignar a una variable en tu componente
         console.log('Promoción recibida:', data);
       },
