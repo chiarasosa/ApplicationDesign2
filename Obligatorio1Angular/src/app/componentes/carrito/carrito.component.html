@@ -8,6 +8,10 @@
             <th>Nombre</th>
             <th>Precio</th>
             <th>Descripción</th>
+            <th>Marca</th>
+            <th>Categoría</th>
+            <th>Color</th>
+            <th>Stock</th>
             <th></th>
           </tr>
         </thead>
@@ -16,6 +20,10 @@
             <td>{{ product.name }}</td>
             <td>{{ product.price }}</td>
             <td>{{ product.description }}</td>
+            <td>{{ product.brand }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.color }}</td>
+            <td>{{ product.stock }}</td>
             <td>
               <button class="btn btn-danger" (click)="removeFromCart(product)">Eliminar</button>
             </td>
@@ -57,15 +65,13 @@
 
       <br>
 
-      <div >
+      <div>
         <p>Nombre de la promoción: {{ promotionData }}</p>
-
       </div>
 
-      <div class="total" >Total: ${{ getTotalPrice() }}</div>
+      <div class="total">Total: ${{ getTotalPrice() }}</div>
 
       <button class="btn btn-success" (click)="registerPurchase()">Comprar</button>
-
     </div>
   </div>
 </div>
