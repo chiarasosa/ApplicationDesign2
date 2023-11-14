@@ -56,8 +56,11 @@ namespace Obligatorio1.WebApi.Controllers
 
             var formattedPurchases = purchases.Select(purchase => new
             {
+       
                 PurchaseID = purchase.PurchaseID,
                 UserID = purchase.UserID,
+                UserName= purchase.UserName,
+                EmailUsuario= purchase.EmailUsuario,
                 PromoApplied = purchase.PromoApplied,
                 DateOfPurchase = purchase.DateOfPurchase,
                 PurchasedProducts = purchase.PurchasedProducts.Select(pp => new

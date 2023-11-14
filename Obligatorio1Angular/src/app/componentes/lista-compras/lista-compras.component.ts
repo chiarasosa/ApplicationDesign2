@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PurchaseService } from 'src/app/servicios/purchase.service';
 import { Purchase } from 'src/app/modelos/Purchase';
 import { DialogService } from 'src/app/servicios/dialog.service';
+import { User } from 'src/app/modelos/User';
 
 @Component({
   selector: 'app-lista-compras',
@@ -21,6 +22,7 @@ export class ListaComprasComponent implements OnInit {
     this.purchaseService.getCompras().subscribe(
       (compras) => {
         this.compras = compras;
+        console.log('Compras recibidas:', this.compras);
       },
       (error) => {
         console.error('Error al obtener la lista de compras:', error);

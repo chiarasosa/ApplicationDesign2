@@ -75,7 +75,6 @@ namespace Obligatorio1.WebApi
         /// <param name="id">The ID of the user to obtain.</param>
         /// <returns>HTTP response with the user found.</returns>
         [TypeFilter(typeof(AuthenticationFilter))]
-        [TypeFilter(typeof(AuthorizationRolFilter))]
         [HttpGet("{id}")]
         public IActionResult GetUserByID([FromRoute] int id)
         {

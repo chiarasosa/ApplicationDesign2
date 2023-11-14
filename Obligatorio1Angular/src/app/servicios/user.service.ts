@@ -92,6 +92,24 @@ export class UserService {
       .pipe(catchError(this.handleError));
   }
 
+  public getUserByID(userID: number): Observable<User> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return throwError('Token no disponible');
+    }
+
+    const url = `${this.baseUrl}/users/${userID}`;
+    const headers = new HttpHeaders({
+      Authorization: token,
+    });
+
+    return this.http
+      .get<User>(url, { headers })
+      .pipe(catchError(this.handleError));
+  }
+
+  
+
   private handleError(error: any) {
     console.error('Ocurrió un error:', error);
     return throwError(error);

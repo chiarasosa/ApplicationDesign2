@@ -41,8 +41,10 @@ namespace Obligatorio1.BusinessLogic
                 var newPurchase = new Purchase
                 {
                     UserID = session.User.UserID,
+                    UserName= session.User.UserName,
                     PromoApplied = cart.PromotionApplied,
                     DateOfPurchase = DateTime.Today,
+                    EmailUsuario= session.User.Email,
                 };
 
                 cart = ApplyDiscountIfPaganza(cart, newPurchase);

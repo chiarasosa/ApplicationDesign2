@@ -6,7 +6,9 @@
     <thead class="thead-dark">
       <tr>
         <th>ID de Compra</th>
-        <th>ID de Usuario</th>
+        <th>Nombre de Usuario</th>
+        <th>Email de Usuario</th>
+        <!-- Otras columnas según tus necesidades -->
         <th>Fecha de Compra</th>
         <th>Método de Pago</th>
       </tr>
@@ -14,7 +16,9 @@
     <tbody>
       <tr *ngFor="let compra of compras">
         <td>{{ compra.purchaseID }}</td>
-        <td>{{ compra.userID }}</td>
+        <td>{{ compra.userName }}</td> <!-- Muestra el nombre de usuario -->
+        <td>{{ compra.emailUsuario }}</td> <!-- Muestra el nombre de usuario -->
+        <!-- Otras propiedades según tus necesidades -->
         <td>{{ compra.dateOfPurchase | date: 'dd/MM/yyyy' }}</td>
         <td>{{ compra.paymentMethod ? compra.paymentMethod : 'N/A' }}</td>
       </tr>

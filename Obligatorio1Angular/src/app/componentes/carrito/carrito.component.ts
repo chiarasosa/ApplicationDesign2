@@ -19,7 +19,7 @@ export class CarritoComponent implements OnInit {
   products:Product[]=[];
   user: any = { rol: '' };
   fecha: Date = new Date();
-  purchase:Purchase=new Purchase(0,0,this.user,this.purchasedProducts,'',this.fecha,'');
+  purchase:Purchase=new Purchase(0,0,this.user,this.purchasedProducts,'',this.fecha,'', '', '');
   promotionData: any;
   constructor(
     private productService: ProductService,

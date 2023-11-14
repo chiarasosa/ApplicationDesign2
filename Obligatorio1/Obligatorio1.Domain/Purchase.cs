@@ -10,6 +10,9 @@ namespace Obligatorio1.Domain
     {
         public int PurchaseID { get; set; }
         public int UserID { get; set; }
+        public string UserName { get; set; }
+
+        public string EmailUsuario { get; set; }
         public User User { get; set; }
         public List<PurchaseProduct> PurchasedProducts { get; set; }
 
@@ -24,16 +27,21 @@ namespace Obligatorio1.Domain
             this.PromoApplied = String.Empty;
             this.DateOfPurchase = null;
             this.PaymentMethod = String.Empty;
+            this.UserName = String.Empty;
+            this.EmailUsuario = String.Empty;
         }
 
-        public Purchase(int PurchaseID, int userID, List<PurchaseProduct> PurchasedProducts, string NamePromoApplied, DateTime DateOfPurchase)
+        public Purchase(int PurchaseID, int userID, List<PurchaseProduct> PurchasedProducts, string NamePromoApplied, DateTime DateOfPurchase, 
+                        string UserName, string EmailUsuario, string PaymentMethod)
         {
             this.PurchaseID = PurchaseID;
             this.UserID = userID;
             this.PurchasedProducts = PurchasedProducts;
             this.PromoApplied = NamePromoApplied;
             this.DateOfPurchase = DateOfPurchase;
-            this.PaymentMethod = String.Empty;
+            this.PaymentMethod = PaymentMethod;
+            this.UserName= UserName;
+            this.EmailUsuario = EmailUsuario;
         }
     }
 }
