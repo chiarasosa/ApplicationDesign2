@@ -23,6 +23,7 @@ import { ListaProductosCompraComponent } from './componentes/lista-productos-com
 import { CarritoComponent } from './componentes/carrito/carrito.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { ListaComprasComponent } from './componentes/lista-compras/lista-compras.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MatTableModule } from '@angular/material/table';
     ListaUsuariosComponent,
     ListaProductosCompraComponent,
     CarritoComponent,
+    ListaComprasComponent,
   ],
   imports: [
     BrowserModule,

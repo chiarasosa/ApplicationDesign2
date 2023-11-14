@@ -29,6 +29,22 @@ export class PurchaseService {
     );
   }
 
+  public getCompras(): Observable<Purchase[]> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return throwError('Token no disponible');
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: token,
+    });
+
+    const url = `${this.baseUrl}/purchases`;
+    return this.http.get<Purchase[]>(url, { headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
 
   private handleError(error: any) {
     console.error('Ocurrió un error:', error);

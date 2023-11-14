@@ -67,10 +67,9 @@ namespace Obligatorio1.WebApi.Controllers
                 })
             });
 
-            var jsonResult = JsonConvert.SerializeObject(formattedPurchases, Formatting.Indented);
-
-            return Ok(jsonResult);
+            return Ok(formattedPurchases);
         }
+
 
         /// <summary>
         /// Get a specific a purchase.
