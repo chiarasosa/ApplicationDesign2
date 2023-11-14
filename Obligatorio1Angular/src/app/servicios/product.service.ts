@@ -75,6 +75,22 @@ export class ProductService {
       .pipe(catchError(this.handleError));
   }
 
+  getProductss(): Observable<Product[]> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return throwError('Token no disponible');
+    }
+
+    const url = `${this.baseUrl}/GetProducts`;
+    const headers = new HttpHeaders({
+      Authorization: token,
+    });
+
+    return this.http.get<Product[]>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   private handleError(error: any) {
     console.error('Ocurrió un error:', error);
     return throwError(error);

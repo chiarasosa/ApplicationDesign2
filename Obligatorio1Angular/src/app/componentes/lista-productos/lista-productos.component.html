@@ -5,6 +5,10 @@
         <th>Nombre</th>
         <th>Precio</th>
         <th>Descripción</th>
+        <th>Marca</th> <!-- Nueva columna -->
+        <th>Categoría</th> <!-- Nueva columna -->
+        <th>Color</th> <!-- Nueva columna -->
+        <th>Stock</th> <!-- Nueva columna -->
         <th>Acciones</th>
       </tr>
     </thead>
@@ -13,6 +17,10 @@
         <td>{{ product.name }}</td>
         <td>{{ product.price }}</td>
         <td>{{ product.description }}</td>
+        <td>{{ product.brand }}</td> <!-- Muestra la marca -->
+        <td>{{ product.category }}</td> <!-- Muestra la categoría -->
+        <td>{{ product.color }}</td> <!-- Muestra el color -->
+        <td>{{ product.stock }}</td> <!-- Muestra el stock -->
         <td class="table-actions">
           <button
             class="btn btn-danger btn-eliminar"
@@ -64,6 +72,38 @@
           [(ngModel)]="productBeingEdited.description"
           name="description"
           placeholder="Descripción"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          class="form-control"
+          [(ngModel)]="productBeingEdited.brand"
+          name="brand"
+          placeholder="Marca"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          class="form-control"
+          [(ngModel)]="productBeingEdited.category"
+          name="category"
+          placeholder="Categoría"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          class="form-control"
+          [(ngModel)]="productBeingEdited.color"
+          name="color"
+          placeholder="Color"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          class="form-control"
+          [(ngModel)]="productBeingEdited.stock"
+          name="stock"
+          placeholder="Stock"
         />
       </div>
       <button type="submit" class="btn btn-success btn-guardar">
