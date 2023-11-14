@@ -20,6 +20,7 @@ export class CarritoComponent implements OnInit {
   user: any = { rol: '' };
   fecha: Date = new Date();
   purchase:Purchase=new Purchase(0,0,this.user,this.purchasedProducts,'',this.fecha,'');
+  promotionData: any;
   constructor(
     private productService: ProductService,
     private cartService: CartService,
@@ -29,6 +30,7 @@ export class CarritoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCarts();
+    this.getPromotionData();
   }
 
   removeFromCart(product: Product) {
@@ -47,6 +49,27 @@ export class CarritoComponent implements OnInit {
     );
   }
   
+  getPromotionData() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token no disponible'); // Agregar mensaje de error
+      // Manejar el error o lanzar una alerta si es necesario
+      return;
+    }
+
+    this.cartService.getPromotionAppliedToCart().subscribe(
+      (data) => {
+        this.promotionData = data;
+        // Hacer algo con los datos recibidos, por ejemplo, asignar a una variable en tu componente
+        console.log('Promoción recibida:', data);
+      },
+      (error) => {
+        console.error('Error al obtener la promoción:', error);
+        // Manejar el error, mostrar un mensaje o hacer algo en caso de error
+      }
+    );
+  }
+
   getCarts() {
     this.cartService.getCart().subscribe(
       (products) => {
@@ -60,10 +83,35 @@ export class CarritoComponent implements OnInit {
     );
   }
   
+  getTotalPrice() {
+    if (this.products && this.products.length > 0) {
+      return this.products.reduce((total, product) => total + product.price, 0);
+    }
+    return 0; 
+  }
 
   registerPurchase(){
 
-    this.purchaseService.registerPurchase(this.purchase);
+    this.purchaseService.registerPurchase(this.purchase).subscribe(
+      (response) => {
+        // Maneja la respuesta del inicio de sesión aquí
+        console.log('Compra registrada:', response);
+       
+        this.openAlertDialog('Éxito', 'Compra realizada con exito.');
+ 
+       
+      },
+      (error) => {
+        console.error('Error al registrar la compra:', error);
+        this.openAlertDialog('Error', 'Error al registrar la compra. Intente nuevamente.');
+      }
+    );
   }
+
+  openAlertDialog(title: string, message: string) {
+    this.dialogService.openAlertDialog(title, message); // Usa dialogService
+  }
+
+  
 
 }

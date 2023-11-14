@@ -13,6 +13,8 @@ export class CartService {
 
   constructor(private http: HttpClient) {}
 
+  
+
   public addToCart(product: Product): Observable<void> {
     const token = localStorage.getItem('token');
     if (!token) {
