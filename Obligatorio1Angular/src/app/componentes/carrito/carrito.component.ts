@@ -32,6 +32,9 @@ export class CarritoComponent implements OnInit {
   ngOnInit(): void {
     this.getCarts();
     this.getPromotionData();
+    this.selectedPaymentMethod = 'visa';
+
+    
   }
 
   removeFromCart(product: Product) {
@@ -91,16 +94,20 @@ export class CarritoComponent implements OnInit {
     return 0; 
   }
 
+  updatePaymentMethod(method: string) {
+    this.selectedPaymentMethod = method;
+  }
+
   registerPurchase(){
     
-
+    console.log('Selected Payment Method:', this.selectedPaymentMethod);
 
     if (this.selectedPaymentMethod) {
     // Actualiza el método de pago en el objeto purchase
     this.purchase.paymentMethod = this.selectedPaymentMethod;
 
     // Luego procede con el registro de la compra
-    this.purchaseService.registerPurchase(this.purchase).subscribe(
+    this.purchaseService.registerPurchase(this.purchase,this.selectedPaymentMethod).subscribe(
       (response) => {
         console.log('Compra registrada:', response);
         this.openAlertDialog('Éxito', 'Compra realizada con éxito.');
