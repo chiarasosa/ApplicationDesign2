@@ -1,23 +1,23 @@
-<h2>Lista de Productos</h2>
+<div class="container">
+  <h2 class="title">Productos disponibles</h2>
 
-<table>
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Precio</th>
-      <th>Descripción</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let product of products">
-      <td>{{ product.name }}</td>
-      <td>{{ product.price }}</td>
-      <td>{{ product.description }}</td>
-      <td>
-        <button (click)="addToCart(product)">Agregar al Carrito</button>
-        <button (click)="removeFromCart(product)">Eliminar del Carrito</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <div class="row">
+    <div *ngFor="let product of products" class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title text-center mb-3">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-end">
+          <p class="card-price">${{ product.price }}</p>
+          <button class="btn btn-primary" (click)="addToCart(product)">
+            Agregar al Carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paginador -->
+  <mat-paginator [pageSize]="6" [pageSizeOptions]="[6, 12, 18]" showFirstLastButtons></mat-paginator>
+</div>

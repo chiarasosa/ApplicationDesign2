@@ -21,6 +21,8 @@ import { CrearProductoComponent } from './componentes/crear-producto/crear-produ
 import { ListaUsuariosComponent } from './componentes/lista-usuarios/lista-usuarios.component';
 import { ListaProductosCompraComponent } from './componentes/lista-productos-compra/lista-productos-compra.component';
 import { CarritoComponent } from './componentes/carrito/carrito.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { CarritoComponent } from './componentes/carrito/carrito.component';
     HttpClientModule,
     MatDialogModule,
     MatButtonModule,
-    NoopAnimationsModule, // Agrega MatButtonModule aquí
+    NoopAnimationsModule, 
+    MatPaginatorModule, 
+    MatTableModule
   ],
   providers: [DialogService],
   bootstrap: [AppComponent],
