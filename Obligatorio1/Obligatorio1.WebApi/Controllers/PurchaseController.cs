@@ -26,11 +26,18 @@ namespace Obligatorio1.WebApi.Controllers
         [HttpPost]
         public IActionResult CreatePurchase()
         {
+           
             var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
-            _purchaseService.CreatePurchase(authToken);
-            return Ok("The purchase has been made successfully.");
+            try
+            {
+               _purchaseService.CreatePurchase(authToken);
+                return Ok(new { message = "The purchase has been made successfully." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "Error al procesar la solicitud: " + ex.Message });
+            }
         }
-
         /// <summary>
         /// Gets all purchases.
         /// </summary>
