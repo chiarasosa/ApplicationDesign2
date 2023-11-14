@@ -41,6 +41,7 @@ export class ListaUsuariosComponent implements OnInit {
     );
   }
   
+
   editUser(user: User) {
     this.userBeingEdited = { ...user };
   }
