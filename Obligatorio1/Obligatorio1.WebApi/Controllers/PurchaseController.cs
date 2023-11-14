@@ -31,7 +31,8 @@ namespace Obligatorio1.WebApi.Controllers
             var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
             try
             {
-               _purchaseService.CreatePurchase(authToken, p);
+
+                _purchaseService.CreatePurchase(authToken,p);
 
                 return Ok(new { message = "The purchase has been made successfully." });
             }

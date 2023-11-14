@@ -35,31 +35,34 @@
       <div>
         <h2>Métodos de pago</h2>
         <h4>Tarjetas de Crédito</h4>
-        <input type="radio" name="metodoPago" id="visa">
+        <input type="radio" name="metodoPago" id="visa" (change)="updatePaymentMethod('visa')">
         <label for="visa">Visa</label>
         <br>
-        <input type="radio" name="metodoPago" id="mastercard">
+        <input type="radio" name="metodoPago" id="mastercard" (change)="updatePaymentMethod('mastercard')">
         <label for="mastercard">MasterCard</label>
       </div>
 
       <div>
         <h4>Débitos Bancarios</h4>
-        <input type="radio" name="metodoPago" id="santander">
+
+        <input type="radio" name="metodoPago" id="santander" (change)="updatePaymentMethod('santander')">
         <label for="santander">Banco Santander</label>
         <br>
-        <input type="radio" name="metodoPago" id="itau">
+        <input type="radio" name="metodoPago" id="itau" (change)="updatePaymentMethod('itau')">
         <label for="itau">Banco ITAU</label>
         <br>
-        <input type="radio" name="metodoPago" id="bbva">
+        <input type="radio" name="metodoPago" id="bbva" (change)="updatePaymentMethod('bbva')">
         <label for="bbva">Banco BBVA</label>
       </div>
 
       <div>
+
         <h4>Otros Métodos</h4>
-        <input type="radio" name="metodoPago" id="paypal">
+        <input type="radio" name="metodoPago" id="paypal" (change)="updatePaymentMethod('paypal')">
+
         <label for="paypal">Paypal</label>
         <br>
-        <input type="radio" name="metodoPago" id="paganza">
+        <input type="radio" name="metodoPago" id="paganza" (change)="updatePaymentMethod('paganza')">
         <label for="paganza">Paganza</label>
       </div>
 

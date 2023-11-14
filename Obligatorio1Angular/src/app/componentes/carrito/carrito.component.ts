@@ -21,6 +21,7 @@ export class CarritoComponent implements OnInit {
   fecha: Date = new Date();
   purchase:Purchase=new Purchase(0,0,this.user,this.purchasedProducts,'',this.fecha,'', '', '');
   promotionData: any;
+  selectedPaymentMethod: string | undefined;
   constructor(
     private productService: ProductService,
     private cartService: CartService,
@@ -31,6 +32,9 @@ export class CarritoComponent implements OnInit {
   ngOnInit(): void {
     this.getCarts();
     this.getPromotionData();
+    this.selectedPaymentMethod= undefined;
+
+    
   }
 
   removeFromCart(product: Product) {
@@ -83,22 +87,33 @@ export class CarritoComponent implements OnInit {
     return 0; 
   }
 
-  registerPurchase(){
+  updatePaymentMethod(method: string) {
+    this.selectedPaymentMethod = method;
+  }
 
-    this.purchaseService.registerPurchase(this.purchase).subscribe(
+  registerPurchase(){
+    
+    console.log('Selected Payment Method:', this.selectedPaymentMethod);
+
+    if (this.selectedPaymentMethod) {
+    // Actualiza el método de pago en el objeto purchase
+    this.purchase.paymentMethod = this.selectedPaymentMethod;
+
+    // Luego procede con el registro de la compra
+    this.purchaseService.registerPurchase(this.purchase,this.selectedPaymentMethod).subscribe(
       (response) => {
-        // Maneja la respuesta del inicio de sesión aquí
         console.log('Compra registrada:', response);
-       
-        this.openAlertDialog('Éxito', 'Compra realizada con exito.');
- 
-       
+        this.openAlertDialog('Éxito', 'Compra realizada con éxito.');
       },
       (error) => {
         console.error('Error al registrar la compra:', error);
         this.openAlertDialog('Error', 'Error al registrar la compra. Intente nuevamente.');
       }
     );
+  } else {
+    // Muestra un mensaje de error si no se seleccionó un método de pago
+    this.openAlertDialog('Error', 'Por favor, seleccione un método de pago antes de comprar.');
+  }
   }
 
   openAlertDialog(title: string, message: string) {

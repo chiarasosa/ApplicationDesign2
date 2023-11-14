@@ -12,7 +12,7 @@ export class PurchaseService {
 
   constructor(private http: HttpClient) { }
 
-  public registerPurchase(purchase: Purchase): Observable<void> {
+  public registerPurchase(purchase: Purchase, selectedPaymentMethod: string): Observable<void> {
     const token = localStorage.getItem('token');
     if (!token) {
       return throwError('Token no disponible');
@@ -23,7 +23,9 @@ export class PurchaseService {
     });
 
     const url = `${this.baseUrl}/purchases`;
-    return this.http.post<void>(url, purchase, { headers }).pipe(
+    purchase.paymentMethod = selectedPaymentMethod;
+    console.log(purchase.paymentMethod);
+    return this.http.post<void>(url, purchase,{headers}).pipe(
       catchError(this.handleError)
     );
   }

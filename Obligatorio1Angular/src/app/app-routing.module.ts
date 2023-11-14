@@ -12,6 +12,7 @@ import { ListaProductosCompraComponent } from './componentes/lista-productos-com
 import { CompraComponent } from './componentes/compra/compra.component';
 import { CarritoComponent } from './componentes/carrito/carrito.component';
 import { ListaComprasComponent } from './componentes//lista-compras/lista-compras.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: 'inicioSesion', component: InicioSesionComponent },
@@ -29,7 +30,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes),FormsModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
