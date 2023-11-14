@@ -26,31 +26,31 @@
     <div class="col-md-4">
       <div>
         <h2>Tarjetas de Crédito</h2>
-        <input type="radio" name="metodoPago" id="visa">
+        <input type="radio" name="metodoPago" id="visa" [(ngModel)]="selectedPaymentMethod">
         <label for="visa">Visa</label>
         <br>
-        <input type="radio" name="metodoPago" id="mastercard">
+        <input type="radio" name="metodoPago" id="mastercard" [(ngModel)]="selectedPaymentMethod">
         <label for="mastercard">MasterCard</label>
       </div>
 
       <div>
         <h2>Débitos Bancarios</h2>
-        <input type="radio" name="metodoPago" id="santander">
+        <input type="radio" name="metodoPago" id="santander" [(ngModel)]="selectedPaymentMethod">
         <label for="santander">Banco Santander</label>
         <br>
-        <input type="radio" name="metodoPago" id="itau">
+        <input type="radio" name="metodoPago" id="itau" [(ngModel)]="selectedPaymentMethod">
         <label for="itau">Banco ITAU</label>
         <br>
-        <input type="radio" name="metodoPago" id="bbva">
+        <input type="radio" name="metodoPago" id="bbva" [(ngModel)]="selectedPaymentMethod">
         <label for="bbva">Banco BBVA</label>
       </div>
 
       <div>
         <h2>Otros Métodos</h2>
-        <input type="radio" name="metodoPago" id="paypal">
+        <input type="radio" name="metodoPago" id="paypal" [(ngModel)]="selectedPaymentMethod">
         <label for="paypal">Paypal</label>
         <br>
-        <input type="radio" name="metodoPago" id="paganza">
+        <input type="radio" name="metodoPago" id="paganza" [(ngModel)]="selectedPaymentMethod">
         <label for="paganza">Paganza</label>
       </div>
 
