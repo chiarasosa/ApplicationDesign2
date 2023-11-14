@@ -43,7 +43,7 @@ namespace Obligatorio1.BusinessLogic
                     UserID = session.User.UserID,
                     UserName = session.User.UserName,
                     PromoApplied = cart.PromotionApplied,
-                    DateOfPurchase = DateTime.Today,
+                    DateOfPurchase = DateTime.Now,
                     EmailUsuario = session.User.Email,
                     PaymentMethod = p.PaymentMethod,
                 };
