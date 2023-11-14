@@ -1,6 +1,7 @@
 /* Estilos para la cabecera (header) */
 .container-fluid {
   position: fixed;
+  z-index: 1000;
 }
 
 .H1Header {

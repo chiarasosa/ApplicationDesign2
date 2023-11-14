@@ -10,7 +10,7 @@ import { DialogService } from 'src/app/servicios/dialog.service';
   styleUrls: ['./lista-productos-compra.component.css'],
 })
 export class ListaProductosCompraComponent implements OnInit {
-  products: Product[] = [];
+  products: Product[] = [];;
 
   constructor(
     private productService: ProductService,
