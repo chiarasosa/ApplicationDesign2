@@ -23,7 +23,7 @@ export class ListaProductosCompraComponent implements OnInit {
   }
 
   getProducts() {
-    this.productService.getProducts().subscribe(
+    this.productService.getProductss().subscribe(
       (products) => {
         this.products = products;
       },
