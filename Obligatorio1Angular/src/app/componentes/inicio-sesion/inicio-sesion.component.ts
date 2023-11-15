@@ -28,6 +28,7 @@ export class InicioSesionComponent {
         console.log('Inicio de sesión exitoso:', response);
         this.localStorageService.setToken(response.token);
         this.authService.setLoggedIn(true); // Notifica a otros componentes que el usuario ha iniciado sesión
+        this.isLoggedIn= true;
         this.openAlertDialog('Éxito', 'Inicio de sesión exitoso');
   
         // No es necesario recargar la página
