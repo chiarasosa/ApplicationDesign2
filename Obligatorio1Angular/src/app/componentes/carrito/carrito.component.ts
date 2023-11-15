@@ -93,8 +93,6 @@ export class CarritoComponent implements OnInit {
 
   registerPurchase(){
     
-    console.log('Selected Payment Method:', this.selectedPaymentMethod);
-
     if (this.selectedPaymentMethod) {
     // Actualiza el método de pago en el objeto purchase
     this.purchase.paymentMethod = this.selectedPaymentMethod;

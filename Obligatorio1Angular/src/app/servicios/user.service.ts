@@ -30,7 +30,7 @@ export class UserService {
   public getUserFromToken(): Observable<User> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const url = `${this.baseUrl}/current-user`;
@@ -47,7 +47,7 @@ export class UserService {
     const token = localStorage.getItem('token');
     console.log("TOKEN: " + token);
     if (!token) {
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesion.');
     }
 
     const url = `${this.baseUrl}/users`;

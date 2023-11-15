@@ -48,6 +48,7 @@
         name="flexRadioDefault"
         id="flexRadioAdmin"
         value="Administrador"
+        required 
       />
       <label class="form-check-label" for="flexRadioAdmin">Administrador</label>
     </div>
@@ -55,11 +56,12 @@
     <div class="form-check">
       <input
         class="form-check-input"
-        type="radio"
         [(ngModel)]="user.role"
+        type="radio"
         name="flexRadioDefault"
         id="flexRadioComprador"
         value="Comprador"
+        required
       />
       <label class="form-check-label" for="flexRadioComprador">Comprador</label>
     </div>

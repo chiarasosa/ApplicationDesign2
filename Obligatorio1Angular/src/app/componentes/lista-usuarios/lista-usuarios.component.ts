@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/servicios/user.service';
 import { User } from 'src/app/modelos/User';
 import { DialogService } from 'src/app/servicios/dialog.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-lista-usuarios',
@@ -12,7 +14,7 @@ export class ListaUsuariosComponent implements OnInit {
   users: User[] = [];
   userBeingEdited: User | null = null;
 
-  constructor(private userService: UserService, private dialogService: DialogService) {}
+  constructor(private userService: UserService, private dialogService: DialogService, private router: Router) {}
 
   ngOnInit(): void {
     this.userService.getUsuarios().subscribe(
@@ -21,7 +23,11 @@ export class ListaUsuariosComponent implements OnInit {
       },
       (error) => {
         console.error('Error al obtener la lista de usuarios:', error);
-        this.dialogService.openAlertDialog('Error', error.error.message);
+        if (error!= null && error.error != null && error.errror.message != null)
+          this.dialogService.openAlertDialog('Error', error.error.message);
+        else
+        this.dialogService.openAlertDialog('Error', error);
+        this.router.navigate(['/inicioSesion']);
       }
     );
   }
