@@ -23,6 +23,17 @@ export class CrearProductoComponent {
         console.log('Producto registrado:', response);
 
         this.openAlertDialog('Éxito', 'Producto registado con exito.');
+            // Restablece los campos del formulario después del registro
+      this.product = {
+        productID: 0,
+        name: '',
+        price: 0,
+        description: '',
+      brand: 0  ,
+        category: 0,
+        color: '',
+        stock: 0,
+      };
 
 
       },

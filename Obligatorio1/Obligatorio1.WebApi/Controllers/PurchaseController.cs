@@ -53,16 +53,15 @@ namespace Obligatorio1.WebApi.Controllers
 
             if (purchases == null || !purchases.Any())
             {
-                return NotFound("No se encontraron compras en el sistema.");
+                return Ok(new { message = "No se encontraron compras en el sistema." });
             }
 
             var formattedPurchases = purchases.Select(purchase => new
             {
-       
                 PurchaseID = purchase.PurchaseID,
                 UserID = purchase.UserID,
-                UserName= purchase.UserName,
-                EmailUsuario= purchase.EmailUsuario,
+                UserName = purchase.UserName,
+                EmailUsuario = purchase.EmailUsuario,
                 PromoApplied = purchase.PromoApplied,
                 DateOfPurchase = purchase.DateOfPurchase,
                 PaymentMethod = purchase.PaymentMethod,

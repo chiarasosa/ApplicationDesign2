@@ -20,26 +20,38 @@ export class ListaComprasComponent implements OnInit {
     this.obtenerCompras();
   }
 
-  obtenerCompras(): void {
-    this.purchaseService.getCompras().subscribe(
-      (compras) => {
-        this.compras = compras;
-        console.log('Compras recibidas:', this.compras);
-      },
-      (error) => {
-        console.error('Error al obtener la lista de compras:', error);
-        if (error != null && error.error != null && error.error.message != null) {
-          this.dialogService.openAlertDialog('Error', error.error.message);
-          this.dialogService.okClicked$.subscribe(() => {
-            this.router.navigate(['/inicioSesion']);
-          });
-        } else {
-          this.dialogService.openAlertDialog('Error', error);
-          this.dialogService.okClicked$.subscribe(() => {
-            this.router.navigate(['/inicioSesion']);
-          });
+obtenerCompras(): void {
+  this.purchaseService.getCompras().subscribe(
+    (response) => {
+      if ('message' in response && response.message === 'No se encontraron compras en el sistema.') {
+        // Mostrar mensaje cuando no hay compras
+        this.dialogService.openAlertDialog('Información', 'No hay compras registradas para este usuario.');
+      } else {
+        // Se recibieron compras
+        const compras = response as Purchase[];
+        if (compras && compras.length > 0) {
+          this.compras = compras;
+          console.log('Compras recibidas:', this.compras);
         }
       }
-    );
-  }
+    },
+    (error) => {
+      console.error('Error al obtener la lista de compras:', error);
+
+      let errorMessage = 'Error al obtener la lista de compras.';
+
+      if (error && error.error && error.error.message) {
+        errorMessage = error.error.message;
+      }
+
+      this.dialogService.openAlertDialog('Error', errorMessage);
+
+      this.dialogService.okClicked$.subscribe(() => {
+        this.router.navigate(['/inicioSesion']);
+      });
+    }
+  );
+}
+
+  
 }
