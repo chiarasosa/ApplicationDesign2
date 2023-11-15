@@ -165,7 +165,7 @@ namespace Obligatorio1.BusinessLogic
 
             if (!cartProducts.Any())
             {
-                throw new CartProductException($"No existen productos asociados al carrito con el ID {cartID}.");
+                throw new CartProductException($"No existen productos asociados al carrito.");
             }
 
             return cartProducts;

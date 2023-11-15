@@ -45,7 +45,7 @@ namespace Obligatorio1.WebApi.Filters
             }
             else if (currentUser.Role != _roleNeeded)
             {
-                context.Result = new ObjectResult(new { Message = "Administrator role is required to execute this operation." })
+                context.Result = new ObjectResult(new { Message = "Necesita rol Administrador para realizar esta acción." })
                 {
                     StatusCode = 403
                 };

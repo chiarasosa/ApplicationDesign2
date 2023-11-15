@@ -12,11 +12,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./crear-producto.component.css']
 })
 export class CrearProductoComponent {
-  product: Product = new Product(0, '', 0, '', 0, 0, '', 0);
+  product: Product = new Product(0, '', 1, '', '', 1, '', 1);
 
   constructor(private producrService: ProductService, private router: Router, private dialogService: DialogService, private localStorageService: LocalStorageService) { }
 
   onSubmit(): void {
+    // Verificar que los campos obligatorios estén completos
+    if (!this.product.name || !this.product.price || !this.product.description || !this.product.brand || !this.product.category || !this.product.color || !this.product.stock) {
+      this.dialogService.openAlertDialog('Error', 'Por favor, completa todos los campos del formulario.');
+      return;
+    }
+
     this.producrService.registerProduct(this.product).subscribe(
       (response) => {
         // Maneja la respuesta del inicio de sesión aquí
@@ -27,12 +33,12 @@ export class CrearProductoComponent {
       this.product = {
         productID: 0,
         name: '',
-        price: 0,
+        price: 1,
         description: '',
-      brand: 0  ,
-        category: 0,
+        brand: '' ,
+        category: 1,
         color: '',
-        stock: 0,
+        stock: 1,
       };
 
 
@@ -41,10 +47,12 @@ export class CrearProductoComponent {
         console.error('Error al registrar producto:', error);
         if (error != null && error.error != null && error.error.message != null) {
           this.dialogService.openAlertDialog('Error', error.error.message);
-
-        } else {
-          this.dialogService.openAlertDialog('Error', error);
-
+        }
+          else if (error != null && error.error != null && error.error.title != null){
+            this.dialogService.openAlertDialog('Error', error.error.title);
+          }
+         else {
+            this.dialogService.openAlertDialog('Error', error);
         }
       }
     );

@@ -14,7 +14,7 @@
             [(ngModel)]="product.name"
             required
           />
-          <div class="invalid-feedback">Por favor, ingresa un nombre.</div>
+          <div class="invalid-feedback" *ngIf="!product.name">Por favor, ingresa un nombre.</div>
         </div>
       </div>
 
@@ -29,16 +29,12 @@
             [(ngModel)]="product.price"
             required
           />
-          <div class="invalid-feedback">
-            Por favor, ingresa un precio válido.
-          </div>
+          <div class="invalid-feedback" *ngIf="!product.price">Por favor, ingresa un precio válido.</div>
         </div>
       </div>
 
       <div class="mb-3 row">
-        <label for="description" class="col-sm-2 col-form-label"
-          >Descrip</label
-        >
+        <label for="description" class="col-sm-2 col-form-label">Descripción</label>
         <div class="col-sm-10">
           <textarea
             class="form-control"
@@ -47,9 +43,7 @@
             [(ngModel)]="product.description"
             required
           ></textarea>
-          <div class="invalid-feedback">
-            Por favor, ingresa una descripción.
-          </div>
+          <div class="invalid-feedback" *ngIf="!product.description">Por favor, ingresa una descripción.</div>
         </div>
       </div>
 
@@ -64,7 +58,7 @@
             [(ngModel)]="product.brand"
             required
           />
-          <div class="invalid-feedback">Por favor, ingresa una marca.</div>
+          <div class="invalid-feedback" *ngIf="!product.brand">Por favor, ingresa una marca.</div>
         </div>
       </div>
 
@@ -79,7 +73,7 @@
             [(ngModel)]="product.category"
             required
           />
-          <div class="invalid-feedback">Por favor, ingresa una categoría.</div>
+          <div class="invalid-feedback" *ngIf="!product.category">Por favor, ingresa una categoría.</div>
         </div>
       </div>
 
@@ -94,7 +88,7 @@
             [(ngModel)]="product.color"
             required
           />
-          <div class="invalid-feedback">Por favor, ingresa un color.</div>
+          <div class="invalid-feedback" *ngIf="!product.color">Por favor, ingresa un color.</div>
         </div>
       </div>
 
@@ -109,9 +103,7 @@
             [(ngModel)]="product.stock"
             required
           />
-          <div class="invalid-feedback">
-            Por favor, ingresa un stock válido.
-          </div>
+          <div class="invalid-feedback" *ngIf="!product.stock">Por favor, ingresa un stock válido.</div>
         </div>
       </div>
 

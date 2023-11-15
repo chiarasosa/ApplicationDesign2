@@ -41,7 +41,7 @@ namespace Obligatorio1.WebApi
             catch (Exception ex)
             {
                 // Si ocurre un error, devolvemos una respuesta de error con información sobre el error
-                var errorResponse = new { error = "An error occurred while registering the product.", details = ex.Message };
+                var errorResponse = new { message = "An error occurred while registering the product."};
                 return BadRequest(errorResponse);
             }
         }

@@ -3,13 +3,13 @@ export class Product {
     name: string;
     price: number;
     description: string;
-    brand: number;
+    brand: string;
     category: number;
     color: string;
     stock:number;
     
 
-    constructor (productID: number, name: string, price: number, description: string, brand: number, category: number, 
+    constructor (productID: number, name: string, price: number, description: string, brand: string, category: number, 
         color: string ,stock:number){
 
         this.productID = productID;
