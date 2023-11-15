@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/servicios/product.service';
 import { Product } from 'src/app/modelos/Product';
 import { DialogService } from 'src/app/servicios/dialog.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-lista-productos',
@@ -12,7 +14,7 @@ export class ListaProductosComponent implements OnInit {
   products: Product[] = [];
   productBeingEdited: Product | null = null;
 
-  constructor(private productService: ProductService, private dialogService: DialogService) { }
+  constructor(private productService: ProductService, private dialogService: DialogService, private router: Router) { }
 
   ngOnInit(): void {
     this.getProducts();
@@ -25,7 +27,17 @@ export class ListaProductosComponent implements OnInit {
       },
       (error) => {
         console.error('Error al obtener la lista de productos:', error);
-        this.dialogService.openAlertDialog('Error', error.error.message);
+        if (error != null && error.error != null && error.error.message != null) {
+          this.dialogService.openAlertDialog('Error', error.error.message);
+          this.dialogService.okClicked$.subscribe(() => {
+            this.router.navigate(['/inicioSesion']);
+          });
+        } else {
+          this.dialogService.openAlertDialog('Error', error);
+          this.dialogService.okClicked$.subscribe(() => {
+            this.router.navigate(['/inicioSesion']);
+          });
+        }
       }
     );
   }

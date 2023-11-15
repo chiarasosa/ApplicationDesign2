@@ -19,7 +19,7 @@ export class CartService {
     const token = localStorage.getItem('token');
     if (!token) {
       console.error('Token no disponible'); // Agregar mensaje de error
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const url = 'https://localhost:7004/api/carts';
@@ -59,7 +59,7 @@ export class CartService {
     const token = localStorage.getItem('token');
     if (!token) {
       console.error('Token no disponible'); // Agregar mensaje de error
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const url = `${this.baseUrl}/carts`;
@@ -77,8 +77,8 @@ export class CartService {
   public getPromotionAppliedToCart(): Observable<any> {
     const token = localStorage.getItem('token');
     if (!token) {
-      console.error('Token no disponible'); // Agregar mensaje de error
-      return throwError('Token no disponible');
+      console.error('Debe iniciar sesión.'); // Agregar mensaje de error
+      return throwError('Debe iniciar sesión.');
     }
 
     const url = `${this.baseUrl}/carts/PromotionApplied`;
@@ -97,7 +97,7 @@ export class CartService {
     const token = localStorage.getItem('token');
     if (!token) {
       console.error('Token no disponible'); // Agregar mensaje de error
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const url = `${this.baseUrl}/get-total-price`;

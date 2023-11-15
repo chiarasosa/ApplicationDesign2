@@ -23,11 +23,17 @@ export class ListaUsuariosComponent implements OnInit {
       },
       (error) => {
         console.error('Error al obtener la lista de usuarios:', error);
-        if (error!= null && error.error != null && error.errror.message != null)
+        if (error != null && error.error != null && error.error.message != null) {
           this.dialogService.openAlertDialog('Error', error.error.message);
-        else
-        this.dialogService.openAlertDialog('Error', error);
-        this.router.navigate(['/inicioSesion']);
+          this.dialogService.okClicked$.subscribe(() => {
+            this.router.navigate(['/inicioSesion']);
+          });
+        } else {
+          this.dialogService.openAlertDialog('Error', error);
+          this.dialogService.okClicked$.subscribe(() => {
+            this.router.navigate(['/inicioSesion']);
+          });
+        }
       }
     );
   }

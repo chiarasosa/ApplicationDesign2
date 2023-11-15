@@ -10,12 +10,12 @@ import { catchError } from 'rxjs/operators';
 export class ProductService {
   private baseUrl = 'https://localhost:7004/api/products';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getProducts(): Observable<Product[]> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const headers = new HttpHeaders({
@@ -30,7 +30,7 @@ export class ProductService {
   public registerProduct(product: Product): Observable<void> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const url = `${this.baseUrl}`;
@@ -46,7 +46,7 @@ export class ProductService {
   public deleteProduct(productID: number): Observable<void> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const url = `${this.baseUrl}/${productID}`;
@@ -62,7 +62,7 @@ export class ProductService {
   public updateProduct(updatedProduct: Product): Observable<Product> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const url = `${this.baseUrl}/${updatedProduct.productID}`;
@@ -78,7 +78,7 @@ export class ProductService {
   getProductss(): Observable<Product[]> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const url = `${this.baseUrl}/GetProducts`;

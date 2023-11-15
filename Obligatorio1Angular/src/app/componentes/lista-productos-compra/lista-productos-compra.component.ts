@@ -3,6 +3,7 @@ import { ProductService } from 'src/app/servicios/product.service';
 import { Product } from 'src/app/modelos/Product';
 import { CartService } from 'src/app/servicios/cart.service';
 import { DialogService } from 'src/app/servicios/dialog.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-productos-compra',
@@ -15,7 +16,8 @@ export class ListaProductosCompraComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private cartService: CartService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +31,17 @@ export class ListaProductosCompraComponent implements OnInit {
       },
       (error) => {
         console.error('Error al obtener la lista de productos:', error);
-        this.dialogService.openAlertDialog('Error', 'Error al obtener la lista de productos. Intente nuevamente.');
+        if (error != null && error.error != null && error.error.message != null) {
+          this.dialogService.openAlertDialog('Error', error.error.message);
+          this.dialogService.okClicked$.subscribe(() => {
+            this.router.navigate(['/inicioSesion']);
+          });
+        } else {
+          this.dialogService.openAlertDialog('Error', error);
+          this.dialogService.okClicked$.subscribe(() => {
+            this.router.navigate(['/inicioSesion']);
+          });
+        }
       }
     );
   }

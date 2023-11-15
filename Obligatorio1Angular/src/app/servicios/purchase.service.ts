@@ -15,7 +15,7 @@ export class PurchaseService {
   public registerPurchase(purchase: Purchase, selectedPaymentMethod: string): Observable<void> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const headers = new HttpHeaders({
@@ -24,7 +24,7 @@ export class PurchaseService {
 
     const url = `${this.baseUrl}/purchases`;
     purchase.paymentMethod = selectedPaymentMethod;
-    return this.http.post<void>(url, purchase,{headers}).pipe(
+    return this.http.post<void>(url, purchase, { headers }).pipe(
       catchError(this.handleError)
     );
   }
@@ -32,13 +32,13 @@ export class PurchaseService {
   public getCompras(): Observable<Purchase[]> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
-  
+
     const headers = new HttpHeaders({
       Authorization: token,
     });
-  
+
     const url = `${this.baseUrl}/purchases`;
     return this.http.get<Purchase[]>(url, { headers }).pipe(
       catchError(this.handleError)
@@ -48,14 +48,14 @@ export class PurchaseService {
   private getUserById(userId: number): Observable<any> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const headers = new HttpHeaders({
       Authorization: token,
     });
     const userUrl = `${this.baseUrl}/users/${userId}`;
-    return this.http.get<any>(userUrl, {headers}).pipe(
+    return this.http.get<any>(userUrl, { headers }).pipe(
       catchError(this.handleError)
     );
   }

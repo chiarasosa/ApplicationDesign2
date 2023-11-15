@@ -11,7 +11,7 @@ import { Session } from '../interfaces/session';
 export class UserService {
   private baseUrl = 'https://localhost:7004/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public registerUser(user: User): Observable<void> {
     const url = `${this.baseUrl}/users`;
@@ -47,7 +47,7 @@ export class UserService {
     const token = localStorage.getItem('token');
     console.log("TOKEN: " + token);
     if (!token) {
-      return throwError('Debe iniciar sesion.');
+      return throwError('Debe iniciar sesión.');
     }
 
     const url = `${this.baseUrl}/users`;
@@ -63,7 +63,7 @@ export class UserService {
   public deleteUser(userID: number): Observable<void> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const url = `${this.baseUrl}/users/${userID}`;
@@ -79,7 +79,7 @@ export class UserService {
   public updateUser(updatedUser: User): Observable<User> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const url = `${this.baseUrl}/users/${updatedUser.userID}`;
@@ -95,7 +95,7 @@ export class UserService {
   public getUserByID(userID: number): Observable<User> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return throwError('Token no disponible');
+      return throwError('Debe iniciar sesión.');
     }
 
     const url = `${this.baseUrl}/users/${userID}`;
@@ -107,8 +107,6 @@ export class UserService {
       .get<User>(url, { headers })
       .pipe(catchError(this.handleError));
   }
-
-  
 
   private handleError(error: any) {
     console.error('Ocurrió un error:', error);

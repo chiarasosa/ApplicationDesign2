@@ -6,6 +6,7 @@ import { DialogService } from 'src/app/servicios/dialog.service';
 import { Purchase } from '../../modelos/Purchase';
 import { PurchaseService } from '../../servicios/purchase.service';
 import { PurchaseProduct } from '../../modelos/PurchaseProduct';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class CarritoComponent implements OnInit {
     private productService: ProductService,
     private cartService: CartService,
     private dialogService: DialogService,
-    private purchaseService:PurchaseService
+    private purchaseService:PurchaseService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +77,17 @@ export class CarritoComponent implements OnInit {
       },
       (error) => {
         console.error('Error al obtener la lista de carritos:', error);
-        this.dialogService.openAlertDialog('Error', 'Error al obtener la lista de carritos');
+        if (error != null && error.error != null && error.error.message != null) {
+          this.dialogService.openAlertDialog('Error', error.error.message);
+          this.dialogService.okClicked$.subscribe(() => {
+            this.router.navigate(['/inicioSesion']);
+          });
+        } else {
+          this.dialogService.openAlertDialog('Error', error);
+          this.dialogService.okClicked$.subscribe(() => {
+            this.router.navigate(['/inicioSesion']);
+          });
+        }
       }
     );
   }
