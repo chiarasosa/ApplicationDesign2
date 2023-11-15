@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { User } from '../modelos/User';
 import { Session } from '../interfaces/session';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ import { Session } from '../interfaces/session';
 export class UserService {
   private baseUrl = 'https://localhost:7004/api';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   public registerUser(user: User): Observable<void> {
     const url = `${this.baseUrl}/users`;
@@ -47,6 +48,7 @@ export class UserService {
     const token = localStorage.getItem('token');
     console.log("TOKEN: " + token);
     if (!token) {
+      this.router.navigate(['/inicioSesion']);
       return throwError('Debe iniciar sesión.');
     }
 

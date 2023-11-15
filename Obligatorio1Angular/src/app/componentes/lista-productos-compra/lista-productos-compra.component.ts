@@ -33,14 +33,8 @@ export class ListaProductosCompraComponent implements OnInit {
         console.error('Error al obtener la lista de productos:', error);
         if (error != null && error.error != null && error.error.message != null) {
           this.dialogService.openAlertDialog('Error', error.error.message);
-          this.dialogService.okClicked$.subscribe(() => {
-            this.router.navigate(['/inicioSesion']);
-          });
         } else {
           this.dialogService.openAlertDialog('Error', error);
-          this.dialogService.okClicked$.subscribe(() => {
-            this.router.navigate(['/inicioSesion']);
-          });
         }
       }
     );

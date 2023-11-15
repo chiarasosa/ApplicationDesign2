@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Product } from '../modelos/Product'; // Asegúrate de importar el modelo Product
 import { Cart } from '../modelos/Cart';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ import { Cart } from '../modelos/Cart';
 export class CartService {
   private baseUrl = 'https://localhost:7004/api'; // Asegúrate de que la URL sea correcta
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   
 
@@ -59,6 +60,7 @@ export class CartService {
     const token = localStorage.getItem('token');
     if (!token) {
       console.error('Token no disponible'); // Agregar mensaje de error
+      this.router.navigate(['/inicioSesion']);
       return throwError('Debe iniciar sesión.');
     }
 

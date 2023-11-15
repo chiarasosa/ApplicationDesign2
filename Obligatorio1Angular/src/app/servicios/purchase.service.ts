@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, of, forkJoin } from 'rxjs'; // Agrega 'of' y 'forkJoin' aquí
 import { catchError, mergeMap } from 'rxjs/operators';
 import { Purchase } from '../modelos/Purchase';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { Purchase } from '../modelos/Purchase';
 export class PurchaseService {
   private baseUrl = 'https://localhost:7004/api';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   public registerPurchase(purchase: Purchase, selectedPaymentMethod: string): Observable<void> {
     const token = localStorage.getItem('token');
@@ -32,6 +33,7 @@ export class PurchaseService {
   public getCompras(): Observable<Purchase[]> {
     const token = localStorage.getItem('token');
     if (!token) {
+      this.router.navigate(['/inicioSesion']);
       return throwError('Debe iniciar sesión.');
     }
 

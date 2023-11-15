@@ -132,8 +132,8 @@ namespace Obligatorio1.BusinessLogic
                 result = session.User.Cart.PromotionApplied;
             }
 
-            if (result == null || result == "")
-                throw new CartException("El carrito no tiene una promocion aplicada");
+            //if (result == null || result == "")
+                //throw new CartException("El carrito no tiene una promocion aplicada");
 
             return result;
         }

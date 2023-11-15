@@ -36,19 +36,13 @@ obtenerCompras(): void {
       }
     },
     (error) => {
-      console.error('Error al obtener la lista de compras:', error);
-
-      let errorMessage = 'Error al obtener la lista de compras.';
-
-      if (error && error.error && error.error.message) {
-        errorMessage = error.error.message;
+      if (error != null && error.error != null && error.error.message != null) {
+        this.dialogService.openAlertDialog('Error', error.error.message);
+;
+      } else {
+        this.dialogService.openAlertDialog('Error', error);
       }
 
-      this.dialogService.openAlertDialog('Error', errorMessage);
-
-      this.dialogService.okClicked$.subscribe(() => {
-        this.router.navigate(['/inicioSesion']);
-      });
     }
   );
 }

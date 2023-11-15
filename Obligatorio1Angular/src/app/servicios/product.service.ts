@@ -3,6 +3,7 @@ import { Product } from '../modelos/Product';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,12 @@ import { catchError } from 'rxjs/operators';
 export class ProductService {
   private baseUrl = 'https://localhost:7004/api/products';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   getProducts(): Observable<Product[]> {
     const token = localStorage.getItem('token');
     if (!token) {
+      this.router.navigate(['/inicioSesion']);
       return throwError('Debe iniciar sesión.');
     }
 
@@ -30,6 +32,7 @@ export class ProductService {
   public registerProduct(product: Product): Observable<void> {
     const token = localStorage.getItem('token');
     if (!token) {
+      this.router.navigate(['/inicioSesion']);
       return throwError('Debe iniciar sesión.');
     }
 
@@ -78,6 +81,7 @@ export class ProductService {
   getProductss(): Observable<Product[]> {
     const token = localStorage.getItem('token');
     if (!token) {
+      this.router.navigate(['/inicioSesion']);
       return throwError('Debe iniciar sesión.');
     }
 
