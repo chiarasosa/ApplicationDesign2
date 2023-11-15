@@ -56,22 +56,6 @@ namespace Obligatorio1.BusinessLogic
             return brandWithMaxDiscount;
         }
 
-        /*
-        public Dictionary<int, List<Product>> GroupProductsByBrand(Cart cart)
-        {
-            Dictionary<int, List<Product>> productsByBrand = new Dictionary<int, List<Product>>();
-            foreach (Product product in cart.Products)
-            {
-                if (!productsByBrand.ContainsKey(product.Brand))
-                {
-                    productsByBrand[product.Brand] = new List<Product>();
-                }
-                productsByBrand[product.Brand].Add(product);
-            }
-            return productsByBrand;
-        }
-        */
-
         public double ApplyDiscountToCart(Cart cart, List<Product> productsToDiscount)
         {
             int totalDiscount = productsToDiscount.OrderBy(p => p.Price).Take(2).Sum(p => p.Price);
