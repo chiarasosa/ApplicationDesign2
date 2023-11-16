@@ -36,7 +36,6 @@ export class ListaUsuariosComponent implements OnInit {
   deleteUser(userID: number) {
     this.userService.deleteUser(userID).subscribe(
       () => {
-        // Elimina el usuario de la lista local
         this.users = this.users.filter((user) => user.userID !== userID);
   
         this.dialogService.openAlertDialog('Éxito', 'Usuario eliminado con éxito.');
@@ -56,12 +55,11 @@ export class ListaUsuariosComponent implements OnInit {
   saveUserChanges(updatedUser: User) {
     this.userService.updateUser(updatedUser).subscribe(
       (response) => {
-        // Actualiza la lista de usuarios con los datos actualizados
         this.users = this.users.map((user) =>
           user.userID === updatedUser.userID ? { ...user, ...response } : user
         );
 
-        this.userBeingEdited = null; // Sale del modo de edición
+        this.userBeingEdited = null; 
         this.dialogService.openAlertDialog('Éxito', 'Usuario actualizado correctamente');
       },
       (error) => {

@@ -101,7 +101,6 @@ export class CarritoComponent implements OnInit {
     
     if (this.selectedPaymentMethod) {
     this.purchase.paymentMethod = this.selectedPaymentMethod;
-a
     this.purchaseService.registerPurchase(this.purchase,this.selectedPaymentMethod).subscribe(
       (response) => {
         console.log('Compra registrada:', response);

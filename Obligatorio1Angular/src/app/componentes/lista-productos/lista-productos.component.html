@@ -17,10 +17,10 @@
         <td>{{ product.name }}</td>
         <td>{{ product.price }}</td>
         <td>{{ product.description }}</td>
-        <td>{{ product.brand }}</td> <!-- Muestra la marca -->
-        <td>{{ product.category }}</td> <!-- Muestra la categoría -->
-        <td>{{ product.color }}</td> <!-- Muestra el color -->
-        <td>{{ product.stock }}</td> <!-- Muestra el stock -->
+        <td>{{ product.brand }}</td> 
+        <td>{{ product.category }}</td> 
+        <td>{{ product.color }}</td> 
+        <td>{{ product.stock }}</td> 
         <td class="table-actions">
           <button
             class="btn btn-danger btn-eliminar"
@@ -47,7 +47,6 @@
     </tbody>
   </table>
 
-  <!-- Formulario de edición -->
   <div *ngIf="productBeingEdited">
     <form class="mt-3" (ngSubmit)="saveProductChanges(productBeingEdited)">
       <div class="mb-3">

@@ -1,4 +1,4 @@
-<!-- Contenedor de la tabla con márgenes -->
+
 <div class="table-container">
   <table class="table table-striped">
     <thead class="thead-dark">
@@ -26,7 +26,6 @@
     </tbody>
   </table>
 
-  <!-- Formulario de edición -->
   <div *ngIf="userBeingEdited">
     <form class="mt-3" (ngSubmit)="saveUserChanges(userBeingEdited)">
       <input class="form-control" [(ngModel)]="userBeingEdited.userName" name="userName" placeholder="Nombre">

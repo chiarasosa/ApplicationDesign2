@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/servicios/auth.service';
 })
 export class InicioSesionComponent {
   user: User = new User(0, '', '', '', '', '');
-  isLoggedIn: boolean = false; // Variable para controlar el estado del inicio de sesión
+  isLoggedIn: boolean = false;
   constructor(
     private userService: UserService,
     private router: Router,
@@ -27,13 +27,9 @@ export class InicioSesionComponent {
       (response) => {
         console.log('Inicio de sesión exitoso:', response);
         this.localStorageService.setToken(response.token);
-        this.authService.setLoggedIn(true); // Notifica a otros componentes que el usuario ha iniciado sesión
+        this.authService.setLoggedIn(true);
         this.isLoggedIn= true;
         this.openAlertDialog('Éxito', 'Inicio de sesión exitoso');
-  
-        // No es necesario recargar la página
-        // Redirige a la página deseada
-        // this.router.navigate(['/pagina-deseada']);
       },
       (error) => {
         console.error('Error en el inicio de sesión:', error);

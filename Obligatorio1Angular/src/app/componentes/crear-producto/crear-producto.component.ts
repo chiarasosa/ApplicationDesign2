@@ -17,7 +17,6 @@ export class CrearProductoComponent {
   constructor(private producrService: ProductService, private router: Router, private dialogService: DialogService, private localStorageService: LocalStorageService) { }
 
   onSubmit(): void {
-    // Verificar que los campos obligatorios estén completos
     if (!this.product.name || !this.product.price || !this.product.description || !this.product.brand || !this.product.category || !this.product.color || !this.product.stock) {
       this.dialogService.openAlertDialog('Error', 'Por favor, completa todos los campos del formulario.');
       return;
@@ -25,11 +24,9 @@ export class CrearProductoComponent {
 
     this.producrService.registerProduct(this.product).subscribe(
       (response) => {
-        // Maneja la respuesta del inicio de sesión aquí
         console.log('Producto registrado:', response);
 
         this.openAlertDialog('Éxito', 'Producto registado con exito.');
-            // Restablece los campos del formulario después del registro
       this.product = {
         productID: 0,
         name: '',
@@ -59,6 +56,6 @@ export class CrearProductoComponent {
   }
 
   openAlertDialog(title: string, message: string) {
-    this.dialogService.openAlertDialog(title, message); // Usa dialogService
+    this.dialogService.openAlertDialog(title, message);
   }
 }

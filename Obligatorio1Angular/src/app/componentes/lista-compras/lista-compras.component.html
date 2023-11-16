@@ -1,4 +1,4 @@
-<!-- lista-compras.component.html -->
+
 
 <div class="table-container">
   <h1>Lista de Compras</h1>
@@ -8,7 +8,6 @@
         <th>ID de Compra</th>
         <th>Nombre de Usuario</th>
         <th>Email de Usuario</th>
-        <!-- Otras columnas según tus necesidades -->
         <th>Fecha de Compra</th>
         <th>Método de Pago</th>
       </tr>
@@ -16,9 +15,8 @@
     <tbody>
       <tr *ngFor="let compra of compras">
         <td>{{ compra.purchaseID }}</td>
-        <td>{{ compra.userName }}</td> <!-- Muestra el nombre de usuario -->
-        <td>{{ compra.emailUsuario }}</td> <!-- Muestra el nombre de usuario -->
-        <!-- Otras propiedades según tus necesidades -->
+        <td>{{ compra.userName }}</td> 
+        <td>{{ compra.emailUsuario }}</td> 
         <td>{{ compra.dateOfPurchase | date: 'dd/MM/yyyy' }}</td>
         <td>{{ compra.paymentMethod ? compra.paymentMethod : 'N/A' }}</td>
       </tr>

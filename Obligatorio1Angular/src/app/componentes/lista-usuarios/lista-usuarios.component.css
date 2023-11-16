@@ -1,8 +1,6 @@
 
-
-/* Aplica estilos a la línea divisoria en la primera fila de títulos */
 .table thead tr th {
-  border-bottom: 1px solid #000; /* Ajusta el grosor y color según tus preferencias */
+  border-bottom: 1px solid #000; 
 }
 
 .table-container{
@@ -11,13 +9,11 @@
     padding-bottom: 150px;
 }
 
-/* Elimina la línea divisoria en las celdas interiores */
 .table th:not(:first-child),
 .table td:not(:first-child) {
   border-left: none;
 }
 
-/* Estilos adicionales para botones y formularios, si es necesario */
 .table-actions {
   display: flex;
   gap: 10px;
@@ -41,7 +37,6 @@
   color: #fff;
 }
 
-/* Estilo solo para los botones y controles del formulario */
 .btn,
 .form-control {
   font-size: 16px;

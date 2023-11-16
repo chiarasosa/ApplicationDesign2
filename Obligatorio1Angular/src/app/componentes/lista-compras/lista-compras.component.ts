@@ -24,10 +24,8 @@ obtenerCompras(): void {
   this.purchaseService.getCompras().subscribe(
     (response) => {
       if ('message' in response && response.message === 'No se encontraron compras en el sistema.') {
-        // Mostrar mensaje cuando no hay compras
         this.dialogService.openAlertDialog('Información', 'No hay compras registradas para este usuario.');
       } else {
-        // Se recibieron compras
         const compras = response as Purchase[];
         if (compras && compras.length > 0) {
           this.compras = compras;

@@ -40,7 +40,6 @@ export class ListaProductosComponent implements OnInit {
   deleteProduct(productID: number) {
     this.productService.deleteProduct(productID).subscribe(
       () => {
-        // Elimina el producto de la lista local
         this.products = this.products.filter((product) => product.productID !== productID);
   
         this.dialogService.openAlertDialog('Éxito', 'Producto eliminado correctamente.');
@@ -60,15 +59,13 @@ export class ListaProductosComponent implements OnInit {
   saveProductChanges(updatedProduct: Product) {
     this.productService.updateProduct(updatedProduct).subscribe(
       (response) => {
-        // Actualiza la lista de productos con los datos actualizados
         this.products = this.products.map((product) =>
           product.productID === updatedProduct.productID ? { ...product, ...response } : product
         );
 
-        this.productBeingEdited = null; // Sale del modo de edición
+        this.productBeingEdited = null; 
         this.dialogService.openAlertDialog('Éxito', 'Producto actualizado correctamente.');
 
-        // Después de , obtén la lista actualizada de productos
         this.productService.getProducts().subscribe(
           (products) => {
             this.products = products;
