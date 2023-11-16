@@ -1,15 +1,9 @@
-﻿/*
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using Obligatorio1.Domain;
-using Obligatorio1.Exceptions;
-using Obligatorio1.IBusinessLogic;
-
-namespace Obligatorio1.WebApi.Test
+﻿namespace Obligatorio1.WebApi.Test
 {
     [TestClass]
     public class ProductControllerTest
     {
+        /*
 
         private ProductController _controller;
         private Mock<IProductService> mock;
@@ -119,7 +113,6 @@ namespace Obligatorio1.WebApi.Test
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             var badR = (BadRequestObjectResult)result;
             Assert.AreEqual($"Error al obtener el producto: Error al obtener el producto", badR.Value);
-        }
+        }*/
     }
 }
-*/

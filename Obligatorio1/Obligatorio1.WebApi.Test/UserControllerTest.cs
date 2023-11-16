@@ -1,16 +1,8 @@
-/*
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using Obligatorio1.Domain;
-using Obligatorio1.Exceptions;
-using Obligatorio1.IBusinessLogic;
-
 namespace Obligatorio1.WebApi.Test
 {
     [TestClass]
     public class UserControllerTest
-    {
+    {/*
         private UserController _controller;
         private Mock<IUserService> _serviceMock;
 
@@ -632,7 +624,6 @@ namespace Obligatorio1.WebApi.Test
             var badRequestResult = (BadRequestObjectResult)result;
             Assert.AreEqual("Error al actualizar la informacion del usuario: El usuario a actualizar no existe.", badRequestResult.Value);
 
-        }
+        }*/
     }
 }
-*/
