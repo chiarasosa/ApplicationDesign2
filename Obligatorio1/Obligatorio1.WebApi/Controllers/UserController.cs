@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Obligatorio1.Domain;
-using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
-using Serilog;
-using Microsoft.AspNetCore.Http;
 using Obligatorio1.WebApi.Filters;
 
 namespace Obligatorio1.WebApi
@@ -117,7 +114,6 @@ namespace Obligatorio1.WebApi
             }
         }
 
-
         /// <summary>
         /// Updates the profile of a user registered in the system.
         /// </summary>
@@ -132,7 +128,7 @@ namespace Obligatorio1.WebApi
         [HttpPut("{id}")]
         public IActionResult UpdateUserProfile([FromRoute] int id, [FromBody] User user)
         {
-            var updatedUser = _userService.UpdateUserProfile(id,user);
+            var updatedUser = _userService.UpdateUserProfile(id, user);
             var userDto = new
             {
                 user.UserID,

@@ -20,15 +20,15 @@ export class InicioSesionComponent {
     private dialogService: DialogService,
     private localStorageService: LocalStorageService,
     private authService: AuthService
-  ) {}
-  
+  ) { }
+
   loginUser() {
     this.userService.loginUser(this.user).subscribe(
       (response) => {
         console.log('Inicio de sesión exitoso:', response);
         this.localStorageService.setToken(response.token);
         this.authService.setLoggedIn(true);
-        this.isLoggedIn= true;
+        this.isLoggedIn = true;
         this.openAlertDialog('Éxito', 'Inicio de sesión exitoso');
       },
       (error) => {
@@ -37,7 +37,6 @@ export class InicioSesionComponent {
       }
     );
   }
-  
 
   openAlertDialog(title: string, message: string) {
     this.dialogService.openAlertDialog(title, message);

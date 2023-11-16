@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class RegistroComponent {
   user: any = { rol: '' };
 
-  constructor(private userService: UserService, private dialogService: DialogService) {}
+  constructor(private userService: UserService, private dialogService: DialogService) { }
 
   registerUser() {
     if (!this.user.username || !this.user.password || !this.user.email || !this.user.address || !this.user.role) {

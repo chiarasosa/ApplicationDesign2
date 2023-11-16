@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Obligatorio1.Domain;
+﻿using Obligatorio1.Domain;
 using Obligatorio1.PromoInterface;
 
 namespace Obligatorio1.BusinessLogic
@@ -36,7 +31,6 @@ namespace Obligatorio1.BusinessLogic
 
             return cart.TotalPrice;
         }
-
         public int FindCategoryWithMaxDiscount(Dictionary<int, List<Product>> productsByCategory)
         {
             int maxDiscount = 0;
@@ -58,31 +52,11 @@ namespace Obligatorio1.BusinessLogic
 
             return categoryWithMaxDiscount;
         }
-
-        /*
-        public Dictionary<int, List<Product>> GroupProductsByCategory(Cart cart)
-        {
-            Dictionary<int, List<Product>> productsByCategory = new Dictionary<int, List<Product>>();
-
-            foreach (Product product in cart.Products)
-            {
-                if (!productsByCategory.ContainsKey(product.Category))
-                {
-                    productsByCategory[product.Category] = new List<Product>();
-                }
-                productsByCategory[product.Category].Add(product);
-            }
-
-            return productsByCategory;
-        }
-        */
-
         public double ApplyDiscountToCart(Cart cart, List<Product> productsToDiscount)
         {
             int totalDiscount = productsToDiscount.Min(p => p.Price);
             cart.TotalPrice -= totalDiscount;
             return cart.TotalPrice;
         }
-
     }
 }

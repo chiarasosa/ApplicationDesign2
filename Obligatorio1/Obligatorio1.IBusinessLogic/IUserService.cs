@@ -1,5 +1,4 @@
 ﻿using Obligatorio1.Domain;
-using System.Collections.Generic;
 
 namespace Obligatorio1.IBusinessLogic
 {

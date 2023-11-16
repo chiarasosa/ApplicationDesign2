@@ -1,5 +1,4 @@
-﻿using System;
-namespace Obligatorio1.Exceptions
+﻿namespace Obligatorio1.Exceptions
 {
     [Serializable]
     public class ResourceNotFoundException : Exception
@@ -9,4 +8,3 @@ namespace Obligatorio1.Exceptions
         }
     }
 }
-

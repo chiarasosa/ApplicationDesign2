@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Obligatorio1.Domain;
+﻿using Obligatorio1.Domain;
 using Obligatorio1.PromoInterface;
 
 namespace Obligatorio1.BusinessLogic
@@ -25,7 +20,7 @@ namespace Obligatorio1.BusinessLogic
             }
 
             Dictionary<int, List<Product>> productsByBrand = PromoUtility.GroupProductsBy(PromoUtility.ProductsWithPromotions(cart),
-                product => product.Brand);
+                product => product.Brand.ToList());
 
             int brandWithDiscount = FindBrandWithMaxDiscount(productsByBrand);
 

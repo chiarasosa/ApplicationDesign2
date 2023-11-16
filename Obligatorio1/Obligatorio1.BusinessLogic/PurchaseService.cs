@@ -12,7 +12,6 @@ namespace Obligatorio1.BusinessLogic
         private readonly IGenericRepository<PurchaseProduct> _purchaseProductRepository;
         private readonly ICartService _cartService;
         private readonly IProductService _productService;
-
         public PurchaseService(IGenericRepository<Purchase> purchaseRepositoy, IGenericRepository<Session> sessionRepository,
             IGenericRepository<PurchaseProduct> purchaseProductRepository, ICartService cartService,
             IProductService productService)
@@ -52,7 +51,7 @@ namespace Obligatorio1.BusinessLogic
 
                 foreach (var product in cart.Products)
                 {
-                    if(product.Stock > 0)
+                    if (product.Stock > 0)
                     {
                         var purchaseProduct = new PurchaseProduct
                         {
@@ -62,11 +61,6 @@ namespace Obligatorio1.BusinessLogic
 
                         _productService.ProductSold(product);
                     }
-                   // else
-                   // {
-                     //   cart.Products.Remove(product);
-                    //}
-                    
                 }
 
                 _purchaseRepository.Insert(newPurchase);
@@ -76,13 +70,12 @@ namespace Obligatorio1.BusinessLogic
 
         public Cart ApplyDiscountIfPaganza(Cart cart, Purchase purchase)
         {
-            if(purchase.PaymentMethod == "Paganza")
+            if (purchase.PaymentMethod == "Paganza")
             {
                 cart.TotalPrice = cart.TotalPrice * 0.9;
             }
             return cart;
         }
-
         public IEnumerable<Purchase> GetAllPurchases()
         {
             var purchases = _purchaseRepository.GetAll<Purchase>();
@@ -103,7 +96,7 @@ namespace Obligatorio1.BusinessLogic
 
                         if (product != null)
                         {
-                            products.Add(product); 
+                            products.Add(product);
                         }
                     }
                 }
@@ -114,8 +107,7 @@ namespace Obligatorio1.BusinessLogic
                 throw new PurchaseException("No se encontraron compras en el sistema.");
             }
         }
-
-        public Purchase GetPurchaseByID(int purchaseID) 
+        public Purchase GetPurchaseByID(int purchaseID)
         {
             if (purchaseID <= 0)
             {
@@ -142,7 +134,6 @@ namespace Obligatorio1.BusinessLogic
             }
             return purchase;
         }
-
         public IEnumerable<Purchase> GetPurchasesByUserID(int userID)
         {
             if (userID <= 0)

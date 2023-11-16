@@ -1,10 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Obligatorio1.Domain;
-using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.WebApi.Filters;
-using Serilog;
-using Microsoft.AspNetCore.Http;
 
 namespace Obligatorio1.WebApi
 {
@@ -41,11 +38,10 @@ namespace Obligatorio1.WebApi
             catch (Exception ex)
             {
                 // Si ocurre un error, devolvemos una respuesta de error con información sobre el error
-                var errorResponse = new { message = "An error occurred while registering the product."};
+                var errorResponse = new { message = "An error occurred while registering the product." };
                 return BadRequest(errorResponse);
             }
         }
-
 
         /// <summary>
         /// Obtains the list of registered products in the system.
@@ -129,7 +125,6 @@ namespace Obligatorio1.WebApi
             }
         }
 
-
         /// <summary>
         /// Deletes a product by ID.
         /// </summary>
@@ -150,7 +145,6 @@ namespace Obligatorio1.WebApi
             }
             catch (Exception ex)
             {
-                // Manejo de errores
                 return BadRequest(new { message = "Error: " + ex.Message });
             }
         }
@@ -176,7 +170,6 @@ namespace Obligatorio1.WebApi
             }
             catch (Exception ex)
             {
-                // Manejo de errores
                 return BadRequest(new { message = "Error: " + ex.Message });
             }
         }

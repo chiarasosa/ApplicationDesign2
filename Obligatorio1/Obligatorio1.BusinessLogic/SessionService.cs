@@ -1,10 +1,9 @@
-﻿using System.Security.Authentication;
-using Obligatorio1.Domain;
+﻿using Obligatorio1.Domain;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.IDataAccess;
+using System.Security.Authentication;
 
 namespace Obligatorio1.BusinessLogic;
-
 public class SessionService : ISessionService
 {
     private User? _currentUser;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Obligatorio1.Domain;
+﻿using Obligatorio1.Domain;
 using Obligatorio1.PromoInterface;
 
 namespace Obligatorio1.BusinessLogic
@@ -76,32 +71,11 @@ namespace Obligatorio1.BusinessLogic
             return colorWithMaxDiscount;
         }
 
-        /*
-        public Dictionary<string, List<Product>> GroupProductsByColor(Cart cart)
-        {
-            Dictionary<string, List<Product>> productsByColor = new Dictionary<string, List<Product>>();
-
-            foreach (Product product in cart.Products)
-            {
-
-                if (!productsByColor.ContainsKey(product.Color))
-                {
-                    productsByColor[product.Color] = new List<Product>();
-                }
-                productsByColor[product.Color].Add(product);
-
-            }
-
-            return productsByColor;
-        }
-        */
-
         public double ApplyDiscountToCart(Cart cart, List<Product> productsToDiscount)
         {
             double totalDiscount = (productsToDiscount.Max(p => p.Price)) * 0.5;
             cart.TotalPrice -= totalDiscount;
             return cart.TotalPrice;
         }
-
     }
 }

@@ -11,8 +11,6 @@ namespace Obligatorio1.BusinessLogic
     {
         private readonly IGenericRepository<User> _userRepository;
         private readonly IGenericRepository<Session> _sessionRepository;
-
-
         public UserService(IGenericRepository<User> userRepositoy, IGenericRepository<Session> sessionRepository)
         {
             _userRepository = userRepositoy;
@@ -32,8 +30,6 @@ namespace Obligatorio1.BusinessLogic
                 throw new UserException("The username or email is already in use or invalid.");
             }
         }
-
-        //**********************************************VALIDACIONES
         private bool IsUserValid(User user)
         {
             if (user == null || user.UserName == string.Empty || user.Password == string.Empty)
@@ -57,7 +53,6 @@ namespace Obligatorio1.BusinessLogic
 
             return users.Any(u => u.Email == email);
         }
-        //***********************************************************
 
         public User UpdateUserProfile(int id, User user)
         {
@@ -85,7 +80,7 @@ namespace Obligatorio1.BusinessLogic
         }
 
         public User GetUserByID(int userID)
-        {           
+        {
             if (userID <= 0)
             {
                 throw new UserException("Invalid user ID.");
@@ -113,7 +108,6 @@ namespace Obligatorio1.BusinessLogic
                 return Enumerable.Empty<User>();
             }
         }
-
         public User DeleteUser(int userID)
         {
             User? userToDelete = GetUserByID(userID);

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Obligatorio1.Domain;
+﻿using Obligatorio1.Domain;
 using Obligatorio1.PromoInterface;
 
 namespace Obligatorio1.BusinessLogic
@@ -12,7 +7,7 @@ namespace Obligatorio1.BusinessLogic
     {
         public TwentyPercentOffPromoService()
         {
- 
+
         }
 
         public string GetName()
@@ -28,12 +23,11 @@ namespace Obligatorio1.BusinessLogic
             else
             {
                 cart.TotalPrice -= PromoUtility.ProductsWithPromotions(cart).Max(p => p.Price) * 0.2;
- 
+
             }
             cart.TotalPrice -= cart.Products.Max(p => p.Price) * 0.2;
 
             return cart.TotalPrice;
         }
-
     }
 }

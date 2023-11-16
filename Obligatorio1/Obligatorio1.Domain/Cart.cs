@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Obligatorio1.Domain
 {
@@ -11,7 +6,7 @@ namespace Obligatorio1.Domain
     {
         public int CartID { get; set; }
         public List<CartProduct> CartProducts { get; set; }
-        
+
         [NotMapped]
         public List<Product> Products { get; set; }
         public double TotalPrice { get; set; }

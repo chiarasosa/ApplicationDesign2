@@ -27,12 +27,12 @@ namespace Obligatorio1.WebApi.Controllers
         [HttpPost]
         public IActionResult CreatePurchase([FromBody] Purchase p)
         {
-           
+
             var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
             try
             {
 
-                _purchaseService.CreatePurchase(authToken,p);
+                _purchaseService.CreatePurchase(authToken, p);
 
                 return Ok(new { message = "The purchase has been made successfully." });
             }
@@ -74,7 +74,6 @@ namespace Obligatorio1.WebApi.Controllers
 
             return Ok(formattedPurchases);
         }
-
 
         /// <summary>
         /// Get a specific a purchase.

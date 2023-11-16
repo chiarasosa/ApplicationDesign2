@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Obligatorio1.Domain;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.WebApi.Filters;
-using Obligatorio1.Domain;
-using System;
 
 namespace Obligatorio1.WebApi.Controllers
 {

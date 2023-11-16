@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Obligatorio1.DataAccess.Contexts;
 using Obligatorio1.IDataAccess;
 using System.Linq.Expressions;
@@ -13,7 +8,6 @@ namespace Obligatorio1.DataAccess.Repositories
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected DbContext Context { get; }
-
         public GenericRepository(Context context)
         {
             Context = context;
@@ -50,7 +44,7 @@ namespace Obligatorio1.DataAccess.Repositories
         {
             Context.Set<T>().Remove(entity);
         }
-   
+
         public void Update(T entity)
         {
             Context.Entry(entity).State = EntityState.Modified;

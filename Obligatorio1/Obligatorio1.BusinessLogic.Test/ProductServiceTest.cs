@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Obligatorio1.BusinessLogic;
-using Obligatorio1.Domain;
-using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
-using Obligatorio1.IDataAccess;
 using Obligatorio1.WebApi;
-
+using System;
 
 namespace Obligatorio1.BusinessLogic.Test
 {
@@ -55,27 +44,21 @@ namespace Obligatorio1.BusinessLogic.Test
 
         public void DeleteProduct_ReturnsOkObjectResult_WhenProductIsDeletedSuccessfully()
         {
-            // Arrange
             const int productId = 1;
             var productServiceMock = new Mock<IProductService>();
             productServiceMock.Setup(x => x.DeleteProduct(productId));
 
             var controller = new ProductController(productServiceMock.Object);
 
-            // Act
             var result = controller.DeleteProduct(productId);
 
-            // Assert
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             var okResult = result as OkObjectResult;
 
-            // Asegúrate de que el valor sea un objeto anónimo
             Assert.IsInstanceOfType(okResult.Value, typeof(object));
 
-            // Accede directamente a la propiedad "message" del objeto anónimo
             var messageValue = okResult.Value.GetType().GetProperty("message")?.GetValue(okResult.Value);
 
-            // Verifica la propiedad "message"
             Assert.AreEqual("Product disposed correctly.", messageValue?.ToString());
 
             productServiceMock.Verify(x => x.DeleteProduct(productId), Times.Once);

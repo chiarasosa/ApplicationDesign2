@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Obligatorio1.Domain;
 
@@ -8,9 +7,7 @@ namespace Obligatorio1.DataAccess.Contexts
     public class Context : DbContext
     {
         public Context() { }
-
         public Context(DbContextOptions options) : base(options) { }
-
         public virtual DbSet<User>? Users { get; set; }
         public virtual DbSet<Cart>? Carts { get; set; }
         public virtual DbSet<Purchase>? Purchases { get; set; }
@@ -66,7 +63,6 @@ namespace Obligatorio1.DataAccess.Contexts
                 .WithOne(p => p.User)
                 .HasForeignKey(p => p.UserID);
         }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

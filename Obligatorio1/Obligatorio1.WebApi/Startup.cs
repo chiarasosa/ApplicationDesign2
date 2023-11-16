@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Obligatorio1.DataAccess.Contexts;
 
@@ -12,7 +8,6 @@ public class Startup
     {
         Configuration = configuration;
     }
-
     public IConfiguration Configuration { get; }
 
     public void ConfigureServices(IServiceCollection services)
@@ -29,7 +24,6 @@ public class Startup
             options.UseSqlServer(Configuration.GetConnectionString("obligatrioDB"));
         });
 
-        // Agrega la configuración de CORS
         services.AddCors(options =>
         {
             options.AddPolicy("AllowAll", builder =>
@@ -40,7 +34,6 @@ public class Startup
             });
         });
     }
-
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
@@ -58,7 +51,6 @@ public class Startup
 
         app.UseRouting();
 
-        // Habilita CORS
         app.UseCors("AllowAll");
 
         app.UseEndpoints(endpoints =>

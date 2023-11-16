@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Obligatorio1.IBusinessLogic;
-using System;
 
 namespace Obligatorio1.WebApi.Filters
 {
@@ -10,8 +9,6 @@ namespace Obligatorio1.WebApi.Filters
         private readonly string _roleNeeded = "Administrador";
         private readonly ISessionService _sessionService;
 
-        // Recibe por inyeccion de dependencia, para esto tengo que registrarlo como
-        // service filter
         public AuthorizationRolFilter(ISessionService sessionService)
         {
             _sessionService = sessionService;

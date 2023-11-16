@@ -20,14 +20,14 @@ export class BarraComponent {
     private router: Router,
     private localStorageService: LocalStorageService,
     private dialogService: DialogService,
-    private authService: AuthService 
+    private authService: AuthService
   ) {
 
     this.isLoggedIn = !!this.localStorageService.getToken();
     this.authService.isLoggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
     });
-      
+
 
     const userData = localStorage.getItem('user');
     if (userData) {
@@ -40,7 +40,7 @@ export class BarraComponent {
 
   logout() {
     this.localStorageService.removeToken();
-    this.authService.setLoggedIn(false); 
+    this.authService.setLoggedIn(false);
     this.openAlertDialog('Éxito', 'Se cerró la sesión');
   }
 

@@ -4,17 +4,14 @@ using Obligatorio1.IBusinessLogic;
 
 namespace Obligatorio1.WebApi.Filters
 {
-    // Pueden hacer otro filtro igual pero para la autorización (roles)
     public class AuthenticationFilter : Attribute, IAuthorizationFilter
     {
         private readonly ISessionService _sessionService;
-        // Recibe por inyeccion de dependencia, para esto tengo que registrarlo como
-        // service filter
         public AuthenticationFilter(ISessionService sessionService)
         {
             _sessionService = sessionService;
         }
-        
+
         public virtual void OnAuthorization(AuthorizationFilterContext context)
         {
             var authorizationHeader = context.HttpContext.Request.Headers["Authorization"].ToString();
@@ -22,7 +19,6 @@ namespace Obligatorio1.WebApi.Filters
 
             if (string.IsNullOrEmpty(authorizationHeader) || !Guid.TryParse(authorizationHeader, out token))
             {
-                // Si asigno un result se corta la ejecucion de la request y ya devuelve la response
                 context.Result = new ObjectResult(new { Message = "Authentication Error." })
                 {
                     StatusCode = 401
@@ -34,7 +30,6 @@ namespace Obligatorio1.WebApi.Filters
 
                 if (currentUser == null)
                 {
-                    // Si asigno un result se corta la ejecucion de la request y ya devuelve la response
                     context.Result = new ObjectResult(new { Message = "Authentication Error." })
                     {
                         StatusCode = 403

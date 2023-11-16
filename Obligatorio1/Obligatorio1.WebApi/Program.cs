@@ -1,16 +1,9 @@
 using Microsoft.OpenApi.Models;
 using Obligatorio1.DataAccess.Contexts;
-using Obligatorio1.DataAccess.Repositories;
 using Obligatorio1.Domain;
-using Obligatorio1.Exceptions;
-using Obligatorio1.IBusinessLogic;
-using Serilog;
-using System;
-using System.IO;
-using Obligatorio1.IDataAccess;
+using Obligatorio1.ServiceFactory1;
 using Obligatorio1.WebApi.Filters;
 using System.Reflection;
-using Obligatorio1.ServiceFactory1;
 
 namespace Obligatorio1.WebApi
 {
@@ -50,7 +43,7 @@ namespace Obligatorio1.WebApi
             builder.Services.AddScoped<Obligatorio1.WebApi.Filters.ExceptionFilter>();
             builder.Services.AddScoped<Obligatorio1.WebApi.Filters.AuthenticationFilter>();
             builder.Services.AddScoped<Obligatorio1.WebApi.Filters.AuthorizationRolFilter>();
-            builder.Services.AddScoped<AuthorizationRolFilter>();           
+            builder.Services.AddScoped<AuthorizationRolFilter>();
             builder.Services.AddScoped<Obligatorio1.Domain.User>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IPurchaseService, Obligatorio1.BusinessLogic.PurchaseService>();
             builder.Services.AddScoped<Obligatorio1.IBusinessLogic.IPromotionsService, Obligatorio1.BusinessLogic.PromotionsService>();

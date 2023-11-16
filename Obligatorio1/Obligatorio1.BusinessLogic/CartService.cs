@@ -1,10 +1,7 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using Obligatorio1.Domain;
+﻿using Obligatorio1.Domain;
 using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.IDataAccess;
-using System.Linq.Expressions;
-using System.Xml.XPath;
 
 namespace Obligatorio1.BusinessLogic
 {
@@ -16,7 +13,7 @@ namespace Obligatorio1.BusinessLogic
         private readonly IGenericRepository<CartProduct> _cartProductRepository;
         private readonly IPromotionsService _promotionsService;
 
-        public CartService(IGenericRepository<Session> sessionRepository, IGenericRepository<Cart> cartRepository, 
+        public CartService(IGenericRepository<Session> sessionRepository, IGenericRepository<Cart> cartRepository,
             IProductService productService, IGenericRepository<CartProduct> cartProductRepository, IPromotionsService promotionsService)
         {
             _cartRepository = cartRepository;
@@ -64,9 +61,8 @@ namespace Obligatorio1.BusinessLogic
             {
                 throw new CartException("El producto no tiene stock disponible.");
             }
-                
-        }
 
+        }
 
         public void DeleteProductFromCart(Product product, Guid authToken)
         {
@@ -121,7 +117,8 @@ namespace Obligatorio1.BusinessLogic
             throw new CartException("No existen productos asociados al carrito.");
         }
 
-        public String GetPromottionAppliedCart(Guid authToken) {
+        public String GetPromottionAppliedCart(Guid authToken)
+        {
 
             var result = "";
             var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
@@ -131,14 +128,11 @@ namespace Obligatorio1.BusinessLogic
             {
                 result = session.User.Cart.PromotionApplied;
             }
-
-            //if (result == null || result == "")
-                //throw new CartException("El carrito no tiene una promocion aplicada");
-
             return result;
         }
 
-        public double GetTotalPriceCart(Guid authToken) {
+        public double GetTotalPriceCart(Guid authToken)
+        {
 
             double totalPrice = 0;
             var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });

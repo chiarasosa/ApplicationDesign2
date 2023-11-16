@@ -1,12 +1,9 @@
-﻿using System.Reflection;
-using System.IO;
-using Obligatorio1.Domain;
-using Obligatorio1.IDataAccess;
+﻿using Obligatorio1.Domain;
 using Obligatorio1.IBusinessLogic;
-using Obligatorio1.Exceptions;
+using Obligatorio1.IDataAccess;
 using Obligatorio1.PromoInterface;
+using System.Reflection;
 using System.Runtime.Loader;
-using System.Collections.Generic;
 
 namespace Obligatorio1.BusinessLogic;
 
@@ -32,7 +29,7 @@ public class PromotionsService : IPromotionsService
                     bestDiscount = price;
                     cart.PromotionApplied = promo.GetName();
                     cart.TotalPrice = bestDiscount;
-                }                
+                }
             }
         }
         return cart;
@@ -48,22 +45,20 @@ public class PromotionsService : IPromotionsService
         {
             if (filePath.EndsWith(".dll"))
             {
-                //using (AssemblyLoadContext context = new AssemblyLoadContext(null, true))
-                //    {
-                    FileInfo fileInfo = new FileInfo(filePath);
-                    AssemblyLoadContext context = new AssemblyLoadContext(null, true);
-                    Assembly assembly = context.LoadFromAssemblyPath(fileInfo.FullName);
+                FileInfo fileInfo = new FileInfo(filePath);
+                AssemblyLoadContext context = new AssemblyLoadContext(null, true);
+                Assembly assembly = context.LoadFromAssemblyPath(fileInfo.FullName);
 
-                    foreach (Type type in assembly.GetTypes())
+                foreach (Type type in assembly.GetTypes())
+                {
+                    if (typeof(IPromoService).IsAssignableFrom(type) && !type.IsInterface)
                     {
-                        if (typeof(IPromoService).IsAssignableFrom(type) && !type.IsInterface)
-                        {
-                            IPromoService promotion = (IPromoService)Activator.CreateInstance(type);
-                            if (promotion != null)
-                                availablePromotions.Add(promotion);
-                        }
+                        IPromoService promotion = (IPromoService)Activator.CreateInstance(type);
+                        if (promotion != null)
+                            availablePromotions.Add(promotion);
                     }
-                    context.Unload();
+                }
+                context.Unload();
             }
         }
 

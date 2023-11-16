@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Obligatorio1.IBusinessLogic;
-using Obligatorio1.WebApi.Filters;
 using Obligatorio1.PromoInterface;
+using Obligatorio1.WebApi.Filters;
 
 namespace Obligatorio1.WebApi.Controllers
 {
