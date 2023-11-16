@@ -13,7 +13,7 @@ import { LandingPageComponent } from './componentes/landing-page/landing-page.co
 import { BarraComponent } from './componentes/barra/barra.component';
 import { ListaProductosComponent } from './componentes/lista-productos/lista-productos.component';
 import { ProductoComponent } from './componentes/producto/producto.component';
-import { PromocionComponent } from './componentes/promocion/promocion.component';
+//import { PromocionComponent } from './componentes/promocion/promocion.component';
 import { CompraComponent } from './componentes/compra/compra.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AlertDialogComponent } from './componentes/alert-dialog/alert-dialog.component';
@@ -34,7 +34,7 @@ import { ListaComprasComponent } from './componentes/lista-compras/lista-compras
     BarraComponent,
     ListaProductosComponent,
     ProductoComponent,
-    PromocionComponent,
+    //PromocionComponent,
     CompraComponent,
     AlertDialogComponent,
     CrearProductoComponent,
