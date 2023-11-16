@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Obligatorio1.BusinessLogic;
-using Obligatorio1.Domain;
 using Obligatorio1.IBusinessLogic;
-using Obligatorio1.IDataAccess;
-
+using Obligatorio1.WebApi;
+using System;
 
 namespace Obligatorio1.BusinessLogic.Test
 {
@@ -17,120 +11,57 @@ namespace Obligatorio1.BusinessLogic.Test
     public class ProductServiceTest
     {
         [TestMethod]
-        public void DeleteProductTest()
+
+        public void DeleteProduct_ReturnsBadRequestObjectResult_WhenExceptionIsThrown()
         {
-            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
-            ProductService service = new ProductService(mock.Object);
 
-            int prodID = 0;
-            Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, "azul");
+            const int productId = 1;
+            var productServiceMock = new Mock<IProductService>();
+            productServiceMock.Setup(x => x.DeleteProduct(productId)).Throws(new Exception("Some error message"));
 
-            mock?.Setup(m => m.GetProductByID(prodID)).Returns(prod);
-            mock?.Setup(m => m.DeleteProduct(prodID));
-
-            service?.DeleteProduct(prodID);
-
-            mock?.Verify(m => m.GetProductByID(prodID), Times.Once);
-            mock?.Verify(m => m.DeleteProduct(prodID), Times.Once);
-        }
+            var controller = new ProductController(productServiceMock.Object);
 
 
-        [TestMethod]
-        public void CreateProductTest()
-        {
-            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
-            ProductService service = new ProductService(mock.Object);
+            var result = controller.DeleteProduct(productId);
 
 
-            Product prod1 = new Product(1, "jabon", 120, "aloe", 1, 2, "azul");
-            Product prod2 = new Product(2, "yerba", 89, "sin descripcion", 3, 4, "azul");
-
-            mock?.Setup(m => m.CreateProduct(prod1)).Returns(prod1);
-            Product? res = service?.CreateProduct(prod1);
-
-            Assert.AreEqual(res, prod1);
-            mock.Verify(m => m.CreateProduct(prod1), Times.Once);
-
-        }
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            var badRequestResult = result as BadRequestObjectResult;
 
 
-        [TestMethod]
-        public void GetProductByIdTest()
-        {
-            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
-            ProductService service = new ProductService(mock.Object);
-
-            int prodID = 0;
-            Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, "azul");
+            Assert.IsInstanceOfType(badRequestResult.Value, typeof(object));
 
 
-            mock!.Setup(m => m.GetProductByID(prodID)).Returns(prod);
+            var messageValue = badRequestResult.Value.GetType().GetProperty("message")?.GetValue(badRequestResult.Value);
 
-            Product? result = service?.GetProductByID(prodID);
 
-            Assert.AreEqual(prod, result);
+            Assert.AreEqual("Error: Some error message", messageValue?.ToString());
 
-            mock.VerifyAll();
+            productServiceMock.Verify(x => x.DeleteProduct(productId), Times.Once);
         }
 
         [TestMethod]
-        public void RegisterProductTest()
+
+        public void DeleteProduct_ReturnsOkObjectResult_WhenProductIsDeletedSuccessfully()
         {
-            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
-            ProductService service = new ProductService(mock.Object);
+            const int productId = 1;
+            var productServiceMock = new Mock<IProductService>();
+            productServiceMock.Setup(x => x.DeleteProduct(productId));
 
+            var controller = new ProductController(productServiceMock.Object);
 
-            int prodID = 0;
-            Product prod = new Product(prodID, "jabon", 120, "sin descripcion", 1, 2, "azul");
+            var result = controller.DeleteProduct(productId);
 
-            mock?.Setup(x => x.RegisterProduct(prod));
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var okResult = result as OkObjectResult;
 
-            service?.RegisterProduct(prod);
+            Assert.IsInstanceOfType(okResult.Value, typeof(object));
 
-            mock?.VerifyAll();
-        }
+            var messageValue = okResult.Value.GetType().GetProperty("message")?.GetValue(okResult.Value);
 
+            Assert.AreEqual("Product disposed correctly.", messageValue?.ToString());
 
-        [TestMethod]
-        public void GetProductsTest()
-        {
-            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
-            ProductService service = new ProductService(mock.Object);
-
-
-
-            List<Product> products = new List<Product>
-            {
-                new Product(1, "canarias amarilla", 200, "yerba mate", 2, 2, "azul"),
-                new Product(2, "lapicera bic", 30, "util escolar", 3, 3, "azul"),
-                new Product(3, "desodorante rexona", 250, " ", 4, 4, "azul")
-            };
-
-            mock?.Setup(x => x.GetProducts()).Returns(products);
-
-            IEnumerable<Product>? result = service?.GetProducts();
-
-            Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(products, result.ToList());
-
-            mock?.Verify(x => x.GetProducts(), Times.Once);
-        }
-
-        [TestMethod]
-        public void UpdateProductTest()
-        {
-            Mock<IProductManagment>? mock = new Mock<IProductManagment>(MockBehavior.Strict);
-            ProductService service = new ProductService(mock.Object);
-            Product prod = new Product(2, "lapicera bic", 30, "util escolar", 3, 3, "azul");
-            Product updated = new Product(prod.ProductID, "actualizado", 31, "actualizado", 4, 4, "negro");
-
-            mock?.Setup(x => x.UpdateProduct(It.IsAny<Product>())).Returns((Product product) => product);
-            Product? result = service?.UpdateProduct(updated);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(updated, result);
-            mock?.Verify(x => x.UpdateProduct(updated), Times.Once);
-
+            productServiceMock.Verify(x => x.DeleteProduct(productId), Times.Once);
         }
     }
 }

@@ -1,0 +1,23 @@
+<div class="table-container">
+  <h1>Lista de Compras</h1>
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID de Compra</th>
+        <th>Nombre de Usuario</th>
+        <th>Email de Usuario</th>
+        <th>Fecha de Compra</th>
+        <th>Método de Pago</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let compra of compras">
+        <td>{{ compra.purchaseID }}</td>
+        <td>{{ compra.userName }}</td>
+        <td>{{ compra.emailUsuario }}</td>
+        <td>{{ compra.dateOfPurchase | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ compra.paymentMethod ? compra.paymentMethod : 'N/A' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Obligatorio1.Domain
+﻿namespace Obligatorio1.Domain
 {
     public class User
     {
@@ -16,7 +9,6 @@ namespace Obligatorio1.Domain
         public string Address { get; set; }
         public string Role { get; set; }
         public List<Purchase>? Purchases { get; set; }
-
         public Cart? Cart { get; set; }
         public User()
         {
@@ -26,6 +18,7 @@ namespace Obligatorio1.Domain
             this.Address = string.Empty;
             this.Role = string.Empty;
             this.Purchases = null;
+            this.Cart = new Cart { Products = new List<Product>() };
         }
 
         public User(int userID, string userName, string password, string email, string address, string role, List<Purchase>? purchases)
@@ -36,6 +29,7 @@ namespace Obligatorio1.Domain
             this.Address = address;
             this.Role = role;
             this.Purchases = purchases;
+            this.Cart = new Cart { Products = new List<Product>() };
         }
     }
 }

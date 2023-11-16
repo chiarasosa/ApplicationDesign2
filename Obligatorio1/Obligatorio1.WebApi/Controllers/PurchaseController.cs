@@ -1,43 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Obligatorio1.IBusinessLogic;
+using Newtonsoft.Json;
 using Obligatorio1.Domain;
+using Obligatorio1.IBusinessLogic;
+using Obligatorio1.WebApi.Filters;
 
 namespace Obligatorio1.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/purchase")]
+    [Route("api/purchases")]
+    [TypeFilter(typeof(AuthenticationFilter))]
+    [TypeFilter(typeof(ExceptionFilter))]
     public class PurchaseController : ControllerBase
     {
         private readonly IPurchaseService _purchaseService;
-        private static List<Purchase> _purchases = new List<Purchase>() {
-            new Purchase() {
-                PurchaseID = 145,
-                UserID = 12,
-                PurchasedProducts =
-            {
-                new Product()
-                {
-                    ProductID = 1,
-                },
-                new Product()
-                {
-                    ProductID = 2,
-                }
-            },
-                PromoApplied = "3x1", DateOfPurchase = DateTime.Today },
-
-            new Purchase() {
-                PurchaseID = 2, UserID = 3, PurchasedProducts =
-            {
-                new Product()
-                {
-                    ProductID = 3,
-                },
-                new Product()
-                {
-                    ProductID = 4,
-                }
-            }, PromoApplied = "total look", DateOfPurchase = DateTime.Today } };
 
         public PurchaseController(IPurchaseService purchaseService)
         {
@@ -50,27 +25,54 @@ namespace Obligatorio1.WebApi.Controllers
         /// <param name="cart">Cart that wants to be purchased.</param>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
         [HttpPost]
-        public IActionResult CreatePurchase([FromBody] Cart cart)
+        public IActionResult CreatePurchase([FromBody] Purchase p)
         {
+
+            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
             try
             {
-                /*
-                _purchases.Add(
-                    new Purchase() {
-                        PurchaseID = 1,
-                        UserID = 2,
-                        PurchasedProducts = cart.Products,
-                        DateOfPurchase = DateTime.Today,
-                        PromoApplied = cart.PromotionApplied
-                    });
-                */
-                _purchaseService.ExecutePurchase(cart);
-                return Ok("The purchase has been made successfully.");
+
+                _purchaseService.CreatePurchase(authToken, p);
+
+                return Ok(new { message = "The purchase has been made successfully." });
             }
             catch (Exception ex)
             {
-                return BadRequest($"Purchase error: {ex.Message}");
+                return BadRequest(new { message = "Error al procesar la solicitud: " + ex.Message });
             }
+        }
+        /// <summary>
+        /// Gets all purchases.
+        /// </summary>
+        /// <returns>Returns HTTP response with the result of the operation.</returns>
+        [HttpGet]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
+        public IActionResult GetPurchases()
+        {
+            var purchases = _purchaseService.GetAllPurchases();
+
+            if (purchases == null || !purchases.Any())
+            {
+                return Ok(new { message = "No se encontraron compras en el sistema." });
+            }
+
+            var formattedPurchases = purchases.Select(purchase => new
+            {
+                PurchaseID = purchase.PurchaseID,
+                UserID = purchase.UserID,
+                UserName = purchase.UserName,
+                EmailUsuario = purchase.EmailUsuario,
+                PromoApplied = purchase.PromoApplied,
+                DateOfPurchase = purchase.DateOfPurchase,
+                PaymentMethod = purchase.PaymentMethod,
+                PurchasedProducts = purchase.PurchasedProducts.Select(pp => new
+                {
+                    ProductID = pp.ProductID,
+                    Product = pp.Product
+                })
+            });
+
+            return Ok(formattedPurchases);
         }
 
         /// <summary>
@@ -78,39 +80,34 @@ namespace Obligatorio1.WebApi.Controllers
         /// </summary>
         /// <param name="id">Id of purchase.</param>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [HttpGet("specificPurchase/{id}")]
+        [HttpGet("{id}")]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
         public IActionResult GetSpecificPurchase([FromRoute] int id)
         {
-            //var purchase = _purchaseService.GetPurchases().Find(x => x.PurchaseID == id);
-            var purchase = _purchases.Find(x => x.PurchaseID == id);
+            var purchase = _purchaseService.GetPurchaseByID(id);
 
             if (purchase == null)
             {
-                return NotFound(new { Message = "Cant find purchase" });
+                return NotFound(new { Message = "No se encontró la compra" });
             }
             else
             {
-                return Ok(purchase);
-            }
-        }
+                var formattedPurchase = new
+                {
+                    PurchaseID = purchase.PurchaseID,
+                    UserID = purchase.UserID,
+                    PromoApplied = purchase.PromoApplied,
+                    DateOfPurchase = purchase.DateOfPurchase,
+                    PurchasedProducts = purchase.PurchasedProducts.Select(pp => new
+                    {
+                        ProductID = pp.ProductID,
+                        Product = pp.Product
+                    })
+                };
 
-        /// <summary>
-        /// Gets all purchases.
-        /// </summary>
-        /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [HttpGet]
-        public IActionResult GetAllPurchases()
-        {
-            //var purchase = _purchaseService.GetPurchases()
-            var purchases = _purchases;
+                var jsonResult = JsonConvert.SerializeObject(formattedPurchase, Formatting.Indented);
 
-            if (purchases == null)
-            {
-                return NotFound(new { Message = "There are no purchases" });
-            }
-            else
-            {
-                return Ok(purchases);
+                return Ok(jsonResult);
             }
         }
 
@@ -120,19 +117,33 @@ namespace Obligatorio1.WebApi.Controllers
         /// <param name="id">Id of user.</param>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
         [HttpGet("usersPurchases/{id}")]
+        [TypeFilter(typeof(AuthorizationRolFilter))]
         public IActionResult GetUsersPurchases([FromRoute] int id)
         {
-            //var purchase = _purchaseService.GetPurchases().Find(x => x.User.UserID == id);
-            var purchases = _purchases.Where(x => x.UserID == id).ToList();
+            var purchases = _purchaseService.GetPurchasesByUserID(id);
 
-
-            if (purchases == null)
+            if (purchases == null || !purchases.Any())
             {
-                return NotFound(new { Message = "Cant find users purchases" });
+                return NotFound(new { Message = "No se encontraron compras para el usuario con ID " + id });
             }
             else
             {
-                return Ok(purchases);
+                var formattedPurchases = purchases.Select(purchase => new
+                {
+                    PurchaseID = purchase.PurchaseID,
+                    UserID = purchase.UserID,
+                    PromoApplied = purchase.PromoApplied,
+                    DateOfPurchase = purchase.DateOfPurchase,
+                    PurchasedProducts = purchase.PurchasedProducts.Select(pp => new
+                    {
+                        ProductID = pp.ProductID,
+                        Product = pp.Product
+                    })
+                });
+
+                var jsonResult = JsonConvert.SerializeObject(formattedPurchases, Formatting.Indented);
+
+                return Ok(jsonResult);
             }
         }
     }

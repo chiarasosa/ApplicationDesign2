@@ -1,68 +1,168 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Obligatorio1.Domain;
+using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
-using Obligatorio1.Domain;
 using Obligatorio1.IDataAccess;
 
 namespace Obligatorio1.BusinessLogic
 {
     public class CartService : ICartService
     {
-        private readonly ICartManagment _cartManagment;
-        private readonly IPromoManagerManagment promoManagerManagment;
+        private readonly IGenericRepository<Session> _sessionRepository;
+        private readonly IGenericRepository<Cart> _cartRepository;
+        private readonly IProductService _productService;
+        private readonly IGenericRepository<CartProduct> _cartProductRepository;
+        private readonly IPromotionsService _promotionsService;
 
-        public CartService(ICartManagment cartManagment, IPromoManagerManagment promoManagerManagment)
+        public CartService(IGenericRepository<Session> sessionRepository, IGenericRepository<Cart> cartRepository,
+            IProductService productService, IGenericRepository<CartProduct> cartProductRepository, IPromotionsService promotionsService)
         {
-            this._cartManagment = cartManagment;
-            this.promoManagerManagment = promoManagerManagment;
+            _cartRepository = cartRepository;
+            _sessionRepository = sessionRepository;
+            _productService = productService;
+            _cartProductRepository = cartProductRepository;
+            _promotionsService = promotionsService;
         }
 
-        public void AddProductToCart(Product product)
+        public void AddProductToCart(Product product, Guid authToken)
         {
-            _cartManagment.AddProductToCart(product);
-            ApplyBestPromotion();
-        }
-
-        public void DeleteProductFromCart(Product product)
-        {
-            _cartManagment.DeleteProductFromCart(product);
-            ApplyBestPromotion();
-        }
-
-        public Cart ApplyBestPromotion()
-        {
-            Cart cart = _cartManagment.GetCart();
-            if (cart.Products != null)
+            Product productToAdd = _productService.GetProductByID(product.ProductID);
+            if (productToAdd.Stock > 0)
             {
-                List<IPromoService> availablePromotions = promoManagerManagment.GetAvailablePromotions();
-                if (availablePromotions.Count() > 0)
+                var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+                if (session != null)
                 {
-                    double bestDiscount = cart.TotalPrice;
-                    foreach (IPromoService promotion in availablePromotions)
+                    var cart = session.User.Cart;
+                    if (cart.Products == null)
+                        cart.Products = new List<Product>();
+
+                    if (cart.CartProducts == null)
+                        cart.CartProducts = new List<CartProduct>();
+
+                    var cartProduct = new CartProduct();
+                    cartProduct.Product = productToAdd;
+                    cartProduct.ProductID = productToAdd.ProductID;
+                    cartProduct.CartID = cart.CartID;
+                    cartProduct.Cart = cart;
+
+                    try
                     {
-                        double price = promotion.CalculateNewPriceWithDiscount(cart);
-                        if (price < bestDiscount)
-                        {
-                            bestDiscount = price;
-                            cart.PromotionApplied = promotion.GetName();
-                        }
-                        bestDiscount = Math.Min(bestDiscount, price);
-
+                        cart.Products = GetAllProductsFromCart(authToken).ToList();
                     }
-
-                    cart.TotalPrice = bestDiscount;
+                    catch (Exception ex) { }
+                    cart.Products.Add(productToAdd);
+                    cart.CartProducts.Add(cartProduct);
+                    cart.TotalPrice = cart.TotalPrice + productToAdd.Price;
+                    cart = _promotionsService.ApplyBestPromotionToCart(cart);
+                    _cartRepository.Update(cart);
+                    _cartRepository.Save();
                 }
             }
-            _cartManagment.UpdateCartWithDiscount(cart);
-            return cart;
+            else
+            {
+                throw new CartException("El producto no tiene stock disponible.");
+            }
+
         }
 
-        public Cart GetLoggedInCart()
+        public void DeleteProductFromCart(Product product, Guid authToken)
         {
-            return _cartManagment.GetCart();
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+            if (session != null)
+            {
+                var cart = session.User.Cart;
+
+                if (cart != null)
+                {
+                    var cartProducts = GetCartProductsByCartID(cart.CartID);
+
+                    var cartProductToDelete = cartProducts.FirstOrDefault(cp => cp.ProductID == product.ProductID);
+
+                    if (cartProductToDelete != null)
+                    {
+                        cartProducts.Remove(cartProductToDelete);
+                        cart.CartProducts = cartProducts;
+                        cart = _promotionsService.ApplyBestPromotionToCart(cart);
+                        _cartRepository.Update(cart);
+                        _cartRepository.Save();
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<Product> GetAllProductsFromCart(Guid authToken)
+        {
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+            List<Product> products = new List<Product>();
+
+            if (session != null && session.User != null && session.User.Cart != null)
+            {
+                var cart = session.User.Cart;
+                var cartProducts = GetCartProductsByCartID(cart.CartID);
+
+                List<int> productIds = cartProducts.Select(cp => cp.ProductID).ToList();
+
+                foreach (int productId in productIds)
+                {
+                    Product product = _productService.GetProductByID(productId);
+                    if (product != null)
+                    {
+                        products.Add(product);
+                    }
+                }
+            }
+            if (products != null)
+            {
+                return products;
+            }
+            throw new CartException("No existen productos asociados al carrito.");
+        }
+
+        public String GetPromottionAppliedCart(Guid authToken)
+        {
+
+            var result = "";
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+
+            if (session != null && session.User != null && session.User.Cart != null &&
+               (session.User.Cart.PromotionApplied != null && session.User.Cart.PromotionApplied != ""))
+            {
+                result = session.User.Cart.PromotionApplied;
+            }
+            return result;
+        }
+
+        public double GetTotalPriceCart(Guid authToken)
+        {
+
+            double totalPrice = 0;
+            var session = _sessionRepository.Get(s => s.AuthToken == authToken, new List<string>() { "User.Cart" });
+
+            if (session != null && session.User != null && session.User.Cart != null)
+            {
+                totalPrice = session.User.Cart.TotalPrice;
+            }
+
+            return totalPrice;
+        }
+
+        public List<CartProduct> GetCartProductsByCartID(int cartID)
+        {
+            if (cartID <= 0)
+            {
+                throw new CartProductException("ID de carrito inválido.");
+            }
+
+            List<CartProduct> cartProducts = _cartProductRepository
+                .GetAll<CartProduct>()
+                .Where(cp => cp.CartID == cartID)
+                .ToList();
+
+            if (!cartProducts.Any())
+            {
+                throw new CartProductException($"No existen productos asociados al carrito.");
+            }
+
+            return cartProducts;
         }
     }
 }

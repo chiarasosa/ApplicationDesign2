@@ -1,42 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Obligatorio1.Domain;
 using Obligatorio1.IBusinessLogic;
+using Obligatorio1.WebApi.Filters;
 
 namespace Obligatorio1.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/cart")]
+    [Route("api/carts")]
+    [TypeFilter(typeof(AuthenticationFilter))]
+    [TypeFilter(typeof(ExceptionFilter))]
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;
-        private static Cart _cart = new Cart()
-        {
-            Products = new List<Product>() {
-                new Product() {
-                    Name = "Jabon",
-                    Price = 10,
-                    Description = "Liquido",
-                    Brand = 1,
-                    Category = 1,
-                },
-                new Product() {
-                    Name = "Fideos",
-                    Price = 20,
-                    Description = "Tallarines",
-                    Brand = 4,
-                    Category = 4,
-                },
-                new Product() {
-                    Name = "Pan",
-                    Price = 30,
-                    Description = "Blanco",
-                    Brand = 5,
-                    Category = 5,
-                }
-            },
-            TotalPrice = 60,
-            PromotionApplied = "3x1 promo",
-        };
 
         /// <summary>
         /// Constructor of Cart Controller.
@@ -52,19 +27,12 @@ namespace Obligatorio1.WebApi.Controllers
         /// </summary>
         /// <param name="product">Product that wants to be added.</param>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [HttpPost("addProduct")]
+        [HttpPost]
         public IActionResult AddProductToCart([FromBody] Product product)
         {
-            try
-            {
-                _cart.Products.Add(product);
-                //_cartService.AddProductToCart(product);
-                return Ok("Product added to cart successfully.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error adding product to cart: {ex.Message}");
-            }
+            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
+            _cartService.AddProductToCart(product, authToken);
+            return Ok(new { message = "Product added to cart successfully." });
         }
 
         /// <summary>
@@ -72,57 +40,24 @@ namespace Obligatorio1.WebApi.Controllers
         /// </summary>
         /// <param name="product">Product that wants to be deleted.</param>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [HttpDelete("deleteProduct")]
+        [HttpDelete]
         public IActionResult DeleteProductFromCart([FromBody] Product product)
         {
-            try
-            {
-                _cart.Products.Remove(product);
-                //_cartService.DeleteProductFromCart(product);
-                return Ok("Product deleted from cart successfully.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error deleting product from cart: {ex.Message}");
-            }
+            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
+            _cartService.DeleteProductFromCart(product, authToken);
+            return Ok(new { message = "Product deleted from cart successfully." });
         }
 
         /// <summary>
         /// Gets the list of products from the cart.
         /// </summary>
         /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [HttpGet]
-        public IActionResult GetLoggedInCart()
-        {
-            try
-            {
-                var cart = _cart;
-                //var cart = _cartService.GetLoggedInCart();
-                return Ok(cart);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error while getting the cart: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Gets the list of products from the cart.
-        /// </summary>
-        /// <returns>Returns HTTP response with the result of the operation.</returns>
-        [HttpGet("AllProducts")]
+        [HttpGet()]
         public IActionResult GetProductsFromCart()
         {
-            try
-            {
-                var products = _cart.Products;
-                //var peroducts = _cartService.GetLoggedInCart().Products.ToList();
-                return Ok(products);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error while getting the products: {ex.Message}");
-            }
+            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
+            var products = _cartService.GetAllProductsFromCart(authToken);
+            return Ok(products);
         }
 
         /// <summary>
@@ -132,16 +67,10 @@ namespace Obligatorio1.WebApi.Controllers
         [HttpGet("PromotionApplied")]
         public IActionResult GetPromoAppliedToCart()
         {
-            try
-            {
-                var promo = _cart.PromotionApplied;
-                //var promo = _cartService.GetLoggedInCart().PromotionApplied;
-                return Ok(promo);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error while getting the promotion: {ex.Message}");
-            }
+            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
+            var promo = _cartService.GetPromottionAppliedCart(authToken);
+
+            return Ok(new { message = promo });
         }
 
         /// <summary>
@@ -151,17 +80,10 @@ namespace Obligatorio1.WebApi.Controllers
         [HttpGet("TotalPrice")]
         public IActionResult GetTotalPrice()
         {
-            try
-            {
-                var price = _cart.TotalPrice;
-                //var price = _cartService.GetLoggedInCart().TotalPrice;
-                return Ok(price);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error while getting the promotion: {ex.Message}");
-            }
+            var authToken = Guid.Parse(HttpContext.Request.Headers["Authorization"]);
+            var price = _cartService.GetTotalPriceCart(authToken);
+
+            return Ok(price);
         }
     }
-
 }

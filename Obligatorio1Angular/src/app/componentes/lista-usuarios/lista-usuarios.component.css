@@ -1,0 +1,46 @@
+.table thead tr th {
+  border-bottom: 1px solid #000;
+}
+
+.table-container {
+  padding: 50px;
+  padding-top: 180px;
+  padding-bottom: 150px;
+}
+
+.table th:not(:first-child),
+.table td:not(:first-child) {
+  border-left: none;
+}
+
+.table-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-editar {
+  background-color: #a7dff5;
+  border-color: #a7dff5;
+  color: #fff;
+}
+
+.btn-eliminar {
+  background-color: #fd9684;
+  border-color: #fd9684;
+  color: #fff;
+}
+
+.btn-guardar {
+  background-color: #9af39a;
+  border-color: #9af39a;
+  color: #fff;
+}
+
+.btn,
+.form-control {
+  font-size: 16px;
+}
+
+.form-control {
+  margin-bottom: 10px;
+}

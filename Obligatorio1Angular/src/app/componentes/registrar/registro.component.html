@@ -1,0 +1,30 @@
+<div class="container">
+  <form class="form-signin">
+    <h2 class="form-signin-heading">Registro</h2>
+
+    <input type="text" [(ngModel)]="user.username" name="nombreRegistrar" id="inputNombre" class="form-control"
+      placeholder="Nombre" required autofocus />
+    <input type="password" [(ngModel)]="user.password" name="contraseñaRegistrar" id="inputPassword"
+      class="form-control" placeholder="Contraseña" required />
+    <input type="email" [(ngModel)]="user.email" name="mailRegistrar" id="inputEmail" class="form-control"
+      placeholder="Email de usuario" required />
+    <input type="text" [(ngModel)]="user.address" name="addressRegistrar" id="inputAddress" class="form-control"
+      placeholder="Dirección" required />
+
+    <div class="form-check">
+      <input class="form-check-input" [(ngModel)]="user.role" type="radio" name="flexRadioDefault" id="flexRadioAdmin"
+        value="Administrador" required />
+      <label class="form-check-label" for="flexRadioAdmin">Administrador</label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" [(ngModel)]="user.role" type="radio" name="flexRadioDefault"
+        id="flexRadioComprador" value="Comprador" required />
+      <label class="form-check-label" for="flexRadioComprador">Comprador</label>
+    </div>
+
+    <button class="btn btn-lg btn-outline-primary btn-block" (click)="registerUser()" type="submit">
+      Registrar
+    </button>
+  </form>
+</div>

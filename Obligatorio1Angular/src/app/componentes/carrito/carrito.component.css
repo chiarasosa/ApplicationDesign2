@@ -1,0 +1,55 @@
+.container {
+    padding-top: 180px;
+    padding-bottom: 150px;
+}
+
+.col-md-8 {
+    padding-right: 100px !important;
+}
+
+.table tbody tr td {
+    font-size: 18px;
+}
+
+.table thead tr:first-child {
+    border-bottom: 1px solid #000;
+    font-size: 15px;
+    text-align: center;
+}
+
+.col-md-4 {
+    padding: 30px;
+    background-color: #eeeded;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding-top: 10px;
+}
+
+.col-md-4 h2 {
+    font-size: 24px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.col-md-4 div p {
+    font-size: 15px;
+}
+
+.col-md-4 .total {
+    font-size: 22px;
+}
+
+.col-md-4 button {
+    font-size: 24px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.col-md-4 input[type="radio"] {
+    margin: 0 5px 20px 0;
+    margin-left: 50px;
+}
+
+.col-md-4 div {
+    margin-bottom: 20px;
+}

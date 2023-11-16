@@ -32,6 +32,7 @@
     <ProjectReference Include="..\Obligatorio1.DataAccess\Obligatorio1.DataAccess.csproj" />
     <ProjectReference Include="..\Obligatorio1.Domain\Obligatorio1.Domain.csproj" />
     <ProjectReference Include="..\Obligatorio1.IBusinessLogic\Obligatorio1.IBusinessLogic.csproj" />
+    <ProjectReference Include="..\Obligatorio1.WebApi\Obligatorio1.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

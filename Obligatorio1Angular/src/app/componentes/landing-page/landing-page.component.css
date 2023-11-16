@@ -1,0 +1,97 @@
+.container-fluid {
+  position: fixed;
+  z-index: 1000;
+}
+
+.H1Header {
+  position: fixed;
+  top: 3%;
+  color: rgb(0, 58, 41);
+  text-align: center;
+  height: 80px;
+  padding: 30px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 60px;
+  z-index: 1000;
+}
+
+.H2Header {
+  color: #d8dadb;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 35px;
+  text-align: left;
+  align-items: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background-color: rgb(3, 50, 51);
+  z-index: 1000;
+}
+
+.footer-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.footer-left,
+.footer-left-2,
+.footer-right {
+  padding: 30px;
+  align-items: center;
+}
+
+.footer-left-2 {
+  padding: 0%;
+  line-height: 80%;
+}
+
+.footer-left-2 p {
+  color: #d8dadb;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.footer-right {
+  text-align: right;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-right: 10%;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.footer-right a {
+  color: #d8dadb;
+  font-size: 20px;
+}
+
+.footer-right a:hover {
+  color: #fff;
+}
+
+.H1Header {
+  transition: font-size 2.0s;
+}
+
+.H1Header:hover {
+  font-size: 80px;
+}
