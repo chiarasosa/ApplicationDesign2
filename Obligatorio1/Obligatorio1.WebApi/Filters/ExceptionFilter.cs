@@ -28,31 +28,31 @@ namespace Obligatorio1.WebApi.Filters
             }
             else if (context.Exception is UserException)
             {
-                statusCode = 422; 
+                statusCode = 500; 
             }
             else if (context.Exception is ProductManagmentException)
             {
-                statusCode = 422; 
+                statusCode = 500; 
             }
             else if (context.Exception is CartException)
             {
-                statusCode = 422;
+                statusCode = 500;
             }
             else if (context.Exception is CartManagmentException)
             {
-                statusCode = 422;
+                statusCode = 500;
             }
             else if (context.Exception is CartProductException)
             {
-                statusCode = 422;
+                statusCode = 500;
             }
             else if (context.Exception is PurchaseException)
             {
-                statusCode = 422; 
+                statusCode = 500; 
             }
             else if (context.Exception is UserManagmentException)
             {
-                statusCode = 422;
+                statusCode = 500;
             }
 
             context.Result = new ObjectResult(new { Message = context.Exception.Message })
