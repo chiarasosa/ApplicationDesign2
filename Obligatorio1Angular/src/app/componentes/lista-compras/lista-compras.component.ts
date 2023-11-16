@@ -20,30 +20,30 @@ export class ListaComprasComponent implements OnInit {
     this.obtenerCompras();
   }
 
-obtenerCompras(): void {
-  this.purchaseService.getCompras().subscribe(
-    (response) => {
-      if ('message' in response && response.message === 'No se encontraron compras en el sistema.') {
-        this.dialogService.openAlertDialog('Información', 'No hay compras registradas para este usuario.');
-      } else {
-        const compras = response as Purchase[];
-        if (compras && compras.length > 0) {
-          this.compras = compras;
-          console.log('Compras recibidas:', this.compras);
+  obtenerCompras(): void {
+    this.purchaseService.getCompras().subscribe(
+      (response) => {
+        if ('message' in response && response.message === 'No se encontraron compras en el sistema.') {
+          this.dialogService.openAlertDialog('Información', 'No hay compras registradas para este usuario.');
+        } else {
+          const compras = response as Purchase[];
+          if (compras && compras.length > 0) {
+            this.compras = compras;
+            console.log('Compras recibidas:', this.compras);
+          }
         }
-      }
-    },
-    (error) => {
-      if (error != null && error.error != null && error.error.message != null) {
-        this.dialogService.openAlertDialog('Error', error.error.message);
-;
-      } else {
-        this.dialogService.openAlertDialog('Error', error);
-      }
+      },
+      (error) => {
+        if (error != null && error.error != null && error.error.message != null) {
+          this.dialogService.openAlertDialog('Error', error.error.message);
+          ;
+        } else {
+          this.dialogService.openAlertDialog('Error', error);
+        }
 
-    }
-  );
-}
+      }
+    );
+  }
 
-  
+
 }

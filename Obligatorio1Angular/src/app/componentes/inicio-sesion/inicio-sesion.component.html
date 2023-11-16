@@ -2,32 +2,13 @@
   <form class="form-signin">
     <h2 class="form-signin-heading">Inicio de sesión</h2>
 
-    <input
-      type="text"
-      [(ngModel)]="user.email"
-      id="inputEmail"
-      class="form-control"
-      placeholder="Email de usuario"
-      name="emailUsuario"
-      required
-      autofocus
-    />
+    <input type="text" [(ngModel)]="user.email" id="inputEmail" class="form-control" placeholder="Email de usuario"
+      name="emailUsuario" required autofocus />
 
-    <input
-      type="password"
-      [(ngModel)]="user.password"
-      id="inputPassword"
-      class="form-control"
-      placeholder="Contraseña"
-      name="contrasenaUsuario"
-      required
-    />
+    <input type="password" [(ngModel)]="user.password" id="inputPassword" class="form-control" placeholder="Contraseña"
+      name="contrasenaUsuario" required />
 
-    <button
-      class="btn btn-lg btn-outline-primary btn-block"
-      type="button"
-      (click)="loginUser()"
-    >
+    <button class="btn btn-lg btn-outline-primary btn-block" type="button" (click)="loginUser()">
       Iniciar sesión
     </button>
   </form>

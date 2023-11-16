@@ -1,12 +1,11 @@
-
 .table thead tr th {
-  border-bottom: 1px solid #000; 
+  border-bottom: 1px solid #000;
 }
 
-.table-container{
-    padding: 50px;
-    padding-top: 180px;
-    padding-bottom: 150px;
+.table-container {
+  padding: 50px;
+  padding-top: 180px;
+  padding-bottom: 150px;
 }
 
 .table th:not(:first-child),
@@ -45,4 +44,3 @@
 .form-control {
   margin-bottom: 10px;
 }
-

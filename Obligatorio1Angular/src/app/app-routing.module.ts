@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'producto', component: ProductoComponent },
   { path: 'lista-productos', component: ListaProductosComponent },
   { path: 'landing', component: LandingPageComponent },
-  { path: 'lista-usuarios', component: ListaUsuariosComponent }, // Agrega esta línea
+  { path: 'lista-usuarios', component: ListaUsuariosComponent }, 
   { path:'crear-producto',component:CrearProductoComponent},
   { path:'Compra', component: CompraComponent},
   { path:'lista-productos-compra', component: ListaProductosCompraComponent},

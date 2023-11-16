@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button'; // Agrega esta importación
+import { MatButtonModule } from '@angular/material/button'; 
 import { DialogService } from './servicios/dialog.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,7 +13,7 @@ import { LandingPageComponent } from './componentes/landing-page/landing-page.co
 import { BarraComponent } from './componentes/barra/barra.component';
 import { ListaProductosComponent } from './componentes/lista-productos/lista-productos.component';
 import { ProductoComponent } from './componentes/producto/producto.component';
-import { PromocionComponent } from './componentes/promocion/promocion.component';
+//import { PromocionComponent } from './componentes/promocion/promocion.component';
 import { CompraComponent } from './componentes/compra/compra.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AlertDialogComponent } from './componentes/alert-dialog/alert-dialog.component';
@@ -34,7 +34,7 @@ import { ListaComprasComponent } from './componentes/lista-compras/lista-compras
     BarraComponent,
     ListaProductosComponent,
     ProductoComponent,
-    PromocionComponent,
+    //PromocionComponent,
     CompraComponent,
     AlertDialogComponent,
     CrearProductoComponent,

@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { User } from '../modelos/User'; // Asegúrate de importar el modelo User adecuado
+import { User } from '../modelos/User'; 
 import { Session } from '../interfaces/session';
 
 export interface IUserService {

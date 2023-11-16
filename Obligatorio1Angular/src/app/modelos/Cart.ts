@@ -5,7 +5,7 @@ import { CartProduct } from "./CartProduct";
 export class Cart {
     cartID: number;
     cartProducts: CartProduct[];
-    products: Product[]; // Esta propiedad no se mapea a la base de datos
+    products: Product[]; 
     totalPrice: number;
     promotionApplied: string;
     userID: number;

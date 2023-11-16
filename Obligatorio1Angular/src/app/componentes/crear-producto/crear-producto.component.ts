@@ -27,16 +27,16 @@ export class CrearProductoComponent {
         console.log('Producto registrado:', response);
 
         this.openAlertDialog('Éxito', 'Producto registado con exito.');
-      this.product = {
-        productID: 0,
-        name: '',
-        price: 1,
-        description: '',
-        brand: '' ,
-        category: 1,
-        color: '',
-        stock: 1,
-      };
+        this.product = {
+          productID: 0,
+          name: '',
+          price: 1,
+          description: '',
+          brand: '',
+          category: 1,
+          color: '',
+          stock: 1,
+        };
 
 
       },
@@ -45,11 +45,11 @@ export class CrearProductoComponent {
         if (error != null && error.error != null && error.error.message != null) {
           this.dialogService.openAlertDialog('Error', error.error.message);
         }
-          else if (error != null && error.error != null && error.error.title != null){
-            this.dialogService.openAlertDialog('Error', error.error.title);
-          }
-         else {
-            this.dialogService.openAlertDialog('Error', error);
+        else if (error != null && error.error != null && error.error.title != null) {
+          this.dialogService.openAlertDialog('Error', error.error.title);
+        }
+        else {
+          this.dialogService.openAlertDialog('Error', error);
         }
       }
     );
