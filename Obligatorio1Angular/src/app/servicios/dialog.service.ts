@@ -8,10 +8,10 @@ import { Subject } from 'rxjs';
 })
 export class DialogService {
   private okClickedSubject = new Subject<void>();
-  
+
   okClicked$ = this.okClickedSubject.asObservable();
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog) { }
 
   openAlertDialog(title: string, message: string) {
     const dialogRef = this.dialog.open(AlertDialogComponent, {
@@ -22,13 +22,11 @@ export class DialogService {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      // Cuando la modal se cierra, notifica que se hizo clic en OK
       this.okClickedSubject.next();
     });
   }
 
   notifyOkClicked() {
-    // Notifica que se hizo clic en OK
     this.okClickedSubject.next();
   }
 }

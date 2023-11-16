@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError, of, forkJoin } from 'rxjs'; // Agrega 'of' y 'forkJoin' aquí
+import { Observable, throwError, of, forkJoin } from 'rxjs'; 
 import { catchError, mergeMap } from 'rxjs/operators';
 import { Purchase } from '../modelos/Purchase';
 import { Router } from '@angular/router';

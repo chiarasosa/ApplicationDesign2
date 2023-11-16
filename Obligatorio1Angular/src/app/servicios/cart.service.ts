@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Product } from '../modelos/Product'; // Asegúrate de importar el modelo Product
+import { Product } from '../modelos/Product'; 
 import { Cart } from '../modelos/Cart';
 import { Router } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class CartService {
-  private baseUrl = 'https://localhost:7004/api'; // Asegúrate de que la URL sea correcta
+  private baseUrl = 'https://localhost:7004/api'; 
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -19,7 +19,7 @@ export class CartService {
   public addToCart(product: Product): Observable<void> {
     const token = localStorage.getItem('token');
     if (!token) {
-      console.error('Token no disponible'); // Agregar mensaje de error
+      console.error('Token no disponible'); 
       return throwError('Debe iniciar sesión.');
     }
 
@@ -40,16 +40,16 @@ export class CartService {
       return throwError('Token no disponible');
     }
   
-    const url = `${this.baseUrl}/carts`; // Usar la URL del carrito
+    const url = `${this.baseUrl}/carts`;
     const headers = new HttpHeaders({
       Authorization: token,
     });
   
-    console.log('Enviando solicitud DELETE para eliminar producto:', product); // Agregar mensaje de depuración
+    console.log('Enviando solicitud DELETE para eliminar producto:', product); 
   
     return this.http.request<void>('delete', url, {
       headers,
-      body: product, // Coloca el producto en el cuerpo de la solicitud
+      body: product, 
     }).pipe(
       catchError(this.handleError)
     );
@@ -59,7 +59,7 @@ export class CartService {
   public getCart(): Observable<Product[]> {
     const token = localStorage.getItem('token');
     if (!token) {
-      console.error('Token no disponible'); // Agregar mensaje de error
+      console.error('Token no disponible'); 
       this.router.navigate(['/inicioSesion']);
       return throwError('Debe iniciar sesión.');
     }
@@ -69,7 +69,7 @@ export class CartService {
       Authorization: token,
     });
 
-    console.log('Enviando solicitud GET para obtener productos del carrito'); // Agregar mensaje de depuración
+    console.log('Enviando solicitud GET para obtener productos del carrito');
 
     return this.http.get<Product[]>(url, { headers }).pipe(
       catchError(this.handleError)
@@ -79,7 +79,7 @@ export class CartService {
   public getPromotionAppliedToCart(): Observable<any> {
     const token = localStorage.getItem('token');
     if (!token) {
-      console.error('Debe iniciar sesión.'); // Agregar mensaje de error
+      console.error('Debe iniciar sesión.'); 
       return throwError('Debe iniciar sesión.');
     }
 
@@ -88,7 +88,7 @@ export class CartService {
       Authorization: token,
     });
 
-    console.log('Enviando solicitud GET para obtener la promoción aplicada al carrito'); // Agregar mensaje de depuración
+    console.log('Enviando solicitud GET para obtener la promoción aplicada al carrito');
 
     return this.http.get<any>(url, { headers }).pipe(
       catchError(this.handleError)
@@ -98,7 +98,7 @@ export class CartService {
   public getTotalPrice(): Observable<number> {
     const token = localStorage.getItem('token');
     if (!token) {
-      console.error('Token no disponible'); // Agregar mensaje de error
+      console.error('Token no disponible'); 
       return throwError('Debe iniciar sesión.');
     }
 
@@ -107,7 +107,7 @@ export class CartService {
       Authorization: token,
     });
 
-    console.log('Enviando solicitud GET para obtener el precio total del carrito'); // Agregar mensaje de depuración
+    console.log('Enviando solicitud GET para obtener el precio total del carrito');
 
     return this.http.get<number>(url, { headers }).pipe(
       catchError(this.handleError)

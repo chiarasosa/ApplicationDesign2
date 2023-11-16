@@ -12,9 +12,6 @@ import { RegistroComponent } from './componentes/registrar/registro.component';
 import { LandingPageComponent } from './componentes/landing-page/landing-page.component';
 import { BarraComponent } from './componentes/barra/barra.component';
 import { ListaProductosComponent } from './componentes/lista-productos/lista-productos.component';
-import { ProductoComponent } from './componentes/producto/producto.component';
-//import { PromocionComponent } from './componentes/promocion/promocion.component';
-import { CompraComponent } from './componentes/compra/compra.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AlertDialogComponent } from './componentes/alert-dialog/alert-dialog.component';
 import { CrearProductoComponent } from './componentes/crear-producto/crear-producto.component';
@@ -33,9 +30,6 @@ import { ListaComprasComponent } from './componentes/lista-compras/lista-compras
     LandingPageComponent,
     BarraComponent,
     ListaProductosComponent,
-    ProductoComponent,
-    //PromocionComponent,
-    CompraComponent,
     AlertDialogComponent,
     CrearProductoComponent,
     ListaUsuariosComponent,
