@@ -1,0 +1,45 @@
+Manual básico para ejecutar la aplicación en .NET:
+
+Este manual proporciona una guía básica para ejecutar una aplicación .NET en Visual Studio. 
+
+Requisitos Previos:
+
+- Tener .NET SDK instalado en tu máquina.
+- Tener Visual Studio Enterpraise 2022.
+
+Pasos:
+
+1. Clonar o descargar el proyecto:
+
+2. Abrir el Proyecto en Visual Studio:
+
+   Selecciona "File" (Archivo) -> "Open" (Abrir) -> "Project/Solution" (Proyecto/Solución).
+
+   Navega hasta el directorio donde se encuentra tu proyecto y selecciona el archivo de solución (.sln).
+
+3. Revisar connection strings:
+
+   Localiza y ajusta los connection strings según tu entorno de desarrollo (por ejemplo, configuraciones locales de base de datos).
+
+   Abre el archivo de configuración de la aplicación (appsettings.json dentro de DataAccess y WebApi).
+
+4. Configurar el modo de compilación:
+
+   En la barra de herramientas superior de Visual Studio, selecciona la configuración de "Debug" o "Release" según tus necesidades.
+
+5. Compilar el proyecto:
+	
+   Selecciona "Build" (Compilar) -> "Build Solution" (Compilar solución) desde el menú superior.
+
+6. Ejecutar la aplicación:
+
+   Selecciona "Debug" (Depurar) -> "Start Debugging" (Iniciar depuración) para ejecutar la aplicación en modo de depuración.
+
+
+7. Verificar en el navegador:
+
+   Abre tu navegador web y navega a la URL proporcionada por Visual Studio después de iniciar la aplicación.
+
+Nota importante:
+
+En entornos de producción, recuerda configurar los connection strings de manera segura y adecuada según los requisitos de tu aplicación y tu base de datos.
