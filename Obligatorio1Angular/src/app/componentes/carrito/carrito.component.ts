@@ -44,15 +44,11 @@ export class CarritoComponent implements OnInit {
   removeFromCart(product: Product) {
     this.cartService.removeFromCart(product).subscribe(
       () => {
-        // Manejo en caso de éxito
         this.dialogService.openAlertDialog('Éxito', 'Producto eliminado del carrito correctamente');
-        // Refrescar la lista de carritos después de eliminar un producto
         this.getCarts();
       },
       (error) => {
-        // Manejo de errores
         console.error('Error al eliminar producto del carrito:', error);
-        //this.getCarts();
         this.cdr.detectChanges();
         this.dialogService.openAlertDialog('Error', 'Error al eliminar el producto del carrito');
       }
@@ -63,12 +59,10 @@ export class CarritoComponent implements OnInit {
     this.cartService.getPromotionAppliedToCart().subscribe(
       (data) => {
         this.promotionData = data.message;
-        // Hacer algo con los datos recibidos, por ejemplo, asignar a una variable en tu componente
         console.log('Promoción recibida:', data);
       },
       (error) => {
         console.error('Error al obtener la promoción:', error);
-        // Manejar el error, mostrar un mensaje o hacer algo en caso de error
       }
     );
   }
@@ -76,7 +70,6 @@ export class CarritoComponent implements OnInit {
   getCarts() {
     this.cartService.getCart().subscribe(
       (products) => {
-        // Actualizar la lista de carritos
         this.products = products;
       },
       (error) => {
@@ -107,10 +100,8 @@ export class CarritoComponent implements OnInit {
   registerPurchase(){
     
     if (this.selectedPaymentMethod) {
-    // Actualiza el método de pago en el objeto purchase
     this.purchase.paymentMethod = this.selectedPaymentMethod;
-
-    // Luego procede con el registro de la compra
+a
     this.purchaseService.registerPurchase(this.purchase,this.selectedPaymentMethod).subscribe(
       (response) => {
         console.log('Compra registrada:', response);
@@ -122,13 +113,12 @@ export class CarritoComponent implements OnInit {
       }
     );
   } else {
-    // Muestra un mensaje de error si no se seleccionó un método de pago
     this.openAlertDialog('Error', 'Por favor, seleccione un método de pago antes de comprar.');
   }
   }
 
   openAlertDialog(title: string, message: string) {
-    this.dialogService.openAlertDialog(title, message); // Usa dialogService
+    this.dialogService.openAlertDialog(title, message);
   }
 
   

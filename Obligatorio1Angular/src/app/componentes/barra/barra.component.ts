@@ -4,7 +4,7 @@ import { LocalStorageService } from 'src/app/servicios/localStorage';
 import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 import { DialogService } from 'src/app/servicios/dialog.service';
 import { CarritoComponent } from 'src/app/componentes/carrito/carrito.component';
-import { AuthService } from 'src/app/servicios/auth.service'; // Importa el servicio de autenticación
+import { AuthService } from 'src/app/servicios/auth.service';
 
 @Component({
   selector: 'app-barra',
@@ -14,18 +14,18 @@ import { AuthService } from 'src/app/servicios/auth.service'; // Importa el serv
 export class BarraComponent {
   userRole: string = '';
   activeRoute: string = '';
-  isLoggedIn: boolean = false; // Variable para controlar si el usuario ha iniciado sesión
+  isLoggedIn: boolean = false;
 
   constructor(
     private router: Router,
     private localStorageService: LocalStorageService,
     private dialogService: DialogService,
-    private authService: AuthService // Inyecta el servicio de autenticación
+    private authService: AuthService 
   ) {
-    // Verifica si hay un token en el LocalStorage para determinar si el usuario ha iniciado sesión
+
     this.isLoggedIn = !!this.localStorageService.getToken();
     this.authService.isLoggedIn$.subscribe((isLoggedIn) => {
-      this.isLoggedIn = isLoggedIn; // Actualiza el estado en función de lo que notifica el servicio
+      this.isLoggedIn = isLoggedIn;
     });
       
 
@@ -40,7 +40,7 @@ export class BarraComponent {
 
   logout() {
     this.localStorageService.removeToken();
-    this.authService.setLoggedIn(false); // Utiliza el servicio de autenticación para cambiar el estado de inicio de sesión
+    this.authService.setLoggedIn(false); 
     this.openAlertDialog('Éxito', 'Se cerró la sesión');
   }
 

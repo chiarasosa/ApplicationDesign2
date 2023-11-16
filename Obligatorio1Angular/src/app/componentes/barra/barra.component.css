@@ -46,20 +46,20 @@ ul {
   }
 
   .navbar {
-    justify-content: space-between; /* Distribuye los elementos a lo largo del contenedor */
-    align-items: center; /* Centra verticalmente los elementos en el contenedor */
+    justify-content: space-between; 
+    align-items: center; 
     background-color: #d8dadb;
-    width: 60%; /* Ajusta según sea necesario */
+    width: 60%; 
 }
 
 .navbar-top {
-  justify-content: flex-end; /* Mueve los elementos a la derecha */
+  justify-content: flex-end; 
 }
 
 .navbar-nav-top {
   display: flex;
   align-items: center;
-  margin-left: auto; /* Mueve los elementos a la derecha */
+  margin-left: auto; 
 }
 
 .navbar-nav-top li {
@@ -84,38 +84,38 @@ ul {
 }
 
 .navbar-nav .nav-item-right {
-    margin-right: 0; /* Empuja los elementos al extremo derecho de la barra */
+    margin-right: 0;
     text-align: right;
 }
 
 .navbar-nav a {
-    margin-right: 15px; /* Espaciado entre elementos de la barra */
+    margin-right: 15px; 
     text-decoration: none; 
-    font-size: 20px; /* Tamaño de la fuente, ajusta según tu preferencia */
+    font-size: 20px; 
     font-family: 'Arial', sans-serif;
     color: #ffffff;
     transition: color 0.3s ease;
 }
 
 .navbar-nav a:hover {
-  color: #2c3e50; /* Cambia el color al pasar el mouse */
+  color: #2c3e50; 
 }
 
 .custom-navbar {
-  width: 100%; /* Puedes ajustar este valor según tus necesidades */
-  margin: 0 auto; /* Esto centrará la barra de navegación */
+  width: 100%; 
+  margin: 0 auto; 
 }
 
 .custom-navbar .navbar-nav {
   display: flex;
   justify-content: center; 
   align-items: center;
-  width: 100%; /* Asegura que los elementos ocupen el ancho completo de la barra de navegación */
+  width: 100%; 
 }
 
 .custom-navbar .navbar-nav a {
   font-size: 18px;
-  color: rgb(0, 58, 41); /* Cambia esto al color que prefieras */
+  color: rgb(0, 58, 41);
 }
 
 

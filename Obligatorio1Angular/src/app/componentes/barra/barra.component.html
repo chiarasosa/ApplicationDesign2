@@ -4,12 +4,10 @@
   <nav class="navbar navbar-expand-lg custom-navbar navbar-top">
     
       <ul class="navbar-nav-top">
-        <!-- Utiliza *ngIf para mostrar el botón "Registrarse" solo si el usuario no ha iniciado sesión -->
         <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }" *ngIf="!isLoggedIn">
           <a routerLink="/Registrar" routerLinkActive="active" ariaCurrentWhenActive="page">Registrarse</a>
         </li>
 
-        <!-- Utiliza *ngIf para mostrar el botón "Inicio de sesión" solo si el usuario no ha iniciado sesión -->
         <li class="nav-item-right" [ngClass]="{ 'active': activeRoute === '/landing' }" *ngIf="!isLoggedIn">
           <a routerLink="/inicioSesion" routerLinkActive="active" ariaCurrentWhenActive="page">Inicio de sesión</a>
         </li>
