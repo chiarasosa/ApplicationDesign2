@@ -61,7 +61,6 @@ public class PromotionsService : IPromotionsService
                 context.Unload();
             }
         }
-
         return availablePromotions;
     }
 }
