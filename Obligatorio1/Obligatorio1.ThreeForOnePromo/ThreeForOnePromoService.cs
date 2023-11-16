@@ -19,24 +19,24 @@ namespace Obligatorio1.BusinessLogic
                 return cart.TotalPrice;
             }
 
-            Dictionary<int, List<Product>> productsByBrand = PromoUtility.GroupProductsBy(PromoUtility.ProductsWithPromotions(cart),
-                product => product.Brand.ToList());
+            Dictionary<string, List<Product>> productsByBrand = PromoUtility.GroupProductsBy(PromoUtility.ProductsWithPromotions(cart),
+                product => product.Brand);
 
-            int brandWithDiscount = FindBrandWithMaxDiscount(productsByBrand);
+            string brandWithDiscount = FindBrandWithMaxDiscount(productsByBrand);
 
-            if (brandWithDiscount != 0)
+            if (brandWithDiscount != null && brandWithDiscount != "")
             {
                 cart.TotalPrice = ApplyDiscountToCart(cart, productsByBrand[brandWithDiscount]);
             }
             return cart.TotalPrice;
         }
 
-        public int FindBrandWithMaxDiscount(Dictionary<int, List<Product>> productsByBrand)
+        public string FindBrandWithMaxDiscount(Dictionary<string, List<Product>> productsByBrand)
         {
             int maxDiscount = 0;
-            int brandWithMaxDiscount = 0;
+            string brandWithMaxDiscount = "";
 
-            foreach (KeyValuePair<int, List<Product>> brandProducts in productsByBrand)
+            foreach (KeyValuePair<string, List<Product>> brandProducts in productsByBrand)
             {
                 if (brandProducts.Value.Count() >= 3)
                 {

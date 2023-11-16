@@ -2,18 +2,14 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Obligatorio1.Domain;
-using Obligatorio1.Exceptions;
 using Obligatorio1.IBusinessLogic;
 using Obligatorio1.IDataAccess;
 using Obligatorio1.WebApi;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Obligatorio1.BusinessLogic.Test
 {
     [TestClass]
-
     public class UserServiceTest
     {
 
@@ -137,8 +133,6 @@ namespace Obligatorio1.BusinessLogic.Test
             Assert.IsNotNull(okResult?.Value);
             // Puedes agregar más aserciones según la estructura de tu resultado real
         }
-
-
 
         [TestMethod]
         public void GetUserByID_ReturnsOkResult_WithUserDto()

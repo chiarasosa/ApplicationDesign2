@@ -46,7 +46,6 @@ namespace Obligatorio1.BusinessLogic
                 _repository.Save();
             }
         }
-
         public IEnumerable<Product> GetProducts()
         {
             var result = _repository.GetAll<Product>();
@@ -89,7 +88,6 @@ namespace Obligatorio1.BusinessLogic
                 throw new UserException($"The product with ID {prod.ProductID} does not exist.");
             }
 
-            // Actualiza los campos del producto existente
             existingProduct.Name = prod.Name;
             existingProduct.Description = prod.Description;
             existingProduct.Price = prod.Price;

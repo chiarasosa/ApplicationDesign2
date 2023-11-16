@@ -1,21 +1,10 @@
-﻿/*
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Obligatorio1.BusinessLogic;
-using Obligatorio1.Domain;
-using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Moq;
-using Obligatorio1.IDataAccess;
-using Obligatorio1.IBusinessLogic;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Obligatorio1.BusinessLogic.Test
 {
     [TestClass]
     public class ThreeForOnePromoTest
-    {
+    {/*
         [TestMethod]
         public void CalculateNewPriceWithDiscount_EmptyCart()
         {
@@ -292,6 +281,6 @@ namespace Obligatorio1.BusinessLogic.Test
             // Assert
             Assert.AreEqual(100, newPrice);
         }
+        */
     }
 }
-*/
