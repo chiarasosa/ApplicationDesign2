@@ -5,10 +5,10 @@
         <th>Nombre</th>
         <th>Precio</th>
         <th>Descripción</th>
-        <th>Marca</th> <!-- Nueva columna -->
-        <th>Categoría</th> <!-- Nueva columna -->
-        <th>Color</th> <!-- Nueva columna -->
-        <th>Stock</th> <!-- Nueva columna -->
+        <th>Marca</th> 
+        <th>Categoría</th> 
+        <th>Color</th>
+        <th>Stock</th> 
         <th>Acciones</th>
       </tr>
     </thead>
@@ -17,29 +17,19 @@
         <td>{{ product.name }}</td>
         <td>{{ product.price }}</td>
         <td>{{ product.description }}</td>
-        <td>{{ product.brand }}</td> 
-        <td>{{ product.category }}</td> 
-        <td>{{ product.color }}</td> 
-        <td>{{ product.stock }}</td> 
+        <td>{{ product.brand }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.color }}</td>
+        <td>{{ product.stock }}</td>
         <td class="table-actions">
-          <button
-            class="btn btn-danger btn-eliminar"
-            (click)="deleteProduct(product.productID)"
-          >
+          <button class="btn btn-danger btn-eliminar" (click)="deleteProduct(product.productID)">
             Eliminar
           </button>
-          <button
-            *ngIf="!productBeingEdited"
-            class="btn btn-primary btn-editar"
-            (click)="editProduct(product)"
-          >
+          <button *ngIf="!productBeingEdited" class="btn btn-primary btn-editar" (click)="editProduct(product)">
             Editar
           </button>
-          <button
-            *ngIf="productBeingEdited === product"
-            class="btn btn-success btn-guardar"
-            (click)="saveProductChanges(product)"
-          >
+          <button *ngIf="productBeingEdited === product" class="btn btn-success btn-guardar"
+            (click)="saveProductChanges(product)">
             Guardar Cambios
           </button>
         </td>
@@ -50,60 +40,26 @@
   <div *ngIf="productBeingEdited">
     <form class="mt-3" (ngSubmit)="saveProductChanges(productBeingEdited)">
       <div class="mb-3">
-        <input
-          class="form-control"
-          [(ngModel)]="productBeingEdited.name"
-          name="name"
-          placeholder="Nombre"
-        />
+        <input class="form-control" [(ngModel)]="productBeingEdited.name" name="name" placeholder="Nombre" />
       </div>
       <div class="mb-3">
-        <input
-          class="form-control"
-          [(ngModel)]="productBeingEdited.price"
-          name="price"
-          placeholder="Precio"
-        />
+        <input class="form-control" [(ngModel)]="productBeingEdited.price" name="price" placeholder="Precio" />
       </div>
       <div class="mb-3">
-        <input
-          class="form-control"
-          [(ngModel)]="productBeingEdited.description"
-          name="description"
-          placeholder="Descripción"
-        />
+        <input class="form-control" [(ngModel)]="productBeingEdited.description" name="description"
+          placeholder="Descripción" />
       </div>
       <div class="mb-3">
-        <input
-          class="form-control"
-          [(ngModel)]="productBeingEdited.brand"
-          name="brand"
-          placeholder="Marca"
-        />
+        <input class="form-control" [(ngModel)]="productBeingEdited.brand" name="brand" placeholder="Marca" />
       </div>
       <div class="mb-3">
-        <input
-          class="form-control"
-          [(ngModel)]="productBeingEdited.category"
-          name="category"
-          placeholder="Categoría"
-        />
+        <input class="form-control" [(ngModel)]="productBeingEdited.category" name="category" placeholder="Categoría" />
       </div>
       <div class="mb-3">
-        <input
-          class="form-control"
-          [(ngModel)]="productBeingEdited.color"
-          name="color"
-          placeholder="Color"
-        />
+        <input class="form-control" [(ngModel)]="productBeingEdited.color" name="color" placeholder="Color" />
       </div>
       <div class="mb-3">
-        <input
-          class="form-control"
-          [(ngModel)]="productBeingEdited.stock"
-          name="stock"
-          placeholder="Stock"
-        />
+        <input class="form-control" [(ngModel)]="productBeingEdited.stock" name="stock" placeholder="Stock" />
       </div>
       <button type="submit" class="btn btn-success btn-guardar">
         Guardar Cambios

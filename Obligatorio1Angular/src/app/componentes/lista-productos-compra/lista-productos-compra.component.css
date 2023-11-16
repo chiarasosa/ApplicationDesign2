@@ -1,8 +1,9 @@
-.title{
+.title {
   text-align: center;
   font-size: 25px;
   padding-bottom: 15px;
 }
+
 .card-price {
   font-size: 1.5rem;
   text-align: left;
@@ -10,12 +11,13 @@
   color: #000000;
 }
 
-.card-stock{
+.card-stock {
   font-size: 0.8rem;
   text-align: center;
   margin-bottom: 5px;
   color: #000000;
 }
+
 .card {
   height: 100%;
   z-index: 100;
@@ -23,7 +25,7 @@
 
 .row {
   margin-bottom: 20px;
- 
+
 }
 
 .container {
@@ -51,10 +53,11 @@ h2 {
   margin-bottom: 10px;
 }
 
-.cart-footer{
-  margin:0px;
- 
+.cart-footer {
+  margin: 0px;
+
 }
+
 .btn-primary {
   background-color: #4a8081;
   border-color: #4a8081;
@@ -69,5 +72,5 @@ h2 {
 .btn-full-width {
   width: 40%;
   font-size: 1.1rem;
-text-align: center;
+  text-align: center;
 }

@@ -18,7 +18,7 @@ export class ListaProductosCompraComponent implements OnInit {
     private cartService: CartService,
     private dialogService: DialogService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getProducts();
@@ -51,7 +51,7 @@ export class ListaProductosCompraComponent implements OnInit {
       }
     );
   }
-  
+
 
   removeFromCart(product: Product) {
     this.cartService.removeFromCart(product).subscribe(

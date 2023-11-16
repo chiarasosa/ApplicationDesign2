@@ -3,8 +3,8 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { Observable } from 'rxjs';
 import { LocalStorageService } from 'src/app/servicios/localStorage';
 import { UserService } from 'src/app/servicios/user.service';
-import { User } from 'src/app/modelos/User'; // Asegúrate de importar la clase User
-import { map } from 'rxjs/operators'; // Importa map desde rxjs/operators
+import { User } from 'src/app/modelos/User'; 
+import { map } from 'rxjs/operators'; 
 
 @Injectable({
   providedIn: 'root',
@@ -21,11 +21,11 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean | UrlTree | Observable<boolean | UrlTree> {
     if (this.localStorageService.isLogged()) {
-      // El usuario está autenticado
+
       return this.userService.getUserFromToken().pipe(
         map((user: User) => {
           if (user && user.role === 'Administrador') {
-            // Verifica si el usuario tiene el rol de administrador
+
             return true;
           } else {
             return this.router.createUrlTree(['/inicio-sesion']);

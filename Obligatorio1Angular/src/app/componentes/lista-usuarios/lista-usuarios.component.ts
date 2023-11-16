@@ -14,7 +14,7 @@ export class ListaUsuariosComponent implements OnInit {
   users: User[] = [];
   userBeingEdited: User | null = null;
 
-  constructor(private userService: UserService, private dialogService: DialogService, private router: Router) {}
+  constructor(private userService: UserService, private dialogService: DialogService, private router: Router) { }
 
   ngOnInit(): void {
     this.userService.getUsuarios().subscribe(
@@ -27,7 +27,7 @@ export class ListaUsuariosComponent implements OnInit {
           this.dialogService.openAlertDialog('Error', error.error.message);
         } else {
           this.dialogService.openAlertDialog('Error', error);
-          
+
         }
       }
     );
@@ -37,7 +37,7 @@ export class ListaUsuariosComponent implements OnInit {
     this.userService.deleteUser(userID).subscribe(
       () => {
         this.users = this.users.filter((user) => user.userID !== userID);
-  
+
         this.dialogService.openAlertDialog('Éxito', 'Usuario eliminado con éxito.');
       },
       (error) => {
@@ -46,7 +46,7 @@ export class ListaUsuariosComponent implements OnInit {
       }
     );
   }
-  
+
 
   editUser(user: User) {
     this.userBeingEdited = { ...user };
@@ -59,12 +59,12 @@ export class ListaUsuariosComponent implements OnInit {
           user.userID === updatedUser.userID ? { ...user, ...response } : user
         );
 
-        this.userBeingEdited = null; 
+        this.userBeingEdited = null;
         this.dialogService.openAlertDialog('Éxito', 'Usuario actualizado correctamente');
       },
       (error) => {
         console.error('Error al actualizar usuario:', error);
-        this.dialogService.openAlertDialog('Error','Error al actualizar usuario. Intente nuevamente.');
+        this.dialogService.openAlertDialog('Error', 'Error al actualizar usuario. Intente nuevamente.');
       }
     );
   }

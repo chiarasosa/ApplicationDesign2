@@ -29,7 +29,7 @@ export class ListaProductosComponent implements OnInit {
         console.error('Error al obtener la lista de productos:', error);
         if (error != null && error.error != null && error.error.message != null) {
           this.dialogService.openAlertDialog('Error', error.error.message);
-;
+          ;
         } else {
           this.dialogService.openAlertDialog('Error', error);
         }
@@ -41,7 +41,7 @@ export class ListaProductosComponent implements OnInit {
     this.productService.deleteProduct(productID).subscribe(
       () => {
         this.products = this.products.filter((product) => product.productID !== productID);
-  
+
         this.dialogService.openAlertDialog('Éxito', 'Producto eliminado correctamente.');
       },
       (error) => {
@@ -50,7 +50,7 @@ export class ListaProductosComponent implements OnInit {
       }
     );
   }
-  
+
 
   editProduct(product: Product) {
     this.productBeingEdited = { ...product };
@@ -63,7 +63,7 @@ export class ListaProductosComponent implements OnInit {
           product.productID === updatedProduct.productID ? { ...product, ...response } : product
         );
 
-        this.productBeingEdited = null; 
+        this.productBeingEdited = null;
         this.dialogService.openAlertDialog('Éxito', 'Producto actualizado correctamente.');
 
         this.productService.getProducts().subscribe(

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button'; // Agrega esta importación
+import { MatButtonModule } from '@angular/material/button'; 
 import { DialogService } from './servicios/dialog.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
