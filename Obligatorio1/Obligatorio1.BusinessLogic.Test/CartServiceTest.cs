@@ -1,14 +1,12 @@
-﻿
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Obligatorio1.Domain;
-using Obligatorio1.IBusinessLogic;
-using System.Collections.Generic;
-using System.Linq;
-using Obligatorio1.IDataAccess;
 using Obligatorio1.Exceptions;
-using System.Linq.Expressions;
+using Obligatorio1.IBusinessLogic;
+using Obligatorio1.IDataAccess;
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Obligatorio1.BusinessLogic.Test
 {
@@ -18,7 +16,6 @@ namespace Obligatorio1.BusinessLogic.Test
         [TestMethod]
         public void AddProductToCart_ValidProduct_ReturnsSuccess()
         {
-            // Arrange
             var sessionRepositoryMock = new Mock<IGenericRepository<Session>>();
             var cartRepositoryMock = new Mock<IGenericRepository<Cart>>();
             var productServiceMock = new Mock<IProductService>();
@@ -34,10 +31,8 @@ namespace Obligatorio1.BusinessLogic.Test
             sessionRepositoryMock.Setup(repo => repo.Get(It.IsAny<Expression<Func<Session, bool>>>(), It.IsAny<List<string>>())).Returns(session);
             productServiceMock.Setup(service => service.GetProductByID(It.IsAny<int>())).Returns(product);
 
-            // Act
             service.AddProductToCart(product, authToken);
 
-            // Assert
             cartRepositoryMock.Verify(repo => repo.Update(It.IsAny<Cart>()), Times.Once);
             cartRepositoryMock.Verify(repo => repo.Save(), Times.Once);
         }
@@ -46,7 +41,6 @@ namespace Obligatorio1.BusinessLogic.Test
         [ExpectedException(typeof(CartException))]
         public void AddProductToCart_ProductWithNoStock_ThrowsCartException()
         {
-            // Arrange
             var sessionRepositoryMock = new Mock<IGenericRepository<Session>>();
             var cartRepositoryMock = new Mock<IGenericRepository<Cart>>();
             var productServiceMock = new Mock<IProductService>();
@@ -62,7 +56,6 @@ namespace Obligatorio1.BusinessLogic.Test
             sessionRepositoryMock.Setup(repo => repo.Get(It.IsAny<Expression<Func<Session, bool>>>(), It.IsAny<List<string>>())).Returns(session);
             productServiceMock.Setup(service => service.GetProductByID(It.IsAny<int>())).Returns(product);
 
-            // Act & Assert
             service.AddProductToCart(product, authToken);
         }
 
