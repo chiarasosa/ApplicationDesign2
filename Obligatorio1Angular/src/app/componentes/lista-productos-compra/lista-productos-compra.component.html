@@ -9,15 +9,16 @@
           <p class="card-text">{{ product.description }}</p>
         </div>
         <div class="card-footer d-flex justify-content-between align-items-end">
-          <p class="card-price">${{ product.price }}</p>
-          <button class="btn btn-primary" (click)="addToCart(product)">
-            Agregar al Carrito
+          <div>
+
+            <p class="card-price">${{ product.price }}</p>
+            <p class="card-stock">{{ product.stock }} unidades disponibles</p>
+          </div>
+          <button class="btn btn-primary btn-full-width" (click)="addToCart(product)">
+            Agregar al Carrito    
           </button>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Paginador -->
-  <mat-paginator [pageSize]="6" [pageSizeOptions]="[6, 12, 18]" showFirstLastButtons></mat-paginator>
 </div>
