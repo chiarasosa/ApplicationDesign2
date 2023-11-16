@@ -9,11 +9,11 @@ export class PurchaseProduct {
     productID: number;
     product: Product;
 
-    constructor(purchaseID:number,purchase:Purchase,productID:number,product:Product){
-        this.purchaseID=purchaseID;
-        this.purchase=purchase;
-        this.productID=productID;
-        this.product=product;
+    constructor(purchaseID: number, purchase: Purchase, productID: number, product: Product) {
+        this.purchaseID = purchaseID;
+        this.purchase = purchase;
+        this.productID = productID;
+        this.product = product;
     }
 
 }

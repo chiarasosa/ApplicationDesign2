@@ -6,11 +6,10 @@ export class Product {
     brand: string;
     category: number;
     color: string;
-    stock:number;
-    
+    stock: number;
 
-    constructor (productID: number, name: string, price: number, description: string, brand: string, category: number, 
-        color: string ,stock:number){
+    constructor(productID: number, name: string, price: number, description: string, brand: string, category: number,
+        color: string, stock: number) {
 
         this.productID = productID;
         this.name = name;
@@ -19,7 +18,7 @@ export class Product {
         this.brand = brand;
         this.category = category;
         this.color = color;
-        this.stock=stock;
-        
+        this.stock = stock;
+
     }
-    };
+};

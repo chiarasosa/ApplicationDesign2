@@ -7,7 +7,6 @@ export class CartProduct {
     productID: number;
     product: Product;
 
-
     constructor(cartID: number, cart: Cart, productID: number, product: Product) {
         this.cartID = cartID;
         this.cart = cart;
